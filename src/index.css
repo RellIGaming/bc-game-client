@@ -1,0 +1,201 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 220 15% 10%;
+    --foreground: 0 0% 98%;
+
+    --card: 220 15% 13%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 220 15% 11%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 142 76% 56%;
+    --primary-foreground: 220 15% 10%;
+
+    --secondary: 220 15% 18%;
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 220 15% 20%;
+    --muted-foreground: 220 10% 60%;
+
+    --accent: 142 76% 56%;
+    --accent-foreground: 220 15% 10%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 220 15% 20%;
+    --input: 220 15% 18%;
+    --ring: 142 76% 56%;
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 220 15% 8%;
+    --sidebar-foreground: 0 0% 98%;
+    --sidebar-primary: 142 76% 56%;
+    --sidebar-primary-foreground: 220 15% 10%;
+    --sidebar-accent: 220 15% 15%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-border: 220 15% 18%;
+    --sidebar-ring: 142 76% 56%;
+
+    /* Custom gaming tokens */
+    --gaming-green: 142 76% 56%;
+    --gaming-green-glow: 142 76% 70%;
+    --gaming-dark: 220 15% 7%;
+    --gaming-card: 220 15% 12%;
+    --gaming-hover: 220 15% 16%;
+    --chat-bg: 220 15% 10%;
+    --gold: 45 93% 58%;
+    --vip-purple: 270 60% 60%;
+  }
+
+  .light {
+    --background: 0 0% 98%;
+    --foreground: 220 15% 10%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 220 15% 10%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 15% 10%;
+
+    --primary: 142 76% 40%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 220 10% 94%;
+    --secondary-foreground: 220 15% 10%;
+
+    --muted: 220 10% 92%;
+    --muted-foreground: 220 10% 40%;
+
+    --accent: 142 76% 40%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 220 10% 88%;
+    --input: 220 10% 92%;
+    --ring: 142 76% 40%;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 220 15% 10%;
+    --sidebar-primary: 142 76% 40%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 10% 94%;
+    --sidebar-accent-foreground: 220 15% 10%;
+    --sidebar-border: 220 10% 88%;
+    --sidebar-ring: 142 76% 40%;
+
+    --gaming-green: 142 76% 40%;
+    --gaming-green-glow: 142 76% 50%;
+    --gaming-dark: 220 10% 96%;
+    --gaming-card: 0 0% 100%;
+    --gaming-hover: 220 10% 94%;
+    --chat-bg: 0 0% 98%;
+    --gold: 45 93% 50%;
+    --vip-purple: 270 60% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-family: 'Inter', sans-serif;
+  }
+}
+
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .gaming-glow {
+    box-shadow: 0 0 20px hsl(var(--gaming-green) / 0.3);
+  }
+  
+  .gaming-card-hover {
+    @apply transition-all duration-300 hover:scale-[1.02] hover:shadow-lg;
+  }
+}
+
+/* Custom thin scrollbar like BC.GAME */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--primary) / 0.3) transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: hsl(var(--primary) / 0.3);
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--primary) / 0.5);
+}
+
+/* Global thin scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--primary) / 0.3) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: hsl(var(--primary) / 0.3);
+  border-radius: 4px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--primary) / 0.5);
+}
+
+/* Marquee animation for continuous scroll */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
