@@ -1,7 +1,7 @@
 import { Menu, Search, Moon, Sun, Globe, MessageSquare, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import Logo from "@/components/ui/Logo";
+import logo from "../../assets/images/logo.png";
 
 interface HeaderProps {
   onMenuClick: () => void;
@@ -26,16 +26,17 @@ const Header = ({
   isSidebarCollapsed,
   onToggleCollapse,
 }: HeaderProps) => {
+  
   return (
-    <header 
-      className="sticky top-0 z-50 h-14 lg:h-16 bg-sidebar flex items-center px-3 lg:px-4"
-      style={{ boxShadow: "0 4px 12px rgba(0, 0, 0, 0.25)" }}
+    <header
+      className="fixed top-0 left-0 right-0 z-50 h-14 bg-sidebar flex items-center px-3 lg:px-4"
+      style={{ boxShadow: "0 4px 15px rgba(0, 0, 0, 0.3)" }}
     >
       <div className="flex items-center gap-2 lg:gap-4 flex-1">
         {/* Menu Toggle */}
         <button
           onClick={onMenuClick}
-          className="p-2 rounded-lg hover:bg-secondary transition-colors lg:hidden"
+          className="chat-btn p-2 rounded-sm hover:bg-secondary transition-colors lg:hidden"
         >
           <Menu className="w-5 h-5 text-foreground" />
         </button>
@@ -43,7 +44,7 @@ const Header = ({
         {/* Collapse Toggle for Desktop */}
         <button
           onClick={onToggleCollapse}
-          className="hidden lg:flex p-2 rounded-lg hover:bg-secondary transition-colors"
+          className="hidden lg:flex p-2 rounded-sm bg-secondary transition-colors hover:bg-secondary transition-colors"
         >
           {isSidebarCollapsed ? (
             <ChevronRight className="w-5 h-5 text-foreground" />
@@ -51,9 +52,10 @@ const Header = ({
             <ChevronLeft className="w-5 h-5 text-foreground" />
           )}
         </button>
-
-        {/* Logo */}
-        <Logo />
+        <div className="flex flex-row">
+          <img src={logo} alt="logo" className="w-6 h-6 mr-2" />
+          <span>Rellbet</span>
+        </div>
       </div>
 
       {/* Right Actions */}
@@ -61,7 +63,7 @@ const Header = ({
         {/* Search */}
         <button
           onClick={onSearchClick}
-          className="p-2 rounded-lg hover:bg-secondary transition-colors"
+          className="chat-btn btn-press p-2 rounded-sm bg-secondary transition-colors hover:bg-secondary transition-colors"
         >
           <Search className="w-5 h-5 text-muted-foreground" />
         </button>
@@ -70,7 +72,7 @@ const Header = ({
         <Button
           variant="ghost"
           onClick={onSignInClick}
-          className="hidden sm:flex text-foreground hover:bg-secondary"
+          className="chat-btn hidden sm:flex text-foreground bg-secondary transition-colors hover:bg-secondary btn-press"
         >
           Login
         </Button>
@@ -78,7 +80,7 @@ const Header = ({
         {/* Sign Up */}
         <Button
           onClick={onSignUpClick}
-          className="bg-primary text-primary-foreground hover:bg-primary/90 font-semibold px-4 lg:px-6"
+          className="chat-btn text-primary-foreground hover:bg-primary/90 font-semibold px-4 lg:px-6 btn-press"
         >
           Registration
         </Button>
@@ -86,27 +88,29 @@ const Header = ({
         {/* Chat */}
         <button
           onClick={onChatClick}
-          className="hidden lg:flex p-2 rounded-lg hover:bg-secondary transition-colors"
+          className="hidden lg:flex p-2 rounded-sm bg-secondary transition-all chat-btn btn-press"
         >
           <MessageSquare className="w-5 h-5 text-muted-foreground" />
         </button>
 
+
+
         {/* Globe */}
-        <button className="hidden lg:flex p-2 rounded-lg hover:bg-secondary transition-colors">
+        <button className="btn-press hidden lg:flex p-2 rounded-sm bg-secondary transition-colors hover:bg-secondary transition-colors">
           <Globe className="w-5 h-5 text-muted-foreground" />
         </button>
 
         {/* Theme Toggle - Hidden by default, shown on larger screens */}
-        <button
+        {/* <button
           onClick={onThemeToggle}
-          className="hidden xl:flex p-2 rounded-lg hover:bg-secondary transition-colors"
+          className="hidden xl:flex p-2 rounded-sm hover:bg-secondary transition-colors"
         >
           {isDark ? (
             <Sun className="w-5 h-5 text-muted-foreground" />
           ) : (
             <Moon className="w-5 h-5 text-muted-foreground" />
           )}
-        </button>
+        </button> */}
       </div>
     </header>
   );

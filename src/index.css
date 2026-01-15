@@ -55,7 +55,7 @@
     --chat-bg: 200 25% 14%;
     --gold: 45 93% 58%;
     --vip-purple: 270 60% 60%;
-    
+
     /* Header specific */
     --header-bg: 200 30% 12%;
   }
@@ -106,7 +106,7 @@
     --chat-bg: 210 20% 96%;
     --gold: 45 93% 50%;
     --vip-purple: 270 60% 50%;
-    
+
     --header-bg: 0 0% 100%;
   }
 }
@@ -127,17 +127,65 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }
-  
+
   .gaming-glow {
     box-shadow: 0 0 20px hsl(var(--gaming-green) / 0.3);
   }
-  
+
   .gaming-card-hover {
     @apply transition-all duration-300 hover:scale-[1.02] hover:shadow-lg;
   }
+}
+
+@layer components {
+  .flip-button {
+    @apply transform transition-transform duration-300;
+    transform-style: preserve-3d;
+  }
+
+  .btn-press {
+    @apply transition-transform duration-150 active:translate-y-1;
+  }
+
+  /* Common interactive button */
+.active-btn {
+  background-color: var(--secondary);
+  transition: all 0.25s ease;
+  position: relative;
+}
+
+/* Hover gradient */
+.active-btn:hover {
+  background: linear-gradient(
+    90deg,
+    rgba(42, 155, 149, 1) 0%,
+    rgba(23, 55, 66, 1) 50%,
+    rgba(14, 23, 48, 1) 100%
+  );
+}
+
+/* Active (mouse down / pressed) */
+.active-btn:active {
+  background: linear-gradient(
+    90deg,
+    rgba(42, 155, 149, 1) 0%,
+    rgba(23, 55, 66, 1) 50%,
+    rgba(14, 23, 48, 1) 100%
+  );
+  transform: scale(0.96);
+}
+
+/* Optional focus (keyboard accessibility) */
+.active-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(42, 155, 149, 0.5);
+}
+
+
 }
 
 /* Custom thin scrollbar like BC.GAME */
@@ -193,6 +241,7 @@
   0% {
     transform: translateX(0);
   }
+
   100% {
     transform: translateX(-50%);
   }

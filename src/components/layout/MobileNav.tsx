@@ -10,11 +10,11 @@ interface MobileNavProps {
 }
 
 const tabs = [
+  { id: "menu", label: "Menu", icon: Menu },
   { id: "explore", label: "Explore", icon: Search },
   { id: "casino", label: "Casino", icon: Gamepad2 },
   { id: "sports", label: "Sports", icon: Trophy },
   { id: "chat", label: "Chat", icon: MessageSquare },
-  { id: "menu", label: "Menu", icon: Menu },
 ];
 
 const MobileNav = ({

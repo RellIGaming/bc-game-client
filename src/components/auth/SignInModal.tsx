@@ -3,8 +3,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, Eye, EyeOff, Key } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import Logo from "@/components/ui/Logo";
-import { signin } from "@/services/api";
 
 interface SignInModalProps {
   isOpen: boolean;
@@ -19,35 +17,10 @@ const SignInModal = ({ isOpen, onClose, onSwitchToSignUp, onForgotPassword }: Si
   const [showPassword, setShowPassword] = useState(false);
   const [loginMethod, setLoginMethod] = useState<"password" | "otp">("password");
 
-  const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-
-  if (loginMethod !== "password") {
-    alert("OTP login not implemented yet");
-    return;
-  }
-
-  try {
-    const res = await signin({
-      email: username, // backend expects email
-      password,
-    });
-
-    // Save JWT token
-    localStorage.setItem("token", res.data.token);
-
-    // Optional: store user
-    localStorage.setItem("user", JSON.stringify(res.data.user));
-
-    // Close modal or redirect
-    onClose();
-
-    console.log("Login success:", res.data);
-  } catch (error: any) {
-    alert(error?.response?.data?.message || "Login failed");
-  }
-};
-
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("Login:", { username, password });
+  };
 
   return (
     <AnimatePresence>
@@ -64,44 +37,10 @@ const SignInModal = ({ isOpen, onClose, onSwitchToSignUp, onForgotPassword }: Si
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.95, opacity: 0 }}
             onClick={(e) => e.stopPropagation()}
-            className="w-full max-w-4xl bg-card rounded-2xl overflow-hidden flex flex-col md:flex-row"
+            className="w-full max-w-md bg-card rounded-2xl overflow-hidden"
           >
-            {/* Left Side - Promo */}
-            <div className="hidden md:flex flex-col items-center justify-center p-8 bg-gradient-to-br from-card to-gaming-dark flex-1">
-              <div className="mb-6">
-                <Logo />
-              </div>
-              <div className="w-64 h-48 bg-gradient-to-br from-primary/20 to-primary/5 rounded-2xl flex items-center justify-center mb-6">
-                <div className="text-6xl">🎮</div>
-              </div>
-              <div className="flex items-center gap-8 text-center">
-                <div>
-                  <div className="flex items-center gap-1 text-primary font-bold">
-                    <span>📊</span> 470%
-                  </div>
-                  <p className="text-xs text-muted-foreground">Welcome deposit bonus</p>
-                </div>
-                <div>
-                  <div className="flex items-center gap-1 text-primary font-bold">
-                    <span>💎</span> 5 BTC
-                  </div>
-                  <p className="text-xs text-muted-foreground">Free daily lucky spin</p>
-                </div>
-                <div>
-                  <div className="flex items-center gap-1 text-primary font-bold">
-                    <span>🎁</span> Free Perks
-                  </div>
-                  <p className="text-xs text-muted-foreground">Daily free rewards</p>
-                </div>
-              </div>
-              <div className="mt-8 text-center">
-                <h2 className="text-2xl font-bold text-foreground italic">Stay Untamed</h2>
-                <p className="text-muted-foreground">Registration & Get Welcome Bonus</p>
-              </div>
-            </div>
-
-            {/* Right Side - Form */}
-            <div className="p-6 md:p-8 flex-1 relative">
+            {/* Form */}
+            <div className="p-6 relative">
               <button
                 onClick={onClose}
                 className="absolute top-4 right-4 p-2 rounded-lg hover:bg-secondary transition-colors"

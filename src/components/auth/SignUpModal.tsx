@@ -1,11 +1,9 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Eye, EyeOff, RefreshCw, Check } from "lucide-react";
+import { X, Eye, EyeOff, RefreshCw } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import Logo from "@/components/ui/Logo";
-import { signup } from "@/services/api";
 
 interface SignUpModalProps {
   isOpen: boolean;
@@ -21,36 +19,10 @@ const SignUpModal = ({ isOpen, onClose, onSwitchToSignIn }: SignUpModalProps) =>
   const [agreeTerms, setAgreeTerms] = useState(false);
   const [agreeMarketing, setAgreeMarketing] = useState(false);
 
- const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-
-  if (!agreeTerms) {
-    alert("You must agree to the User Agreement");
-    return;
-  }
-
-  try {
-    const res = await signup({
-      email,
-      username,
-      password,
-    });
-
-    // Save token
-    localStorage.setItem("token", res.data.token);
-
-    // Optional: store user
-    localStorage.setItem("user", JSON.stringify(res.data.user));
-
-    // Close modal or redirect
-    onClose();
-
-    console.log("Signup success:", res.data);
-  } catch (error: any) {
-    alert(error?.response?.data?.message || "Signup failed");
-  }
-};
-
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("Registration:", { email, username, password });
+  };
 
   return (
     <AnimatePresence>
@@ -67,44 +39,10 @@ const SignUpModal = ({ isOpen, onClose, onSwitchToSignIn }: SignUpModalProps) =>
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.95, opacity: 0 }}
             onClick={(e) => e.stopPropagation()}
-            className="w-full max-w-4xl bg-card rounded-2xl overflow-hidden flex flex-col md:flex-row"
+            className="w-full max-w-md bg-card rounded-2xl overflow-hidden"
           >
-            {/* Left Side - Promo */}
-            <div className="hidden md:flex flex-col items-center justify-center p-8 bg-gradient-to-br from-card to-gaming-dark flex-1">
-              <div className="mb-6">
-                <Logo />
-              </div>
-              <div className="w-64 h-48 bg-gradient-to-br from-primary/20 to-primary/5 rounded-2xl flex items-center justify-center mb-6">
-                <div className="text-6xl">🏆</div>
-              </div>
-              <div className="flex items-center gap-8 text-center">
-                <div>
-                  <div className="flex items-center gap-1 text-primary font-bold">
-                    <span>📊</span> 470%
-                  </div>
-                  <p className="text-xs text-muted-foreground">Welcome deposit bonus</p>
-                </div>
-                <div>
-                  <div className="flex items-center gap-1 text-primary font-bold">
-                    <span>💎</span> 5 BTC
-                  </div>
-                  <p className="text-xs text-muted-foreground">Free daily lucky spin</p>
-                </div>
-                <div>
-                  <div className="flex items-center gap-1 text-primary font-bold">
-                    <span>🎁</span> Free Perks
-                  </div>
-                  <p className="text-xs text-muted-foreground">Daily free rewards</p>
-                </div>
-              </div>
-              <div className="mt-8 text-center">
-                <h2 className="text-2xl font-bold text-foreground italic">Stay Untamed</h2>
-                <p className="text-muted-foreground">Registration & Get Welcome Bonus</p>
-              </div>
-            </div>
-
-            {/* Right Side - Form */}
-            <div className="p-6 md:p-8 flex-1 relative">
+            {/* Form */}
+            <div className="p-6 relative">
               <button
                 onClick={onClose}
                 className="absolute top-4 right-4 p-2 rounded-lg hover:bg-secondary transition-colors"
@@ -206,7 +144,7 @@ const SignUpModal = ({ isOpen, onClose, onSwitchToSignIn }: SignUpModalProps) =>
               </p>
 
               <div className="mt-6">
-                <p className="text-center text-sm text-muted-foreground mb-4">Log in directly with</p>
+                <p className="text-center text-sm text-muted-foreground mb-4">Sign up with</p>
                 <div className="flex items-center justify-center gap-3">
                   {["G", "X", "✈", "👾", "〰", "💬", "◎"].map((icon, i) => (
                     <button

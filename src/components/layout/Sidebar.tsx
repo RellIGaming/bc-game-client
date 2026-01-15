@@ -24,6 +24,8 @@ import {
   Spade,
   CircleDot,
   LayoutGrid,
+  HeadphoneOff,
+  Globe,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
@@ -128,6 +130,33 @@ const bottomItems = [
     color: "text-foreground",
   },
 ];
+const extremBottom = [
+  {
+    id: "sponsorships",
+    label: "Sponsorships",
+    icon: Trophy,
+    hasSubmenu: true,
+    color: "text-primary",
+    submenu: [
+      { id: "json", label: "Json Derulo", icon: Trophy },
+      { id: "lilpump", label: "Lil Pump", icon: Trophy },
+      { id: "miami", label: "Miami Club", icon: Trophy },
+      { id: "sponship", label: "Sponsorship Journey", icon: Trophy },
+      { id: "colby covinton", label: "Colby Covinton", icon: Trophy },
+      { id: "jean", label: "Jean Silva", icon: Trophy },
+    ],
+  }, {
+    id: "live",
+    label: "Live Support",
+    icon: HeadphoneOff,
+  },
+  {
+    id: "language",
+    label: "English",
+    icon: Globe,
+  }
+
+]
 
 const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle }: SidebarProps) => {
   const [expandedItems, setExpandedItems] = useState<string[]>([]);
@@ -146,7 +175,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle }: Sideba
     }
   };
 
-  const sidebarWidth = isCollapsed ? 64 : 256;
+  const sidebarWidth = isCollapsed ? 64 : 220;
 
   return (
     <>
@@ -172,38 +201,17 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle }: Sideba
         }}
         transition={{ duration: 0.3, ease: "easeInOut" }}
         className={cn(
-          "fixed lg:relative top-14 lg:top-0 left-0 h-[calc(100vh-3.5rem)] lg:h-[calc(100vh-4rem)] bg-sidebar z-50 overflow-hidden",
+          "fixed top-14 left-0 h-[calc(100vh-3.5rem)] bg-sidebar z-40 overflow-hidden",
           "flex-shrink-0"
         )}
-        style={{ boxShadow: "4px 0 15px rgba(0, 0, 0, 0.2)" }}
+        style={{ boxShadow: "4px 0 20px rgba(0, 0, 0, 0.3)" }}
       >
-        <div className={cn("h-full flex flex-col overflow-y-auto custom-scrollbar mr-2", isCollapsed ? "w-20" : "w-64")}>
-          {/* App Promo - Hidden when collapsed */}
-          {!isCollapsed && (
-            <div className="p-3 mx-3 mt-3 rounded-lg bg-secondary/50 flex gap-3 items-center">
-              <div className="flex items-center gap-3 w-full">
-                <div className="min-w-0">
-                  <p className="text-sm text-foreground truncate font-bold">
-                    Application
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    Unlock Fun with <br /> Exclusive Features
-                  </p>
-                </div>
+        <div className={cn("h-full flex flex-col overflow-y-auto scrollbar-hide", isCollapsed ? "w-16" : "w-56")}>
 
-                <img
-                  src={mobileSc}
-                  alt="m-screen"
-                  className="w-12 h-auto shrink-0"
-                />
-              </div>
-            </div>
-
-          )}
 
           {/* Token Price */}
-          {!isCollapsed ? (
-            <div className="mx-3 mt-3 p-3 rounded-lg bg-secondary/30 flex items-center gap-3">
+          {/* {!isCollapsed ? (
+            <div className="mx-3 mt-3 p-3 rounded-sm bg-secondary/30 flex items-center gap-3">
               <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
                 <span className="text-primary-foreground font-bold text-sm">G</span>
               </div>
@@ -218,7 +226,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle }: Sideba
           ) : (
             <Tooltip>
               <TooltipTrigger asChild>
-                <div className="mx-2 mt-3 p-2 rounded-lg bg-secondary/30 flex items-center justify-center cursor-pointer">
+                <div className="mx-2 mt-3 p-2 rounded-sm bg-secondary/30 flex items-center justify-center cursor-pointer">
                   <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
                     <span className="text-primary-foreground font-bold text-sm">G</span>
                   </div>
@@ -232,10 +240,10 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle }: Sideba
                 <p className="text-xs text-muted-foreground">$0.00777</p>
               </TooltipContent>
             </Tooltip>
-          )}
+          )} */}
 
           {/* Main Menu */}
-          <nav className={cn("flex-1 p-3 space-y-1", isCollapsed && "p-3")}>
+          <nav className={cn("flex-1 p-3 space-y-1", isCollapsed && "px-2")}>
             {menuItems.map((item) => (
               <div key={item.id}>
                 {isCollapsed ? (
@@ -244,11 +252,12 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle }: Sideba
                       <button
                         onClick={() => item.submenu && handleNavigate(item.submenu[0].id)}
                         className={cn(
-                          "w-full flex items-center justify-center p-2.5 rounded-lg bg-secondary",
-                          "hover:bg-sidebar-accent transition-colors"
+                          "w-full flex items-center justify-center p-2.5 rounded-sm",
+                          "hover:bg-sidebar-accent transition-colors",
+                          expandedItems.includes(item.id) && "bg-sidebar-accent"
                         )}
                       >
-                        <item.icon className={cn("w-6 h-6", item.color)} />
+                        <item.icon className={cn("w-5 h-5", item.color)} />
                       </button>
                     </TooltipTrigger>
                     <TooltipContent side="right" className="bg-card border-border">
@@ -260,7 +269,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle }: Sideba
                     <button
                       onClick={() => item.hasSubmenu && toggleExpand(item.id)}
                       className={cn(
-                        "w-full flex items-center gap-3 px-3 py-2.5 rounded-lg",
+                        "w-full flex items-center gap-3 px-3 py-2.5 rounded-sm bg-sidebar-accent transition-colors",
                         "hover:bg-sidebar-accent transition-colors",
                         "text-left group"
                       )}
@@ -291,7 +300,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle }: Sideba
                               <button
                                 key={sub.id}
                                 onClick={() => handleNavigate(sub.id)}
-                                className="w-full flex items-center gap-2 text-left text-sm text-muted-foreground hover:text-foreground py-1.5 px-3 rounded-lg hover:bg-sidebar-accent/50 transition-colors"
+                                className="w-full flex items-center gap-2 text-left text-sm text-muted-foreground hover:text-foreground py-1.5 px-3 rounded-sm hover:bg-sidebar-accent/50 transition-colors"
                               >
                                 <sub.icon className="w-4 h-4" />
                                 {sub.label}
@@ -306,51 +315,144 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle }: Sideba
               </div>
             ))}
 
-            <div className="border-t border-sidebar-border/30 my-3" />
+            <div className="my-3 bg-sidebar-accent transition-colors rounded-sm">
+              {bottomItems.map((item) => (
+                isCollapsed ? (
+                  <Tooltip key={item.id}>
+                    <TooltipTrigger asChild>
+                      <button
+                        onClick={() => handleNavigate(item.id)}
+                        className={cn(
+                          "w-full flex items-center justify-center p-2.5 rounded-sm",
+                          "hover:bg-sidebar-accent transition-colors"
+                        )}
+                      >
+                        <item.icon className={cn("w-5 h-5", item.color)} />
+                      </button>
+                    </TooltipTrigger>
+                    <TooltipContent side="right" className="bg-card border-border">
+                      {item.label}
+                    </TooltipContent>
+                  </Tooltip>
+                ) : (
+                  <button
+                    key={item.id}
+                    onClick={() => handleNavigate(item.id)}
+                    className={cn(
+                      "w-full flex items-center gap-3 px-3 py-2.5 rounded-sm ",
+                      "hover:bg-sidebar-accent transition-colors"
+                    )}
+                  >
+                    <item.icon className={cn("w-5 h-5", item.color)} />
+                    <span className="flex-1 text-sm text-sidebar-foreground font-medium text-left">
+                      {item.label}
+                    </span>
+                    {item.external && (
+                      <ExternalLink className="w-4 h-4 text-muted-foreground" />
+                    )}
+                  </button>
+                )
+              ))}
+            </div>
+          </nav>
+          {/* App Promo - Hidden when collapsed */}
+          {!isCollapsed && (
+            <div className="p-3 mx-3 rounded-sm bg-secondary/50 flex gap-3 items-center">
+              <div className="flex items-center gap-3 w-full">
+                <div className="min-w-0">
+                  <p className="text-sm text-foreground truncate font-bold">
+                    Application
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    Unlock Fun with <br /> Exclusive Features
+                  </p>
+                </div>
 
-            {bottomItems.map((item) => (
-              isCollapsed ? (
-                <Tooltip key={item.id}>
-                  <TooltipTrigger asChild>
+                <img
+                  src={mobileSc}
+                  alt="m-screen"
+                  className="w-12 h-auto shrink-0"
+                />
+              </div>
+            </div>
+
+          )}
+          <div className={cn("flex-1 p-3 space-y-1", isCollapsed && "px-2")}>
+            {extremBottom.map((item) => (
+              <div key={item.id}>
+                {isCollapsed ? (
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <button
+                        onClick={() => item.submenu && handleNavigate(item.submenu[0].id)}
+                        className={cn(
+                          "w-full flex items-center justify-center p-2.5 rounded-sm",
+                          "hover:bg-sidebar-accent transition-colors",
+                          expandedItems.includes(item.id) && "bg-sidebar-accent"
+                        )}
+                      >
+                        <item.icon className={cn("w-5 h-5", item.color)} />
+                      </button>
+                    </TooltipTrigger>
+                    <TooltipContent side="right" className="bg-card border-border">
+                      {item.label}
+                    </TooltipContent>
+                  </Tooltip>
+                ) : (
+                  <>
                     <button
-                      onClick={() => handleNavigate(item.id)}
+                      onClick={() => item.hasSubmenu && toggleExpand(item.id)}
                       className={cn(
-                        "w-full flex items-center justify-center p-2.5 rounded-lg",
-                        "hover:bg-sidebar-accent transition-colors"
+                        "w-full flex items-center gap-3 px-3 py-2.5 rounded-sm bg-sidebar-accent transition-colors",
+                        "hover:bg-sidebar-accent transition-colors",
+                        "text-left group"
                       )}
                     >
                       <item.icon className={cn("w-5 h-5", item.color)} />
+                      <span className="flex-1 text-sm text-sidebar-foreground font-medium">
+                        {item.label}
+                      </span>
+                      {item.hasSubmenu && (
+                        <ChevronDown
+                          className={cn(
+                            "w-4 h-4 text-muted-foreground transition-transform",
+                            expandedItems.includes(item.id) && "rotate-180"
+                          )}
+                        />
+                      )}
                     </button>
-                  </TooltipTrigger>
-                  <TooltipContent side="right" className="bg-card border-border">
-                    {item.label}
-                  </TooltipContent>
-                </Tooltip>
-              ) : (
-                <button
-                  key={item.id}
-                  onClick={() => handleNavigate(item.id)}
-                  className={cn(
-                    "w-full flex items-center gap-3 px-3 py-2.5 rounded-lg",
-                    "hover:bg-sidebar-accent transition-colors"
-                  )}
-                >
-                  <item.icon className={cn("w-5 h-5", item.color)} />
-                  <span className="flex-1 text-sm text-sidebar-foreground font-medium text-left">
-                    {item.label}
-                  </span>
-                  {item.external && (
-                    <ExternalLink className="w-4 h-4 text-muted-foreground" />
-                  )}
-                </button>
-              )
+                    <AnimatePresence>
+                      {item.hasSubmenu && item.submenu && expandedItems.includes(item.id) && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          className="overflow-hidden"
+                        >
+                          <div className="pl-6 py-1 space-y-1">
+                            {item.submenu.map((sub) => (
+                              <button
+                                key={sub.id}
+                                onClick={() => handleNavigate(sub.id)}
+                                className="w-full flex items-center gap-2 text-left text-sm text-muted-foreground hover:text-foreground py-1.5 px-3 rounded-sm hover:bg-sidebar-accent/50 transition-colors"
+                              >
+                                <sub.icon className="w-4 h-4" />
+                                {sub.label}
+                              </button>
+                            ))}
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </>
+                )}
+              </div>
             ))}
-          </nav>
-
+          </div>
           {/* Theme Toggle */}
           {!isCollapsed ? (
             <div className="p-3">
-              <div className="flex rounded-lg bg-secondary/50 p-1">
+              <div className="flex rounded-sm bg-secondary/50 p-1">
                 <button
                   onClick={() => isDark && onThemeToggle()}
                   className={cn(
@@ -383,7 +485,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle }: Sideba
                 <TooltipTrigger asChild>
                   <button
                     onClick={onThemeToggle}
-                    className="w-full flex items-center justify-center p-2.5 rounded-lg hover:bg-sidebar-accent transition-colors"
+                    className="w-full flex items-center justify-center p-2.5 rounded-sm hover:bg-sidebar-accent transition-colors"
                   >
                     {isDark ? (
                       <Moon className="w-5 h-5 text-foreground" />

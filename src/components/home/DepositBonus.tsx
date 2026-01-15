@@ -1,29 +1,33 @@
-import { CreditCard } from "lucide-react";
-
 const DepositBonus = () => {
+  const paymentMethods = ["ApplePay", "VISA", "GPay", "PicPay"];
+  const cryptos = ["🔵", "🟠", "🟢", "🔴", "⚫", "🟡", "🟣", "⬛"];
+
   return (
-    <section className="rounded-xl bg-gradient-to-r from-card via-card to-primary/10 p-4 lg:p-6">
+    <section className="rounded-xl bg-gradient-to-r from-card via-card to-primary/5 p-4 lg:p-5">
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div className="flex items-center gap-4">
-          <span className="text-xl font-bold text-foreground">300% Deposit Bonus</span>
+        {/* Left Side */}
+        <div className="flex items-center gap-4 flex-wrap">
           <div className="flex items-center gap-2">
-            <span className="text-sm text-muted-foreground">Pay with:</span>
-            <div className="flex items-center gap-1">
-              {["💳", "💵", "🅿️", "💰"].map((icon, i) => (
-                <span key={i} className="text-lg">{icon}</span>
-              ))}
-            </div>
+            <span className="text-lg lg:text-xl font-bold text-primary">300%</span>
+            <span className="text-sm lg:text-base font-bold text-foreground">Deposit Bonus</span>
+          </div>
+          <div className="flex items-center gap-2">
+            {paymentMethods.map((method, i) => (
+              <span 
+                key={i} 
+                className="text-[10px] lg:text-xs text-muted-foreground bg-secondary px-2 py-1 rounded"
+              >
+                {method}
+              </span>
+            ))}
           </div>
         </div>
-        <div className="flex items-center gap-2">
-          <div className="flex items-center gap-1 text-sm font-medium text-muted-foreground">
-            <span>🎰</span>
-            <span>🎲</span>
-            <span>🃏</span>
-            <span>⚽</span>
-            <span>🏀</span>
-            <span>🎯</span>
-          </div>
+
+        {/* Right Side - Crypto Icons */}
+        <div className="flex items-center gap-1.5">
+          {cryptos.map((crypto, i) => (
+            <span key={i} className="text-base lg:text-lg">{crypto}</span>
+          ))}
         </div>
       </div>
     </section>

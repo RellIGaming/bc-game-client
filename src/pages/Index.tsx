@@ -12,8 +12,15 @@ import HeroSection from "@/components/home/HeroSection";
 import RecentBigWins from "@/components/home/RecentBigWins";
 import CategoryCards from "@/components/home/CategoryCards";
 import BCOriginals from "@/components/home/BCOriginals";
-import LiveCasinoAndSlots from "@/components/home/LiveCasinoAndSlots";
+import LiveSports from "@/components/home/LiveSports";
+import BCExclusive from "@/components/home/BCExclusive";
+import Slots from "@/components/home/Slots";
+import UpcomingLottery from "@/components/home/UpcomingLottery";
+import LiveCasino from "@/components/home/LiveCasino";
 import DepositBonus from "@/components/home/DepositBonus";
+import BingoGames from "@/components/home/BingoGames";
+import LatestRoundRace from "@/components/home/LatestRoundRace";
+import HotGames from "@/components/home/HotGames";
 import Footer from "@/components/home/Footer";
 
 const Index = () => {
@@ -69,7 +76,7 @@ const Index = () => {
         onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
       />
 
-      <div className="flex">
+      <div className="flex pt-14">
         <Sidebar
           isOpen={sidebarOpen}
           isCollapsed={sidebarCollapsed}
@@ -78,14 +85,24 @@ const Index = () => {
           onThemeToggle={toggleTheme}
         />
 
-        <main className="flex-1 min-w-0 pb-20 lg:pb-0">
-          <div className="container py-4 lg:py-6 space-y-6 lg:space-y-8">
+        <main 
+          className="flex-1 min-w-0 pb-20 lg:pb-0 transition-all duration-300"
+          style={{ marginLeft: sidebarOpen ? (sidebarCollapsed ? 64 : 256) : 0 }}
+        >
+          <div className="px-3 lg:px-6 py-4 lg:py-5 space-y-5 lg:space-y-6">
             <HeroSection onSignUp={() => setSignUpOpen(true)} />
             <RecentBigWins />
             <CategoryCards />
             <BCOriginals />
-            <LiveCasinoAndSlots />
+            <LiveSports />
+            <BCExclusive />
+            <Slots />
+            <UpcomingLottery />
+            <LiveCasino />
             <DepositBonus />
+            <BingoGames />
+            <LatestRoundRace />
+            <HotGames />
           </div>
           <Footer />
         </main>
