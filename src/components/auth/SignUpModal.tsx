@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import Logo from "@/components/ui/Logo";
+import { signup } from "@/services/api";
 
 interface SignUpModalProps {
   isOpen: boolean;
@@ -20,11 +21,36 @@ const SignUpModal = ({ isOpen, onClose, onSwitchToSignIn }: SignUpModalProps) =>
   const [agreeTerms, setAgreeTerms] = useState(false);
   const [agreeMarketing, setAgreeMarketing] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Handle Registration logic
-    console.log("Registration:", { email, username, password });
-  };
+ const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+
+  if (!agreeTerms) {
+    alert("You must agree to the User Agreement");
+    return;
+  }
+
+  try {
+    const res = await signup({
+      email,
+      username,
+      password,
+    });
+
+    // Save token
+    localStorage.setItem("token", res.data.token);
+
+    // Optional: store user
+    localStorage.setItem("user", JSON.stringify(res.data.user));
+
+    // Close modal or redirect
+    onClose();
+
+    console.log("Signup success:", res.data);
+  } catch (error: any) {
+    alert(error?.response?.data?.message || "Signup failed");
+  }
+};
+
 
   return (
     <AnimatePresence>

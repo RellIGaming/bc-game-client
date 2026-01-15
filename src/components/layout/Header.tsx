@@ -28,8 +28,8 @@ const Header = ({
 }: HeaderProps) => {
   return (
     <header 
-      className="sticky top-0 z-50 h-14 lg:h-16 bg-gaming-dark flex items-center px-3 lg:px-4"
-      style={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}
+      className="sticky top-0 z-50 h-14 lg:h-16 bg-sidebar flex items-center px-3 lg:px-4"
+      style={{ boxShadow: "0 4px 12px rgba(0, 0, 0, 0.25)" }}
     >
       <div className="flex items-center gap-2 lg:gap-4 flex-1">
         {/* Menu Toggle */}

@@ -4,6 +4,7 @@ import { X, Eye, EyeOff, Key } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Logo from "@/components/ui/Logo";
+import { signin } from "@/services/api";
 
 interface SignInModalProps {
   isOpen: boolean;
@@ -18,10 +19,35 @@ const SignInModal = ({ isOpen, onClose, onSwitchToSignUp, onForgotPassword }: Si
   const [showPassword, setShowPassword] = useState(false);
   const [loginMethod, setLoginMethod] = useState<"password" | "otp">("password");
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("Login:", { username, password });
-  };
+  const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+
+  if (loginMethod !== "password") {
+    alert("OTP login not implemented yet");
+    return;
+  }
+
+  try {
+    const res = await signin({
+      email: username, // backend expects email
+      password,
+    });
+
+    // Save JWT token
+    localStorage.setItem("token", res.data.token);
+
+    // Optional: store user
+    localStorage.setItem("user", JSON.stringify(res.data.user));
+
+    // Close modal or redirect
+    onClose();
+
+    console.log("Login success:", res.data);
+  } catch (error: any) {
+    alert(error?.response?.data?.message || "Login failed");
+  }
+};
+
 
   return (
     <AnimatePresence>

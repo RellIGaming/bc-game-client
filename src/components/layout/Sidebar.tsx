@@ -173,9 +173,9 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle }: Sideba
         transition={{ duration: 0.3, ease: "easeInOut" }}
         className={cn(
           "fixed lg:relative top-14 lg:top-0 left-0 h-[calc(100vh-3.5rem)] lg:h-[calc(100vh-4rem)] bg-sidebar z-50 overflow-hidden",
-          "flex-shrink-0 shadow-xl"
+          "flex-shrink-0"
         )}
-        style={{ boxShadow: "4px 0 20px rgba(0, 0, 0, 0.3)" }}
+        style={{ boxShadow: "4px 0 15px rgba(0, 0, 0, 0.2)" }}
       >
         <div className={cn("h-full flex flex-col overflow-y-auto custom-scrollbar mr-2", isCollapsed ? "w-20" : "w-64")}>
           {/* App Promo - Hidden when collapsed */}
@@ -244,7 +244,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle }: Sideba
                       <button
                         onClick={() => item.submenu && handleNavigate(item.submenu[0].id)}
                         className={cn(
-                          "w-full flex items-center justify-center p-2.5 rounded-lg bg-[#2f4553]",
+                          "w-full flex items-center justify-center p-2.5 rounded-lg bg-secondary",
                           "hover:bg-sidebar-accent transition-colors"
                         )}
                       >
