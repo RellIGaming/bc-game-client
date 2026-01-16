@@ -41,6 +41,7 @@ interface SidebarProps {
   onClose: () => void;
   isDark: boolean;
   onThemeToggle: () => void;
+  onLanguageClick: () => void;
 }
 
 const menuItems = [
@@ -158,7 +159,7 @@ const extremBottom = [
 
 ]
 
-const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle }: SidebarProps) => {
+const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLanguageClick }: SidebarProps) => {
   const [expandedItems, setExpandedItems] = useState<string[]>([]);
   const navigate = useNavigate();
 
@@ -384,7 +385,13 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle }: Sideba
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <button
-                        onClick={() => item.submenu && handleNavigate(item.submenu[0].id)}
+                        onClick={() => {
+                          if (item.id === "language") {
+                            onLanguageClick();
+                          } else if (item.submenu) {
+                            handleNavigate(item.submenu[0].id);
+                          }
+                        }}
                         className={cn(
                           "w-full flex items-center justify-center p-2.5 rounded-sm bg-sidebar-accent transition-colors",
                           "hover: hvr-btn",
@@ -401,7 +408,13 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle }: Sideba
                 ) : (
                   <>
                     <button
-                      onClick={() => item.hasSubmenu && toggleExpand(item.id)}
+                      onClick={() => {
+                        if (item.id === "language") {
+                          onLanguageClick();
+                        } else if (item.hasSubmenu) {
+                          toggleExpand(item.id);
+                        }
+                      }}
                       className={cn(
                         "w-full flex items-center gap-3 px-3 py-2.5 rounded-sm bg-sidebar-accent transition-colors",
                         "hover: hvr-btn",

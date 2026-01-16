@@ -1,4 +1,4 @@
-import { Menu, Search, Moon, Sun, Globe, MessageSquare, ChevronLeft, ChevronRight } from "lucide-react";
+import { Menu, Search, Globe, MessageSquare, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import logo from "../../assets/images/logo.png";
@@ -9,6 +9,7 @@ interface HeaderProps {
   onChatClick: () => void;
   onSignInClick: () => void;
   onSignUpClick: () => void;
+  onLanguageClick: () => void;
   isDark: boolean;
   onThemeToggle: () => void;
   isSidebarCollapsed?: boolean;
@@ -21,6 +22,7 @@ const Header = ({
   onChatClick,
   onSignInClick,
   onSignUpClick,
+  onLanguageClick,
   isDark,
   onThemeToggle,
   isSidebarCollapsed,
@@ -93,24 +95,13 @@ const Header = ({
           <MessageSquare className="w-5 h-5 text-muted-foreground" />
         </button>
 
-
-
         {/* Globe */}
-        <button className="hvr-btn btn-press hidden lg:flex p-2 rounded-sm bg-secondary transition-colors hover:bg-secondary transition-colors">
+        <button 
+          onClick={onLanguageClick}
+          className="hvr-btn btn-press hidden lg:flex p-2 rounded-sm bg-secondary transition-colors hover:bg-secondary transition-colors"
+        >
           <Globe className="w-5 h-5 text-muted-foreground" />
         </button>
-
-        {/* Theme Toggle - Hidden by default, shown on larger screens */}
-        {/* <button
-          onClick={onThemeToggle}
-          className="hidden xl:flex p-2 rounded-sm hover:bg-secondary transition-colors"
-        >
-          {isDark ? (
-            <Sun className="w-5 h-5 text-muted-foreground" />
-          ) : (
-            <Moon className="w-5 h-5 text-muted-foreground" />
-          )}
-        </button> */}
       </div>
     </header>
   );

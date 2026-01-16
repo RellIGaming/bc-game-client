@@ -16,7 +16,7 @@ const matches = [
     category: "Soccer • A-League",
     isLive: true,
     team1: { name: "MFK Chrudim", logo: costume1, score: 0 },
-    team2: { name: "FC Hradec Kralove B", logo: costume2, score: 0 },
+    team2: { name: "FC Hradec B", logo: costume2, score: 0 },
     status: "1st half",
     odds: [
       { label: "1", value: "1.40" },
@@ -142,19 +142,19 @@ const LiveSports = () => {
             {/* Match Header */}
             <div className="flex mb-3">
               <div className="flex flex-row justify-between item-center gap-2">
-                <div className="flex flex-col w-[130px] py-4">
-                  <img src={match.team1.logo} alt="logo" className="w-16 h-16" />
+                 <div className="flex flex-col item-center justify-center w-[120px] py-4">
+                  <img src={match.team1.logo} alt="logo" className="w-16 h-16 mb-2" />
                   <p className="text-[12px]">{match.team1.name}</p>
                 </div>
 
-                <div className="text-center flex flex-col py-8">
+                <div className="text-center flex flex-col py-8 w-[50px]">
                   <span className="text-center flex flex-row item-center justify-center text-xl font-bold text-foreground">
                     <span>{match.team1.score}</span> : <span>{match.team2.score}</span>
                   </span>
-                  <p className="text-[10px] text-muted-foreground">{match.status}</p>
+                  <p className="text-[10px] text-muted-foreground mt-2">{match.status}</p>
                 </div>
-                   <div className="flex flex-col item-center justify-center w-[130px] py-4">
-                  <img src={match.team2.logo} alt="logo" className="w-16 h-16 ml-4" />
+                   <div className="flex flex-col item-center justify-center w-[120px] py-4">
+                  <img src={match.team2.logo} alt="logo" className="w-16 h-16 mb-2 mx-auto" />
                   <p className="text-[12px]">{match.team2.name}</p>
                 </div>
               </div>
@@ -166,13 +166,13 @@ const LiveSports = () => {
               {match.odds.map((odd, idx) => (
                 <button
                   key={idx}
-                  className="flex-1 flex flex-col items-center py-2 px-2 rounded-lg bg-secondary hover:bg-secondary/80 transition-colors"
+                  className="flex-1 flex flex-col items-center py-2 px-2 rounded-sm bg-secondary hover:bg-secondary/80 transition-colors"
                 >
                   <span className="text-[10px] text-muted-foreground">{odd.label}</span>
                   <span className="text-sm font-bold text-primary">{odd.value}</span>
                 </button>
               ))}
-              <button className="flex items-center justify-center px-3 rounded-lg bg-secondary hover:bg-secondary/80 transition-colors">
+              <button className="flex items-center justify-center px-3 rounded-sm bg-secondary hover:bg-secondary/80 transition-colors">
                 <span className="text-xs text-muted-foreground">{match.moreMarkets}</span>
               </button>
             </div>

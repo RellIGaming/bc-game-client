@@ -1,20 +1,34 @@
-import axios from "axios";
+// API service without axios dependency
+const BASE_URL = "https://bc-game-server.onrender.com";
 
-const API = axios.create({
-  baseURL: "https://bc-game-server.onrender.com",
-  headers: {
-    "Content-Type": "application/json",
-  },
-});
+interface RequestConfig {
+  method?: string;
+  headers?: Record<string, string>;
+  body?: string;
+}
 
-/* 🔐 Attach JWT Token */
-API.interceptors.request.use((config) => {
+const fetchWithAuth = async (endpoint: string, config: RequestConfig = {}) => {
   const token = localStorage.getItem("token");
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json",
+    ...config.headers,
+  };
+  
   if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+    headers.Authorization = `Bearer ${token}`;
   }
-  return config;
-});
+
+  const response = await fetch(`${BASE_URL}${endpoint}`, {
+    ...config,
+    headers,
+  });
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+
+  return response.json();
+};
 
 /* =====================
    AUTH APIS
@@ -23,23 +37,32 @@ export const signup = (data: {
   username: string;
   email: string;
   password: string;
-}) => API.post("/auth/signup", data);
+}) => fetchWithAuth("/auth/signup", {
+  method: "POST",
+  body: JSON.stringify(data),
+});
 
 export const signin = (data: {
   email: string;
   password: string;
-}) => API.post("/auth/signin", data);
+}) => fetchWithAuth("/auth/signin", {
+  method: "POST",
+  body: JSON.stringify(data),
+});
 
 export const forgotPassword = (email: string) =>
-  API.post("/auth/forgot-password", { email });
+  fetchWithAuth("/auth/forgot-password", {
+    method: "POST",
+    body: JSON.stringify({ email }),
+  });
 
-export const resetPassword = (
-  token: string,
-  password: string
-) =>
-  API.post(`/auth/reset-password/${token}`, { password });
+export const resetPassword = (token: string, password: string) =>
+  fetchWithAuth(`/auth/reset-password/${token}`, {
+    method: "POST",
+    body: JSON.stringify({ password }),
+  });
 
-export const getProfile = () => API.get("/auth/profile");
+export const getProfile = () => fetchWithAuth("/auth/profile");
 
 /* =====================
    ADMIN APIS
@@ -47,6 +70,9 @@ export const getProfile = () => API.get("/auth/profile");
 export const changeUserRole = (data: {
   userId: string;
   role: "user" | "affiliate" | "agent" | "admin";
-}) => API.post("/admin/change-role", data);
+}) => fetchWithAuth("/admin/change-role", {
+  method: "POST",
+  body: JSON.stringify(data),
+});
 
-export default API;
+export default { signup, signin, forgotPassword, resetPassword, getProfile, changeUserRole };

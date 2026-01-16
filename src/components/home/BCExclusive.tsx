@@ -8,16 +8,17 @@ import card5 from "@/assets/images/card-5.png";
 import card6 from "@/assets/images/card-6.png";
 import card7 from "@/assets/images/card-7.png";
 import card8 from "@/assets/images/card-8.png";
+import card9 from "@/assets/images/card-9.png";
 
 const games = [
-  { id: 1, name: "BCGAME ROULETTE", badge: "BC.GAME", players: 68, image: card2 },
-  { id: 2, name: "PLATINUM ROULETTE", badge: "BC.GAME", players: 45, image: card3 },
-  { id: 3, name: "SPEED BLACKJACK", badge: "BC.GAME", players: 100, image: card4 },
-  { id: 4, name: "WUKONG", badge: null, players: 26, image: card5 },
-  { id: 5, name: "ICE FISHING", badge: "BC.GAME", players: 57, image: card6 },
-  { id: 6, name: "IRON BLACKJACK", badge: "BC.GAME", players: 68, image: card7 },
-  { id: 7, name: "RHINO BLITZ", badge: null, players: 41, image: card8 },
-  { id: 8, name: "SILVER BLACKJACK", badge: null, players: 13, image: card2 },
+  { id: 1, name: "CRASH", multiplier: "999x", players: 2304, image: card7 },
+  { id: 2, name: "LIMBO", multiplier: "500×", players: 218, image: card6 },
+  { id: 3, name: "PLINKO", multiplier: "2×160", players: 2543, image: card4 },
+  { id: 4, name: "TWIST", multiplier: "12×254", players: 77, image: card5 },
+  { id: 5, name: "TOWER LEGEND", multiplier: null, players: 350, image: card8 },
+  { id: 6, name: "CLASSIC DICE", multiplier: null, players: 200, image: card3 },
+  { id: 7, name: "KENO", multiplier: "12", players: 510, image: card2 },
+  { id: 8, name: "MINES", multiplier: "163", players: 863, image: card9 },
 ];
 
 const BCExclusive = () => {
@@ -39,7 +40,7 @@ const BCExclusive = () => {
       <div className="flex items-center justify-between">
         <h2 className="text-lg font-bold text-foreground">BC Exclusive</h2>
         <div className="flex items-center gap-2">
-          <button 
+          <button
             onClick={() => navigate("/category/bc-exclusive")}
             className="text-sm text-primary hover:underline"
           >
@@ -63,39 +64,40 @@ const BCExclusive = () => {
       </div>
 
       {/* Games */}
-      <div
-        ref={scrollRef}
-        className="flex gap-3 overflow-x-auto scrollbar-hide pb-2"
-      >
-        {games.map((game) => (
+      <div className="grid grid-cols-4 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2 lg:gap-3">
+        {games.slice(0, 8).map((game) => (
           <div
             key={game.id}
-            className="flex-shrink-0 w-32 lg:w-40 rounded-xl overflow-hidden cursor-pointer group gaming-card-hover relative"
+            className="rounded-xl overflow-hidden cursor-pointer group gaming-card-hover relative"
           >
             <div className="aspect-[3/4] relative">
-              <img 
-                src={game.image} 
+              <img
+                src={game.image}
                 alt={game.name}
                 className="absolute inset-0 w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-              
-              {/* Badge */}
-              {game.badge && (
-                <div className="absolute top-2 left-2 bg-primary/90 text-primary-foreground text-[8px] font-bold px-1.5 py-0.5 rounded">
-                  {game.badge}
+
+              {/* Multiplier Badge */}
+              {game.multiplier && (
+                <div className="absolute top-2 left-2 bg-primary/90 text-primary-foreground text-[10px] font-bold px-1.5 py-0.5 rounded">
+                  {game.multiplier}
                 </div>
               )}
-
-              {/* Players */}
-              <div className="absolute top-2 right-2 flex items-center gap-1 text-[10px] text-white/80">
+              {/* 
+              <div className="absolute top-2 right-2 flex items-center gap-1 text-[10px] text-white/80 bg-black/40 px-1.5 py-0.5 rounded">
                 <span>👥</span>
                 <span>{game.players}</span>
-              </div>
+              </div> */}
 
               {/* Bottom Info */}
-              <div className="absolute bottom-0 left-0 right-0 p-2">
-                <h3 className="text-white font-bold text-xs text-center truncate">{game.name}</h3>
+              <div className="absolute bottom-0 left-0 right-0 p-2 text-center">
+                <span className="text-[8px] text-primary font-medium">Rellbet</span>
+                {/* <h3 className="text-white font-bold text-xs truncate">{game.name}</h3> */}
+                <div className="absolute top-2 right-2 flex items-center gap-1 text-[10px] text-white/80 bg-black/40 px-1.5 py-0.5 rounded">
+                  <span>👥</span>
+                  <span>{game.players}</span>
+                </div>
               </div>
 
               {/* Hover Overlay */}

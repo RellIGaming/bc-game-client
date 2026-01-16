@@ -17,6 +17,7 @@ const games = [
   { id: 5, name: "BINGO CARNAVAL", provider: null, image: card6 },
   { id: 6, name: "FORTUNE BINGO", provider: null, image: card7 },
   { id: 7, name: "WEST HUNTER BINGO", provider: null, players: 76, image: card8 },
+  { id: 8, name: "WEST HUNTER BINGO", provider: null, players: 76, image: card8 },
 ];
 
 const BingoGames = () => {
@@ -64,13 +65,15 @@ const BingoGames = () => {
       {/* Games */}
       <div
         ref={scrollRef}
-        className="flex gap-3 overflow-x-auto scrollbar-hide pb-2"
+        // className="flex gap-3 overflow-x-auto scrollbar-hide pb-2"
+        className="grid grid-cols-4 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2 lg:gap-3"
       >
         {games.map((game) => (
           <div
             key={game.id}
-            className="flex-shrink-0 w-32 lg:w-40 rounded-xl overflow-hidden cursor-pointer group gaming-card-hover relative"
-          >
+            // className="flex-shrink-0 w-32 lg:w-40 rounded-xl overflow-hidden cursor-pointer group gaming-card-hover relative"
+          className="rounded-xl overflow-hidden cursor-pointer group gaming-card-hover relative"
+         >
             <div className="aspect-[3/4] relative">
               <img 
                 src={game.image} 

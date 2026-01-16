@@ -1,12 +1,13 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useRef, useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
+import flag from "../../assets/images/costume-6.png"
 
 const lotteries = [
   {
     id: 1,
     name: "Greece KENO",
-    country: "🇬🇷",
+    country: flag,
     frequency: "20/80",
     prize: "$38,000.00",
     nextDraw: { hours: 0, minutes: 0, seconds: 43 },
@@ -14,7 +15,7 @@ const lotteries = [
   {
     id: 2,
     name: "Italy 10e Lotto",
-    country: "🇮🇹",
+    country: flag,
     frequency: "20/90",
     prize: "$4,000.00",
     nextDraw: { hours: 0, minutes: 0, seconds: 43 },
@@ -22,7 +23,7 @@ const lotteries = [
   {
     id: 3,
     name: "Poland Keno",
-    country: "🇵🇱",
+    country: flag,
     frequency: "20/70",
     prize: "$1,500.00",
     nextDraw: { hours: 0, minutes: 1, seconds: 43 },
@@ -30,7 +31,7 @@ const lotteries = [
   {
     id: 4,
     name: "Slovakia EKlub Keno",
-    country: "🇸🇰",
+    country: flag,
     frequency: "20/80",
     prize: "$10,000.00",
     nextDraw: { hours: 0, minutes: 1, seconds: 43 },
@@ -38,7 +39,7 @@ const lotteries = [
   {
     id: 5,
     name: "Spanish Express",
-    country: "🇪🇸",
+    country: flag,
     frequency: "20/70",
     prize: "$1,500.00",
     nextDraw: { hours: 0, minutes: 1, seconds: 43 },
@@ -124,7 +125,7 @@ const UpcomingLottery = () => {
           >
             {/* Header */}
             <div className="flex items-center gap-2 mb-3">
-              <span className="text-xl">{lottery.country}</span>
+              <img className="w-10" src={lottery.country} alt="logo"/>
               <div>
                 <h3 className="text-sm font-bold text-foreground">{lottery.name}</h3>
                 <p className="text-[10px] text-muted-foreground">{lottery.frequency}</p>

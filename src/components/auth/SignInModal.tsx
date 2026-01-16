@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Eye, EyeOff, Key } from "lucide-react";
+import { X, Eye, EyeOff, Key, Smartphone } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
@@ -14,12 +14,17 @@ interface SignInModalProps {
 const SignInModal = ({ isOpen, onClose, onSwitchToSignUp, onForgotPassword }: SignInModalProps) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [emailOrPhone, setEmailOrPhone] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loginMethod, setLoginMethod] = useState<"password" | "otp">("password");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Login:", { username, password });
+    if (loginMethod === "password") {
+      console.log("Login with password:", { username, password });
+    } else {
+      console.log("Login with OTP:", { emailOrPhone });
+    }
   };
 
   return (
@@ -48,15 +53,15 @@ const SignInModal = ({ isOpen, onClose, onSwitchToSignUp, onForgotPassword }: Si
                 <X className="w-5 h-5 text-muted-foreground" />
               </button>
 
-              <h2 className="text-xl font-bold text-foreground mb-6">Login</h2>
+              <h2 className="text-xl font-bold text-foreground mb-6">Sign In</h2>
 
               {/* Login Method Toggle */}
-              <div className="flex rounded-lg bg-secondary p-1 mb-2">
+              <div className="flex rounded-lg bg-secondary p-1 mb-4">
                 <button
                   onClick={() => setLoginMethod("password")}
-                  className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-md text-sm font-medium transition-colors ${
+                  className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-md text-sm font-medium transition-colors ${
                     loginMethod === "password"
-                      ? "bg-background text-foreground"
+                      ? "bg-card text-foreground"
                       : "text-muted-foreground hover:text-foreground"
                   }`}
                 >
@@ -65,75 +70,89 @@ const SignInModal = ({ isOpen, onClose, onSwitchToSignUp, onForgotPassword }: Si
                 </button>
                 <button
                   onClick={() => setLoginMethod("otp")}
-                  className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-md text-sm font-medium transition-colors ${
+                  className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-md text-sm font-medium transition-colors ${
                     loginMethod === "otp"
-                      ? "bg-background text-foreground"
+                      ? "bg-card text-foreground"
                       : "text-muted-foreground hover:text-foreground"
                   }`}
                 >
-                  <span>📱</span>
+                  <Smartphone className="w-4 h-4" />
                   One-time Code
                 </button>
               </div>
-              <form onSubmit={handleSubmit} className="space-y-2">
-                <div>
-                  <Input
-                    type="text"
-                    placeholder="Username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    className="bg-secondary border-border h-10"
-                  />
-                </div>
 
-                <div className="relative">
-                  <Input
-                    type={showPassword ? "text" : "password"}
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="bg-secondary border-border h-10 pr-12"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-                  >
-                    {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-                  </button>
-                </div>
+              <form onSubmit={handleSubmit} className="space-y-3">
+                {loginMethod === "password" ? (
+                  <>
+                    <div>
+                      <Input
+                        type="text"
+                        placeholder="Username"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        className="bg-secondary border-border h-12"
+                      />
+                    </div>
 
-                <button
-                  type="button"
-                  onClick={onForgotPassword}
-                  className="text-sm text-muted-foreground hover:text-foreground block ml-auto"
-                >
-                  Forgot your password?
-                </button>
+                    <div className="relative">
+                      <Input
+                        type={showPassword ? "text" : "password"}
+                        placeholder="Password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        className="bg-secondary border-border h-12 pr-12"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                      >
+                        {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                      </button>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={onForgotPassword}
+                      className="text-sm text-muted-foreground hover:text-foreground block ml-auto"
+                    >
+                      Forgot your password?
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <div>
+                      <Input
+                        type="text"
+                        placeholder="Email / Phone Number"
+                        value={emailOrPhone}
+                        onChange={(e) => setEmailOrPhone(e.target.value)}
+                        className="bg-secondary border-border h-12"
+                      />
+                    </div>
+
+                    <p className="text-sm text-muted-foreground">
+                      We'll send a 6-digit code to your device
+                    </p>
+                  </>
+                )}
 
                 <Button
                   type="submit"
-                  className="w-full h-10 bg-primary text-primary-foreground hover:bg-primary/90 font-semibold text-base"
+                  className="w-full h-12 bg-primary text-primary-foreground hover:bg-primary/90 font-semibold text-base"
                 >
-                  Login
+                  {loginMethod === "password" ? "Sign In" : "Send One-time Code"}
                 </Button>
               </form>
 
-              <p className="text-center text-sm text-muted-foreground mt-2">
-                New to Rellbet?{" "}
-                <button onClick={onSwitchToSignUp} className="text-primary font-medium hover:underline">
-                  Create account
-                </button>
-              </p>
-
-              <div className="mt-2">
+              <div className="mt-4">
                 <p className="text-center text-sm text-muted-foreground mb-4">Log in directly with</p>
                 <Button
                   variant="outline"
                   className="w-full h-12 border-border text-foreground hover:bg-secondary mb-3"
                 >
                   <Key className="w-4 h-4 mr-2" />
-                  Login with passkey
+                  Sign In with passkey
                 </Button>
                 <div className="flex items-center justify-center gap-3">
                   {["G", "X", "✈", "👾", "〰", "💬", "◎"].map((icon, i) => (
@@ -146,6 +165,13 @@ const SignInModal = ({ isOpen, onClose, onSwitchToSignUp, onForgotPassword }: Si
                   ))}
                 </div>
               </div>
+
+              <p className="text-center text-sm text-muted-foreground mt-4">
+                New to Rellbet?{" "}
+                <button onClick={onSwitchToSignUp} className="text-primary font-medium hover:underline">
+                  Create account
+                </button>
+              </p>
             </div>
           </motion.div>
         </motion.div>

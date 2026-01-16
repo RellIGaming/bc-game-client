@@ -17,6 +17,7 @@ const games = [
   { id: 5, name: "Fortune Coins", provider: "JILI", rtp: "4-7", image: card6 },
   { id: 6, name: "Showdown Saloon", provider: null, rtp: null, image: card7 },
   { id: 7, name: "Aztec Empire", provider: null, rtp: null, image: card8 },
+  { id: 8, name: "Aztec Empire", provider: null, rtp: null, image: card8 },
 ];
 
 const HotGames = () => {
@@ -64,12 +65,14 @@ const HotGames = () => {
       {/* Games */}
       <div
         ref={scrollRef}
-        className="flex gap-3 overflow-x-auto scrollbar-hide pb-2"
+        // className="flex gap-3 overflow-x-auto scrollbar-hide pb-2"
+        className="grid grid-cols-4 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2 lg:gap-3"
       >
         {games.map((game) => (
           <div
             key={game.id}
-            className="flex-shrink-0 w-32 lg:w-40 rounded-xl overflow-hidden cursor-pointer group gaming-card-hover relative"
+            // className="flex-shrink-0 w-32 lg:w-40 rounded-xl overflow-hidden cursor-pointer group gaming-card-hover relative"
+           className="rounded-xl overflow-hidden cursor-pointer group gaming-card-hover relative"
           >
             <div className="aspect-[3/4] relative">
               <img 

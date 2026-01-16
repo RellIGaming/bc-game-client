@@ -3,6 +3,7 @@ import Header from "@/components/layout/Header";
 import Sidebar from "@/components/layout/Sidebar";
 import LiveChat from "@/components/layout/LiveChat";
 import SearchModal from "@/components/layout/SearchModal";
+import LanguageCurrencyModal from "@/components/layout/LanguageCurrencyModal";
 import MobileNav from "@/components/layout/MobileNav";
 import SignUpModal from "@/components/auth/SignUpModal";
 import SignInModal from "@/components/auth/SignInModal";
@@ -29,6 +30,7 @@ const Index = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [chatOpen, setChatOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [languageOpen, setLanguageOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const [signUpOpen, setSignUpOpen] = useState(false);
   const [signInOpen, setSignInOpen] = useState(false);
@@ -70,6 +72,7 @@ const Index = () => {
         onChatClick={() => setChatOpen(!chatOpen)}
         onSignInClick={() => setSignInOpen(true)}
         onSignUpClick={() => setSignUpOpen(true)}
+        onLanguageClick={() => setLanguageOpen(true)}
         isDark={isDark}
         onThemeToggle={toggleTheme}
         isSidebarCollapsed={sidebarCollapsed}
@@ -83,11 +86,12 @@ const Index = () => {
           onClose={() => setSidebarOpen(false)}
           isDark={isDark}
           onThemeToggle={toggleTheme}
+          onLanguageClick={() => setLanguageOpen(true)}
         />
 
         <main 
           className="flex-1 min-w-0 pb-20 lg:pb-0 transition-all duration-300"
-          style={{ marginLeft: sidebarOpen ? (sidebarCollapsed ? 64 : 230) : 0 }}
+          style={{ marginLeft: sidebarOpen ? (sidebarCollapsed ? 64 : 220) : 0 }}
         >
           <div className="px-3 lg:px-6 py-4 lg:py-5 space-y-5 lg:space-y-6">
             <HeroSection onSignUp={() => setSignUpOpen(true)} />
@@ -119,6 +123,7 @@ const Index = () => {
       />
 
       <SearchModal isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
+      <LanguageCurrencyModal isOpen={languageOpen} onClose={() => setLanguageOpen(false)} />
       <SignUpModal isOpen={signUpOpen} onClose={() => setSignUpOpen(false)} onSwitchToSignIn={handleSwitchToSignIn} />
       <SignInModal isOpen={signInOpen} onClose={() => setSignInOpen(false)} onSwitchToSignUp={handleSwitchToSignUp} onForgotPassword={handleForgotPassword} />
       <ResetPasswordModal isOpen={resetPasswordOpen} onClose={() => setResetPasswordOpen(false)} onBackToLogin={handleBackToLogin} />
