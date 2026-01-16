@@ -51,7 +51,7 @@ const SignInModal = ({ isOpen, onClose, onSwitchToSignUp, onForgotPassword }: Si
               <h2 className="text-xl font-bold text-foreground mb-6">Login</h2>
 
               {/* Login Method Toggle */}
-              <div className="flex rounded-lg bg-secondary p-1 mb-6">
+              <div className="flex rounded-lg bg-secondary p-1 mb-2">
                 <button
                   onClick={() => setLoginMethod("password")}
                   className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-md text-sm font-medium transition-colors ${
@@ -75,19 +75,14 @@ const SignInModal = ({ isOpen, onClose, onSwitchToSignUp, onForgotPassword }: Si
                   One-time Code
                 </button>
               </div>
-
-              <p className="text-sm text-muted-foreground text-center mb-4">
-                Download the App for more fun 📲
-              </p>
-
-              <form onSubmit={handleSubmit} className="space-y-4">
+              <form onSubmit={handleSubmit} className="space-y-2">
                 <div>
                   <Input
                     type="text"
                     placeholder="Username"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
-                    className="bg-secondary border-border h-12"
+                    className="bg-secondary border-border h-10"
                   />
                 </div>
 
@@ -97,7 +92,7 @@ const SignInModal = ({ isOpen, onClose, onSwitchToSignUp, onForgotPassword }: Si
                     placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="bg-secondary border-border h-12 pr-12"
+                    className="bg-secondary border-border h-10 pr-12"
                   />
                   <button
                     type="button"
@@ -118,20 +113,20 @@ const SignInModal = ({ isOpen, onClose, onSwitchToSignUp, onForgotPassword }: Si
 
                 <Button
                   type="submit"
-                  className="w-full h-12 bg-primary text-primary-foreground hover:bg-primary/90 font-semibold text-base"
+                  className="w-full h-10 bg-primary text-primary-foreground hover:bg-primary/90 font-semibold text-base"
                 >
                   Login
                 </Button>
               </form>
 
-              <p className="text-center text-sm text-muted-foreground mt-4">
-                New to GAME.WIN?{" "}
+              <p className="text-center text-sm text-muted-foreground mt-2">
+                New to Rellbet?{" "}
                 <button onClick={onSwitchToSignUp} className="text-primary font-medium hover:underline">
                   Create account
                 </button>
               </p>
 
-              <div className="mt-6">
+              <div className="mt-2">
                 <p className="text-center text-sm text-muted-foreground mb-4">Log in directly with</p>
                 <Button
                   variant="outline"

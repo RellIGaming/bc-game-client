@@ -152,24 +152,25 @@
   }
 
   /* Common interactive button */
-.active-btn {
+.hvr-btn {
   background-color: var(--secondary);
   transition: all 0.25s ease;
   position: relative;
 }
 
 /* Hover gradient */
-.active-btn:hover {
+.hvr-btn:hover {
   background: linear-gradient(
     90deg,
     rgba(42, 155, 149, 1) 0%,
     rgba(23, 55, 66, 1) 50%,
     rgba(14, 23, 48, 1) 100%
   );
+  color:#ffffff !important;
 }
 
 /* Active (mouse down / pressed) */
-.active-btn:active {
+.hvr-btn:active {
   background: linear-gradient(
     90deg,
     rgba(42, 155, 149, 1) 0%,
@@ -177,10 +178,11 @@
     rgba(14, 23, 48, 1) 100%
   );
   transform: scale(0.96);
+  color:#ffffff !important;
 }
 
 /* Optional focus (keyboard accessibility) */
-.active-btn:focus-visible {
+.hvr-btn:focus-visible {
   outline: none;
   box-shadow: 0 0 0 2px rgba(42, 155, 149, 0.5);
 }

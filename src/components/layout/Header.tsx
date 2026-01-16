@@ -36,7 +36,7 @@ const Header = ({
         {/* Menu Toggle */}
         <button
           onClick={onMenuClick}
-          className="chat-btn p-2 rounded-sm hover:bg-secondary transition-colors lg:hidden"
+          className="hvr-btn p-2 rounded-sm  transition-colors lg:hidden"
         >
           <Menu className="w-5 h-5 text-foreground" />
         </button>
@@ -63,7 +63,7 @@ const Header = ({
         {/* Search */}
         <button
           onClick={onSearchClick}
-          className="chat-btn btn-press p-2 rounded-sm bg-secondary transition-colors hover:bg-secondary transition-colors"
+          className="hvr-btn btn-press p-2 rounded-sm bg-secondary transition-colors hover:bg-secondary transition-colors"
         >
           <Search className="w-5 h-5 text-muted-foreground" />
         </button>
@@ -72,7 +72,7 @@ const Header = ({
         <Button
           variant="ghost"
           onClick={onSignInClick}
-          className="chat-btn hidden sm:flex text-foreground bg-secondary transition-colors hover:bg-secondary btn-press"
+          className="hvr-btn hidden sm:flex text-foreground bg-secondary transition-colors hover:bg-secondary btn-press"
         >
           Login
         </Button>
@@ -80,7 +80,7 @@ const Header = ({
         {/* Sign Up */}
         <Button
           onClick={onSignUpClick}
-          className="chat-btn text-primary-foreground hover:bg-primary/90 font-semibold px-4 lg:px-6 btn-press"
+          className="hvr-btn text-primary-foreground hover:bg-primary/90 font-semibold px-4 lg:px-6 btn-press"
         >
           Registration
         </Button>
@@ -88,7 +88,7 @@ const Header = ({
         {/* Chat */}
         <button
           onClick={onChatClick}
-          className="hidden lg:flex p-2 rounded-sm bg-secondary transition-all chat-btn btn-press"
+          className="hidden lg:flex p-2 rounded-sm bg-secondary transition-all hvr-btn btn-press"
         >
           <MessageSquare className="w-5 h-5 text-muted-foreground" />
         </button>
@@ -96,7 +96,7 @@ const Header = ({
 
 
         {/* Globe */}
-        <button className="btn-press hidden lg:flex p-2 rounded-sm bg-secondary transition-colors hover:bg-secondary transition-colors">
+        <button className="hvr-btn btn-press hidden lg:flex p-2 rounded-sm bg-secondary transition-colors hover:bg-secondary transition-colors">
           <Globe className="w-5 h-5 text-muted-foreground" />
         </button>
 

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Eye, EyeOff, RefreshCw } from "lucide-react";
+import { X, Eye, EyeOff, RefreshCw, ChevronDown } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -52,14 +52,14 @@ const SignUpModal = ({ isOpen, onClose, onSwitchToSignIn }: SignUpModalProps) =>
 
               <h2 className="text-xl font-bold text-foreground mb-6">Registration</h2>
 
-              <form onSubmit={handleSubmit} className="space-y-4">
+              <form onSubmit={handleSubmit} className="space-y-2">
                 <div>
                   <Input
                     type="text"
                     placeholder="Email / Phone Number"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="bg-secondary border-border h-12"
+                    className="bg-secondary border-border h-10"
                   />
                 </div>
 
@@ -69,7 +69,7 @@ const SignUpModal = ({ isOpen, onClose, onSwitchToSignIn }: SignUpModalProps) =>
                     placeholder="Username"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
-                    className="bg-secondary border-border h-12 pr-12"
+                    className="bg-secondary border-border h-10 pr-12"
                   />
                   <button
                     type="button"
@@ -85,7 +85,7 @@ const SignUpModal = ({ isOpen, onClose, onSwitchToSignIn }: SignUpModalProps) =>
                     placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="bg-secondary border-border h-12 pr-12"
+                    className="bg-secondary border-border h-10 pr-12"
                   />
                   <button
                     type="button"
@@ -98,9 +98,7 @@ const SignUpModal = ({ isOpen, onClose, onSwitchToSignIn }: SignUpModalProps) =>
 
                 <button type="button" className="text-sm text-muted-foreground hover:text-foreground flex items-center gap-1">
                   Enter Referral / Promo Code
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
+                  <ChevronDown className="w-4 h-4 "/>
                 </button>
 
                 <div className="space-y-3">
@@ -123,14 +121,14 @@ const SignUpModal = ({ isOpen, onClose, onSwitchToSignIn }: SignUpModalProps) =>
                       className="mt-0.5 data-[state=checked]:bg-primary data-[state=checked]:border-primary"
                     />
                     <label htmlFor="marketing" className="text-sm text-muted-foreground">
-                      I agree to receive marketing promotions from GAME.WIN.
+                      I agree to receive marketing promotions from Rellbet.
                     </label>
                   </div>
                 </div>
 
                 <Button
                   type="submit"
-                  className="w-full h-12 bg-primary text-primary-foreground hover:bg-primary/90 font-semibold text-base"
+                  className="w-full h-10 bg-primary text-primary-foreground hover:bg-primary/90 font-semibold text-base"
                 >
                   Registration
                 </Button>
@@ -143,7 +141,7 @@ const SignUpModal = ({ isOpen, onClose, onSwitchToSignIn }: SignUpModalProps) =>
                 </button>
               </p>
 
-              <div className="mt-6">
+              <div className="mt-2">
                 <p className="text-center text-sm text-muted-foreground mb-4">Sign up with</p>
                 <div className="flex items-center justify-center gap-3">
                   {["G", "X", "✈", "👾", "〰", "💬", "◎"].map((icon, i) => (

@@ -175,7 +175,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle }: Sideba
     }
   };
 
-  const sidebarWidth = isCollapsed ? 64 : 220;
+  const sidebarWidth = isCollapsed ? 70 : 220;
 
   return (
     <>
@@ -204,9 +204,9 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle }: Sideba
           "fixed top-14 left-0 h-[calc(100vh-3.5rem)] bg-sidebar z-40 overflow-hidden",
           "flex-shrink-0"
         )}
-        style={{ boxShadow: "4px 0 20px rgba(0, 0, 0, 0.3)" }}
+        style={{ boxShadow: "4px 0 20px rgba(0, 0, 0, 0.3)", paddingLeft:"8px" }}
       >
-        <div className={cn("h-full flex flex-col overflow-y-auto scrollbar-hide", isCollapsed ? "w-16" : "w-56")}>
+        <div className={cn("h-full flex flex-col overflow-y-auto scrollbar-hide ", isCollapsed ? "w-14" : "w-58")}>
 
 
           {/* Token Price */}
@@ -252,8 +252,8 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle }: Sideba
                       <button
                         onClick={() => item.submenu && handleNavigate(item.submenu[0].id)}
                         className={cn(
-                          "w-full flex items-center justify-center p-2.5 rounded-sm",
-                          "hover:bg-sidebar-accent transition-colors",
+                          "w-full flex items-center justify-center p-2 rounded-sm bg-sidebar-accent transition-colors",
+                          "hover: hvr-btn",
                           expandedItems.includes(item.id) && "bg-sidebar-accent"
                         )}
                       >
@@ -270,7 +270,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle }: Sideba
                       onClick={() => item.hasSubmenu && toggleExpand(item.id)}
                       className={cn(
                         "w-full flex items-center gap-3 px-3 py-2.5 rounded-sm bg-sidebar-accent transition-colors",
-                        "hover:bg-sidebar-accent transition-colors",
+                        "hover: hvr-btn",
                         "text-left group"
                       )}
                     >
@@ -324,7 +324,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle }: Sideba
                         onClick={() => handleNavigate(item.id)}
                         className={cn(
                           "w-full flex items-center justify-center p-2.5 rounded-sm",
-                          "hover:bg-sidebar-accent transition-colors"
+                          "hover: hvr-btn"
                         )}
                       >
                         <item.icon className={cn("w-5 h-5", item.color)} />
@@ -340,7 +340,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle }: Sideba
                     onClick={() => handleNavigate(item.id)}
                     className={cn(
                       "w-full flex items-center gap-3 px-3 py-2.5 rounded-sm ",
-                      "hover:bg-sidebar-accent transition-colors"
+                      "hover: hvr-btn"
                     )}
                   >
                     <item.icon className={cn("w-5 h-5", item.color)} />
@@ -386,8 +386,8 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle }: Sideba
                       <button
                         onClick={() => item.submenu && handleNavigate(item.submenu[0].id)}
                         className={cn(
-                          "w-full flex items-center justify-center p-2.5 rounded-sm",
-                          "hover:bg-sidebar-accent transition-colors",
+                          "w-full flex items-center justify-center p-2.5 rounded-sm bg-sidebar-accent transition-colors",
+                          "hover: hvr-btn",
                           expandedItems.includes(item.id) && "bg-sidebar-accent"
                         )}
                       >
@@ -404,7 +404,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle }: Sideba
                       onClick={() => item.hasSubmenu && toggleExpand(item.id)}
                       className={cn(
                         "w-full flex items-center gap-3 px-3 py-2.5 rounded-sm bg-sidebar-accent transition-colors",
-                        "hover:bg-sidebar-accent transition-colors",
+                        "hover: hvr-btn",
                         "text-left group"
                       )}
                     >
@@ -485,7 +485,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle }: Sideba
                 <TooltipTrigger asChild>
                   <button
                     onClick={onThemeToggle}
-                    className="w-full flex items-center justify-center p-2.5 rounded-sm hover:bg-sidebar-accent transition-colors"
+                    className="w-full flex items-center justify-center p-2.5 rounded-sm bg-sidebar-accent transition-colors hvr-btn"
                   >
                     {isDark ? (
                       <Moon className="w-5 h-5 text-foreground" />
