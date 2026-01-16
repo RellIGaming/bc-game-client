@@ -30,8 +30,8 @@ const subCategories = [
   { id: "poker", title: "POKER", icon: Spade, emoji: "🃏" },
   { id: "racing", title: "RACING", icon: Flag, emoji: "🏇" },
   { id: "lottery", title: "LOTTERY", icon: Ticket, emoji: "🎟️" },
-  { id: "updown", title: "UPDOWN", icon: TrendingUp, emoji: "📊" },
-  { id: "bingo", title: "BINGO", icon: Grid3X3, emoji: "🎱" },
+  // { id: "updown", title: "UPDOWN", icon: TrendingUp, emoji: "📊" },
+  // { id: "bingo", title: "BINGO", icon: Grid3X3, emoji: "🎱" },
 ];
 
 const CategoryCards = () => {
@@ -74,7 +74,7 @@ const CategoryCards = () => {
       </div>
 
       {/* Sub Categories */}
-      <div className="grid grid-cols-3 sm:grid-cols-5 gap-3">
+      <div className="grid grid-cols-3 sm:grid-cols-3 gap-3">
         {subCategories.map((cat) => (
           <div
             key={cat.id}

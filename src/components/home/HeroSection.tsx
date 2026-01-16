@@ -20,14 +20,14 @@ const banners = [
     bonus: "UP TO $20,000.00",
     description: "How to play?",
   },
-  {
-    id: 2,
-    image: banner2,
-    title: "VIP Experience",
-    subtitle: "Exclusive Benefits",
-    bonus: "UP TO $50,000.00",
-    description: "Weekly Cashback",
-  },
+  // {
+  //   id: 2,
+  //   image: banner2,
+  //   title: "VIP Experience",
+  //   subtitle: "Exclusive Benefits",
+  //   bonus: "UP TO $50,000.00",
+  //   description: "Weekly Cashback",
+  // },
 ];
 
 const HeroSection = ({ onSignUp }: HeroSectionProps) => {
