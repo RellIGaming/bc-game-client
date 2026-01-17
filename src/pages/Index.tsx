@@ -23,6 +23,7 @@ import BingoGames from "@/components/home/BingoGames";
 import LatestRoundRace from "@/components/home/LatestRoundRace";
 import HotGames from "@/components/home/HotGames";
 import Footer from "@/components/home/Footer";
+import NewGame from "@/components/home/NewGame";
 
 const Index = () => {
   const [isDark, setIsDark] = useState(true);
@@ -107,6 +108,7 @@ const Index = () => {
             <BingoGames />
             <LatestRoundRace />
             <HotGames />
+            <NewGame/>
           </div>
           <Footer />
         </main>

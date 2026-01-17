@@ -6,6 +6,14 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import GameDetailModal from "@/components/game/GameDetailModal";
+import card2 from "@/assets/images/card-2.png";
+import card3 from "@/assets/images/card-3.png";
+import card4 from "@/assets/images/card-4.png";
+import card5 from "@/assets/images/card-5.png";
+import card6 from "@/assets/images/card-6.png";
+import card7 from "@/assets/images/card-7.png";
+import card8 from "@/assets/images/card-8.png";
+import card9 from "@/assets/images/card-9.png";
 
 interface SearchModalProps {
   isOpen: boolean;
@@ -13,32 +21,32 @@ interface SearchModalProps {
 }
 
 const categories = [
-  { id: "all", label: "All Games", icon: Grid3X3 },
-  { id: "originals", label: "BC Originals", icon: Sparkles },
-  { id: "hot", label: "Hot Games", icon: Flame },
-  { id: "slots", label: "Slots", icon: Gamepad2 },
-  { id: "live", label: "Live Casino", icon: Trophy },
-  { id: "table", label: "Table Game", icon: Dice1 },
-  { id: "new", label: "New Releases", icon: Star },
+  { id: "all", label: "All Games", icon: card2 },
+  { id: "originals", label: "BC Originals", icon: card3 },
+  { id: "hot", label: "Hot Games", icon: card4 },
+  { id: "slots", label: "Slots", icon: card5 },
+  { id: "live", label: "Live Casino", icon: card6 },
+  { id: "table", label: "Table Game", icon: card7 },
+  { id: "new", label: "New Releases", icon: card8 },
 ];
 
 const allGames = [
-  { id: 1, name: "CRASH", players: 2422, multiplier: "999x", color: "bg-green-500", icon: "🚀", category: "originals" },
-  { id: 2, name: "LIMBO", players: 312, multiplier: "500x", color: "bg-blue-500", icon: "🎯", category: "originals" },
-  { id: 3, name: "TWIST", players: 248, multiplier: null, color: "bg-purple-500", icon: "🌀", category: "originals" },
-  { id: 4, name: "GOLDEN JOKER", players: 86, multiplier: null, color: "bg-red-500", icon: "🃏", category: "slots" },
-  { id: 5, name: "CLASSIC DICE", players: 276, multiplier: null, color: "bg-emerald-500", icon: "🎲", category: "table" },
-  { id: 6, name: "TOWER LEGEND", players: 172, multiplier: null, color: "bg-green-600", icon: "🗼", category: "originals" },
-  { id: 7, name: "QUEEN OF INCA", players: 31, multiplier: null, color: "bg-amber-500", icon: "👸", category: "slots" },
-  { id: 8, name: "KENO", players: 274, multiplier: null, color: "bg-yellow-500", icon: "🔢", category: "originals" },
-  { id: 9, name: "PLINKO", players: 138, multiplier: "2.1x", color: "bg-emerald-500", icon: "⚪", category: "originals" },
-  { id: 10, name: "MINES", players: 445, multiplier: null, color: "bg-yellow-600", icon: "💣", category: "originals" },
-  { id: 11, name: "AVIATOR", players: 1423, multiplier: null, color: "bg-red-600", icon: "✈️", category: "hot" },
-  { id: 12, name: "LIGHTNING ROULETTE", players: 567, multiplier: null, color: "bg-red-500", icon: "⚡", category: "live" },
-  { id: 13, name: "DRAGON HATCH", players: 234, multiplier: null, color: "bg-orange-500", icon: "🐉", category: "new" },
-  { id: 14, name: "FORTUNE OX", players: 456, multiplier: null, color: "bg-amber-600", icon: "🐂", category: "new" },
-  { id: 15, name: "BLACKJACK VIP", players: 123, multiplier: null, color: "bg-green-700", icon: "🃏", category: "table" },
-  { id: 16, name: "SPEED BACCARAT", players: 345, multiplier: null, color: "bg-purple-600", icon: "🎴", category: "live" },
+  { id: 1, name: "CRASH", players: 2422, multiplier: "999x",  image: card2, category: "originals" },
+  { id: 2, name: "LIMBO", players: 312, multiplier: "500x",  image: card8, category: "originals" },
+  { id: 3, name: "TWIST", players: 248, multiplier: null,  image:card7, category: "originals" },
+  { id: 4, name: "GOLDEN JOKER", players: 86, multiplier: null,  image: card6, category: "slots" },
+  { id: 5, name: "CLASSIC DICE", players: 276, multiplier: null,  image: card5, category: "table" },
+  { id: 6, name: "TOWER LEGEND", players: 172, multiplier: null,  image: card4, category: "originals" },
+  { id: 7, name: "QUEEN OF INCA", players: 31, multiplier: null, image: card2, category: "slots" },
+  { id: 8, name: "KENO", players: 274, multiplier: null, image:card3, category: "originals" },
+  { id: 9, name: "PLINKO", players: 138, multiplier: "2.1x",  image: card2, category: "originals" },
+  { id: 10, name: "MINES", players: 445, multiplier: null, image: card3, category: "originals" },
+  { id: 11, name: "AVIATOR", players: 1423, multiplier: null, image: card4, category: "hot" },
+  { id: 12, name: "LIGHTNING ROULETTE", players: 567, multiplier: null, image: card5, category: "live" },
+  { id: 13, name: "DRAGON HATCH", players: 234, multiplier: null,  image:card6, category: "new" },
+  { id: 14, name: "FORTUNE OX", players: 456, multiplier: null,  image: card7, category: "new" },
+  { id: 15, name: "BLACKJACK VIP", players: 123, multiplier: null,  image: card8, category: "table" },
+  { id: 16, name: "SPEED BACCARAT", players: 345, multiplier: null,  image: card9, category: "live" },
 ];
 
 const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
@@ -150,7 +158,7 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
                           : "bg-secondary text-muted-foreground hover:text-foreground"
                       )}
                     >
-                      <cat.icon className="w-4 h-4" />
+                      <img src={cat.icon} alt="" className="w-4 h-4 rounded-full" />
                       {cat.label}
                     </button>
                   ))}
@@ -189,16 +197,16 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
                         onClick={() => handleGameClick(game)}
                         className="relative aspect-[4/5] rounded-xl overflow-hidden cursor-pointer group"
                       >
-                        <div className={cn("absolute inset-0", game.color)} />
+                        <img src={game.image} alt="logo" className={cn("absolute inset-0", )} />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                         {game.multiplier && (
                           <div className="absolute top-2 right-2 bg-primary text-primary-foreground text-xs font-bold px-2 py-1 rounded z-10">
                             {game.multiplier}
                           </div>
                         )}
-                        <div className="absolute inset-0 flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
-                          <span className="text-4xl">{game.icon}</span>
-                        </div>
+                        {/* <div className="absolute inset-0 flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
+                          <span className="text-4xl">{game.image}</span>
+                        </div> */}
                         <div className="absolute bottom-0 left-0 right-0 p-3 z-10">
                           <h3 className="text-white font-bold text-sm">{game.name}</h3>
                           <div className="flex items-center gap-1 text-white/70 text-xs mt-1">

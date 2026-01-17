@@ -5,11 +5,11 @@ const Footer = () => {
     casino: ["Casino Promo", "Slots", "Live Casino", "New Releases", "Recommended", "Table Game", "Blackjack", "Baccarat"],
     sports: ["Sports Home", "Live", "Rules", "Sport Betting Insights"],
     support: ["VIP Club", "Referral", "Promotions", "Refer-a-friend", "Lottery", "BC Store"],
-    supportLegal: ["Licenses", "Help Center", "Cookie Assets", "Tutorials", "FAQ", "Privacy Policy", "Terms of Service", "Live Support", "Help Representative", "Verify This Site"],
+    supportLegal: ["Licenses", "Help Center", "FAQ", "Privacy Policy", "Terms of Service", "Live Support", ],
   };
 
   return (
-    <footer className="bg-sidebar border-t border-border/30 mt-8">
+    <footer className="bg-sidebar border-t border-border/30 mt-8 p-4">
       <div className="container py-8 lg:py-12">
         {/* Crypto Online Casino Section */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
@@ -101,7 +101,7 @@ const Footer = () => {
           <div>
             <h4 className="text-sm font-semibold text-foreground mb-3">Support</h4>
             <ul className="space-y-2">
-              {["News 📰", "We're Hiring 🎉", "Business Contacts 📧", "Help Center", "Help Representative", "Verify This Site", "Blog Posts", "Responsible Gambling", "API", "Today Releases 🎉", "Live Support 💬", "eSports Betting", "CEO Infomics"].map((link) => (
+              {["News 📰", "We're Hiring 🎉", "Business Contacts 📧", "Help Center", "Help Representative", "Live Support 💬", ].map((link) => (
                 <li key={link}>
                   <a href="#" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
                     {link}

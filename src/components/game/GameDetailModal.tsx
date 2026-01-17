@@ -3,12 +3,20 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, Star, ChevronDown, ChevronLeft, ChevronRight, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import card2 from "@/assets/images/card-2.png";
+import card3 from "@/assets/images/card-3.png";
+import card4 from "@/assets/images/card-4.png";
+import card5 from "@/assets/images/card-5.png";
+import card6 from "@/assets/images/card-6.png";
+import card7 from "@/assets/images/card-7.png";
+import card8 from "@/assets/images/card-8.png";
+import card9 from "@/assets/images/card-9.png";
 
 interface Game {
   id: number;
   name: string;
   provider?: string;
-  color: string;
+  image: string;
   icon?: string;
   players?: number;
   multiplier?: string | null;
@@ -22,14 +30,14 @@ interface GameDetailModalProps {
 }
 
 const recommendedGames = [
-  { id: 1, name: "SPEED BACCARAT", provider: "Evolution", color: "bg-amber-600", players: 30 },
-  { id: 2, name: "LIGHTNING DICE", provider: "Evolution", color: "bg-purple-600", players: 45 },
-  { id: 3, name: "SUPER SIC BO", provider: "Evolution", color: "bg-red-600", players: 62 },
-  { id: 4, name: "CRAZY ROULETTE", provider: "Playtech", color: "bg-emerald-600", players: 80 },
-  { id: 5, name: "LIGHTNING STORM", provider: "Evolution", color: "bg-blue-600", players: 17 },
-  { id: 6, name: "DONE BACCARAT", provider: "BG.GAME", color: "bg-pink-600", players: 9 },
-  { id: 7, name: "KOREAN BACCARAT", provider: "Playtech", color: "bg-cyan-600", players: 65 },
-  { id: 8, name: "MONOPOLY", provider: "Evolution", color: "bg-orange-600", players: 45 },
+  { id: 1, name: "SPEED BACCARAT", provider: "Evolution", image: card2, players: 30 },
+  { id: 2, name: "LIGHTNING DICE", provider: "Evolution", image: card3, players: 45 },
+  { id: 3, name: "SUPER SIC BO", provider: "Evolution", image: card4, players: 62 },
+  { id: 4, name: "CRAZY ROULETTE", provider: "Playtech", image: card5, players: 80 },
+  { id: 5, name: "LIGHTNING STORM", provider: "Evolution", image: card6, players: 17 },
+  { id: 6, name: "DONE BACCARAT", provider: "BG.GAME", image: card7, players: 9 },
+  { id: 7, name: "KOREAN BACCARAT", provider: "Playtech", image: card8, players: 65 },
+  { id: 8, name: "MONOPOLY", provider: "Evolution", image: card9, players: 45 },
 ];
 
 const latestBets = [
@@ -66,7 +74,7 @@ const GameDetailModal = ({ isOpen, onClose, game, onSignIn }: GameDetailModalPro
           >
             {/* Game Preview */}
             <div className="relative aspect-video bg-gaming-dark">
-              <div className={cn("absolute inset-0", game.color)} />
+              {/* <div className={cn("absolute inset-0", game.image)} /> */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
               
               {/* Close Button */}
@@ -149,7 +157,8 @@ const GameDetailModal = ({ isOpen, onClose, game, onSignIn }: GameDetailModalPro
                     key={g.id}
                     className="flex-shrink-0 w-24 aspect-square rounded-lg overflow-hidden cursor-pointer group relative"
                   >
-                    <div className={cn("absolute inset-0", g.color)} />
+                    <img src={g.image} alt="logo" className="w-full"
+                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                     <div className="absolute inset-0 flex items-center justify-center">
                       <span className="text-3xl">🎰</span>
