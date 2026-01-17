@@ -92,7 +92,7 @@ const Index = () => {
 
         <main 
           className="flex-1 min-w-0 pb-20 lg:pb-0 transition-all duration-300"
-          style={{ marginLeft: sidebarOpen ? (sidebarCollapsed ? 64 : 220) : 0 }}
+          style={{ marginLeft: sidebarOpen ? (sidebarCollapsed ? 64 : 240) : 0 }}
         >
           <div className="px-3 lg:px-6 py-4 lg:py-5 space-y-5 lg:space-y-6">
             <HeroSection onSignUp={() => setSignUpOpen(true)} />

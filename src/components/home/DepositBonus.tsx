@@ -1,6 +1,6 @@
 
 import applePay from "../../assets/images/apple_pay.png";
-import  gPay from "../../assets/images/google_pay-icon.jpg";
+import gPay from "../../assets/images/google_pay-icon.jpg";
 import visaPay from "../../assets/images/visacard-icon.jpg";
 import picPay from "../../assets/images/pic_pay-icon.jpg";
 import ADA from "../../assets/images/ADA-icon.png";
@@ -15,7 +15,7 @@ import xpr from "../../assets/images/XRP-icon.png";
 
 const DepositBonus = () => {
   const paymentMethods = [applePay, visaPay, gPay, picPay];
-  const cryptos = [ADA ,bnb, doge, eth, sql, trx, usdc, usdt, xpr];
+  const cryptos = [ADA, bnb, doge, eth, sql, trx, usdc, usdt, xpr];
 
   return (
     <section className="rounded-xl bg-gradient-to-r from-card via-card to-primary/5 p-4 lg:p-5">
@@ -29,7 +29,7 @@ const DepositBonus = () => {
           <div className="flex items-center gap-2">
             {paymentMethods.map((method, i) => (
               <img
-                key={i} 
+                key={i}
                 className="w-10 h-4 "
                 src={method} alt="logo"
               />
@@ -38,9 +38,9 @@ const DepositBonus = () => {
         </div>
 
         {/* Right Side - Crypto Icons */}
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center">
           {cryptos.map((crypto, i) => (
-            <img  key={i} className="w-10 h-10 rounded" src={crypto} alt="logo"/>
+            <img key={i} className="w-10 h-10 rounded" src={crypto} alt="logo" />
           ))}
         </div>
       </div>

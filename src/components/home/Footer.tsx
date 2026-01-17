@@ -34,7 +34,7 @@ const Footer = () => {
               If you find any vulnerabilities file or error, please contact us ASAP for internal issues (Only any related issues will be rewarded)
             </p>
             <p className="text-xs text-muted-foreground leading-relaxed mt-1">
-              Send to email: <span className="text-primary">security@bc.game</span>
+              Send to email: <span className="text-primary">security@Rellbet</span>
             </p>
           </div>
         </div>
@@ -115,7 +115,7 @@ const Footer = () => {
         {/* Social & Community */}
         <div className="flex flex-col lg:flex-row items-center justify-between gap-6 py-4 border-t border-border/30">
           <div className="flex items-center gap-3">
-            <img src={bcLogo} alt="BC.GAME" className="h-6 w-auto" />
+            <img src={bcLogo} alt="Rellbet" className="h-6 w-auto" />
           </div>
           
           <div className="flex flex-col sm:flex-row items-center gap-4">
@@ -145,20 +145,20 @@ const Footer = () => {
         {/* Bottom Section */}
         <div className="flex flex-col lg:flex-row items-center justify-between gap-4 pt-6">
           <div className="flex items-center gap-3">
-            <img src={bcLogo} alt="BC.GAME" className="h-5 w-auto opacity-60" />
+            <img src={bcLogo} alt="Rellbet" className="h-5 w-auto opacity-60" />
             <div className="text-[10px] text-muted-foreground max-w-md">
               The ultimate crypto gaming platform, is ready for the fun enthusiast. We're inspired by the needs and feedback of our players. A fresh approach and the dedication for continuous platform. 
             </div>
           </div>
           <div className="text-[10px] text-muted-foreground max-w-md">
-            BC.GAME is operated by Paradigm B.V., registered under number 166165. Address: Korporaalweg 10, Curacao BC.GAME is licensed under...
+            Rellbet is operated by Paradigm B.V., registered under number 166165. Address: Korporaalweg 10, Curacao Rellbet is licensed under...
           </div>
         </div>
 
         {/* Copyright */}
         <div className="text-center pt-6 border-t border-border/30 mt-6">
           <p className="text-[10px] text-muted-foreground">
-            Copyright © 2025 Blockdrake Gaming Limited. All Rights Reserved. | SUPPORT@BC.GAME | +599-9-5555123 TI
+            Copyright © 2025 Blockdrake Gaming Limited. All Rights Reserved. | SUPPORT@Rellbet | +599-9-5555123 TI
           </p>
         </div>
       </div>

@@ -3,7 +3,7 @@ import bcLogo from "@/assets/images/bc-logo.svg";
 const Logo = () => {
   return (
     <div className="flex items-center gap-2">
-      <img src={bcLogo} alt="BC.GAME" className="h-7 lg:h-8 w-auto" />
+      <img src={bcLogo} alt="Rellbet" className="h-7 lg:h-8 w-auto" />
     </div>
   );
 };

@@ -126,7 +126,7 @@ const GameDetailModal = ({ isOpen, onClose, game, onSignIn }: GameDetailModalPro
               <div className="flex items-center justify-between">
                 <div>
                   <h2 className="text-xl font-bold text-foreground">{game.name}</h2>
-                  <p className="text-sm text-primary">By {game.provider || "BC.GAME"}</p>
+                  <p className="text-sm text-primary">By {game.provider || "Rellbet"}</p>
                 </div>
                 <button className="flex items-center gap-1 text-primary text-sm">
                   + Game shows

@@ -8,7 +8,7 @@ import costume4 from "../../assets/images/costume-4.png";
 import costume5 from "../../assets/images/costume-5.png";
 import costume6 from "../../assets/images/costume-6.png";
 
-const categories = ["Soccer • Club Friendly Games", "Soccer • Club Friendly Games", "BC.GAME: Originals • Saloon Dice (10 rounds)"];
+const categories = ["Soccer • Club Friendly Games", "Soccer • Club Friendly Games", "Rellbet: Originals • Saloon Dice (10 rounds)"];
 
 const matches = [
   {
@@ -87,14 +87,25 @@ const LiveSports = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [activeCategory, setActiveCategory] = useState(categories[0]);
 
-  const scroll = (direction: "left" | "right") => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollBy({
-        left: direction === "left" ? -350 : 350,
-        behavior: "smooth",
-      });
-    }
-  };
+ const scroll = (direction: "left" | "right") => {
+  if (!scrollRef.current) return;
+
+  const container = scrollRef.current;
+  const card = container.children[0] as HTMLElement;
+  if (!card) return;
+
+  const cardWidth = card.getBoundingClientRect().width;
+  const visibleCards =
+    window.innerWidth >= 1024 ? 3 :
+    window.innerWidth >= 640 ? 2 : 1;
+
+  container.scrollBy({
+    left: direction === "left"
+      ? -cardWidth * visibleCards
+      : cardWidth * visibleCards,
+    behavior: "smooth",
+  });
+};
 
   return (
     <section className="space-y-4">
@@ -126,7 +137,7 @@ const LiveSports = () => {
         {matches.map((match) => (
           <div
             key={match.id}
-            className="flex-shrink-0 w-[280px] lg:w-[320px] rounded-xl bg-card p-4 cursor-pointer gaming-card-hover"
+            className="flex-shrink-0 w-[300px] lg:w-[360px] rounded-xl bg-card p-4 cursor-pointer gaming-card-hover"
           >
             <div className="flex flex-row justify-between">
               <div className="text-[14px] font-bold">
@@ -158,9 +169,7 @@ const LiveSports = () => {
                   <p className="text-[12px]">{match.team2.name}</p>
                 </div>
               </div>
-
             </div>
-
             {/* Odds */}
             <div className="flex gap-2">
               {match.odds.map((odd, idx) => (

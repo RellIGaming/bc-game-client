@@ -176,7 +176,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
     }
   };
 
-  const sidebarWidth = isCollapsed ? 70 : 220;
+  const sidebarWidth = isCollapsed ? 70 : 240;
 
   return (
     <>

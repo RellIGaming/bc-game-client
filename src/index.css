@@ -37,7 +37,8 @@
 
     --radius: 0.75rem;
 
-    --sidebar-background: 200 30% 12%;
+    /* --sidebar-background: 200 30% 12%; */
+    --sidebar-background: 203 36% 13%;
     --sidebar-foreground: 0 0% 98%;
     --sidebar-primary: 207 90% 54%;
     --sidebar-primary-foreground: 0 0% 100%;
@@ -49,16 +50,38 @@
     /* Custom gaming tokens - Stake style */
     --gaming-green: 207 90% 54%;
     --gaming-green-glow: 207 90% 65%;
-    --gaming-dark: 200 30% 11%;
+    /* --gaming-dark: 200 30% 11%; */
+    --gaming-dark: 203 36% 14%;
     --gaming-card: 200 25% 16%;
     --gaming-hover: 200 25% 20%;
-    --chat-bg: 200 25% 14%;
+    /* --chat-bg: 200 25% 14%; */
+    --chat-bg: 203 36% 16%;
     --gold: 45 93% 58%;
     --vip-purple: 270 60% 60%;
 
     /* Header specific */
-    --header-bg: 200 30% 12%;
+    /* --header-bg: 200 30% 12%; */
+    --header-bg: 203 36% 13%;
   }
+/* :root {
+  --background: 203 36% 16%;
+  --foreground: 0 0% 98%;
+
+  --card: 203 36% 18%;
+  --card-foreground: 0 0% 98%;
+
+  --popover: 203 36% 15%;
+  --popover-foreground: 0 0% 98%;
+
+  --secondary: 203 30% 22%;
+  --muted: 203 25% 25%;
+
+  --sidebar-background: 203 36% 13%;
+  --header-bg: 203 36% 13%;
+
+  --gaming-dark: 203 36% 14%;
+  --chat-bg: 203 36% 16%;
+} */
 
   .light {
     --background: 210 20% 96%;
@@ -190,7 +213,7 @@
 
 }
 
-/* Custom thin scrollbar like BC.GAME */
+/* Custom thin scrollbar like Rellbet */
 .custom-scrollbar {
   scrollbar-width: thin;
   scrollbar-color: hsl(var(--primary) / 0.3) transparent;
