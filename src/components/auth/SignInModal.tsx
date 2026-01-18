@@ -3,29 +3,45 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, Eye, EyeOff, Key, Smartphone } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { signin } from "@/services/api";
+import { toast } from "sonner";
 
 interface SignInModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSwitchToSignUp: () => void;
   onForgotPassword: () => void;
+  setIsLoggedIn: (value: boolean) => void;
 }
 
-const SignInModal = ({ isOpen, onClose, onSwitchToSignUp, onForgotPassword }: SignInModalProps) => {
+const SignInModal = ({ isOpen, onClose, onSwitchToSignUp, onForgotPassword,setIsLoggedIn }: SignInModalProps) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [emailOrPhone, setEmailOrPhone] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loginMethod, setLoginMethod] = useState<"password" | "otp">("password");
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+ const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+
+  try {
     if (loginMethod === "password") {
-      console.log("Login with password:", { username, password });
+      const res = await signin({
+        identifier: emailOrPhone || username, // ✅ KEY FIX
+        password,
+      });
+
+      localStorage.setItem("token", res.token);
+       setIsLoggedIn(true);
+       toast.success("Login successful! 🎉");
+      onClose();
     } else {
-      console.log("Login with OTP:", { emailOrPhone });
+      alert("OTP login not implemented yet");
     }
-  };
+  } catch (err: any) {
+    alert(err.message || "❌ Login failed");
+  }
+};
 
   return (
     <AnimatePresence>

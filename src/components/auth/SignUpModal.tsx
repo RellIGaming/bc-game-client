@@ -5,18 +5,21 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
+import { signup } from "@/services/api";
+import { toast } from "sonner";
 
 interface SignUpModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSwitchToSignIn: () => void;
+  setIsLoggedIn: (value: boolean) => void;
 }
 
-const SignUpModal = ({ isOpen, onClose, onSwitchToSignIn }: SignUpModalProps) => {
+const SignUpModal = ({ isOpen, onClose, onSwitchToSignIn,setIsLoggedIn }: SignUpModalProps) => {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [promoCode, setPromoCode] = useState("");
+  const [promocode, setPromocode] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showPromoCode, setShowPromoCode] = useState(false);
   const [agreeTerms, setAgreeTerms] = useState(false);
@@ -37,10 +40,33 @@ const SignUpModal = ({ isOpen, onClose, onSwitchToSignIn }: SignUpModalProps) =>
     return { level: 4, text: "Strong", color: "bg-primary" };
   }, [password]);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("Registration:", { email, username, password, promoCode });
-  };
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+
+  if (!agreeTerms) {
+    toast.error("Please accept terms & conditions");
+    return;
+  }
+
+  try {
+    const res = await signup({
+      username,
+      email,
+      password,
+      promocode,
+    });
+
+    localStorage.setItem("token", res.token);
+    setIsLoggedIn(true);
+    toast.success("Registration successful 🎉");
+    onClose();
+  } catch (err: any) {
+    toast.error(
+      err?.response?.data?.message || "❌ Signup failed"
+    );
+  }
+};
+
 
   const generateUsername = () => {
     const adjectives = ["Lucky", "Swift", "Cool", "Epic", "Wild"];
@@ -179,8 +205,8 @@ const SignUpModal = ({ isOpen, onClose, onSwitchToSignIn }: SignUpModalProps) =>
                       <Input
                         type="text"
                         placeholder="Enter referral or promo code"
-                        value={promoCode}
-                        onChange={(e) => setPromoCode(e.target.value)}
+                        value={promocode}
+                        onChange={(e) => setPromocode(e.target.value)}
                         className="bg-secondary border-border h-12"
                       />
                     </motion.div>

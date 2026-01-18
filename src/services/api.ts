@@ -1,5 +1,6 @@
 // API service without axios dependency
-const BASE_URL = "https://bc-game-server.onrender.com";
+//const BASE_URL = "https://bc-game-server.onrender.com";
+const BASE_URL = "http://localhost:5000";
 
 interface RequestConfig {
   method?: string;
@@ -37,27 +38,33 @@ export const signup = (data: {
   username: string;
   email: string;
   password: string;
-}) => fetchWithAuth("/auth/signup", {
-  method: "POST",
-  body: JSON.stringify(data),
-});
+  promocode: string; 
+}) =>
+  fetchWithAuth("/api/auth/signup", {
+    method: "POST",
+    body: JSON.stringify(data),
+  });
+
+
 
 export const signin = (data: {
-  email: string;
+  identifier: string;
   password: string;
-}) => fetchWithAuth("/auth/signin", {
-  method: "POST",
-  body: JSON.stringify(data),
-});
+}) =>
+  fetchWithAuth("/api/auth/signin", {
+    method: "POST",
+    body: JSON.stringify(data),
+  });
+
 
 export const forgotPassword = (email: string) =>
-  fetchWithAuth("/auth/forgot-password", {
+  fetchWithAuth("/api/auth/forgot-password", {
     method: "POST",
     body: JSON.stringify({ email }),
   });
 
 export const resetPassword = (token: string, password: string) =>
-  fetchWithAuth(`/auth/reset-password/${token}`, {
+  fetchWithAuth(`api/auth/reset-password/${token}`, {
     method: "POST",
     body: JSON.stringify({ password }),
   });

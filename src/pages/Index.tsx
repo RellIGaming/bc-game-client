@@ -23,9 +23,14 @@ import BingoGames from "@/components/home/BingoGames";
 import LatestRoundRace from "@/components/home/LatestRoundRace";
 import HotGames from "@/components/home/HotGames";
 import Footer from "@/components/home/Footer";
-import NewGame from "@/components/home/NewGame";
+import HelpUs from "@/components/home/HelpUs";
+import Providers from "@/components/home/Providers";
 
-const Index = () => {
+interface IndexProps {
+  isLoggedIn: boolean;
+  setIsLoggedIn: (value: boolean) => void;
+}
+const Index = ({ isLoggedIn, setIsLoggedIn }: IndexProps) => {
   const [isDark, setIsDark] = useState(true);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -64,6 +69,8 @@ const Index = () => {
   const handleSwitchToSignUp = () => { setSignInOpen(false); setSignUpOpen(true); };
   const handleForgotPassword = () => { setSignInOpen(false); setResetPasswordOpen(true); };
   const handleBackToLogin = () => { setResetPasswordOpen(false); setSignInOpen(true); };
+  const handleLogin = () => { setSignInOpen(false); setIsLoggedIn(true); };
+  const handleLogout = () => { setIsLoggedIn(false); };
 
   return (
     <div className="min-h-screen bg-background">
@@ -78,6 +85,11 @@ const Index = () => {
         onThemeToggle={toggleTheme}
         isSidebarCollapsed={sidebarCollapsed}
         onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
+        isLoggedIn={isLoggedIn}
+        onLogout={() => {
+          localStorage.removeItem("token");
+          setIsLoggedIn(false);
+        }}
       />
 
       <div className="flex pt-14">
@@ -108,7 +120,8 @@ const Index = () => {
             <BingoGames />
             <LatestRoundRace />
             <HotGames />
-            <NewGame/>
+            <HelpUs/>
+            <Providers/>
           </div>
           <Footer />
         </main>
@@ -126,8 +139,8 @@ const Index = () => {
 
       <SearchModal isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
       <LanguageCurrencyModal isOpen={languageOpen} onClose={() => setLanguageOpen(false)} />
-      <SignUpModal isOpen={signUpOpen} onClose={() => setSignUpOpen(false)} onSwitchToSignIn={handleSwitchToSignIn} />
-      <SignInModal isOpen={signInOpen} onClose={() => setSignInOpen(false)} onSwitchToSignUp={handleSwitchToSignUp} onForgotPassword={handleForgotPassword} />
+      <SignUpModal isOpen={signUpOpen} onClose={() => setSignUpOpen(false)} onSwitchToSignIn={handleSwitchToSignIn} setIsLoggedIn={setIsLoggedIn}/>
+      <SignInModal isOpen={signInOpen} onClose={() => setSignInOpen(false)} onSwitchToSignUp={handleSwitchToSignUp} onForgotPassword={handleForgotPassword} setIsLoggedIn={setIsLoggedIn} />
       <ResetPasswordModal isOpen={resetPasswordOpen} onClose={() => setResetPasswordOpen(false)} onBackToLogin={handleBackToLogin} />
       <UserProfilePanel isOpen={profileOpen} onClose={() => setProfileOpen(false)} />
 

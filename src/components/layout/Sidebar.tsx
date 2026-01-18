@@ -99,11 +99,21 @@ const menuItems = [
     id: "promotions",
     label: "Promotions",
     icon: Gift,
-    hasSubmenu: true,
+    hasSubmenu: false,
     color: "text-gold",
-    submenu: [
-      { id: "promotions", label: "All Promotions", icon: Gift },
-    ],
+    
+  },{
+    id: "daily",
+    label: "Daily Contest",
+    icon: Gift,
+     hasSubmenu: false,
+    color: "text-gold",
+  },{
+    id: "raffel",
+    label: "Weekly Ruffle",
+    icon: Gift,
+    hasSubmenu: false,
+    color: "text-gold",
   },
 ];
 
