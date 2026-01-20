@@ -121,7 +121,7 @@ const UpcomingLottery = () => {
         {lotteries.map((lottery, idx) => (
           <div
             key={lottery.id}
-            className="flex-shrink-0 w-44 lg:w-48 rounded-xl bg-card p-4 cursor-pointer gaming-card-hover"
+            className="flex-shrink-0 w-52 lg:w-56 rounded-xl bg-card p-4 cursor-pointer gaming-card-hover"
           >
             {/* Header */}
             <div className="flex items-center gap-2 mb-3">

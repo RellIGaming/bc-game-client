@@ -95,27 +95,31 @@ const menuItems = [
       { id: "crypto-futures", label: "Crypto Futures", icon: TrendingUp },
     ],
   },
+
+];
+
+const midItems = [
   {
     id: "promotions",
     label: "Promotions",
     icon: Gift,
     hasSubmenu: false,
     color: "text-gold",
-    
-  },{
+
+  }, {
     id: "daily",
     label: "Daily Contest",
     icon: Gift,
-     hasSubmenu: false,
+    hasSubmenu: false,
     color: "text-gold",
-  },{
+  }, {
     id: "raffel",
     label: "Weekly Ruffle",
     icon: Gift,
     hasSubmenu: false,
     color: "text-gold",
   },
-];
+]
 
 const bottomItems = [
   { id: "vip-club", label: "VIP Club", icon: Crown, color: "text-vip" },
@@ -161,6 +165,11 @@ const extremBottom = [
     label: "Live Support",
     icon: HeadphoneOff,
   },
+  // {
+  //   id: "application",
+  //   label: "Application",
+  //   icon: mobileSc,
+  // },
   {
     id: "language",
     label: "English",
@@ -215,7 +224,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
           "fixed top-14 left-0 h-[calc(100vh-3.5rem)] bg-sidebar z-40 overflow-hidden",
           "flex-shrink-0"
         )}
-        style={{ boxShadow: "4px 0 20px rgba(0, 0, 0, 0.3)", paddingLeft:"8px" }}
+        style={{ boxShadow: "4px 0 20px rgba(0, 0, 0, 0.3)", paddingLeft: "8px" }}
       >
         <div className={cn("h-full flex flex-col overflow-y-auto scrollbar-hide ", isCollapsed ? "w-14" : "w-58")}>
 
@@ -254,18 +263,112 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
           )} */}
 
           {/* Main Menu */}
-          <nav className={cn("flex-1 p-3 space-y-1", isCollapsed && "px-2")}>
+          <nav className={cn("flex-1 py-1 px-2  space-y-1", isCollapsed && "px-2")}>
             {menuItems.map((item) => (
               <div key={item.id}>
                 {isCollapsed ? (
-                  <Tooltip>
+                  <div className="flex flex-col items-center gap-1">
+                    {/* Parent icon */}
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <button
+                          onClick={() =>
+                            item.hasSubmenu
+                              ? toggleExpand(item.id)
+                              : handleNavigate(item.id)
+                          }
+                          className={cn(
+                            "w-full flex items-center justify-center p-2 rounded-sm bg-sidebar-accent transition-colors",
+                          "hover: hvr-btn",
+                            expandedItems.includes(item.id)
+                              ? "bg-sidebar-accent"
+                              : "hover:hvr-btn"
+                          )}
+                        >
+                          <item.icon className={cn("w-5 h-5", item.color)} />
+                        </button>
+                      </TooltipTrigger>
+                      <TooltipContent side="right">
+                        {item.label}
+                      </TooltipContent>
+                    </Tooltip>
+
+                    {/* ✅ SHOW SUB ICONS ONLY IF EXPANDED */}
+                    {item.hasSubmenu &&
+                      expandedItems.includes(item.id) &&
+                      item.submenu?.map((sub) => (
+                        <Tooltip key={sub.id}>
+                          <TooltipTrigger asChild>
+                            <button
+                              onClick={() => handleNavigate(sub.id)}
+                              className="w-full flex items-center justify-center p-2 rounded-sm bg-sidebar-accent transition-colors"
+                            >
+                              <sub.icon className="w-5 h-5 text-muted-foreground" />
+                            </button>
+                          </TooltipTrigger>
+                          <TooltipContent side="right">
+                            {sub.label}
+                          </TooltipContent>
+                        </Tooltip>
+                      ))}
+                  </div>
+                ) : (
+
+
+                  <>
+                    <button
+                      onClick={() => item.hasSubmenu && toggleExpand(item.id)}
+                      className="w-full flex items-center gap-3 px-3 py-2.5 rounded-sm bg-sidebar-accent hover:hvr-btn"
+                    >
+                      <item.icon className={cn("w-5 h-5", item.color)} />
+                      <span className="flex-1 text-sm font-medium">{item.label}</span>
+
+                      {item.hasSubmenu && (
+                        <ChevronDown
+                          className={cn(
+                            "w-4 h-4 transition-transform",
+                            expandedItems.includes(item.id) && "rotate-180"
+                          )}
+                        />
+                      )}
+                    </button>
+
+                    <AnimatePresence>
+                      {item.hasSubmenu && expandedItems.includes(item.id) && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          className="overflow-hidden bg-sidebar-accent rounded-sm"
+                        >
+                          {item.submenu?.map((sub) => (
+                            <button
+                              key={sub.id}
+                              onClick={() => handleNavigate(sub.id)}
+                              className="w-full flex items-center gap-2 px-3 py-1.5 text-sm hover:bg-sidebar-accent/50"
+                            >
+                              <sub.icon className="w-4 h-4" />
+                              {sub.label}
+                            </button>
+                          ))}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </>
+
+                )}
+              </div>
+            ))}
+            <div className="my-3 bg-sidebar-accent transition-colors rounded-sm">
+              {midItems.map((item) => (
+                isCollapsed ? (
+                  <Tooltip key={item.id}>
                     <TooltipTrigger asChild>
                       <button
-                        onClick={() => item.submenu && handleNavigate(item.submenu[0].id)}
+                        onClick={() => handleNavigate(item.id)}
                         className={cn(
-                          "w-full flex items-center justify-center p-2 rounded-sm bg-sidebar-accent transition-colors",
-                          "hover: hvr-btn",
-                          expandedItems.includes(item.id) && "bg-sidebar-accent"
+                          "w-full flex items-center justify-center p-2.5 rounded-sm",
+                          "hover: hvr-btn"
                         )}
                       >
                         <item.icon className={cn("w-5 h-5", item.color)} />
@@ -276,56 +379,23 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                     </TooltipContent>
                   </Tooltip>
                 ) : (
-                  <>
-                    <button
-                      onClick={() => item.hasSubmenu && toggleExpand(item.id)}
-                      className={cn(
-                        "w-full flex items-center gap-3 px-3 py-2.5 rounded-sm bg-sidebar-accent transition-colors",
-                        "hover: hvr-btn",
-                        "text-left group"
-                      )}
-                    >
-                      <item.icon className={cn("w-5 h-5", item.color)} />
-                      <span className="flex-1 text-sm text-sidebar-foreground font-medium">
-                        {item.label}
-                      </span>
-                      {item.hasSubmenu && (
-                        <ChevronDown
-                          className={cn(
-                            "w-4 h-4 text-muted-foreground transition-transform",
-                            expandedItems.includes(item.id) && "rotate-180"
-                          )}
-                        />
-                      )}
-                    </button>
-                    <AnimatePresence>
-                      {item.hasSubmenu && item.submenu && expandedItems.includes(item.id) && (
-                        <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: "auto", opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          className="overflow-hidden"
-                        >
-                          <div className="pl-6 py-1 space-y-1">
-                            {item.submenu.map((sub) => (
-                              <button
-                                key={sub.id}
-                                onClick={() => handleNavigate(sub.id)}
-                                className="w-full flex items-center gap-2 text-left text-sm text-muted-foreground hover:text-foreground py-1.5 px-3 rounded-sm hover:bg-sidebar-accent/50 transition-colors"
-                              >
-                                <sub.icon className="w-4 h-4" />
-                                {sub.label}
-                              </button>
-                            ))}
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </>
-                )}
-              </div>
-            ))}
+                  <button
+                    key={item.id}
+                    onClick={() => handleNavigate(item.id)}
+                    className={cn(
+                      "w-full flex items-center gap-3 px-3 py-2.5 rounded-sm ",
+                      "hover: hvr-btn"
+                    )}
+                  >
+                    <item.icon className={cn("w-5 h-5", item.color)} />
+                    <span className="flex-1 text-sm text-sidebar-foreground font-medium text-left">
+                      {item.label}
+                    </span>
+                  </button>
+                )
+              ))}
 
+            </div>
             <div className="my-3 bg-sidebar-accent transition-colors rounded-sm">
               {bottomItems.map((item) => (
                 isCollapsed ? (
@@ -368,7 +438,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
           </nav>
           {/* App Promo - Hidden when collapsed */}
           {!isCollapsed && (
-            <div className="p-3 mx-3 rounded-sm bg-secondary/50 flex gap-3 items-center">
+            <div className="p-3 mx-2 rounded-sm bg-secondary/50 flex items-center">
               <div className="flex items-center gap-3 w-full">
                 <div className="min-w-0">
                   <p className="text-sm text-foreground truncate font-bold">
@@ -388,7 +458,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
             </div>
 
           )}
-          <div className={cn("flex-1 p-3 space-y-1", isCollapsed && "px-2")}>
+          <div className={cn("flex-1 px-2 py-1 space-y-1", isCollapsed && "px-2")}>
             {extremBottom.map((item) => (
               <div key={item.id}>
                 {isCollapsed ? (
@@ -403,7 +473,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                           }
                         }}
                         className={cn(
-                          "w-full flex items-center justify-center p-2.5 rounded-sm bg-sidebar-accent transition-colors",
+                          "flex items-center justify-center p-2.5 rounded-sm bg-sidebar-accent transition-colors",
                           "hover: hvr-btn",
                           expandedItems.includes(item.id) && "bg-sidebar-accent"
                         )}

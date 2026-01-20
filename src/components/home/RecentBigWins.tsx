@@ -42,7 +42,7 @@ const RecentBigWins = () => {
           <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
           <h2 className="text-sm font-bold text-foreground">Recent Big Wins</h2>
         </div>
-        <div className="flex items-center gap-2">
+        {/* <div className="flex items-center gap-2">
           {categories.map((cat) => (
             <button
               key={cat}
@@ -57,7 +57,7 @@ const RecentBigWins = () => {
               {cat}
             </button>
           ))}
-        </div>
+        </div> */}
       </div>
 
       {/* Continuous Marquee */}

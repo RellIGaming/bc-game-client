@@ -42,6 +42,7 @@ const Index = ({ isLoggedIn, setIsLoggedIn }: IndexProps) => {
   const [signInOpen, setSignInOpen] = useState(false);
   const [resetPasswordOpen, setResetPasswordOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("casino");
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     document.documentElement.classList.remove("light");
@@ -52,7 +53,9 @@ const Index = ({ isLoggedIn, setIsLoggedIn }: IndexProps) => {
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth >= 1024) {
+      const mobile = window.innerWidth < 1024;
+      setIsMobile(mobile);
+      if (!mobile) {
         setSidebarOpen(true);
       } else {
         setSidebarOpen(false);
@@ -72,8 +75,15 @@ const Index = ({ isLoggedIn, setIsLoggedIn }: IndexProps) => {
   const handleLogin = () => { setSignInOpen(false); setIsLoggedIn(true); };
   const handleLogout = () => { setIsLoggedIn(false); };
 
+  // Calculate margin based on sidebar state - no margin on mobile since sidebar is overlay
+  const getMainMargin = () => {
+    if (isMobile) return 0;
+    if (!sidebarOpen) return 0;
+    return sidebarCollapsed ? 64 : 240;
+  };
+
   return (
-    <div className="min-h-screen bg-background">
+    <div className="h-screen flex flex-col overflow-hidden bg-background">
       <Header
         onMenuClick={() => setSidebarOpen(!sidebarOpen)}
         onSearchClick={() => setSearchOpen(true)}
@@ -92,7 +102,7 @@ const Index = ({ isLoggedIn, setIsLoggedIn }: IndexProps) => {
         }}
       />
 
-      <div className="flex pt-14">
+      <div className="flex flex-1 pt-14 overflow-hidden">
         <Sidebar
           isOpen={sidebarOpen}
           isCollapsed={sidebarCollapsed}
@@ -103,14 +113,14 @@ const Index = ({ isLoggedIn, setIsLoggedIn }: IndexProps) => {
         />
 
         <main 
-          className="flex-1 min-w-0 pb-20 lg:pb-0 transition-all duration-300"
-          style={{ marginLeft: sidebarOpen ? (sidebarCollapsed ? 64 : 240) : 0 }}
+          className="flex-1 min-w-0 pb-20 lg:pb-0 transition-all duration-300 overflow-y-auto custom-scrollbar"
+          style={{ marginLeft: getMainMargin() }}
         >
           <div className="px-3 lg:px-6 py-4 lg:py-5 space-y-5 lg:space-y-6">
             <HeroSection onSignUp={() => setSignUpOpen(true)} />
             <RecentBigWins />
             <CategoryCards />
-            <BCOriginals />
+            <BCOriginals  />
             <LiveSports />
             <BCExclusive />
             <Slots />

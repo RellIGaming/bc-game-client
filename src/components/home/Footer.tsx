@@ -1,4 +1,4 @@
-import bcLogo from "@/assets/images/bc-logo.svg";
+import bcLogo from "../../assets/images/logo.png";
 import { Github, Globe, Icon, Mail, MessageCircle, Phone, Send, Share2 } from "lucide-react";
 
 const Footer = () => {
@@ -89,9 +89,9 @@ const Footer = () => {
         </div>
 
         {/* Social & Community */}
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-6 py-4 border-t border-border/30">
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-6 py-4 border-t border-b border-border/30">
           <div className="flex items-center gap-3">
-            <img src={bcLogo} alt="Rellbet" className="h-6 w-auto" />
+            <img src={bcLogo} alt="Rellbet" className="w-6 h-6 w-auto" />
           </div>
 
           <div className="flex flex-col sm:flex-row items-center gap-4">

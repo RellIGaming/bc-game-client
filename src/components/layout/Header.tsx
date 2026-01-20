@@ -134,12 +134,12 @@ const Header = ({
             </div>
 
             {/* Chat/Monitor Icon */}
-            <button
+            {/* <button
               onClick={onChatClick}
               className="hidden lg:flex p-2 rounded-sm bg-secondary transition-all hvr-btn btn-press"
             >
               <Monitor className="w-5 h-5 text-muted-foreground" />
-            </button>
+            </button> */}
 
             {/* Notification Bell */}
             <div className="relative">

@@ -6,62 +6,59 @@
 
 @layer base {
   :root {
-    /* Stake-inspired dark blue-gray theme */
-    --background: 200 25% 14%;
-    --foreground: 0 0% 98%;
+    /* Stake-inspired dark navy theme */
+    --background: 213 32% 12%;
+    --foreground: 210 20% 90%;
 
-    --card: 200 25% 17%;
-    --card-foreground: 0 0% 98%;
+    --card: 213 32% 15%;
+    --card-foreground: 210 20% 90%;
 
-    --popover: 200 25% 15%;
-    --popover-foreground: 0 0% 98%;
+    --popover: 213 32% 13%;
+    --popover-foreground: 210 20% 90%;
 
-    --primary: 207 90% 54%;
+    --primary: 160 84% 39%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 200 25% 22%;
-    --secondary-foreground: 0 0% 98%;
+    --secondary: 213 28% 18%;
+    --secondary-foreground: 210 20% 90%;
 
-    --muted: 200 20% 25%;
-    --muted-foreground: 200 15% 55%;
+    --muted: 213 25% 22%;
+    --muted-foreground: 213 15% 55%;
 
-    --accent: 207 90% 54%;
+    --accent: 160 84% 39%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 200 20% 22%;
-    --input: 200 25% 20%;
-    --ring: 207 90% 54%;
+    --border: 213 25% 20%;
+    --input: 213 30% 18%;
+    --ring: 160 84% 39%;
 
     --radius: 0.75rem;
 
-    /* --sidebar-background: 200 30% 12%; */
-    --sidebar-background: 203 36% 13%;
-    --sidebar-foreground: 0 0% 98%;
-    --sidebar-primary: 207 90% 54%;
+    /* Sidebar - slightly darker than body */
+    --sidebar-background: 213 35% 10%;
+    --sidebar-foreground: 210 20% 90%;
+    --sidebar-primary: 160 84% 39%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 200 25% 18%;
-    --sidebar-accent-foreground: 0 0% 98%;
-    --sidebar-border: 200 20% 22%;
-    --sidebar-ring: 207 90% 54%;
+    --sidebar-accent: 213 28% 16%;
+    --sidebar-accent-foreground: 210 20% 90%;
+    --sidebar-border: 213 25% 18%;
+    --sidebar-ring: 160 84% 39%;
 
     /* Custom gaming tokens - Stake style */
-    --gaming-green: 207 90% 54%;
-    --gaming-green-glow: 207 90% 65%;
-    /* --gaming-dark: 200 30% 11%; */
-    --gaming-dark: 203 36% 14%;
-    --gaming-card: 200 25% 16%;
-    --gaming-hover: 200 25% 20%;
-    /* --chat-bg: 200 25% 14%; */
-    --chat-bg: 203 36% 16%;
+    --gaming-green: 160 84% 39%;
+    --gaming-green-glow: 160 84% 50%;
+    --gaming-dark: 213 35% 10%;
+    --gaming-card: 213 32% 15%;
+    --gaming-hover: 213 28% 22%;
+    --chat-bg: 213 32% 14%;
     --gold: 45 93% 58%;
     --vip-purple: 270 60% 60%;
 
-    /* Header specific */
-    /* --header-bg: 200 30% 12%; */
-    --header-bg: 203 36% 13%;
+    /* Header specific - same as sidebar */
+    --header-bg: 213 35% 10%;
   }
 /* :root {
   --background: 203 36% 16%;
@@ -85,24 +82,24 @@
 
   .light {
     --background: 210 20% 96%;
-    --foreground: 200 25% 15%;
+    --foreground: 213 32% 12%;
 
     --card: 0 0% 100%;
-    --card-foreground: 200 25% 15%;
+    --card-foreground: 213 32% 12%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 200 25% 15%;
+    --popover-foreground: 213 32% 12%;
 
-    --primary: 207 90% 50%;
+    --primary: 160 84% 39%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 210 15% 92%;
-    --secondary-foreground: 200 25% 15%;
+    --secondary-foreground: 213 32% 12%;
 
     --muted: 210 15% 90%;
-    --muted-foreground: 200 15% 40%;
+    --muted-foreground: 213 15% 40%;
 
-    --accent: 207 90% 50%;
+    --accent: 160 84% 39%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
@@ -110,19 +107,19 @@
 
     --border: 210 15% 85%;
     --input: 210 15% 90%;
-    --ring: 207 90% 50%;
+    --ring: 160 84% 39%;
 
     --sidebar-background: 210 20% 96%;
-    --sidebar-foreground: 200 25% 15%;
-    --sidebar-primary: 207 90% 50%;
+    --sidebar-foreground: 213 32% 12%;
+    --sidebar-primary: 160 84% 39%;
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 210 15% 92%;
-    --sidebar-accent-foreground: 200 25% 15%;
+    --sidebar-accent-foreground: 213 32% 12%;
     --sidebar-border: 210 15% 85%;
-    --sidebar-ring: 207 90% 50%;
+    --sidebar-ring: 160 84% 39%;
 
-    --gaming-green: 207 90% 50%;
-    --gaming-green-glow: 207 90% 60%;
+    --gaming-green: 160 84% 39%;
+    --gaming-green-glow: 160 84% 50%;
     --gaming-dark: 210 20% 96%;
     --gaming-card: 0 0% 100%;
     --gaming-hover: 210 15% 92%;

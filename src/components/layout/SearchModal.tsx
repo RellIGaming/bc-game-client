@@ -126,7 +126,7 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
 
               {/* Search Bar */}
               <div className="p-4 pt-0">
-                <div className="flex items-center gap-3 bg-secondary rounded-xl px-4 py-3">
+                <div className="flex items-center gap-3 bg-secondary rounded-xl px-4 py-1 transition-all duration-200 focus-within:ring-1 focus-within:ring-primary focus-within:bg-primary/10">
                   <div className="flex items-center gap-2 text-sm font-medium text-foreground">
                     Casino
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -139,7 +139,7 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                     placeholder="Search games"
-                    className="flex-1 bg-transparent border-none p-0 h-auto text-sm focus-visible:ring-0"
+                    className="flex-1 bg-transparent border-none p-2 h-auto text-sm focus-visible:ring-0"
                   />
                 </div>
               </div>
