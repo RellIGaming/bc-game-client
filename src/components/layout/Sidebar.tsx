@@ -52,17 +52,20 @@ const menuItems = [
     hasSubmenu: true,
     color: "text-primary",
     submenu: [
-      { id: "originals", label: "BC Originals", icon: Sparkles },
+      { id: "lobby", label: "Lobby", icon: Sparkles },
       { id: "hot-games", label: "Hot Games", icon: Flame },
       { id: "slots", label: "Slots", icon: LayoutGrid },
+      { id: "game Shows", label: "Game Shows", icon: CircleDot },
       { id: "live-casino", label: "Live Casino", icon: CircleDot },
+      { id: "bonus Buy", label: "Bonus Buy", icon: CircleDot },
+      { id: "burst Games", label: "Burst Games", icon: CircleDot },
       { id: "new-releases", label: "New Releases", icon: Star },
-      { id: "blackjack", label: "Blackjack", icon: Spade },
-      { id: "roulette", label: "Roulette", icon: CircleDot },
-      { id: "baccarat", label: "Baccarat", icon: Dice1 },
       { id: "poker", label: "Poker", icon: Spade },
       { id: "bingo", label: "Bingo", icon: LayoutGrid },
       { id: "table-games", label: "Table Games", icon: Dice1 },
+      { id: "providers", label: "Providers", icon: Spade },
+      { id: "themes", label: "Themes", icon: CircleDot },
+      
     ],
   },
   {
@@ -72,7 +75,17 @@ const menuItems = [
     hasSubmenu: true,
     color: "text-primary",
     submenu: [
-      { id: "sports", label: "All Sports", icon: Trophy },
+       { id: "lobby", label: "Lobby", icon: Sparkles },
+       { id: "soccer", label: "Soccer", icon: Sparkles },
+       { id: "tennis", label: "Tennis", icon: Sparkles },
+       { id: "basketball", label: "Basketball", icon: Sparkles },
+       { id: "cricket", label: "Cricket", icon: Sparkles },
+       { id: "fIFA", label: "FIFA", icon: Sparkles },
+       { id: "american Football", label: "American Football", icon: Sparkles },
+      { id: "ice Hockey", label: "Ice Hockey", icon: Trophy },
+      { id: "baseball", label: "Baseball", icon: Trophy },
+      { id: "handball", label: "Handball", icon: Trophy },
+      { id: "racing", label: "Racing", icon: Trophy },
     ],
   },
   {
@@ -263,11 +276,11 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
           )} */}
 
           {/* Main Menu */}
-          <nav className={cn("flex-1 py-1 px-2  space-y-1", isCollapsed && "px-2")}>
+          <nav className={cn("flex-1 py-2 px-2  space-y-1", isCollapsed && "px-2")}>
             {menuItems.map((item) => (
               <div key={item.id}>
                 {isCollapsed ? (
-                  <div className="flex flex-col items-center gap-1">
+                  <div className="flex flex-col items-center gap-0">
                     {/* Parent icon */}
                     <Tooltip>
                       <TooltipTrigger asChild>
@@ -279,7 +292,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                           }
                           className={cn(
                             "w-full flex items-center justify-center p-2 rounded-sm bg-sidebar-accent transition-colors",
-                          "hover: hvr-btn",
+                            "hover: hvr-btn",
                             expandedItems.includes(item.id)
                               ? "bg-sidebar-accent"
                               : "hover:hvr-btn"
@@ -294,23 +307,25 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                     </Tooltip>
 
                     {/* ✅ SHOW SUB ICONS ONLY IF EXPANDED */}
-                    {item.hasSubmenu &&
-                      expandedItems.includes(item.id) &&
-                      item.submenu?.map((sub) => (
-                        <Tooltip key={sub.id}>
-                          <TooltipTrigger asChild>
-                            <button
-                              onClick={() => handleNavigate(sub.id)}
-                              className="w-full flex items-center justify-center p-2 rounded-sm bg-sidebar-accent transition-colors"
-                            >
-                              <sub.icon className="w-5 h-5 text-muted-foreground" />
-                            </button>
-                          </TooltipTrigger>
-                          <TooltipContent side="right">
-                            {sub.label}
-                          </TooltipContent>
-                        </Tooltip>
-                      ))}
+                    <div className="rounded-b-sm bg-sidebar-accent transition-colors">
+                      {item.hasSubmenu &&
+                        expandedItems.includes(item.id) &&
+                        item.submenu?.map((sub) => (
+                          <Tooltip key={sub.id}>
+                            <TooltipTrigger asChild>
+                              <button
+                                onClick={() => handleNavigate(sub.id)}
+                                 className="bg-sidebar-accent transition-colors w-full flex items-center justify-center p-2 rounded-sm hover: hvr-btn"
+                              >
+                                <sub.icon className="w-5 h-5 text-muted-foreground" />
+                              </button>
+                            </TooltipTrigger>
+                            <TooltipContent side="right">
+                              {sub.label}
+                            </TooltipContent>
+                          </Tooltip>
+                        ))}
+                    </div>
                   </div>
                 ) : (
 
@@ -345,10 +360,10 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                             <button
                               key={sub.id}
                               onClick={() => handleNavigate(sub.id)}
-                              className="w-full flex items-center gap-2 px-3 py-1.5 text-sm hover:bg-sidebar-accent/50"
+                              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-sm bg-sidebar-accent hover:hvr-btn"
                             >
-                              <sub.icon className="w-4 h-4" />
-                              {sub.label}
+                              <sub.icon className="w-5 h-5" />
+                               <span className="flex-1 text-sm font-medium">{sub.label}</span>
                             </button>
                           ))}
                         </motion.div>

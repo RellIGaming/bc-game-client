@@ -1,4 +1,4 @@
-import { Menu, Search, Gamepad2, Trophy, MessageSquare } from "lucide-react";
+import { Menu, Search, Gamepad2, Trophy, MessageSquare, Home } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface MobileNavProps {
@@ -10,11 +10,11 @@ interface MobileNavProps {
 }
 
 const tabs = [
-  { id: "menu", label: "Menu", icon: Menu },
-  { id: "explore", label: "Explore", icon: Search },
+  { id: "home", label: "Home", icon: Home },
   { id: "casino", label: "Casino", icon: Gamepad2 },
   { id: "sports", label: "Sports", icon: Trophy },
-  { id: "chat", label: "Chat", icon: MessageSquare },
+  { id: "explore", label: "Explore", icon: Search },
+  { id: "menu", label: "Menu", icon: Menu },
 ];
 
 const MobileNav = ({
