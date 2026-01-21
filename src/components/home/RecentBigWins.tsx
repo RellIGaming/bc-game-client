@@ -66,22 +66,23 @@ const RecentBigWins = () => {
           {duplicatedWins.map((win, index) => (
             <div
               key={`${win.id}-${index}`}
-              className="flex-shrink-0 w-16 lg:w-20 group cursor-pointer"
+              className="flex-shrink-0 w-16 lg:w-20 group cursor-pointer bg-card rounded-sm"
             >
-              <div className="relative aspect-square rounded-lg overflow-hidden mb-1 gaming-card-hover">
+              <div className="relative aspect-square rounded-sm overflow-hidden mb-1 gaming-card-hover">
                 <img 
                   src={win.image} 
                   alt={win.game}
                   className="absolute inset-0 w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
               </div>
+              <div className="p-2">
               <p className="text-[10px] text-muted-foreground truncate text-center">
                 👤 {win.user}
               </p>
               <p className="text-[10px] font-medium text-primary text-center truncate">
                 {win.amount} {win.currency}
               </p>
+              </div>
             </div>
           ))}
         </div>

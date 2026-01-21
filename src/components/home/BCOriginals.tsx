@@ -8,6 +8,7 @@ import card6 from "@/assets/images/card-6.png";
 import card7 from "@/assets/images/card-7.png";
 import card8 from "@/assets/images/card-8.png";
 import card9 from "@/assets/images/card-9.png";
+import { useState } from "react";
 
 const games = [
   { id: 1, name: "CRASH", multiplier: "999x", players: 2304, image: card7 },
@@ -22,6 +23,20 @@ const games = [
 
 const BCOriginals = () => {
   const navigate = useNavigate();
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const isMobile = window.innerWidth < 1024;
+
+  const ITEMS_PER_SLIDE = 4;
+  const maxIndex = Math.ceil(games.length / ITEMS_PER_SLIDE) - 1;
+
+  const next = () => {
+    setCurrentIndex((prev) => (prev < maxIndex ? prev + 1 : 0));
+  };
+
+  const prev = () => {
+    setCurrentIndex((prev) => (prev > 0 ? prev - 1 : maxIndex));
+  };
+
 
   return (
     <section className="space-y-4">
@@ -29,7 +44,7 @@ const BCOriginals = () => {
       <div className="flex items-center justify-between">
         <h2 className="text-lg font-bold text-foreground">BC Originals</h2>
         <div className="flex items-center gap-2">
-          <button 
+          <button
             onClick={() => navigate("/category/originals")}
             className="text-sm text-primary hover:underline"
           >
@@ -37,16 +52,20 @@ const BCOriginals = () => {
           </button>
           <div className="flex items-center gap-1">
             <button
-              className="p-1.5 rounded-lg bg-secondary hover:bg-secondary/80 transition-colors"
+              onClick={prev}
+              className="p-1.5 rounded-lg bg-secondary hover:bg-secondary/80"
             >
               <ChevronLeft className="w-4 h-4 text-muted-foreground" />
             </button>
+
             <button
-              className="p-1.5 rounded-lg bg-secondary hover:bg-secondary/80 transition-colors"
+              onClick={next}
+              className="p-1.5 rounded-lg bg-secondary hover:bg-secondary/80"
             >
               <ChevronRight className="w-4 h-4 text-muted-foreground" />
             </button>
           </div>
+
         </div>
       </div>
 
@@ -58,13 +77,13 @@ const BCOriginals = () => {
             className="rounded-xl overflow-hidden cursor-pointer group gaming-card-hover relative"
           >
             <div className="aspect-[3/4] relative">
-              <img 
-                src={game.image} 
+              <img
+                src={game.image}
                 alt={game.name}
                 className="absolute inset-0 w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-              
+
               {/* Multiplier Badge */}
               {game.multiplier && (
                 <div className="absolute top-2 left-2 bg-primary/90 text-primary-foreground text-[10px] font-bold px-1.5 py-0.5 rounded">
@@ -94,6 +113,7 @@ const BCOriginals = () => {
           </div>
         ))}
       </div>
+      
     </section>
   );
 };

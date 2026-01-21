@@ -26,6 +26,7 @@ import {
   LayoutGrid,
   HeadphoneOff,
   Globe,
+  DollarSign,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
@@ -65,7 +66,7 @@ const menuItems = [
       { id: "table-games", label: "Table Games", icon: Dice1 },
       { id: "providers", label: "Providers", icon: Spade },
       { id: "themes", label: "Themes", icon: CircleDot },
-      
+
     ],
   },
   {
@@ -75,39 +76,39 @@ const menuItems = [
     hasSubmenu: true,
     color: "text-primary",
     submenu: [
-       { id: "lobby", label: "Lobby", icon: Sparkles },
-       { id: "soccer", label: "Soccer", icon: Sparkles },
-       { id: "tennis", label: "Tennis", icon: Sparkles },
-       { id: "basketball", label: "Basketball", icon: Sparkles },
-       { id: "cricket", label: "Cricket", icon: Sparkles },
-       { id: "fIFA", label: "FIFA", icon: Sparkles },
-       { id: "american Football", label: "American Football", icon: Sparkles },
+      //  { id: "lobby", label: "Lobby", icon: Sparkles },
+      { id: "soccer", label: "Soccer", icon: Sparkles },
+      { id: "tennis", label: "Tennis", icon: Sparkles },
+      { id: "basketball", label: "Basketball", icon: Sparkles },
+      { id: "cricket", label: "Cricket", icon: Sparkles },
+      { id: "fIFA", label: "FIFA", icon: Sparkles },
+      { id: "american Football", label: "American Football", icon: Sparkles },
       { id: "ice Hockey", label: "Ice Hockey", icon: Trophy },
       { id: "baseball", label: "Baseball", icon: Trophy },
       { id: "handball", label: "Handball", icon: Trophy },
       { id: "racing", label: "Racing", icon: Trophy },
     ],
   },
-  {
-    id: "lottery",
-    label: "Lottery",
-    icon: Ticket,
-    hasSubmenu: true,
-    color: "text-primary",
-    submenu: [
-      { id: "lottery", label: "All Lottery", icon: Ticket },
-    ],
-  },
-  {
-    id: "crypto-futures",
-    label: "Crypto Futures",
-    icon: TrendingUp,
-    hasSubmenu: true,
-    color: "text-gold",
-    submenu: [
-      { id: "crypto-futures", label: "Crypto Futures", icon: TrendingUp },
-    ],
-  },
+  // {
+  //   id: "lottery",
+  //   label: "Lottery",
+  //   icon: Ticket,
+  //   hasSubmenu: true,
+  //   color: "text-primary",
+  //   submenu: [
+  //     { id: "lottery", label: "All Lottery", icon: Ticket },
+  //   ],
+  // },
+  // {
+  //   id: "crypto-futures",
+  //   label: "Crypto Futures",
+  //   icon: TrendingUp,
+  //   hasSubmenu: true,
+  //   color: "text-gold",
+  //   submenu: [
+  //     { id: "crypto-futures", label: "Crypto Futures", icon: TrendingUp },
+  //   ],
+  // },
 
 ];
 
@@ -126,8 +127,8 @@ const midItems = [
     hasSubmenu: false,
     color: "text-gold",
   }, {
-    id: "raffel",
-    label: "Weekly Ruffle",
+    id: "lucky",
+    label: "Lucky Tickets",
     icon: Gift,
     hasSubmenu: false,
     color: "text-gold",
@@ -139,18 +140,13 @@ const bottomItems = [
   { id: "bonus", label: "Bonus", icon: Coins, color: "text-foreground" },
   { id: "referral", label: "Referral", icon: Users, color: "text-foreground" },
   {
-    id: "forum",
-    label: "Forum",
-    icon: MessageCircle,
+    id: "fair",
+    label: "Provably Fair",
+    icon: Shield,
     external: true,
     color: "text-foreground",
   },
-  {
-    id: "provably-fair",
-    label: "Provably Fair",
-    icon: Shield,
-    color: "text-foreground",
-  },
+
   {
     id: "responsible-gambling",
     label: "Responsible Gambling",
@@ -175,14 +171,14 @@ const extremBottom = [
     ],
   }, {
     id: "live",
-    label: "Live Support",
+    label: "Live Support 24/7",
     icon: HeadphoneOff,
   },
-  // {
-  //   id: "application",
-  //   label: "Application",
-  //   icon: mobileSc,
-  // },
+  {
+    id: "currency",
+    label: "Currency",
+    icon: DollarSign,
+  },
   {
     id: "language",
     label: "English",
@@ -194,6 +190,7 @@ const extremBottom = [
 const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLanguageClick }: SidebarProps) => {
   const [expandedItems, setExpandedItems] = useState<string[]>([]);
   const navigate = useNavigate();
+  const isMobile = window.innerWidth < 1024;
 
   const toggleExpand = (id: string) => {
     setExpandedItems((prev) =>
@@ -208,7 +205,12 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
     }
   };
 
-  const sidebarWidth = isCollapsed ? 70 : 240;
+  // const sidebarWidth = isCollapsed ? 70 : 240;
+  const sidebarWidth = isMobile
+    ? "100vw"
+    : isCollapsed
+      ? 70
+      : 240;
 
   return (
     <>
@@ -243,14 +245,14 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
 
 
           {/* Token Price */}
-          {/* {!isCollapsed ? (
+          {!isCollapsed ? (
             <div className="mx-3 mt-3 p-3 rounded-sm bg-secondary/30 flex items-center gap-3">
               <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
-                <span className="text-primary-foreground font-bold text-sm">G</span>
+                <span className="text-primary-foreground font-bold text-sm">L</span>
               </div>
               <div className="flex-1">
                 <div className="flex items-center gap-2">
-                  <span className="text-sm font-medium text-foreground">G Token</span>
+                  <span className="text-sm font-medium text-foreground">Live Stats</span>
                   <span className="text-xs text-destructive">↓ 6.80%</span>
                 </div>
                 <p className="text-xs text-muted-foreground">$0.00777</p>
@@ -260,27 +262,27 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
             <Tooltip>
               <TooltipTrigger asChild>
                 <div className="mx-2 mt-3 p-2 rounded-sm bg-secondary/30 flex items-center justify-center cursor-pointer">
-                  <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
-                    <span className="text-primary-foreground font-bold text-sm">G</span>
+                  <div className="w-5 h-5 rounded-full bg-primary flex items-center justify-center">
+                    <span className="text-primary-foreground font-bold text-sm">L</span>
                   </div>
                 </div>
               </TooltipTrigger>
               <TooltipContent side="right" className="bg-card border-border">
                 <div className="flex items-center gap-2">
-                  <span className="text-sm font-medium">G Token</span>
+                  <span className="text-sm font-medium">Live Stats</span>
                   <span className="text-xs text-destructive">↓ 6.80%</span>
                 </div>
                 <p className="text-xs text-muted-foreground">$0.00777</p>
               </TooltipContent>
             </Tooltip>
-          )} */}
+          )}
 
           {/* Main Menu */}
-          <nav className={cn("flex-1 py-2 px-2  space-y-1", isCollapsed && "px-2")}>
+          <nav className={cn(" py-2 px-2  space-y-1", isCollapsed && "px-2")}>
             {menuItems.map((item) => (
               <div key={item.id}>
                 {isCollapsed ? (
-                  <div className="flex flex-col items-center gap-0">
+                  <div className="flex flex-col items-center gap-1">
                     {/* Parent icon */}
                     <Tooltip>
                       <TooltipTrigger asChild>
@@ -307,7 +309,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                     </Tooltip>
 
                     {/* ✅ SHOW SUB ICONS ONLY IF EXPANDED */}
-                    <div className="rounded-b-sm bg-sidebar-accent transition-colors">
+                    <div className="rounded-b-sm bg-sidebar-accent transition-colors mt-[-5px]">
                       {item.hasSubmenu &&
                         expandedItems.includes(item.id) &&
                         item.submenu?.map((sub) => (
@@ -315,7 +317,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                             <TooltipTrigger asChild>
                               <button
                                 onClick={() => handleNavigate(sub.id)}
-                                 className="bg-sidebar-accent transition-colors w-full flex items-center justify-center p-2 rounded-sm hover: hvr-btn"
+                                className="bg-sidebar-accent transition-colors w-full flex items-center justify-center p-2 rounded-sm hover: hvr-btn"
                               >
                                 <sub.icon className="w-5 h-5 text-muted-foreground" />
                               </button>
@@ -333,15 +335,15 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                   <>
                     <button
                       onClick={() => item.hasSubmenu && toggleExpand(item.id)}
-                      className="w-full flex items-center gap-3 px-3 py-2.5 rounded-sm bg-sidebar-accent hover:hvr-btn"
+                              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-sm bg-sidebar-accent hover:hvr-btn"
                     >
                       <item.icon className={cn("w-5 h-5", item.color)} />
-                      <span className="flex-1 text-sm font-medium">{item.label}</span>
+                      <span className="text-sm font-medium">{item.label}</span>
 
                       {item.hasSubmenu && (
                         <ChevronDown
                           className={cn(
-                            "w-4 h-4 transition-transform",
+                          "w-4 h-4 transition-transform ml-auto",
                             expandedItems.includes(item.id) && "rotate-180"
                           )}
                         />
@@ -354,7 +356,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                           initial={{ height: 0, opacity: 0 }}
                           animate={{ height: "auto", opacity: 1 }}
                           exit={{ height: 0, opacity: 0 }}
-                          className="overflow-hidden bg-sidebar-accent rounded-sm"
+                          className="overflow-hidden bg-sidebar-accent rounded-b-sm mt-[-4px]"
                         >
                           {item.submenu?.map((sub) => (
                             <button
@@ -363,7 +365,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                               className="w-full flex items-center gap-3 px-3 py-2.5 rounded-sm bg-sidebar-accent hover:hvr-btn"
                             >
                               <sub.icon className="w-5 h-5" />
-                               <span className="flex-1 text-sm font-medium">{sub.label}</span>
+                              <span className="text-sm font-medium">{sub.label}</span>
                             </button>
                           ))}
                         </motion.div>
@@ -453,7 +455,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
           </nav>
           {/* App Promo - Hidden when collapsed */}
           {!isCollapsed && (
-            <div className="p-3 mx-2 rounded-sm bg-secondary/50 flex items-center">
+            <div className="p-3 mx-2 rounded-sm bg-secondary/50 flex items-center mb-1">
               <div className="flex items-center gap-3 w-full">
                 <div className="min-w-0">
                   <p className="text-sm text-foreground truncate font-bold">
@@ -537,7 +539,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                           exit={{ height: 0, opacity: 0 }}
                           className="overflow-hidden"
                         >
-                          <div className="pl-6 py-1 space-y-1">
+                          <div className="py-1 space-y-1">
                             {item.submenu.map((sub) => (
                               <button
                                 key={sub.id}

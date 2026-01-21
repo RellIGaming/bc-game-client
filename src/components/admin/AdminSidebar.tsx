@@ -14,10 +14,9 @@ import {
   ChevronDown,
   ChevronRight,
   LogOut,
-  Menu,
   X,
 } from "lucide-react";
-import Logo from "@/components/ui/Logo";
+import logo from "@/assets/images/logo.png";
 
 interface MenuItem {
   id: string;
@@ -131,14 +130,19 @@ const AdminSidebar = ({ isMobileOpen, onMobileClose }: AdminSidebarProps) => {
     return location.pathname === path;
   };
 
+  const handleLogoClick = () => {
+    navigate("/");
+    window.location.reload();
+  };
+
   const sidebarContent = (
     <div className="flex flex-col h-full">
       {/* Logo */}
       <div className="p-4 border-b border-border flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <Logo />
-          <span className="font-bold text-foreground">Admin</span>
-        </div>
+        <button onClick={handleLogoClick} className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity">
+          <img src={logo} alt="Rellbet" className="w-6 h-6" />
+          <span className="font-bold text-foreground">Rellbet Admin</span>
+        </button>
         <button
           onClick={onMobileClose}
           className="lg:hidden p-2 hover:bg-secondary/50 rounded-lg"
@@ -279,11 +283,14 @@ const AdminSidebar = ({ isMobileOpen, onMobileClose }: AdminSidebarProps) => {
   return (
     <>
       {/* Desktop Sidebar */}
-      <aside className="hidden lg:block fixed left-0 top-0 h-full w-64 bg-card border-r border-border z-40">
+      <aside 
+        className="hidden lg:block fixed left-0 top-0 h-full w-64 bg-sidebar z-40"
+        style={{ boxShadow: "4px 0 15px rgba(0, 0, 0, 0.3)" }}
+      >
         {sidebarContent}
       </aside>
 
-      {/* Mobile Sidebar */}
+      {/* Mobile Sidebar - Full Width */}
       <AnimatePresence>
         {isMobileOpen && (
           <>
@@ -299,7 +306,8 @@ const AdminSidebar = ({ isMobileOpen, onMobileClose }: AdminSidebarProps) => {
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
               transition={{ type: "tween", duration: 0.3 }}
-              className="fixed left-0 top-0 h-full w-full sm:w-80 bg-card border-r border-border z-50 lg:hidden"
+              className="fixed left-0 top-0 h-full w-full bg-sidebar z-50 lg:hidden"
+              style={{ boxShadow: "4px 0 15px rgba(0, 0, 0, 0.3)" }}
             >
               {sidebarContent}
             </motion.aside>

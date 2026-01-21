@@ -122,7 +122,7 @@ const LiveBetsTable = () => {
               <tr
                 key={`${bet.id}-${index}`}
                 className={`border-b border-border hover:bg-secondary/30 transition-colors ${
-                  index % 2 === 0 ? "bg-secondary/10" : ""
+                  index % 2 === 0 ? "bg-secondary/20" : "bg-card"
                 }`}
               >
                 <td className="p-3">

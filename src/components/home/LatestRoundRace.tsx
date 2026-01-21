@@ -12,8 +12,6 @@ const bets = [
   { id: 6, game: "Tower Legend", player: "Me0in",time:"12:50", amount: "40.43", currency: "USDT", multiplier: "0.00x", profit: "-82.727", profitCurrency: "USDT", isWin: false },
   { id: 7, game: "News Uphos", player: "PinkoPatent",time:"12:50", amount: "461.64", currency: "USDT", multiplier: "2.24x", profit: "+25.79", profitCurrency: "USDT", isWin: true },
   { id: 8, game: "Argentine Messi", player: "Bitcoin031",time:"12:50", amount: "993.93", currency: "USDT", multiplier: "2.08x", profit: "+25.001", profitCurrency: "USDT", isWin: true },
-  { id: 9, game: "Argentine Messi", player: "Bitcoin031",time:"12:50", amount: "993.93", currency: "USDT", multiplier: "0.00x", profit: "-988193.77", profitCurrency: "USDT", isWin: false },
-  { id: 10, name: "Piggy Bank Shift", player: "ThreaterolS1",time:"12:50", amount: "990.231", currency: "USDT", multiplier: "0.00x", profit: "-998293.93", profitCurrency: "USDT", isWin: false },
   { id: 11, game: "Fortune Time", player: "6hisao",time:"12:50", amount: "68.64", currency: "ETH", multiplier: "0.00x", profit: "-0.01438192", profitCurrency: "ETH", isWin: false },
 ];
 
@@ -25,7 +23,7 @@ const LatestRoundRace = () => {
       {/* Header */}
       <div className="flex items-center justify-between flex-wrap gap-4">
         <h2 className="text-lg font-bold text-foreground">Latest round & Race</h2>
-        <div className="flex items-center gap-1 bg-secondary/50 p-1 rounded-lg">
+        {/* <div className="flex items-center gap-1 bg-secondary/50 p-1 rounded-lg">
           {tabs.map((tab) => (
             <button
               key={tab}
@@ -40,7 +38,7 @@ const LatestRoundRace = () => {
               {tab}
             </button>
           ))}
-        </div>
+        </div> */}
       </div>
 
       {/* Table */}
@@ -57,10 +55,13 @@ const LatestRoundRace = () => {
 
         {/* Data Rows */}
         <div className="divide-y divide-border/30 max-h-[400px] overflow-y-auto custom-scrollbar">
-          {bets.map((bet) => (
+          {bets.map((bet, index) => (
             <div
               key={bet.id}
-              className="grid grid-cols-6 gap-4 p-3 text-xs hover:bg-secondary/20 transition-colors"
+              className={cn(
+                "grid grid-cols-6 gap-4 p-3 text-xs hover:bg-secondary/30 transition-colors",
+                index % 2 === 0 ? "bg-[#213743]" : "bg-card"
+              )}
             >
               <span className="text-foreground truncate">{bet.game}</span>
               <span className="text-right text-muted-foreground ">{bet.player}</span>

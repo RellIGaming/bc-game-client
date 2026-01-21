@@ -117,7 +117,7 @@ const Index = ({ isLoggedIn, setIsLoggedIn }: IndexProps) => {
           style={{ marginLeft: getMainMargin() }}
         >
           <div className="px-3 lg:px-6 py-4 lg:py-5 space-y-5 lg:space-y-6">
-            <HeroSection onSignUp={() => setSignUpOpen(true)} />
+            <HeroSection onSignUp={() => setSignUpOpen(true)}  isLoggedIn={isLoggedIn} />
             <RecentBigWins />
             <CategoryCards />
             <BCOriginals  />

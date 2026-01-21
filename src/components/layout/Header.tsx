@@ -1,8 +1,9 @@
-import { Menu, Search, Globe, MessageSquare, ChevronLeft, ChevronRight, ChevronDown, Gift, Monitor, Bell } from "lucide-react";
+import { Search, Globe, MessageSquare, ChevronLeft, ChevronRight, ChevronDown, Gift, Bell, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import logo from "../../assets/images/logo.png";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import BonusDropdown from "@/components/header/BonusDropdown";
 import NotificationDropdown from "@/components/header/NotificationDropdown";
 import ProfileDropdown from "@/components/header/ProfileDropdown";
@@ -38,6 +39,7 @@ const Header = ({
   isLoggedIn = false,
   onLogout,
 }: HeaderProps) => {
+  const navigate = useNavigate();
   const [depositOpen, setDepositOpen] = useState(false);
   const [bonusOpen, setBonusOpen] = useState(false);
   const [notificationOpen, setNotificationOpen] = useState(false);
@@ -48,6 +50,12 @@ const Header = ({
     setBonusOpen(false);
     setBonusDashboardOpen(true);
   };
+
+  const handleLogoClick = () => {
+    navigate("/");
+    window.location.reload();
+  };
+
   return (
     <> 
     <header
@@ -55,15 +63,7 @@ const Header = ({
       style={{ boxShadow: "0 4px 15px rgba(0, 0, 0, 0.3)" }}
     >
       <div className="flex items-center gap-2 lg:gap-4 flex-1">
-        {/* Menu Toggle */}
-        <button
-          onClick={onMenuClick}
-          className="hvr-btn p-2 rounded-sm  transition-colors lg:hidden"
-        >
-          <Menu className="w-5 h-5 text-foreground" />
-        </button>
-
-        {/* Collapse Toggle for Desktop */}
+        {/* Collapse Toggle for Desktop only */}
         <button
           onClick={onToggleCollapse}
           className="hidden lg:flex p-2 rounded-sm bg-secondary transition-colors hover:bg-secondary transition-colors"
@@ -74,28 +74,31 @@ const Header = ({
             <ChevronLeft className="w-5 h-5 text-foreground" />
           )}
         </button>
-        <div className="flex flex-row">
+        
+        {/* Logo - Clickable to refresh and go home */}
+        <button onClick={handleLogoClick} className="flex flex-row items-center cursor-pointer hover:opacity-80 transition-opacity">
           <img src={logo} alt="logo" className="w-6 h-6 mr-2" />
-          <span>Rellbet</span>
-        </div>
+          <span className="text-foreground font-semibold">Rellbet</span>
+        </button>
       </div>
 
       {/* Right Actions */}
       <div className="flex items-center gap-1 lg:gap-2">
-        {/* Search */}
+        {/* Search - desktop only */}
         <button
           onClick={onSearchClick}
-          className="hvr-btn btn-press p-2 rounded-sm bg-secondary transition-colors hover:bg-secondary transition-colors"
+          className="hvr-btn btn-press hidden lg:flex p-2 rounded-sm bg-secondary transition-colors hover:bg-secondary"
         >
           <Search className="w-5 h-5 text-muted-foreground" />
         </button>
- {isLoggedIn ? (
+        
+        {isLoggedIn ? (
           <>
-            {/* Balance Dropdown */}
-            <div className="relative">
+            {/* Balance Dropdown - desktop only */}
+            <div className="relative hidden lg:block">
               <button
                 onClick={() => setDepositOpen(!depositOpen)}
-                className="hidden sm:flex items-center gap-2 bg-secondary rounded-lg px-3 py-1 hover:bg-secondary/80 transition-colors"
+                className="flex items-center gap-2 bg-secondary rounded-lg px-3 py-1 hover:bg-secondary/80 transition-colors"
               >
                 <span className="text-primary text-lg">₿</span>
                 <span className="text-foreground font-medium">₹0.00</span>
@@ -108,18 +111,25 @@ const Header = ({
               />
             </div>
 
-            {/* Deposit Button */}
+            {/* Mobile Balance Field */}
+            <div className="flex lg:hidden items-center gap-1 bg-secondary rounded-lg px-2 py-1">
+              <span className="text-primary text-sm">₿</span>
+              <span className="text-foreground text-xs font-medium">₹0.00</span>
+            </div>
+
+            {/* Deposit Button - + icon on mobile, "Deposit" on desktop */}
             <Button
-              className="hvr-btn text-primary-foreground hover:bg-primary/90 font-semibold px-4 lg:px-6 btn-press"
+              className="hvr-btn text-primary-foreground hover:bg-primary/90 font-semibold px-2 lg:px-6 btn-press"
             >
-              Deposit
+              <Plus className="w-5 h-5 lg:hidden" />
+              <span className="hidden lg:inline">Deposit</span>
             </Button>
 
-            {/* Bonus/Gift Icon */}
-            <div className="relative">
+            {/* Bonus/Gift Icon - desktop only */}
+            <div className="relative hidden lg:block">
               <button
                 onClick={() => setBonusOpen(!bonusOpen)}
-                className="hidden lg:flex p-2 rounded-sm bg-secondary transition-all hvr-btn btn-press relative"
+                className="flex p-2 rounded-sm bg-secondary transition-all hvr-btn btn-press relative"
               >
                 <Gift className="w-5 h-5 text-muted-foreground" />
                 <span className="absolute -top-1 -right-1 w-4 h-4 bg-primary text-primary-foreground text-xs rounded-full flex items-center justify-center">
@@ -133,19 +143,11 @@ const Header = ({
               />
             </div>
 
-            {/* Chat/Monitor Icon */}
-            {/* <button
-              onClick={onChatClick}
-              className="hidden lg:flex p-2 rounded-sm bg-secondary transition-all hvr-btn btn-press"
-            >
-              <Monitor className="w-5 h-5 text-muted-foreground" />
-            </button> */}
-
-            {/* Notification Bell */}
-            <div className="relative">
+            {/* Notification Bell - desktop only */}
+            <div className="relative hidden lg:block">
               <button
                 onClick={() => setNotificationOpen(!notificationOpen)}
-                className="hidden lg:flex p-2 rounded-sm bg-secondary transition-all hvr-btn btn-press relative"
+                className="flex p-2 rounded-sm bg-secondary transition-all hvr-btn btn-press relative"
               >
                 <Bell className="w-5 h-5 text-muted-foreground" />
                 <span className="absolute -top-1 -right-1 w-4 h-4 bg-primary text-primary-foreground text-xs rounded-full flex items-center justify-center">
@@ -162,9 +164,9 @@ const Header = ({
             <div className="relative">
               <button
                 onClick={() => setProfileOpen(!profileOpen)}
-                className="w-9 h-9 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center overflow-hidden hover:ring-2 hover:ring-primary transition-all"
+                className="w-8 h-8 lg:w-9 lg:h-9 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center overflow-hidden hover:ring-2 hover:ring-primary transition-all"
               >
-                <span className="text-xl">🦁</span>
+                <span className="text-lg lg:text-xl">🦁</span>
               </button>
               <ProfileDropdown
                 isOpen={profileOpen}
@@ -175,39 +177,39 @@ const Header = ({
           </>
         ) : (
           <>
-        {/* Sign In */}
-        <Button
-          variant="ghost"
-          onClick={onSignInClick}
-          className="hvr-btn hidden sm:flex text-foreground bg-secondary transition-colors hover:bg-secondary btn-press"
-        >
-          Login
-        </Button>
+            {/* Sign In - Always visible */}
+            <Button
+              variant="ghost"
+              onClick={onSignInClick}
+              className="hvr-btn text-foreground bg-secondary transition-colors hover:bg-secondary btn-press text-xs lg:text-sm px-2 lg:px-4"
+            >
+              Login
+            </Button>
 
-        {/* Sign Up */}
-        <Button
-          onClick={onSignUpClick}
-          className="hvr-btn text-primary-foreground hover:bg-primary/90 font-semibold px-4 lg:px-6 btn-press"
-        >
-          Registration
-        </Button>
+            {/* Sign Up - Always visible */}
+            <Button
+              onClick={onSignUpClick}
+              className="hvr-btn text-primary-foreground hover:bg-primary/90 font-semibold px-3 lg:px-6 btn-press text-xs lg:text-sm"
+            >
+              Registration
+            </Button>
 
-        {/* Chat */}
-        <button
-          onClick={onChatClick}
-          className="hidden lg:flex p-2 rounded-sm bg-secondary transition-all hvr-btn btn-press"
-        >
-          <MessageSquare className="w-5 h-5 text-muted-foreground" />
-        </button>
+            {/* Chat - desktop only */}
+            {/* <button
+              onClick={onChatClick}
+              className="hidden lg:flex p-2 rounded-sm bg-secondary transition-all hvr-btn btn-press"
+            >
+              <MessageSquare className="w-5 h-5 text-muted-foreground" />
+            </button> */}
 
-        {/* Globe */}
-        <button 
-          onClick={onLanguageClick}
-          className="hvr-btn btn-press hidden lg:flex p-2 rounded-sm bg-secondary transition-colors hover:bg-secondary transition-colors"
-        >
-          <Globe className="w-5 h-5 text-muted-foreground" />
-        </button>
-        </>
+            {/* Globe - desktop only */}
+            <button 
+              onClick={onLanguageClick}
+              className="hvr-btn btn-press hidden lg:flex p-2 rounded-sm bg-secondary transition-colors hover:bg-secondary"
+            >
+              <Globe className="w-5 h-5 text-muted-foreground" />
+            </button>
+          </>
         )}
       </div>
     </header>

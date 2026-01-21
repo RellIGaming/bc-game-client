@@ -6,24 +6,24 @@
 
 @layer base {
   :root {
-    /* Stake-inspired dark navy theme */
-    --background: 213 32% 12%;
+    /* Stake.ac inspired darker theme */
+    --background: 220 20% 8%;
     --foreground: 210 20% 90%;
 
-    --card: 213 32% 15%;
+    --card: 220 20% 11%;
     --card-foreground: 210 20% 90%;
 
-    --popover: 213 32% 13%;
+    --popover: 220 20% 10%;
     --popover-foreground: 210 20% 90%;
 
     --primary: 160 84% 39%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 213 28% 18%;
+    --secondary: 220 18% 14%;
     --secondary-foreground: 210 20% 90%;
 
-    --muted: 213 25% 22%;
-    --muted-foreground: 213 15% 55%;
+    --muted: 220 15% 18%;
+    --muted-foreground: 220 10% 50%;
 
     --accent: 160 84% 39%;
     --accent-foreground: 0 0% 100%;
@@ -31,34 +31,34 @@
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 213 25% 20%;
-    --input: 213 30% 18%;
+    --border: 220 15% 16%;
+    --input: 220 18% 14%;
     --ring: 160 84% 39%;
 
     --radius: 0.75rem;
 
     /* Sidebar - slightly darker than body */
-    --sidebar-background: 213 35% 10%;
+    --sidebar-background: 220 22% 6%;
     --sidebar-foreground: 210 20% 90%;
     --sidebar-primary: 160 84% 39%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 213 28% 16%;
+    --sidebar-accent: 220 18% 12%;
     --sidebar-accent-foreground: 210 20% 90%;
-    --sidebar-border: 213 25% 18%;
+    --sidebar-border: 220 15% 14%;
     --sidebar-ring: 160 84% 39%;
 
     /* Custom gaming tokens - Stake style */
     --gaming-green: 160 84% 39%;
     --gaming-green-glow: 160 84% 50%;
-    --gaming-dark: 213 35% 10%;
-    --gaming-card: 213 32% 15%;
-    --gaming-hover: 213 28% 22%;
-    --chat-bg: 213 32% 14%;
+    --gaming-dark: 220 22% 6%;
+    --gaming-card: 220 20% 11%;
+    --gaming-hover: 220 18% 18%;
+    --chat-bg: 220 20% 10%;
     --gold: 45 93% 58%;
     --vip-purple: 270 60% 60%;
 
     /* Header specific - same as sidebar */
-    --header-bg: 213 35% 10%;
+    --header-bg: 220 22% 6%;
   }
 /* :root {
   --background: 203 36% 16%;
@@ -243,6 +243,12 @@
 *::-webkit-scrollbar {
   width: 4px;
   height: 4px;
+}
+/* REMOVE scrollbar arrows (top / bottom buttons) */
+*::-webkit-scrollbar-button {
+  display: none;
+  width: 0;
+  height: 0;
 }
 
 *::-webkit-scrollbar-track {

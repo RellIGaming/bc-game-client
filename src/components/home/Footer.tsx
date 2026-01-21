@@ -1,7 +1,14 @@
 import bcLogo from "../../assets/images/logo.png";
 import { Github, Globe, Icon, Mail, MessageCircle, Phone, Send, Share2 } from "lucide-react";
+import bestOn from "../../assets/images/bestOn-icon.png";
+import Providers from "./Providers";
+import kwara from "../../assets/images/kwara_united-DSF0nKGD.png"
+import leicester from "../../assets/images/leicester-5bY-JKgX.png"
+import gamcare from "../../assets/images/gamcare-ocLkkk6e.png"
+import sigma from "../../assets/images/sigma-DzhjGPHa.png"
 
 const Footer = () => {
+  const providers = [sigma, gamcare, leicester, leicester, leicester, leicester, kwara, leicester];
   const footerLinks = {
     casino: ["Casino Promo", "Slots", "Live Casino", "New Releases", "Recommended", "Table Game", "Blackjack", "Baccarat"],
     sports: ["Sports Home", "Live", "Rules", "Sport Betting Insights"],
@@ -87,13 +94,21 @@ const Footer = () => {
             </ul>
           </div>
         </div>
-
+        <Providers />
+        <div className='bg-sidebar border-t border-b border-border/30 p-4'>
+          <div className="grid grid-cols-4 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2 lg:gap-3">
+            {providers.map((provide, i) => (
+              <>
+                <img key={i} src={provide} alt="logo" className='w-30 h-20 rounded-sm' />
+              </>
+            ))}
+          </div>
+        </div>
         {/* Social & Community */}
         <div className="flex flex-col lg:flex-row items-center justify-between gap-6 py-4 border-t border-b border-border/30">
           <div className="flex items-center gap-3">
             <img src={bcLogo} alt="Rellbet" className="w-6 h-6 w-auto" />
           </div>
-
           <div className="flex flex-col sm:flex-row items-center gap-4">
             <span className="text-xs text-muted-foreground">Join Our Global Community</span>
             <div className="flex items-center gap-2">
@@ -114,13 +129,13 @@ const Footer = () => {
           <div className="flex items-center gap-4">
             <span className="text-xs text-muted-foreground">Join Our Local Community</span>
             <div className="flex items-center gap-2">
-              {[ Phone, Mail, Globe].map((Icon, i) => (
+              {[Phone, Mail, Globe].map((Icon, i) => (
                 <button
-                    key={i}
-                    className="w-8 h-8 rounded-full bg-secondary hover:bg-secondary/80 flex items-center justify-center transition-colors"
-                  >
-                    <Icon className="w-4 h-4 text-muted-foreground" />
-                  </button>
+                  key={i}
+                  className="w-8 h-8 rounded-full bg-secondary hover:bg-secondary/80 flex items-center justify-center transition-colors"
+                >
+                  <Icon className="w-4 h-4 text-muted-foreground" />
+                </button>
               ))}
             </div>
           </div>

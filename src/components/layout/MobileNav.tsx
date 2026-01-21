@@ -1,4 +1,5 @@
-import { Menu, Search, Gamepad2, Trophy, MessageSquare, Home } from "lucide-react";
+import { Menu, Search, Gamepad2, Trophy, Home } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 
 interface MobileNavProps {
@@ -9,30 +10,40 @@ interface MobileNavProps {
   setActiveTab: (tab: string) => void;
 }
 
+// Order: Home, Casino, Sports, Explore, Menu
 const tabs = [
   { id: "home", label: "Home", icon: Home },
-  { id: "casino", label: "Casino", icon: Gamepad2 },
   { id: "sports", label: "Sports", icon: Trophy },
   { id: "explore", label: "Explore", icon: Search },
+  { id: "casino", label: "Casino", icon: Gamepad2 },
   { id: "menu", label: "Menu", icon: Menu },
 ];
 
 const MobileNav = ({
   onMenuClick,
   onSearchClick,
-  onChatClick,
   activeTab,
   setActiveTab,
 }: MobileNavProps) => {
+  const navigate = useNavigate();
+
   const handleClick = (id: string) => {
     setActiveTab(id);
-    if (id === "menu") onMenuClick();
-    if (id === "explore") onSearchClick();
-    if (id === "chat") onChatClick();
+    if (id === "home") {
+      navigate("/");
+    } else if (id === "menu") {
+      onMenuClick();
+    } else if (id === "explore") {
+      onSearchClick();
+    } else if (id === "casino") {
+      navigate("/category/casino");
+    } else if (id === "sports") {
+      navigate("/category/sports");
+    }
   };
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 h-16 bg-gaming-dark border-t border-border flex items-center justify-around px-2 lg:hidden z-40">
+    <nav className="fixed bottom-0 left-0 right-0 h-16 bg-sidebar border-t border-border flex items-center justify-around px-2 lg:hidden z-40">
       {tabs.map((tab) => (
         <button
           key={tab.id}

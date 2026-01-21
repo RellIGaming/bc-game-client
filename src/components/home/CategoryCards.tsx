@@ -43,7 +43,8 @@ const CategoryCards = () => {
   return (
     <section className="space-y-4">
       {/* Main Categories */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4">
+
         {categories.map((cat) => (
           <div
             key={cat.id}
@@ -55,13 +56,16 @@ const CategoryCards = () => {
               className="absolute inset-0 bg-cover bg-center opacity-40"
               style={{ backgroundImage: `url(${cat.image})` }}
             /> */}
-            
+
             {/* Content */}
             <div className="relative flex  justify-between p-5 h-full">
               <div className="flex gap-2 mb-2">
-                  <cat.icon className={`w-5 h-5 ${cat.color}`} />
-                  <h3 className="text-lg font-bold text-foreground">{cat.title}</h3>
-                </div>
+                <cat.icon className={`w-5 h-5 ${cat.color}`} />
+                <h3 className="text-sm sm:text-base lg:text-lg font-bold">
+                  {cat.title}
+                </h3>
+
+              </div>
               {/* <div className="flex-1">
                 <div className="flex items-center gap-2 mb-2">
                   <cat.icon className={`w-5 h-5 ${cat.color}`} />
@@ -72,7 +76,11 @@ const CategoryCards = () => {
                 </p>
               </div> */}
               <div className=" flex items-center justify-center">
-                <img className="w-24 h-24 lg:w-36 lg:h-36 " src={cat.image} alt="logo"/>
+                <img
+                  className="w-20 h-20 sm:w-24 sm:h-24 lg:w-36 lg:h-36"
+                  src={cat.image}
+                  alt="logo"
+                />
               </div>
             </div>
           </div>
@@ -80,15 +88,15 @@ const CategoryCards = () => {
       </div>
 
       {/* Sub Categories */}
-      <div className="grid grid-cols-3 sm:grid-cols-3 gap-3">
+      <div className="grid grid-cols-3 gap-2 sm:gap-3">
         {subCategories.map((cat) => (
           <div
             key={cat.id}
             onClick={() => navigate(`/category/${cat.id}`)}
             className="flex flex-col items-center gap-2 p-4 rounded-xl bg-card cursor-pointer gaming-card-hover"
           >
-            <div className="w-12 h-12 lg:w-14 lg:h-14 rounded-xl flex items-center justify-center">
-              <img className="text-2xl lg:text-3xl" src={cat.image} alt="logo" />
+            <div className=" rounded-xl flex items-center justify-center">
+              <img className="w-12 h-12 lg:w-14 lg:h-14" src={cat.image} alt="logo" />
             </div>
             <div className="flex items-center gap-1">
               {/* <cat.icon className="w-4 h-4 text-primary" /> */}
