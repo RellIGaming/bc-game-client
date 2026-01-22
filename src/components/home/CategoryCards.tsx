@@ -1,10 +1,10 @@
 import { Gamepad2, Trophy, Spade, Flag, Ticket, TrendingUp, Grid3X3 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import casino from "@/assets/images/casino-big-logo.png";
-import sports from "@/assets/images/sports_big-logo.png";
+import casino from "@/assets/images/Casino-Logo-png.png";
+import sports from "@/assets/images/Casino-Logo-sportsv2-png.png";
 import poker from "@/assets/images/poker-big-logo.png";
-import racing from "@/assets/images/racing-big-logo.png";
-import lottery from "@/assets/images/lottery-big-logo.png";
+import racing from "@/assets/images/Casino-Logo-racing-png.png";
+import lottery from "@/assets/images/Casino-Logo-ticket-png.png";
 
 const categories = [
   {
@@ -88,7 +88,7 @@ const CategoryCards = () => {
       </div>
 
       {/* Sub Categories */}
-      <div className="grid grid-cols-3 gap-2 sm:gap-3">
+      {/* <div className="grid grid-cols-3 gap-2 sm:gap-3">
         {subCategories.map((cat) => (
           <div
             key={cat.id}
@@ -99,12 +99,11 @@ const CategoryCards = () => {
               <img className="w-12 h-12 lg:w-14 lg:h-14" src={cat.image} alt="logo" />
             </div>
             <div className="flex items-center gap-1">
-              {/* <cat.icon className="w-4 h-4 text-primary" /> */}
               <span className="text-xs font-semibold text-foreground">{cat.title}</span>
             </div>
           </div>
         ))}
-      </div>
+      </div> */}
     </section>
   );
 };

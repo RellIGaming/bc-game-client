@@ -27,6 +27,7 @@ import {
   HeadphoneOff,
   Globe,
   DollarSign,
+  ChevronRight,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
@@ -35,6 +36,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import mobileSc from "../../assets/images/i-3.png";
+import logo from "../../assets/images/logo.png";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -246,24 +248,33 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
 
           {/* Token Price */}
           {!isCollapsed ? (
-            <div className="mx-3 mt-3 p-3 rounded-sm bg-secondary/30 flex items-center gap-3">
-              <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
-                <span className="text-primary-foreground font-bold text-sm">L</span>
+            <div className="mx-2 mt-3 p-3 rounded-sm bg-secondary/30 flex items-center gap-3">
+              <div className="flex items-center justify-center">
+                <img src={logo} alt="logo" className="w-6 h-6" />
               </div>
               <div className="flex-1">
                 <div className="flex items-center gap-2">
                   <span className="text-sm font-medium text-foreground">Live Stats</span>
                   <span className="text-xs text-destructive">↓ 6.80%</span>
                 </div>
-                <p className="text-xs text-muted-foreground">$0.00777</p>
+                <div className="flex">
+                  <p className="text-xs text-muted-foreground">$0.00777</p>
+                  <ChevronRight
+                    className={cn(
+                      "w-4 h-4 transition-transform ml-auto",
+                      expandedItems.includes("0") && "rotate-180"
+                    )}
+                  />
+                </div>
+
               </div>
             </div>
           ) : (
             <Tooltip>
               <TooltipTrigger asChild>
-                <div className="mx-2 mt-3 p-2 rounded-sm bg-secondary/30 flex items-center justify-center cursor-pointer">
-                  <div className="w-5 h-5 rounded-full bg-primary flex items-center justify-center">
-                    <span className="text-primary-foreground font-bold text-sm">L</span>
+                <div className="mx-2 mt-3 p-2 rounded-sm bg-sidebar-accent flex items-center justify-center cursor-pointer">
+                  <div className="flex items-center justify-center ">
+                    <img src={logo} alt="logo" className="w-5 h-5" />
                   </div>
                 </div>
               </TooltipTrigger>
@@ -282,7 +293,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
             {menuItems.map((item) => (
               <div key={item.id}>
                 {isCollapsed ? (
-                  <div className="flex flex-col items-center gap-1">
+                  <div className="w-full bg-sidebar-accent rounded-sm overflow-hidden transition-all">
                     {/* Parent icon */}
                     <Tooltip>
                       <TooltipTrigger asChild>
@@ -296,7 +307,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                             "w-full flex items-center justify-center p-2 rounded-sm bg-sidebar-accent transition-colors",
                             "hover: hvr-btn",
                             expandedItems.includes(item.id)
-                              ? "bg-sidebar-accent"
+                              ? "bg-sidebar-accent rounded-t-sm"
                               : "hover:hvr-btn"
                           )}
                         >
@@ -309,7 +320,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                     </Tooltip>
 
                     {/* ✅ SHOW SUB ICONS ONLY IF EXPANDED */}
-                    <div className="rounded-b-sm bg-sidebar-accent transition-colors mt-[-5px]">
+                    <div className="rounded-b-sm bg-sidebar-accent transition-colors -mt-[2px]">
                       {item.hasSubmenu &&
                         expandedItems.includes(item.id) &&
                         item.submenu?.map((sub) => (
@@ -319,7 +330,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                                 onClick={() => handleNavigate(sub.id)}
                                 className="bg-sidebar-accent transition-colors w-full flex items-center justify-center p-2 rounded-sm hover: hvr-btn"
                               >
-                                <sub.icon className="w-5 h-5 text-muted-foreground" />
+                                <sub.icon className="w-6 h-6" />
                               </button>
                             </TooltipTrigger>
                             <TooltipContent side="right">
@@ -335,7 +346,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                   <>
                     <button
                       onClick={() => item.hasSubmenu && toggleExpand(item.id)}
-                              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-sm bg-sidebar-accent hover:hvr-btn"
+                      className="w-full flex items-center gap-3 px-3 py-2.5 rounded-sm bg-sidebar-accent hover:hvr-btn"
                     >
                       <item.icon className={cn("w-5 h-5", item.color)} />
                       <span className="text-sm font-medium">{item.label}</span>
@@ -343,7 +354,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                       {item.hasSubmenu && (
                         <ChevronDown
                           className={cn(
-                          "w-4 h-4 transition-transform ml-auto",
+                            "w-4 h-4 transition-transform ml-auto",
                             expandedItems.includes(item.id) && "rotate-180"
                           )}
                         />

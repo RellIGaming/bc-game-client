@@ -124,14 +124,12 @@ const Index = ({ isLoggedIn, setIsLoggedIn }: IndexProps) => {
             <LiveSports />
             <BCExclusive />
             <Slots />
-            <UpcomingLottery />
+            {/* <UpcomingLottery /> */}
             <LiveCasino />
             <DepositBonus />
             <BingoGames />
             <LatestRoundRace />
             <HotGames />
-            <HelpUs/>
-            <Providers/>
           </div>
           <Footer />
         </main>

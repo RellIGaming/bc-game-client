@@ -1,8 +1,10 @@
 import React from 'react';
+import Providers from './Providers';
+import GameFooterLogo from './GameFooterLogo';
 
 const HelpUs = () => {
     return (
-        <div  className='bg-sidebar border-t border-border/30 mt-8 p-4 rounded-sm'>
+        <div  className='bg-sidebar border-t border-border/30 p-4 rounded-sm'>
             {/* Crypto Online Casino Section */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
                 <div>
@@ -30,6 +32,8 @@ const HelpUs = () => {
                     </p>
                 </div>
             </div>
+             <Providers />
+             <GameFooterLogo/>
         </div>
     );
 };

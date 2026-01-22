@@ -1,14 +1,10 @@
 import bcLogo from "../../assets/images/logo.png";
 import { Github, Globe, Icon, Mail, MessageCircle, Phone, Send, Share2 } from "lucide-react";
-import bestOn from "../../assets/images/bestOn-icon.png";
-import Providers from "./Providers";
-import kwara from "../../assets/images/kwara_united-DSF0nKGD.png"
-import leicester from "../../assets/images/leicester-5bY-JKgX.png"
-import gamcare from "../../assets/images/gamcare-ocLkkk6e.png"
-import sigma from "../../assets/images/sigma-DzhjGPHa.png"
+import HelpUs from "./HelpUs";
+
 
 const Footer = () => {
-  const providers = [sigma, gamcare, leicester, leicester, leicester, leicester, kwara, leicester];
+
   const footerLinks = {
     casino: ["Casino Promo", "Slots", "Live Casino", "New Releases", "Recommended", "Table Game", "Blackjack", "Baccarat"],
     sports: ["Sports Home", "Live", "Rules", "Sport Betting Insights"],
@@ -18,10 +14,10 @@ const Footer = () => {
 
 
   return (
-    <footer className="bg-sidebar border-t border-border/30 mx-6 p-4">
-      <div className="py-4 lg:py-6">
+    <footer className="bg-sidebar border-t border-border/30 mx-6 p-4 hidden md:block">
+      <div className="py-4 lg:py-4">
 
-
+        <HelpUs />
         {/* Responsible Gaming Badges */}
         {/* <div className="flex flex-wrap items-center gap-4 py-4 border-y border-border/30 mb-8">
           {["SIGMA", "🛡️ Responsible Gambling", "GamCare", "betblocker"].map((badge, i) => (
@@ -92,16 +88,6 @@ const Footer = () => {
                 </li>
               ))}
             </ul>
-          </div>
-        </div>
-        <Providers />
-        <div className='bg-sidebar border-t border-b border-border/30 p-4'>
-          <div className="grid grid-cols-4 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2 lg:gap-3">
-            {providers.map((provide, i) => (
-              <>
-                <img key={i} src={provide} alt="logo" className='w-30 h-20 rounded-sm' />
-              </>
-            ))}
           </div>
         </div>
         {/* Social & Community */}

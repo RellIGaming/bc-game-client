@@ -13,9 +13,9 @@ interface MobileNavProps {
 // Order: Home, Casino, Sports, Explore, Menu
 const tabs = [
   { id: "home", label: "Home", icon: Home },
-  { id: "sports", label: "Sports", icon: Trophy },
-  { id: "explore", label: "Explore", icon: Search },
   { id: "casino", label: "Casino", icon: Gamepad2 },
+  { id: "explore", label: "Explore", icon: Search },
+  { id: "sports", label: "Sports", icon: Trophy },
   { id: "menu", label: "Menu", icon: Menu },
 ];
 
