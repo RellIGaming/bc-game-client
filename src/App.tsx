@@ -9,6 +9,7 @@ import NotFound from "./pages/NotFound";
 import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
 import { useState } from "react";
+import LiveStats from "./components/home/LiveStats";
 
 const queryClient = new QueryClient();
 
@@ -26,6 +27,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Index isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
           <Route path="/category/:category" element={<CategoryPage />} />
+           <Route path="/live-stats" element={<LiveStats />} />
           <Route path="/admin-login" element={<AdminLogin />} />
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="*" element={<NotFound />} />
