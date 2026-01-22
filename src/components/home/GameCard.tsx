@@ -1,46 +1,78 @@
-import React from 'react';
-import card2 from "@/assets/images/card-2.png";
-import card3 from "@/assets/images/card-3.png";
-import card4 from "@/assets/images/card-4.png";
-import card5 from "@/assets/images/card-5.png";
-import card6 from "@/assets/images/card-6.png";
-import card7 from "@/assets/images/card-7.png";
-import card8 from "@/assets/images/card-8.png";
-import card9 from "@/assets/images/card-9.png";
-import { useState } from "react";
+import { Play } from "lucide-react";
 
-const games = [
-  { id: 1, name: "CRASH", multiplier: "999x", players: 2304, image: card7 },
-  { id: 2, name: "LIMBO", multiplier: "500×", players: 218, image: card6 },
-  { id: 3, name: "PLINKO", multiplier: "2×160", players: 2543, image: card4 },
-  { id: 4, name: "TWIST", multiplier: "12×254", players: 77, image: card5 },
-  { id: 5, name: "TOWER LEGEND", multiplier: null, players: 350, image: card8 },
-  { id: 6, name: "CLASSIC DICE", multiplier: null, players: 200, image: card3 },
-  { id: 7, name: "KENO", multiplier: "12", players: 510, image: card2 },
-  { id: 8, name: "MINES", multiplier: "163", players: 863, image: card9 },
-];
-const GameCard = ({ game }: { game: any }) => {
-    return (
-        <div className="rounded-xl overflow-hidden cursor-pointer group relative">
-            <div className="aspect-[3/4] relative">
-                <img
-                    src={game.image}
-                    alt={game.name}
-                    className="absolute inset-0 w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+interface Game {
+  id: number;
+  name: string;
+  image: string;
+  multiplier?: string | null;
+  players?: number;
+  provider?: string;
+  label?: string;
+}
 
-                <div className="absolute bottom-0 left-0 right-0 p-2 text-center">
-                    <span className="text-[8px] text-primary font-medium">
-                        ORIGINAL GAME
-                    </span>
-                    <h3 className="text-white font-bold text-xs truncate">
-                        {game.name}
-                    </h3>
-                </div>
-            </div>
+interface GameCardProps {
+  game: Game;
+  onClick?: () => void;
+  showLabel?: boolean;
+  labelText?: string;
+}
+
+const GameCard = ({ game, onClick, showLabel = true, labelText = "ORIGINAL GAME" }: GameCardProps) => {
+  return (
+    <div 
+      onClick={onClick}
+      className="rounded-xl overflow-hidden cursor-pointer group gaming-card-hover relative"
+    >
+      <div className="aspect-[3/4] relative">
+        <img
+          src={game.image}
+          alt={game.name}
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+
+        {/* Multiplier Badge */}
+        {game.multiplier && (
+          <div className="absolute top-1.5 left-1.5 bg-primary/90 text-primary-foreground text-[8px] sm:text-[10px] font-bold px-1 sm:px-1.5 py-0.5 rounded">
+            {game.multiplier}
+          </div>
+        )}
+
+        {/* Players Badge */}
+        {game.players && (
+          <div className="absolute top-1.5 right-1.5 flex items-center gap-0.5 sm:gap-1 text-[8px] sm:text-[10px] text-white/80 bg-black/40 px-1 sm:px-1.5 py-0.5 rounded">
+            <span>👥</span>
+            <span>{game.players}</span>
+          </div>
+        )}
+
+        {/* Bottom Info */}
+        <div className="absolute bottom-0 left-0 right-0 p-1.5 sm:p-2 text-center">
+          {showLabel && labelText && (
+            <span className="text-[6px] sm:text-[8px] text-primary font-medium block">
+              {labelText}
+            </span>
+          )}
+          <h3 className="text-white font-bold text-[10px] sm:text-xs truncate">
+            {game.name}
+          </h3>
+          {game.provider && (
+            <p className="text-[8px] sm:text-[10px] text-white/60 truncate">
+              {game.provider}
+            </p>
+          )}
         </div>
-    );
+
+        {/* Hover Overlay */}
+        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+          <span className="bg-primary text-primary-foreground px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg font-medium text-[10px] sm:text-xs flex items-center gap-1">
+            <Play className="w-3 h-3" />
+            Play Now
+          </span>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default GameCard;

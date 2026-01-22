@@ -17,6 +17,7 @@ interface HeaderProps {
   onSignInClick: () => void;
   onSignUpClick: () => void;
   onLanguageClick: () => void;
+  onCurrencyClick: () => void;
   isDark: boolean;
   onThemeToggle: () => void;
   isSidebarCollapsed?: boolean;
@@ -32,6 +33,7 @@ const Header = ({
   onSignInClick,
   onSignUpClick,
   onLanguageClick,
+  onCurrencyClick,
   isDark,
   onThemeToggle,
   isSidebarCollapsed,

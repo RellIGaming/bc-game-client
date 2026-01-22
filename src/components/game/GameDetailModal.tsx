@@ -16,10 +16,12 @@ interface Game {
   id: number;
   name: string;
   provider?: string;
-  image: string;
+  image?: string;
   icon?: string;
   players?: number;
   multiplier?: string | null;
+  color?: string;
+  category?: string;
 }
 
 interface GameDetailModalProps {

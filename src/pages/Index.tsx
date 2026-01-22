@@ -37,6 +37,7 @@ const Index = ({ isLoggedIn, setIsLoggedIn }: IndexProps) => {
   const [chatOpen, setChatOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [languageOpen, setLanguageOpen] = useState(false);
+  const [currencyOpen, setCurrencyOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const [signUpOpen, setSignUpOpen] = useState(false);
   const [signInOpen, setSignInOpen] = useState(false);
@@ -91,6 +92,7 @@ const Index = ({ isLoggedIn, setIsLoggedIn }: IndexProps) => {
         onSignInClick={() => setSignInOpen(true)}
         onSignUpClick={() => setSignUpOpen(true)}
         onLanguageClick={() => setLanguageOpen(true)}
+        onCurrencyClick={() => setCurrencyOpen(true)}
         isDark={isDark}
         onThemeToggle={toggleTheme}
         isSidebarCollapsed={sidebarCollapsed}
@@ -110,6 +112,7 @@ const Index = ({ isLoggedIn, setIsLoggedIn }: IndexProps) => {
           isDark={isDark}
           onThemeToggle={toggleTheme}
           onLanguageClick={() => setLanguageOpen(true)}
+          onCurrencyClick={() => setCurrencyOpen(true)}
         />
 
         <main 

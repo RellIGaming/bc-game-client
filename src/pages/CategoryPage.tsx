@@ -15,6 +15,7 @@ interface Game {
   players: number;
   multiplier?: string | null;
   category: string;
+  image?: string;
 }
 
 const allGames: Game[] = [

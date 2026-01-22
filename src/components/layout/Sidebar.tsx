@@ -45,6 +45,7 @@ interface SidebarProps {
   isDark: boolean;
   onThemeToggle: () => void;
   onLanguageClick: () => void;
+  onCurrencyClick: () => void;
 }
 
 const menuItems = [
@@ -189,7 +190,7 @@ const extremBottom = [
 
 ]
 
-const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLanguageClick }: SidebarProps) => {
+const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLanguageClick, onCurrencyClick }: SidebarProps) => {
   const [expandedItems, setExpandedItems] = useState<string[]>([]);
   const navigate = useNavigate();
   const isMobile = window.innerWidth < 1024;
@@ -496,10 +497,15 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                         onClick={() => {
                           if (item.id === "language") {
                             onLanguageClick();
-                          } else if (item.submenu) {
+                          }
+                          else if (item.id === "currency") {
+                            onCurrencyClick(); // 👈 create this function
+                          }
+                          else if (item.submenu?.length) {
                             handleNavigate(item.submenu[0].id);
                           }
                         }}
+
                         className={cn(
                           "flex items-center justify-center p-2.5 rounded-sm bg-sidebar-accent transition-colors",
                           "hover: hvr-btn",

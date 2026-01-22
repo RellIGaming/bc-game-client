@@ -93,6 +93,7 @@ const LiveStats = () => {
         isDark={isDark}
         onThemeToggle={() => setIsDark(!isDark)}
         onLanguageClick={() => setShowLanguageModal(true)}
+         onCurrencyClick={() => setShowLanguageModal(true)}
       />
 
       <Sidebar
@@ -102,6 +103,7 @@ const LiveStats = () => {
         isDark={isDark}
         onThemeToggle={() => setIsDark(!isDark)}
         onLanguageClick={() => setShowLanguageModal(true)}
+         onCurrencyClick={() => setShowLanguageModal(true)}
       />
 
       <main
