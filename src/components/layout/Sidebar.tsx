@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -28,6 +28,20 @@ import {
   Globe,
   DollarSign,
   ChevronRight,
+  Info,
+  Newspaper,
+  Briefcase,
+  Building,
+  FileText,
+  Headphones,
+  ShieldCheck,
+  Palette,
+  Scale,
+  AlertTriangle,
+  CheckCircle,
+  HelpCircle,
+  Mail,
+  Lock,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
@@ -46,6 +60,7 @@ interface SidebarProps {
   onThemeToggle: () => void;
   onLanguageClick: () => void;
   onCurrencyClick: () => void;
+  onChatClick: () => void;
 }
 
 const menuItems = [
@@ -189,11 +204,59 @@ const extremBottom = [
   }
 
 ]
+const mobileExtraMenu = [
+  {
+    id: "about",
+    label: "About Us",
+    icon: Info, 
+     color: "text-primary",
+    hasSubmenu: true,
+    submenu: [
+      { id: "achievement", label: "Achievement", icon: Trophy },
+      { id: "news", label: "News", icon: Newspaper },
+      { id: "work", label: "Work With Us", icon: Briefcase },
+      { id: "business", label: "Business Contacts", icon: Building },
+      { id: "licence", label: "Licence", icon: FileText },
+      { id: "helpdesk", label: "Help Desk", icon: Headphones },
+      { id: "verify", label: "Verify Representative", icon: ShieldCheck },
+      { id: "design", label: "Design Resource", icon: Palette },
+    ],
+  },
+  {
+    id: "legal",
+    label: "Legal",
+    icon: Scale,
+     color: "text-primary",
+    hasSubmenu: true,
+    submenu: [
+      { id: "rellbet-licence", label: "Rellbet Licence", icon: FileText },
+      { id: "gamble", label: "Gamble Aware", icon: AlertTriangle },
+      { id: "fairness", label: "Fairness", icon: CheckCircle },
+      { id: "privacy", label: "Privacy Policy", icon: Lock },
+      { id: "terms", label: "Terms Of Service", icon: FileText },
+      { id: "aml", label: "AML", icon: Shield },
+    ],
+  },
+  {
+    id: "live-mobile",
+    label: "Live Support",
+    icon: Headphones,
+    hasSubmenu: true,
+    submenu: [
+      { id: "help-center", label: "Help Center", icon: HelpCircle },
+      { id: "faq", label: "FAQ", icon: MessageCircle },
+      { id: "ceo", label: "CEO Inbox", icon: Mail },
+    ],
+  },
+];
 
-const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLanguageClick, onCurrencyClick }: SidebarProps) => {
+
+const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLanguageClick,onChatClick, onCurrencyClick }: SidebarProps) => {
   const [expandedItems, setExpandedItems] = useState<string[]>([]);
   const navigate = useNavigate();
-  const isMobile = window.innerWidth < 1024;
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
+
+
 
   const toggleExpand = (id: string) => {
     setExpandedItems((prev) =>
@@ -208,12 +271,20 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
     }
   };
 
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 1024);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
   // const sidebarWidth = isCollapsed ? 70 : 240;
   const sidebarWidth = isMobile
     ? "100vw"
     : isCollapsed
       ? 70
       : 240;
+  const finalBottomMenu = isMobile
+    ? [...mobileExtraMenu, ...extremBottom]
+    : extremBottom;
 
   return (
     <>
@@ -488,7 +559,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
 
           )}
           <div className={cn("flex-1 px-2 py-1 space-y-1", isCollapsed && "px-2")}>
-            {extremBottom.map((item) => (
+            {finalBottomMenu.map((item) => (
               <div key={item.id}>
                 {isCollapsed ? (
                   <Tooltip>
@@ -525,9 +596,20 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                       onClick={() => {
                         if (item.id === "language") {
                           onLanguageClick();
-                        } else if (item.hasSubmenu) {
-                          toggleExpand(item.id);
                         }
+                        else if (item.id === "currency") {
+                          onCurrencyClick();
+                        }
+                        else if (item.id === "live") {
+                          onChatClick();
+                        }
+                        else if (item.id === "live" && !isMobile) {
+                          navigate("/live-chat"); // desktop direct redirect
+                        }
+                        else if (item.hasSubmenu) {
+                          toggleExpand(item.id); // mobile dropdown
+                        }
+
                       }}
                       className={cn(
                         "w-full flex items-center gap-3 px-3 py-2.5 rounded-sm bg-sidebar-accent transition-colors",

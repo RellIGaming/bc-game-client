@@ -104,6 +104,7 @@ const LiveStats = () => {
         onThemeToggle={() => setIsDark(!isDark)}
         onLanguageClick={() => setShowLanguageModal(true)}
          onCurrencyClick={() => setShowLanguageModal(true)}
+          onChatClick={() => {}}
       />
 
       <main

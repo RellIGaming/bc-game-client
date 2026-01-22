@@ -113,6 +113,7 @@ const Index = ({ isLoggedIn, setIsLoggedIn }: IndexProps) => {
           onThemeToggle={toggleTheme}
           onLanguageClick={() => setLanguageOpen(true)}
           onCurrencyClick={() => setCurrencyOpen(true)}
+          onChatClick={() => setChatOpen(!chatOpen)}
         />
 
         <main 
