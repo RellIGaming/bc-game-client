@@ -14,7 +14,7 @@ const fetchWithAuth = async (endpoint: string, config: RequestConfig = {}) => {
     "Content-Type": "application/json",
     ...config.headers,
   };
-  
+
   if (token) {
     headers.Authorization = `Bearer ${token}`;
   }
@@ -38,7 +38,7 @@ export const signup = (data: {
   username: string;
   email: string;
   password: string;
-  promocode: string; 
+  promocode: string;
 }) =>
   fetchWithAuth("/api/auth/signup", {
     method: "POST",
@@ -82,4 +82,53 @@ export const changeUserRole = (data: {
   body: JSON.stringify(data),
 });
 
-export default { signup, signin, forgotPassword, resetPassword, getProfile, changeUserRole };
+
+/* =====================
+   GAMES APIS
+===================== */
+
+// get games by category
+export const getGames = (category?: string) => {
+  const query = category ? `?category=${category}` : "";
+  return fetchWithAuth(`/api/games${query}`);
+};
+
+// admin create game
+export const createGame = (data: {
+  name: string;
+  slug: string;
+  image: string;
+  multiplier?: string | null;
+  players?: number;
+  category?: string;
+}) =>
+  fetchWithAuth("/api/admin/games", {
+    method: "POST",
+    body: JSON.stringify(data),
+  });
+
+// admin update game
+export const updateGame = (id: string, data: any) =>
+  fetchWithAuth(`/api/admin/games/${id}`, {
+    method: "PUT",
+    body: JSON.stringify(data),
+  });
+
+// admin delete game
+export const deleteGame = (id: string) =>
+  fetchWithAuth(`/api/admin/games/${id}`, {
+    method: "DELETE",
+  });
+
+
+
+
+
+export default {
+  signup, signin, forgotPassword,
+  resetPassword,
+  getProfile,
+  changeUserRole,
+  getGames, updateGame,
+  createGame, deleteGame
+};

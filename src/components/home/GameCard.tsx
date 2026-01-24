@@ -1,7 +1,8 @@
 import { Play } from "lucide-react";
 
+
 interface Game {
-  id: number;
+  _id: string; // ✅ instead of id
   name: string;
   image: string;
   multiplier?: string | null;

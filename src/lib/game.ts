@@ -8,12 +8,23 @@ import card8 from "@/assets/images/card-8.png";
 import card9 from "@/assets/images/card-9.png";
 
 export const originalGames = [
-  { id: 1, name: "CRASH", multiplier: "999x", players: 2304, image: card7 },
-  { id: 2, name: "LIMBO", multiplier: "500×", players: 218, image: card6 },
-  { id: 3, name: "PLINKO", multiplier: "2×160", players: 2543, image: card4 },
-  { id: 4, name: "TWIST", multiplier: "12×254", players: 77, image: card5 },
-  { id: 5, name: "TOWER LEGEND", multiplier: null, players: 350, image: card8 },
-  { id: 6, name: "CLASSIC DICE", multiplier: null, players: 200, image: card3 },
-  { id: 7, name: "KENO", multiplier: "12", players: 510, image: card2 },
-  { id: 8, name: "MINES", multiplier: "163", players: 863, image: card9 },
+  { _id: 1, name: "CRASH", multiplier: "999x", players: 2304, image: card7 },
+  { _id: 2, name: "LIMBO", multiplier: "500×", players: 218, image: card6 },
+  { _id: 3, name: "PLINKO", multiplier: "2×160", players: 2543, image: card4 },
+  { _id: 4, name: "TWIST", multiplier: "12×254", players: 77, image: card5 },
+  { _id: 5, name: "TOWER LEGEND", multiplier: null, players: 350, image: card8 },
+  { _id: 6, name: "CLASSIC DICE", multiplier: null, players: 200, image: card3 },
+  { _id: 7, name: "KENO", multiplier: "12", players: 510, image: card2 },
+  { _id: 8, name: "MINES", multiplier: "163", players: 863, image: card9 },
 ];
+
+// export const originalGames = [
+//   { id: 1, name: "CRASH", multiplier: "999x", players: 2304, image: card7 },
+//   { id: 2, name: "LIMBO", multiplier: "500×", players: 218, image: card6 },
+//   { id: 3, name: "PLINKO", multiplier: "2×160", players: 2543, image: card4 },
+//   { id: 4, name: "TWIST", multiplier: "12×254", players: 77, image: card5 },
+//   { id: 5, name: "TOWER LEGEND", multiplier: null, players: 350, image: card8 },
+//   { id: 6, name: "CLASSIC DICE", multiplier: null, players: 200, image: card3 },
+//   { id: 7, name: "KENO", multiplier: "12", players: 510, image: card2 },
+//   { id: 8, name: "MINES", multiplier: "163", players: 863, image: card9 },
+// ];

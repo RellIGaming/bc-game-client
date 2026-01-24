@@ -31,22 +31,22 @@ const categories = [
 ];
 
 const allGames = [
-  { id: 1, name: "CRASH", players: 2422, multiplier: "999x",  image: card2, category: "originals" },
-  { id: 2, name: "LIMBO", players: 312, multiplier: "500x",  image: card8, category: "originals" },
-  { id: 3, name: "TWIST", players: 248, multiplier: null,  image:card7, category: "originals" },
-  { id: 4, name: "GOLDEN JOKER", players: 86, multiplier: null,  image: card6, category: "slots" },
-  { id: 5, name: "CLASSIC DICE", players: 276, multiplier: null,  image: card5, category: "table" },
-  { id: 6, name: "TOWER LEGEND", players: 172, multiplier: null,  image: card4, category: "originals" },
+  { id: 1, name: "CRASH", players: 2422, multiplier: "999x", image: card2, category: "originals" },
+  { id: 2, name: "LIMBO", players: 312, multiplier: "500x", image: card8, category: "originals" },
+  { id: 3, name: "TWIST", players: 248, multiplier: null, image: card7, category: "originals" },
+  { id: 4, name: "GOLDEN JOKER", players: 86, multiplier: null, image: card6, category: "slots" },
+  { id: 5, name: "CLASSIC DICE", players: 276, multiplier: null, image: card5, category: "table" },
+  { id: 6, name: "TOWER LEGEND", players: 172, multiplier: null, image: card4, category: "originals" },
   { id: 7, name: "QUEEN OF INCA", players: 31, multiplier: null, image: card2, category: "slots" },
-  { id: 8, name: "KENO", players: 274, multiplier: null, image:card3, category: "originals" },
-  { id: 9, name: "PLINKO", players: 138, multiplier: "2.1x",  image: card2, category: "originals" },
+  { id: 8, name: "KENO", players: 274, multiplier: null, image: card3, category: "originals" },
+  { id: 9, name: "PLINKO", players: 138, multiplier: "2.1x", image: card2, category: "originals" },
   { id: 10, name: "MINES", players: 445, multiplier: null, image: card3, category: "originals" },
   { id: 11, name: "AVIATOR", players: 1423, multiplier: null, image: card4, category: "hot" },
   { id: 12, name: "LIGHTNING ROULETTE", players: 567, multiplier: null, image: card5, category: "live" },
-  { id: 13, name: "DRAGON HATCH", players: 234, multiplier: null,  image:card6, category: "new" },
-  { id: 14, name: "FORTUNE OX", players: 456, multiplier: null,  image: card7, category: "new" },
-  { id: 15, name: "BLACKJACK VIP", players: 123, multiplier: null,  image: card8, category: "table" },
-  { id: 16, name: "SPEED BACCARAT", players: 345, multiplier: null,  image: card9, category: "live" },
+  { id: 13, name: "DRAGON HATCH", players: 234, multiplier: null, image: card6, category: "new" },
+  { id: 14, name: "FORTUNE OX", players: 456, multiplier: null, image: card7, category: "new" },
+  { id: 15, name: "BLACKJACK VIP", players: 123, multiplier: null, image: card8, category: "table" },
+  { id: 16, name: "SPEED BACCARAT", players: 345, multiplier: null, image: card9, category: "live" },
 ];
 
 const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
@@ -111,7 +111,7 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
               onClick={(e) => e.stopPropagation()}
-              className="w-full max-w-5xl bg-card rounded-2xl overflow-hidden max-h-[85vh] flex flex-col"
+              className="w-full max-w-7xl bg-card rounded-2xl overflow-hidden max-h-[85vh] flex flex-col"
             >
               {/* Header */}
               <div className="flex items-center justify-between p-4">
@@ -145,14 +145,14 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
               </div>
 
               {/* Categories */}
-              <div className="px-4 pb-4 overflow-x-auto custom-scrollbar">
-                <div className="flex items-center gap-2">
+              <div className="px-4 pb-4">
+                <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide">
                   {categories.map((cat) => (
                     <button
                       key={cat.id}
                       onClick={() => handleCategoryClick(cat.id)}
                       className={cn(
-                        "flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors",
+                        "flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors flex-shrink-0",
                         activeCategory === cat.id
                           ? "bg-primary text-primary-foreground"
                           : "bg-secondary text-muted-foreground hover:text-foreground"
@@ -164,6 +164,7 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
                   ))}
                 </div>
               </div>
+
 
               {/* Filters */}
               <div className="px-4 pb-4 flex items-center gap-3">
@@ -190,14 +191,14 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
                     <LoadingSpinner size="lg" />
                   </div>
                 ) : filteredGames.length > 0 ? (
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
+                  <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-3">
                     {filteredGames.map((game) => (
                       <div
                         key={game.id}
                         onClick={() => handleGameClick(game)}
                         className="relative aspect-[4/5] rounded-xl overflow-hidden cursor-pointer group"
                       >
-                        <img src={game.image} alt="logo" className={cn("absolute inset-0", )} />
+                        <img src={game.image} alt="logo" className={cn("absolute inset-0",)} />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                         {game.multiplier && (
                           <div className="absolute top-2 right-2 bg-primary text-primary-foreground text-xs font-bold px-2 py-1 rounded z-10">

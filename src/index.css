@@ -60,7 +60,8 @@
     /* Header specific - same as sidebar */
     --header-bg: 220 22% 6%;
   }
-/* :root {
+
+  /* :root {
   --background: 203 36% 16%;
   --foreground: 0 0% 98%;
 
@@ -162,6 +163,9 @@
 }
 
 @layer components {
+  .sidebar-item {
+  transition: border-radius 0.25s ease, background 0.25s ease;
+}
   .flip-button {
     @apply transform transition-transform duration-300;
     transform-style: preserve-3d;
@@ -172,41 +176,36 @@
   }
 
   /* Common interactive button */
-.hvr-btn {
-  background-color: var(--secondary);
-  position: relative;
- transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  .hvr-btn {
+    background-color: var(--secondary);
+    position: relative;
+    /* transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); */
 
-}
+  }
 
 
-/* Hover gradient */
-.hvr-btn:hover {
-  background: linear-gradient(
-    90deg,
-    rgba(42, 155, 149, 1) 0%,
-    rgba(23, 55, 66, 1) 50%,
-    rgba(14, 23, 48, 1) 100%
-  );
-  color:#ffffff !important;
-}
+  /* Hover gradient */
+  .hvr-btn:hover {
+    background: linear-gradient(90deg, rgb(51, 200, 126) 0%, rgb(10, 80, 33) 50%, rgb(1, 14, 7) 100%);
+    color: #ffffff !important;
+  }
 
-/* Active (mouse down / pressed) */
-.hvr-btn:active {
-  background: linear-gradient(    90deg,    rgb(72, 244, 158) 0%,    rgb(31, 176, 80) 50%,    rgb(6, 89, 48) 100%  );
-  transform: scale(0.96);
-  color:#ffffff !important;
-  -webkit-transform: scale(0.96);
-  -moz-transform: scale(0.96);
-  -ms-transform: scale(0.96);
-  -o-transform: scale(0.96);
-}
+  /* Active (mouse down / pressed) */
+  .hvr-btn:active {
+    background: linear-gradient(90deg, rgb(51, 200, 126) 0%, rgb(10, 80, 33) 50%, rgb(1, 14, 7) 100%);
+    /* transform: scale(0.96); */
+    color: #ffffff !important;
+    /* -webkit-transform: scale(0.96);
+    -moz-transform: scale(0.96);
+    -ms-transform: scale(0.96);
+    -o-transform: scale(0.96); */
+  }
 
-/* Optional focus (keyboard accessibility) */
-.hvr-btn:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 2px rgba(42, 155, 149, 0.5);
-}
+  /* Optional focus (keyboard accessibility) */
+  .hvr-btn:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(42, 155, 149, 0.5);
+  }
 
 
 }
@@ -262,11 +261,13 @@
 *::-webkit-scrollbar-thumb:hover {
   background: hsl(var(--primary) / 0.5);
 }
+
 *::-webkit-scrollbar-button {
   -webkit-appearance: none;
   appearance: none;
   display: none;
 }
+
 /* 🔥 FORCE remove scrollbar arrows (Chrome / Edge fix) */
 *::-webkit-scrollbar-button:single-button {
   display: none;

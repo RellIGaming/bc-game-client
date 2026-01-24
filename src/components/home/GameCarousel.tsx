@@ -2,15 +2,17 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import GameCard from "./GameCard";
+import { originalGames } from "@/lib/game";
 
 interface Game {
-  id: number;
+  _id: string; 
   name: string;
   image: string;
   multiplier?: string | null;
   players?: number;
   provider?: string;
 }
+
 
 interface GameCarouselProps {
   title: string;
@@ -110,9 +112,10 @@ const GameCarousel = ({
         }}
       >
         {displayGames.map((game, idx) => (
-          <GameCard 
-            key={`${game.id}-${idx}`} 
-            game={game} 
+          <GameCard  
+         key={`${game._id}-${idx}`}
+            // key={`${game.id}-${idx}`} 
+           game={game} 
             showLabel={showLabel}
             labelText={labelText}
           />

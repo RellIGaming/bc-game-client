@@ -208,8 +208,8 @@ const mobileExtraMenu = [
   {
     id: "about",
     label: "About Us",
-    icon: Info, 
-     color: "text-primary",
+    icon: Info,
+    color: "text-primary",
     hasSubmenu: true,
     submenu: [
       { id: "achievement", label: "Achievement", icon: Trophy },
@@ -226,7 +226,7 @@ const mobileExtraMenu = [
     id: "legal",
     label: "Legal",
     icon: Scale,
-     color: "text-primary",
+    color: "text-primary",
     hasSubmenu: true,
     submenu: [
       { id: "rellbet-licence", label: "Rellbet Licence", icon: FileText },
@@ -251,7 +251,7 @@ const mobileExtraMenu = [
 ];
 
 
-const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLanguageClick,onChatClick, onCurrencyClick }: SidebarProps) => {
+const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLanguageClick, onChatClick, onCurrencyClick }: SidebarProps) => {
   const [expandedItems, setExpandedItems] = useState<string[]>([]);
   const navigate = useNavigate();
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
@@ -365,7 +365,10 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
             {menuItems.map((item) => (
               <div key={item.id}>
                 {isCollapsed ? (
-                  <div className="w-full bg-sidebar-accent rounded-sm overflow-hidden transition-all">
+                  <div className={cn(
+                    "w-full bg-sidebar-accent overflow-hidden transition-all",
+                    expandedItems.includes(item.id) ? "rounded-t-sm" : "rounded-sm"
+                  )}>
                     {/* Parent icon */}
                     <Tooltip>
                       <TooltipTrigger asChild>
@@ -376,7 +379,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                               : handleNavigate(item.id)
                           }
                           className={cn(
-                            "w-full flex items-center justify-center p-2 rounded-sm bg-sidebar-accent transition-colors",
+                            "w-full flex items-center justify-center p-2 bg-sidebar-accent transition-colors",
                             "hover: hvr-btn",
                             expandedItems.includes(item.id)
                               ? "bg-sidebar-accent rounded-t-sm"
@@ -392,7 +395,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                     </Tooltip>
 
                     {/* ✅ SHOW SUB ICONS ONLY IF EXPANDED */}
-                    <div className="rounded-b-sm bg-sidebar-accent transition-colors -mt-[2px]">
+                    <div className="rounded-b-sm bg-sidebar-accent transition-colors">
                       {item.hasSubmenu &&
                         expandedItems.includes(item.id) &&
                         item.submenu?.map((sub) => (
@@ -413,13 +416,13 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                     </div>
                   </div>
                 ) : (
-
-
                   <>
                     <button
                       onClick={() => item.hasSubmenu && toggleExpand(item.id)}
-                      className="w-full flex items-center gap-3 px-3 py-2.5 rounded-sm bg-sidebar-accent hover:hvr-btn"
-                    >
+                      className={cn(
+                        "w-full flex items-center gap-3 px-3 py-2.5 bg-sidebar-accent hover:hvr-btn",
+                        expandedItems.includes(item.id) ? "rounded-t-sm" : "rounded-sm"
+                      )}>
                       <item.icon className={cn("w-5 h-5", item.color)} />
                       <span className="text-sm font-medium">{item.label}</span>
 
@@ -439,7 +442,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                           initial={{ height: 0, opacity: 0 }}
                           animate={{ height: "auto", opacity: 1 }}
                           exit={{ height: 0, opacity: 0 }}
-                          className="overflow-hidden bg-sidebar-accent rounded-b-sm mt-[-4px]"
+                          className="overflow-hidden bg-sidebar-accent rounded-b-sm mt-[-4px] px-2"
                         >
                           {item.submenu?.map((sub) => (
                             <button
@@ -562,94 +565,94 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
             {finalBottomMenu.map((item) => (
               <div key={item.id}>
                 {isCollapsed ? (
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <button
-                        onClick={() => {
-                          if (item.id === "language") {
-                            onLanguageClick();
+                  <div
+                    className={cn(
+                      "w-full bg-sidebar-accent overflow-hidden transition-all",
+                      expandedItems.includes(item.id) ? "rounded-t-sm" : "rounded-sm"
+                    )}
+                  >
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <button
+                          onClick={() =>
+                            item.hasSubmenu
+                              ? toggleExpand(item.id)
+                              : handleNavigate(item.id)
                           }
-                          else if (item.id === "currency") {
-                            onCurrencyClick(); // 👈 create this function
-                          }
-                          else if (item.submenu?.length) {
-                            handleNavigate(item.submenu[0].id);
-                          }
-                        }}
+                          className={cn(
+                            "w-full flex items-center justify-center p-2 bg-sidebar-accent transition-colors hover:hvr-btn",
+                            expandedItems.includes(item.id) ? "rounded-t-sm" : "rounded-sm"
+                          )}
+                        >
+                          <item.icon className={cn("w-5 h-5", item.color)} />
+                        </button>
+                      </TooltipTrigger>
+                      <TooltipContent side="right">
+                        {item.label}
+                      </TooltipContent>
+                    </Tooltip>
 
-                        className={cn(
-                          "flex items-center justify-center p-2.5 rounded-sm bg-sidebar-accent transition-colors",
-                          "hover: hvr-btn",
-                          expandedItems.includes(item.id) && "bg-sidebar-accent"
-                        )}
-                      >
-                        <item.icon className={cn("w-5 h-5", item.color)} />
-                      </button>
-                    </TooltipTrigger>
-                    <TooltipContent side="right" className="bg-card border-border">
-                      {item.label}
-                    </TooltipContent>
-                  </Tooltip>
+                    {/* submenu */}
+                    <div className="bg-sidebar-accent rounded-b-sm overflow-hidden">
+                      {item.hasSubmenu &&
+                        expandedItems.includes(item.id) &&
+                        item.submenu?.map((sub) => (
+                          <Tooltip key={sub.id}>
+                            <TooltipTrigger asChild>
+                              <button
+                                onClick={() => handleNavigate(sub.id)}
+                                className="w-full flex items-center justify-center p-2 bg-sidebar-accent hover:hvr-btn transition-colors"
+                              >
+                                <sub.icon className="w-6 h-6" />
+                              </button>
+                            </TooltipTrigger>
+                            <TooltipContent side="right">
+                              {sub.label}
+                            </TooltipContent>
+                          </Tooltip>
+                        ))}
+                    </div>
+                  </div>
                 ) : (
                   <>
                     <button
-                      onClick={() => {
-                        if (item.id === "language") {
-                          onLanguageClick();
-                        }
-                        else if (item.id === "currency") {
-                          onCurrencyClick();
-                        }
-                        else if (item.id === "live") {
-                          onChatClick();
-                        }
-                        else if (item.id === "live" && !isMobile) {
-                          navigate("/live-chat"); // desktop direct redirect
-                        }
-                        else if (item.hasSubmenu) {
-                          toggleExpand(item.id); // mobile dropdown
-                        }
-
-                      }}
+                      onClick={() => item.hasSubmenu && toggleExpand(item.id)}
                       className={cn(
-                        "w-full flex items-center gap-3 px-3 py-2.5 rounded-sm bg-sidebar-accent transition-colors",
-                        "hover: hvr-btn",
-                        "text-left group"
+                        "w-full flex items-center gap-3 px-3 py-2.5 bg-sidebar-accent hover:hvr-btn transition-colors",
+                        expandedItems.includes(item.id) ? "rounded-t-sm" : "rounded-sm"
                       )}
                     >
                       <item.icon className={cn("w-5 h-5", item.color)} />
-                      <span className="flex-1 text-sm text-sidebar-foreground font-medium">
-                        {item.label}
-                      </span>
+                      <span className="text-sm font-medium">{item.label}</span>
+
                       {item.hasSubmenu && (
                         <ChevronDown
                           className={cn(
-                            "w-4 h-4 text-muted-foreground transition-transform",
+                            "w-4 h-4 ml-auto transition-transform",
                             expandedItems.includes(item.id) && "rotate-180"
                           )}
                         />
                       )}
                     </button>
+
                     <AnimatePresence>
-                      {item.hasSubmenu && item.submenu && expandedItems.includes(item.id) && (
+                      {item.hasSubmenu && expandedItems.includes(item.id) && (
                         <motion.div
                           initial={{ height: 0, opacity: 0 }}
                           animate={{ height: "auto", opacity: 1 }}
                           exit={{ height: 0, opacity: 0 }}
-                          className="overflow-hidden"
+                          className="bg-sidebar-accent rounded-b-sm overflow-hidden px-2"
                         >
-                          <div className="py-1 space-y-1">
-                            {item.submenu.map((sub) => (
-                              <button
-                                key={sub.id}
-                                onClick={() => handleNavigate(sub.id)}
-                                className="w-full flex items-center gap-2 text-left text-sm text-muted-foreground hover:text-foreground py-1.5 px-3 rounded-sm hover:bg-sidebar-accent/50 transition-colors"
-                              >
-                                <sub.icon className="w-4 h-4" />
-                                {sub.label}
-                              </button>
-                            ))}
-                          </div>
+                          {item.submenu?.map((sub) => (
+                            <button
+                              key={sub.id}
+                              onClick={() => handleNavigate(sub.id)}
+                              className="w-full flex items-center gap-3 px-3 py-2.5 bg-sidebar-accent rounded-sm hover:hvr-btn transition-colors"
+                            >
+                              <sub.icon className="w-5 h-5" />
+                              <span className="text-sm font-medium">{sub.label}</span>
+                            </button>
+                          ))}
                         </motion.div>
                       )}
                     </AnimatePresence>
@@ -657,6 +660,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                 )}
               </div>
             ))}
+
           </div>
           {/* Theme Toggle */}
           {!isCollapsed ? (
