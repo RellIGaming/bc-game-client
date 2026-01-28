@@ -1,6 +1,6 @@
 // API service without axios dependency
-//const BASE_URL = "https://bc-game-server.onrender.com";
-const BASE_URL = "http://localhost:5000";
+const BASE_URL = "https://bc-game-server.onrender.com";
+// const BASE_URL = "http://localhost:5000";
 
 interface RequestConfig {
   method?: string;

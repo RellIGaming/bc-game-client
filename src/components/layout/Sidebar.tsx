@@ -257,19 +257,42 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
 
 
-
+const goLiveStats = () => {
+  navigate("/live-stats");
+};
   const toggleExpand = (id: string) => {
     setExpandedItems((prev) =>
       prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
     );
   };
-
-  const handleNavigate = (path: string) => {
-    navigate(`/category/${path}`);
+const handleNavigate = (path: string, isDirectPath: boolean = false) => {
+    if (isDirectPath) {
+      navigate(path);
+    } else if (path === "casino" || path === "lobby") {
+      navigate("/casino");
+    } else {
+      navigate(`/category/${path}`);
+    }
     if (window.innerWidth < 1024) {
       onClose();
     }
   };
+
+  // Handle main menu item click - Casino goes to /casino
+  const handleMenuItemClick = (id: string, hasSubmenu: boolean) => {
+    if (id === "casino") {
+      navigate("/casino");
+      if (window.innerWidth < 1024) {
+        onClose();
+      }
+    } else if (hasSubmenu) {
+      toggleExpand(id);
+    } else {
+      handleNavigate(id);
+    }
+  };
+
+
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 1024);
@@ -320,7 +343,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
 
           {/* Token Price */}
           {!isCollapsed ? (
-            <div className="mx-2 mt-3 p-3 rounded-sm bg-secondary/30 flex items-center gap-3">
+            <div  onClick={goLiveStats} className="mx-2 mt-3 p-3 rounded-sm bg-secondary/30 flex items-center gap-3 cursor-pointer">
               <div className="flex items-center justify-center">
                 <img src={logo} alt="logo" className="w-6 h-6" />
               </div>
@@ -344,7 +367,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
           ) : (
             <Tooltip>
               <TooltipTrigger asChild>
-                <div className="mx-2 mt-3 p-2 rounded-sm bg-sidebar-accent flex items-center justify-center cursor-pointer">
+                <div onClick={goLiveStats} className="mx-2 mt-3 p-2 rounded-sm bg-sidebar-accent flex items-center justify-center cursor-pointer">
                   <div className="flex items-center justify-center ">
                     <img src={logo} alt="logo" className="w-5 h-5" />
                   </div>
@@ -373,11 +396,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <button
-                          onClick={() =>
-                            item.hasSubmenu
-                              ? toggleExpand(item.id)
-                              : handleNavigate(item.id)
-                          }
+                         onClick={() => handleMenuItemClick(item.id, item.hasSubmenu)}
                           className={cn(
                             "w-full flex items-center justify-center p-2 bg-sidebar-accent transition-colors",
                             "hover: hvr-btn",
@@ -418,7 +437,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                 ) : (
                   <>
                     <button
-                      onClick={() => item.hasSubmenu && toggleExpand(item.id)}
+                      onClick={() => handleMenuItemClick(item.id, item.hasSubmenu)}
                       className={cn(
                         "w-full flex items-center gap-3 px-3 py-2.5 bg-sidebar-accent hover:hvr-btn",
                         expandedItems.includes(item.id) ? "rounded-t-sm" : "rounded-sm"

@@ -4,11 +4,13 @@ import { FileText, Vault, Ticket, ExternalLink, Info, TrendingDown, TrendingUp, 
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Header from "@/components/layout/Header";
+import logo from "../assets/images/logo.png";
 import Sidebar from "@/components/layout/Sidebar";
 import MobileNav from "@/components/layout/MobileNav";
 import LanguageCurrencyModal from "@/components/layout/LanguageCurrencyModal";
 
-// Mock chart data
+
+
 const chartData = [
   { time: "6", price: 0.00073 },
   { time: "8", price: 0.000725 },
@@ -42,6 +44,8 @@ const LiveStats = () => {
   const [timeRange, setTimeRange] = useState("1H");
   const [activeTab, setActiveTab] = useState("home");
   const [showSearchModal, setShowSearchModal] = useState(false);
+ const [currencyOpen, setCurrencyOpen] = useState(false);
+  const [chatOpen, setChatOpen] = useState(false);
 
   const toggleSidebar = () => {
     if (window.innerWidth < 1024) {
@@ -83,7 +87,6 @@ const LiveStats = () => {
       <Header
         onMenuClick={toggleSidebar}
         onSearchClick={() => setShowSearchModal(true)}
-        onChatClick={() => {}}
         isSidebarCollapsed={isSidebarCollapsed}
         onToggleCollapse={toggleSidebar}
         isLoggedIn={isLoggedIn}
@@ -93,6 +96,8 @@ const LiveStats = () => {
         isDark={isDark}
         onThemeToggle={() => setIsDark(!isDark)}
         onLanguageClick={() => setShowLanguageModal(true)}
+         onCurrencyClick={() => setCurrencyOpen(true)}
+         onChatClick={() => setChatOpen(!chatOpen)}
       />
 
       <Sidebar
@@ -102,6 +107,8 @@ const LiveStats = () => {
         isDark={isDark}
         onThemeToggle={() => setIsDark(!isDark)}
         onLanguageClick={() => setShowLanguageModal(true)}
+         onCurrencyClick={() => setCurrencyOpen(true)}
+       onChatClick={() => setChatOpen(chatOpen)}
       />
 
       <main
@@ -118,8 +125,8 @@ const LiveStats = () => {
           <div className="bg-card border border-border rounded-xl p-4 lg:p-6">
             <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 lg:w-16 lg:h-16 rounded-full bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center">
-                  <span className="text-2xl lg:text-3xl font-bold text-primary-foreground">R</span>
+                <div className=" flex items-center justify-center">
+                  <img src={logo} alt="logo" className="w-12 h-12 lg:w-16 lg:h-16"/>
                 </div>
                 <div>
                   <div className="flex items-center gap-2">

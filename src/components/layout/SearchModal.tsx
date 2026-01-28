@@ -118,7 +118,7 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
                 <h2 className="text-lg font-semibold text-foreground">Explore</h2>
                 <button
                   onClick={onClose}
-                  className="p-2 rounded-lg bg-secondary hover:bg-secondary/80 transition-colors"
+                  className="p-2 rounded-sm bg-secondary hover:bg-secondary/80 transition-colors"
                 >
                   <X className="w-5 h-5 text-foreground" />
                 </button>
@@ -147,22 +147,31 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
               {/* Categories */}
               <div className="px-4 pb-4">
                 <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide">
-                  {categories.map((cat) => (
+                  {categories.map((cat, index) => (
                     <button
                       key={cat.id}
                       onClick={() => handleCategoryClick(cat.id)}
                       className={cn(
-                        "flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors flex-shrink-0",
+                        "flex items-center font-medium whitespace-nowrap transition-colors flex-shrink-0",
+                        "px-2 py-1 text-xs rounded-sm",
+                        "sm:px-2 sm:py-2 sm:text-sm sm:rounded-full sm:gap-2",
+                        index > 3 && "hidden sm:flex",
                         activeCategory === cat.id
                           ? "bg-primary text-primary-foreground"
                           : "bg-secondary text-muted-foreground hover:text-foreground"
                       )}
                     >
-                      <img src={cat.icon} alt="" className="w-4 h-4 rounded-full" />
+                      <img
+                        src={cat.icon}
+                        alt=""
+                        className="hidden sm:inline-block w-4 h-4 rounded-full"
+                      />
+
                       {cat.label}
                     </button>
                   ))}
                 </div>
+
               </div>
 
 
