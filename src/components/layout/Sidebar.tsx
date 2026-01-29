@@ -189,7 +189,7 @@ const extremBottom = [
     ],
   }, {
     id: "live",
-    label: "Live Support 24/7",
+    label: "24/7 Live Support ",
     icon: HeadphoneOff,
   },
   {
@@ -257,15 +257,15 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
 
 
-const goLiveStats = () => {
-  navigate("/live-stats");
-};
+  const goLiveStats = () => {
+    navigate("/live-stats");
+  };
   const toggleExpand = (id: string) => {
     setExpandedItems((prev) =>
       prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
     );
   };
-const handleNavigate = (path: string, isDirectPath: boolean = false) => {
+  const handleNavigate = (path: string, isDirectPath: boolean = false) => {
     if (isDirectPath) {
       navigate(path);
     } else if (path === "casino" || path === "lobby") {
@@ -278,19 +278,24 @@ const handleNavigate = (path: string, isDirectPath: boolean = false) => {
     }
   };
 
-  // Handle main menu item click - Casino goes to /casino
   const handleMenuItemClick = (id: string, hasSubmenu: boolean) => {
+    if (hasSubmenu) {
+      toggleExpand(id);
+    }
     if (id === "casino") {
       navigate("/casino");
-      if (window.innerWidth < 1024) {
-        onClose();
-      }
-    } else if (hasSubmenu) {
-      toggleExpand(id);
-    } else {
+    } else if (id === "sports") {
+      navigate("/sports");
+    }
+    else if (!hasSubmenu) {
       handleNavigate(id);
     }
+    if (window.innerWidth < 1024) {
+      onClose();
+    }
   };
+
+
 
 
 
@@ -343,7 +348,7 @@ const handleNavigate = (path: string, isDirectPath: boolean = false) => {
 
           {/* Token Price */}
           {!isCollapsed ? (
-            <div  onClick={goLiveStats} className="mx-2 mt-3 p-3 rounded-sm bg-secondary/30 flex items-center gap-3 cursor-pointer">
+            <div onClick={goLiveStats} className="mx-2 mt-3 p-3 b-radius bg-secondary/30 flex items-center gap-3 cursor-pointer">
               <div className="flex items-center justify-center">
                 <img src={logo} alt="logo" className="w-6 h-6" />
               </div>
@@ -367,7 +372,7 @@ const handleNavigate = (path: string, isDirectPath: boolean = false) => {
           ) : (
             <Tooltip>
               <TooltipTrigger asChild>
-                <div onClick={goLiveStats} className="mx-2 mt-3 p-2 rounded-sm bg-sidebar-accent flex items-center justify-center cursor-pointer">
+                <div onClick={goLiveStats} className="mx-2 mt-3 p-2 b-radius bg-sidebar-accent flex items-center justify-center cursor-pointer">
                   <div className="flex items-center justify-center ">
                     <img src={logo} alt="logo" className="w-5 h-5" />
                   </div>
@@ -390,13 +395,13 @@ const handleNavigate = (path: string, isDirectPath: boolean = false) => {
                 {isCollapsed ? (
                   <div className={cn(
                     "w-full bg-sidebar-accent overflow-hidden transition-all",
-                    expandedItems.includes(item.id) ? "rounded-t-sm" : "rounded-sm"
+                    expandedItems.includes(item.id) ? "rounded-t-sm" : "b-radius"
                   )}>
                     {/* Parent icon */}
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <button
-                         onClick={() => handleMenuItemClick(item.id, item.hasSubmenu)}
+                          onClick={() => handleMenuItemClick(item.id, item.hasSubmenu)}
                           className={cn(
                             "w-full flex items-center justify-center p-2 bg-sidebar-accent transition-colors",
                             "hover: hvr-btn",
@@ -422,7 +427,7 @@ const handleNavigate = (path: string, isDirectPath: boolean = false) => {
                             <TooltipTrigger asChild>
                               <button
                                 onClick={() => handleNavigate(sub.id)}
-                                className="bg-sidebar-accent transition-colors w-full flex items-center justify-center p-2 rounded-sm hover: hvr-btn"
+                                className="bg-sidebar-accent transition-colors w-full flex items-center justify-center p-2 b-radius hover: hvr-btn"
                               >
                                 <sub.icon className="w-6 h-6" />
                               </button>
@@ -440,7 +445,7 @@ const handleNavigate = (path: string, isDirectPath: boolean = false) => {
                       onClick={() => handleMenuItemClick(item.id, item.hasSubmenu)}
                       className={cn(
                         "w-full flex items-center gap-3 px-3 py-2.5 bg-sidebar-accent hover:hvr-btn",
-                        expandedItems.includes(item.id) ? "rounded-t-sm" : "rounded-sm"
+                        expandedItems.includes(item.id) ? "rounded-t-sm" : "b-radius"
                       )}>
                       <item.icon className={cn("w-5 h-5", item.color)} />
                       <span className="text-sm font-medium">{item.label}</span>
@@ -467,7 +472,7 @@ const handleNavigate = (path: string, isDirectPath: boolean = false) => {
                             <button
                               key={sub.id}
                               onClick={() => handleNavigate(sub.id)}
-                              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-sm bg-sidebar-accent hover:hvr-btn"
+                              className="w-full flex items-center gap-3 px-3 py-2.5 b-radius bg-sidebar-accent hover:hvr-btn"
                             >
                               <sub.icon className="w-5 h-5" />
                               <span className="text-sm font-medium">{sub.label}</span>
@@ -481,7 +486,7 @@ const handleNavigate = (path: string, isDirectPath: boolean = false) => {
                 )}
               </div>
             ))}
-            <div className="my-3 bg-sidebar-accent transition-colors rounded-sm">
+            <div className="my-3 bg-sidebar-accent transition-colors b-radius">
               {midItems.map((item) => (
                 isCollapsed ? (
                   <Tooltip key={item.id}>
@@ -489,7 +494,7 @@ const handleNavigate = (path: string, isDirectPath: boolean = false) => {
                       <button
                         onClick={() => handleNavigate(item.id)}
                         className={cn(
-                          "w-full flex items-center justify-center p-2.5 rounded-sm",
+                          "w-full flex items-center justify-center p-2.5 b-radius",
                           "hover: hvr-btn"
                         )}
                       >
@@ -505,7 +510,7 @@ const handleNavigate = (path: string, isDirectPath: boolean = false) => {
                     key={item.id}
                     onClick={() => handleNavigate(item.id)}
                     className={cn(
-                      "w-full flex items-center gap-3 px-3 py-2.5 rounded-sm ",
+                      "w-full flex items-center gap-3 px-3 py-2.5 b-radius ",
                       "hover: hvr-btn"
                     )}
                   >
@@ -518,7 +523,7 @@ const handleNavigate = (path: string, isDirectPath: boolean = false) => {
               ))}
 
             </div>
-            <div className="my-3 bg-sidebar-accent transition-colors rounded-sm">
+            <div className="my-3 bg-sidebar-accent transition-colors b-radius">
               {bottomItems.map((item) => (
                 isCollapsed ? (
                   <Tooltip key={item.id}>
@@ -526,7 +531,7 @@ const handleNavigate = (path: string, isDirectPath: boolean = false) => {
                       <button
                         onClick={() => handleNavigate(item.id)}
                         className={cn(
-                          "w-full flex items-center justify-center p-2.5 rounded-sm",
+                          "w-full flex items-center justify-center p-2.5 b-radius",
                           "hover: hvr-btn"
                         )}
                       >
@@ -542,7 +547,7 @@ const handleNavigate = (path: string, isDirectPath: boolean = false) => {
                     key={item.id}
                     onClick={() => handleNavigate(item.id)}
                     className={cn(
-                      "w-full flex items-center gap-3 px-3 py-2.5 rounded-sm ",
+                      "w-full flex items-center gap-3 px-3 py-2.5 b-radius ",
                       "hover: hvr-btn"
                     )}
                   >
@@ -560,25 +565,24 @@ const handleNavigate = (path: string, isDirectPath: boolean = false) => {
           </nav>
           {/* App Promo - Hidden when collapsed */}
           {!isCollapsed && (
-            <div className="p-3 mx-2 rounded-sm bg-secondary/50 flex items-center mb-1">
-              <div className="flex items-center gap-3 w-full">
+            <div className="p-3 mx-2 b-radius bg-secondary/50 flex items-center mb-1">
+              <div className="flex items-center gap-1 w-full">
                 <div className="min-w-0">
                   <p className="text-sm text-foreground truncate font-bold">
                     Application
                   </p>
-                  <p className="text-xs text-muted-foreground">
-                    Unlock Fun with <br /> Exclusive Features
+                  <p className="text-xs text-muted-foreground leading-tight">
+                    <span className="block">Unlock Fun with Exclusive</span>
+                    <span className="block opacity-80">Features</span>
                   </p>
                 </div>
-
                 <img
                   src={mobileSc}
                   alt="m-screen"
-                  className="w-12 h-auto shrink-0"
+                  className="w-10 h-full "
                 />
               </div>
             </div>
-
           )}
           <div className={cn("flex-1 px-2 py-1 space-y-1", isCollapsed && "px-2")}>
             {finalBottomMenu.map((item) => (
@@ -587,7 +591,7 @@ const handleNavigate = (path: string, isDirectPath: boolean = false) => {
                   <div
                     className={cn(
                       "w-full bg-sidebar-accent overflow-hidden transition-all",
-                      expandedItems.includes(item.id) ? "rounded-t-sm" : "rounded-sm"
+                      expandedItems.includes(item.id) ? "rounded-t-sm" : "b-radius"
                     )}
                   >
                     <Tooltip>
@@ -600,7 +604,7 @@ const handleNavigate = (path: string, isDirectPath: boolean = false) => {
                           }
                           className={cn(
                             "w-full flex items-center justify-center p-2 bg-sidebar-accent transition-colors hover:hvr-btn",
-                            expandedItems.includes(item.id) ? "rounded-t-sm" : "rounded-sm"
+                            expandedItems.includes(item.id) ? "rounded-t-sm" : "b-radius"
                           )}
                         >
                           <item.icon className={cn("w-5 h-5", item.color)} />
@@ -638,7 +642,7 @@ const handleNavigate = (path: string, isDirectPath: boolean = false) => {
                       onClick={() => item.hasSubmenu && toggleExpand(item.id)}
                       className={cn(
                         "w-full flex items-center gap-3 px-3 py-2.5 bg-sidebar-accent hover:hvr-btn transition-colors",
-                        expandedItems.includes(item.id) ? "rounded-t-sm" : "rounded-sm"
+                        expandedItems.includes(item.id) ? "rounded-t-sm" : "b-radius"
                       )}
                     >
                       <item.icon className={cn("w-5 h-5", item.color)} />
@@ -666,7 +670,7 @@ const handleNavigate = (path: string, isDirectPath: boolean = false) => {
                             <button
                               key={sub.id}
                               onClick={() => handleNavigate(sub.id)}
-                              className="w-full flex items-center gap-3 px-3 py-2.5 bg-sidebar-accent rounded-sm hover:hvr-btn transition-colors"
+                              className="w-full flex items-center gap-3 px-3 py-2.5 bg-sidebar-accent b-radius hover:hvr-btn transition-colors"
                             >
                               <sub.icon className="w-5 h-5" />
                               <span className="text-sm font-medium">{sub.label}</span>
@@ -684,7 +688,7 @@ const handleNavigate = (path: string, isDirectPath: boolean = false) => {
           {/* Theme Toggle */}
           {!isCollapsed ? (
             <div className="p-3">
-              <div className="flex rounded-sm bg-secondary/50 p-1">
+              <div className="flex b-radius bg-secondary/50 p-1">
                 <button
                   onClick={() => isDark && onThemeToggle()}
                   className={cn(
@@ -717,7 +721,7 @@ const handleNavigate = (path: string, isDirectPath: boolean = false) => {
                 <TooltipTrigger asChild>
                   <button
                     onClick={onThemeToggle}
-                    className="w-full flex items-center justify-center p-2.5 rounded-sm bg-sidebar-accent transition-colors hvr-btn"
+                    className="w-full flex items-center justify-center p-2.5 b-radius bg-sidebar-accent transition-colors hvr-btn"
                   >
                     {isDark ? (
                       <Moon className="w-5 h-5 text-foreground" />

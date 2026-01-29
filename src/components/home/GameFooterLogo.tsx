@@ -14,7 +14,7 @@ const GameFooterLogo = () => {
                 <div className="grid grid-cols-4 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2 lg:gap-3">
                     {providers.map((provide, i) => (
                         <>
-                            <img key={i} src={provide} alt="logo" className='w-20 h-20 rounded-sm' />
+                            <img key={i} src={provide} alt="logo" className='w-20 h-20 b-radius' />
                         </>
                     ))}
                 </div>

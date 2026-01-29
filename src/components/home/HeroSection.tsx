@@ -51,7 +51,7 @@ const HeroSection = ({ onSignUp, isLoggedIn }: HeroSectionProps) => {
 
   return (
     <section className="relative">
-      <div className="relative overflow-hidden rounded-2xl">
+      <div className="relative overflow-hidden b-radius">
         <AnimatePresence mode="wait">
           <motion.div
             key={banner.id}
@@ -94,7 +94,7 @@ const HeroSection = ({ onSignUp, isLoggedIn }: HeroSectionProps) => {
 
               <Button
                 onClick={onSignUp}
-               className="w-fit px-4 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base font-semibold rounded-lg sm:rounded-xl"
+                className="w-fit px-4 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base font-semibold b-radius sm:b-radius"
               >
                 Join Now
               </Button>
@@ -102,22 +102,22 @@ const HeroSection = ({ onSignUp, isLoggedIn }: HeroSectionProps) => {
 
             {/* Bottom Controls */}
             {isLoggedIn && (
-  <div className="absolute bottom-4 right-4 flex items-center gap-2 z-10">
-    <button
-      onClick={prevBanner}
-      className="p-2 rounded-lg bg-black/50 hover:bg-black/70"
-    >
-      <ChevronLeft className="w-5 h-5 text-white" />
-    </button>
+              <div className="absolute bottom-4 right-4 flex items-center gap-2 z-10">
+                <button
+                  onClick={prevBanner}
+                  className="p-2 rounded-lg bg-black/50 hover:bg-black/70"
+                >
+                  <ChevronLeft className="w-5 h-5 text-white" />
+                </button>
 
-    <button
-      onClick={nextBanner}
-      className="p-2 rounded-lg bg-black/50 hover:bg-black/70"
-    >
-      <ChevronRight className="w-5 h-5 text-white" />
-    </button>
-  </div>
-)}
+                <button
+                  onClick={nextBanner}
+                  className="p-2 rounded-lg bg-black/50 hover:bg-black/70"
+                >
+                  <ChevronRight className="w-5 h-5 text-white" />
+                </button>
+              </div>
+            )}
 
 
             {/* Dots */}

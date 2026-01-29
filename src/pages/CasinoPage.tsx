@@ -238,7 +238,7 @@ const CasinoPage = ({ isLoggedIn, setIsLoggedIn }: CasinoPageProps) => {
                   key={tab.id}
                   onClick={() => setActiveCategory(tab.id)}
                   className={cn(
-                    "flex items-center gap-1.5 px-3 py-2 rounded-sm text-xs sm:text-sm font-medium whitespace-nowrap transition-colors",
+                    "flex items-center gap-1.5 px-3 py-2 b-radius text-xs sm:text-sm font-medium whitespace-nowrap transition-colors",
                     activeCategory === tab.id
                       ? "bg-primary text-primary-foreground"
                       : "bg-secondary text-muted-foreground hover:text-foreground hover:bg-secondary/80"
@@ -383,7 +383,7 @@ const GameCardClickable = ({ game, onClick }: GameCardClickableProps) => {
   return (
     <div 
       onClick={onClick}
-      className="rounded-xl overflow-hidden cursor-pointer group gaming-card-hover relative"
+      className="b-radius overflow-hidden cursor-pointer group gaming-card-hover relative"
     >
       <div className="aspect-[3/4] relative">
         <img
@@ -418,7 +418,7 @@ const GameCardClickable = ({ game, onClick }: GameCardClickableProps) => {
         </div>
 
         <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-          <span className="bg-primary text-primary-foreground px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg font-medium text-[10px] sm:text-xs">
+          <span className="bg-primary text-primary-foreground px-2 sm:px-3 py-1 sm:py-1.5 b-radius font-medium text-[10px] sm:text-xs">
             Play Now
           </span>
         </div>
@@ -492,10 +492,10 @@ const GameCarouselWithClick = ({
             </button>
           )}
           <div className="flex items-center gap-1">
-            <button onClick={prev} className="p-1 sm:p-1.5 rounded-lg bg-secondary hover:bg-secondary/80 transition-colors">
+            <button onClick={prev} className="p-1 sm:p-1.5 b-radius bg-secondary hover:bg-secondary/80 transition-colors">
               <ChevronLeft className="w-3 h-3 sm:w-4 sm:h-4 text-muted-foreground" />
             </button>
-            <button onClick={next} className="p-1 sm:p-1.5 rounded-lg bg-secondary hover:bg-secondary/80 transition-colors">
+            <button onClick={next} className="p-1 sm:p-1.5 b-radius bg-secondary hover:bg-secondary/80 transition-colors">
               <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4 text-muted-foreground" />
             </button>
           </div>

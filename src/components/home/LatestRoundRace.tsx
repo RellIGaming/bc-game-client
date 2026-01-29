@@ -12,9 +12,11 @@ const bets = [
   { id: 8, game: "Argentine Messi", player: "Bitcoin031", time: "12:50", amount: "993.93", currency: "USDT", multiplier: "2.08x", profit: "+25.001", profitCurrency: "USDT", isWin: true },
   { id: 9, game: "Fortune Time", player: "6hisao", time: "12:50", amount: "68.64", currency: "ETH", multiplier: "0.00x", profit: "-0.01438192", profitCurrency: "ETH", isWin: false },
 ];
+const tabs = ["Latest Bet", "High Roller", "Wager Contest"];
 
 const LatestRoundRace = () => {
   const [isMobile, setIsMobile] = useState(false);
+ const [activeTab, setActiveTab] = useState("Latest Bet");
 
   const updateIsMobile = useCallback(() => {
     setIsMobile(window.innerWidth < 640);
@@ -28,13 +30,27 @@ const LatestRoundRace = () => {
 
   return (
     <section className="space-y-3 sm:space-y-4">
-      {/* Header */}
-      <div className="flex items-center justify-between flex-wrap gap-2 sm:gap-4">
-        <h2 className="text-base sm:text-lg font-bold text-foreground">Latest round & Race</h2>
-      </div>
-
+      <div className="flex items-center justify-between flex-wrap gap-4">
+        <h2 className="text-lg font-bold text-foreground">Latest round & Race</h2>
+        <div className="flex items-center gap-1 bg-secondary/50 p-1 rounded-lg">
+          {tabs.map((tab) => (
+            <button
+              key={tab}
+              onClick={() => setActiveTab(tab)}
+              className={cn(
+                "px-3 py-1.5 text-xs font-medium b-radius transition-colors",
+                activeTab === tab
+                  ? "bg-primary text-primary-foreground"
+                  : "text-muted-foreground hover:text-foreground"
+              )}
+            >
+              {tab}
+            </button>
+          ))}
+</div>
+</div>
       {/* Table */}
-      <div className="rounded-xl bg-card overflow-hidden">
+      <div className="b-radius bg-card overflow-hidden">
         {/* Header Row */}
         {isMobile ? (
           <div className="grid grid-cols-4 gap-2 p-2 sm:p-3 bg-secondary/30 text-[10px] sm:text-xs font-medium text-muted-foreground">

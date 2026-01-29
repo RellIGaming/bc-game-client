@@ -22,7 +22,7 @@ const GameCard = ({ game, onClick, showLabel = true, labelText = "ORIGINAL GAME"
   return (
     <div 
       onClick={onClick}
-      className="rounded-xl overflow-hidden cursor-pointer group gaming-card-hover relative"
+      className="b-radius overflow-hidden cursor-pointer group gaming-card-hover relative"
     >
       <div className="aspect-[3/4] relative">
         <img
@@ -66,7 +66,7 @@ const GameCard = ({ game, onClick, showLabel = true, labelText = "ORIGINAL GAME"
 
         {/* Hover Overlay */}
         <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-          <span className="bg-primary text-primary-foreground px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg font-medium text-[10px] sm:text-xs flex items-center gap-1">
+          <span className="bg-primary text-primary-foreground px-2 sm:px-3 py-1 sm:py-1.5 b-radius font-medium text-[10px] sm:text-xs flex items-center gap-1">
             <Play className="w-3 h-3" />
             Play Now
           </span>

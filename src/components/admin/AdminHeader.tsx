@@ -32,7 +32,7 @@ const AdminHeader = ({ onMenuClick }: AdminHeaderProps) => {
       <div className="flex items-center gap-2 lg:gap-4">
         {/* Collapse Toggle for Desktop */}
         <button
-          className="hidden lg:flex p-2 rounded-sm bg-secondary transition-colors hover:bg-secondary/80"
+          className="hidden lg:flex p-2 b-radius bg-secondary transition-colors hover:bg-secondary/80"
         >
           <ChevronLeft className="w-5 h-5 text-foreground" />
         </button>
@@ -60,11 +60,11 @@ const AdminHeader = ({ onMenuClick }: AdminHeaderProps) => {
 
       {/* Right Section */}
       <div className="flex items-center gap-1 lg:gap-2">
-        <button className="p-2 rounded-sm bg-secondary hvr-btn btn-press text-muted-foreground hover:text-foreground transition-colors">
+        <button className="p-2 b-radius bg-secondary hvr-btn btn-press text-muted-foreground hover:text-foreground transition-colors">
           <Search className="w-5 h-5 lg:hidden" />
           <Settings className="w-5 h-5 hidden lg:block" />
         </button>
-        <button className="hidden lg:flex p-2 rounded-sm bg-secondary hvr-btn btn-press text-muted-foreground hover:text-foreground transition-colors relative">
+        <button className="hidden lg:flex p-2 b-radius bg-secondary hvr-btn btn-press text-muted-foreground hover:text-foreground transition-colors relative">
           <Bell className="w-5 h-5" />
           <span className="absolute -top-1 -right-1 w-4 h-4 bg-primary text-primary-foreground text-xs rounded-full flex items-center justify-center">
             3
@@ -72,7 +72,7 @@ const AdminHeader = ({ onMenuClick }: AdminHeaderProps) => {
         </button>
         <button
           onClick={handleLogout}
-          className="flex items-center gap-2 px-3 py-2 rounded-sm bg-secondary hvr-btn btn-press text-muted-foreground hover:text-foreground transition-colors"
+          className="flex items-center gap-2 px-3 py-2 b-radius bg-secondary hvr-btn btn-press text-muted-foreground hover:text-foreground transition-colors"
         >
           <LogOut className="w-5 h-5" />
           <span className="hidden sm:inline text-sm">Log Out</span>

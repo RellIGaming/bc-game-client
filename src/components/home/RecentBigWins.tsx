@@ -66,9 +66,9 @@ const RecentBigWins = () => {
           {duplicatedWins.map((win, index) => (
             <div
               key={`${win.id}-${index}`}
-              className="flex-shrink-0 w-16 lg:w-20 group cursor-pointer bg-card rounded-sm"
+              className="flex-shrink-0 w-16 lg:w-20 group cursor-pointer bg-card b-radius"
             >
-              <div className="relative aspect-square rounded-sm overflow-hidden mb-1 gaming-card-hover">
+              <div className="relative aspect-square b-radius overflow-hidden mb-1 gaming-card-hover">
                 <img 
                   src={win.image} 
                   alt={win.game}

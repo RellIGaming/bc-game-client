@@ -62,13 +62,13 @@ const Header = ({
     <> 
     <header
       className="fixed top-0 left-0 right-0 z-50 h-14 bg-sidebar flex items-center px-3 lg:px-4"
-      style={{ boxShadow: "0 4px 15px rgba(0, 0, 0, 0.3)" }}
+      style={{ boxShadow: "0 14px 15px rgba(0, 0, 0, 0.3)" }}
     >
       <div className="flex items-center gap-2 lg:gap-4 flex-1">
         {/* Collapse Toggle for Desktop only */}
         <button
           onClick={onToggleCollapse}
-          className="hidden lg:flex p-2 rounded-sm bg-secondary transition-colors hover:bg-secondary transition-colors"
+          className="hidden lg:flex p-2 b-radius bg-secondary transition-colors hover:bg-secondary transition-colors"
         >
           {isSidebarCollapsed ? (
             <ChevronRight className="w-5 h-5 text-foreground" />
@@ -89,7 +89,7 @@ const Header = ({
         {/* Search - desktop only */}
         <button
           onClick={onSearchClick}
-          className="hvr-btn btn-press hidden lg:flex p-2 rounded-sm bg-secondary transition-colors hover:bg-secondary"
+          className="hvr-btn btn-press hidden lg:flex p-2 b-radius bg-secondary transition-colors hover:bg-secondary"
         >
           <Search className="w-5 h-5 text-muted-foreground" />
         </button>
@@ -100,7 +100,7 @@ const Header = ({
             <div className="relative hidden lg:block">
               <button
                 onClick={() => setDepositOpen(!depositOpen)}
-                className="flex items-center gap-2 bg-secondary rounded-lg px-3 py-1 hover:bg-secondary/80 transition-colors"
+                className="flex items-center gap-2 bg-secondary b-radius px-3 py-1 hover:bg-secondary/80 transition-colors"
               >
                 <span className="text-primary text-lg">₿</span>
                 <span className="text-foreground font-medium">₹0.00</span>
@@ -114,7 +114,7 @@ const Header = ({
             </div>
 
             {/* Mobile Balance Field */}
-            <div className="flex lg:hidden items-center gap-1 bg-secondary rounded-lg px-2 py-1">
+            <div className="flex lg:hidden items-center gap-1 bg-secondary b-radius px-2 py-1">
               <span className="text-primary text-sm">₿</span>
               <span className="text-foreground text-xs font-medium">₹0.00</span>
             </div>
@@ -131,7 +131,7 @@ const Header = ({
             <div className="relative hidden lg:block">
               <button
                 onClick={() => setBonusOpen(!bonusOpen)}
-                className="flex p-2 rounded-sm bg-secondary transition-all hvr-btn btn-press relative"
+                className="flex p-2 b-radius bg-secondary transition-all hvr-btn btn-press relative"
               >
                 <Gift className="w-5 h-5 text-muted-foreground" />
                 <span className="absolute -top-1 -right-1 w-4 h-4 bg-primary text-primary-foreground text-xs rounded-full flex items-center justify-center">
@@ -149,7 +149,7 @@ const Header = ({
             <div className="relative hidden lg:block">
               <button
                 onClick={() => setNotificationOpen(!notificationOpen)}
-                className="flex p-2 rounded-sm bg-secondary transition-all hvr-btn btn-press relative"
+                className="flex p-2 b-radius bg-secondary transition-all hvr-btn btn-press relative"
               >
                 <Bell className="w-5 h-5 text-muted-foreground" />
                 <span className="absolute -top-1 -right-1 w-4 h-4 bg-primary text-primary-foreground text-xs rounded-full flex items-center justify-center">
@@ -199,7 +199,7 @@ const Header = ({
             {/* Chat - desktop only */}
             {/* <button
               onClick={onChatClick}
-              className="hidden lg:flex p-2 rounded-sm bg-secondary transition-all hvr-btn btn-press"
+              className="hidden lg:flex p-2 b-radius bg-secondary transition-all hvr-btn btn-press"
             >
               <MessageSquare className="w-5 h-5 text-muted-foreground" />
             </button> */}
@@ -207,7 +207,7 @@ const Header = ({
             {/* Globe - desktop only */}
             <button 
               onClick={onLanguageClick}
-              className="hvr-btn btn-press hidden lg:flex p-2 rounded-sm bg-secondary transition-colors hover:bg-secondary"
+              className="hvr-btn btn-press hidden lg:flex p-2 b-radius bg-secondary transition-colors hover:bg-secondary"
             >
               <Globe className="w-5 h-5 text-muted-foreground" />
             </button>

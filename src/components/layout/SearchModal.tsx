@@ -118,7 +118,7 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
                 <h2 className="text-lg font-semibold text-foreground">Explore</h2>
                 <button
                   onClick={onClose}
-                  className="p-2 rounded-sm bg-secondary hover:bg-secondary/80 transition-colors"
+                  className="p-2 b-radius bg-secondary hover:bg-secondary/80 transition-colors"
                 >
                   <X className="w-5 h-5 text-foreground" />
                 </button>
@@ -153,7 +153,7 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
                       onClick={() => handleCategoryClick(cat.id)}
                       className={cn(
                         "flex items-center font-medium whitespace-nowrap transition-colors flex-shrink-0",
-                        "px-2 py-1 text-xs rounded-sm",
+                        "px-2 py-1 text-xs b-radius",
                         "sm:px-2 sm:py-2 sm:text-sm sm:rounded-full sm:gap-2",
                         index > 3 && "hidden sm:flex",
                         activeCategory === cat.id

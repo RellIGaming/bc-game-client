@@ -123,13 +123,13 @@ const LiveSports = () => {
           <div className="flex items-center gap-1">
             <button
               onClick={() => scroll("left")}
-              className="p-1 sm:p-1.5 rounded-lg bg-secondary hover:bg-secondary/80 transition-colors"
+              className="p-1 sm:p-1.5 b-radius bg-secondary hover:bg-secondary/80 transition-colors"
             >
               <ChevronLeft className="w-3 h-3 sm:w-4 sm:h-4 text-muted-foreground" />
             </button>
             <button
               onClick={() => scroll("right")}
-              className="p-1 sm:p-1.5 rounded-lg bg-secondary hover:bg-secondary/80 transition-colors"
+              className="p-1 sm:p-1.5 b-radius bg-secondary hover:bg-secondary/80 transition-colors"
             >
               <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4 text-muted-foreground" />
             </button>
@@ -145,7 +145,7 @@ const LiveSports = () => {
         {matches.map((match) => (
           <div
             key={match.id}
-            className="flex-shrink-0 snap-start rounded-xl bg-card p-3 sm:p-4 cursor-pointer gaming-card-hover"
+            className="flex-shrink-0 snap-start b-radius bg-card p-3 sm:p-4 cursor-pointer gaming-card-hover"
             style={{ 
               width: visibleCount === 1 ? 'calc(100% - 8px)' : visibleCount === 2 ? 'calc(50% - 8px)' : 'calc(33.333% - 8px)',
               minWidth: visibleCount === 1 ? '280px' : visibleCount === 2 ? '280px' : '300px'
@@ -190,13 +190,13 @@ const LiveSports = () => {
               {match.odds.map((odd, idx) => (
                 <button
                   key={idx}
-                  className="flex-1 flex flex-col items-center py-1.5 sm:py-2 px-1 sm:px-2 rounded-sm bg-secondary hover:bg-secondary/80 transition-colors"
+                  className="flex-1 flex flex-col items-center py-1.5 sm:py-2 px-1 sm:px-2 b-radius bg-secondary hover:bg-secondary/80 transition-colors"
                 >
                   <span className="text-[8px] sm:text-[10px] text-muted-foreground">{odd.label}</span>
                   <span className="text-xs sm:text-sm font-bold text-primary">{odd.value}</span>
                 </button>
               ))}
-              <button className="flex items-center justify-center px-2 sm:px-3 rounded-sm bg-secondary hover:bg-secondary/80 transition-colors">
+              <button className="flex items-center justify-center px-2 sm:px-3 b-radius bg-secondary hover:bg-secondary/80 transition-colors">
                 <span className="text-[10px] sm:text-xs text-muted-foreground">{match.moreMarkets}</span>
               </button>
             </div>

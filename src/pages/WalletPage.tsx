@@ -254,7 +254,7 @@ const WalletPage = ({ isLoggedIn, setIsLoggedIn }: WalletPageProps) => {
             <div>
               <h3 className="text-sm text-muted-foreground mb-2">Cash</h3>
               {filteredBalances.filter(b => b.type === "cash").map((balance) => (
-                <div key={balance.id} className="flex items-center justify-between py-3 border-b border-border bg-[#213744] rounded-sm px-4">
+                <div key={balance.id} className="flex items-center justify-between py-3 border-b border-border bg-[#213744] b-radius px-4">
                   <div className="flex items-center gap-3">
                     <span className="text-xl">{balance.icon}</span>
                     <span className="font-medium">{balance.name}</span>
@@ -271,7 +271,7 @@ const WalletPage = ({ isLoggedIn, setIsLoggedIn }: WalletPageProps) => {
             {/* Crypto Section */}
             <div>
               <h3 className="text-sm text-muted-foreground mb-2">Crypto currency</h3>
-              <div className="bg-[#213744] px-4 rounded-sm">
+              <div className="bg-[#213744] px-4 b-radius">
                 {filteredBalances.filter(b => b.type === "crypto").map((balance) => (
                   <div key={balance.id} className="flex items-center justify-between py-3 border-b border-gray-600">
                     <div className="flex items-center gap-3">
@@ -389,7 +389,7 @@ const WalletPage = ({ isLoggedIn, setIsLoggedIn }: WalletPageProps) => {
                     </div>
                     <div>
                       <label className="text-sm text-muted-foreground">Deposit address</label>
-                      <div className="flex flex-row min-w-0 bg-[#242527] p-2 rounded-sm mb-2">
+                      <div className="flex flex-row min-w-0 bg-[#242527] p-2 b-radius mb-2">
                         <p className="text-primary text-sm break-all font-mono">
                           GkNqpF2P9xi5yYWtF3snCSnNrJnSvZ9qvGSpMhG764c
                         </p>
@@ -570,10 +570,10 @@ const WalletPage = ({ isLoggedIn, setIsLoggedIn }: WalletPageProps) => {
               <select
                 value={selectedNetwork}
                 onChange={(e) => setSelectedNetwork(e.target.value)}
-                className="w-full px-4 py-3 bg-secondary rounded-sm border border-border text-foreground 
+                className="w-full px-4 py-3 bg-secondary b-radius border border-border text-foreground 
                appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-green-500"
               >
-                <div className="w-full px-4 py-3 bg-[#2a2f2f] border border-[#3a3f3f] rounded-sm text-white appearance-none cursor-pointer"
+                <div className="w-full px-4 py-3 bg-[#2a2f2f] border border-[#3a3f3f] b-radius text-white appearance-none cursor-pointer"
                 >
                   {networks.map((network) => (
                     <option key={network.id} value={network.id} className="bg-[#242828] text-white">
@@ -747,7 +747,7 @@ const WalletPage = ({ isLoggedIn, setIsLoggedIn }: WalletPageProps) => {
 
             <div className="flex flex-col lg:flex-row gap-4 lg:gap-6">
               {/* Sidebar Menu */}
-              <div className="w-full lg:w-56 flex-shrink-0 bg-[#213744] p-2 rounded-sm">
+              <div className="w-full lg:w-56 flex-shrink-0 bg-[#213744] p-2 b-radius">
                 <div className="flex lg:flex-col gap-2 overflow-x-auto lg:overflow-visible pb-2 lg:pb-0 scrollbar-hide">
                   {walletMenuItems.map((item) => (
                     <button
@@ -772,7 +772,7 @@ const WalletPage = ({ isLoggedIn, setIsLoggedIn }: WalletPageProps) => {
 
               {/* Main Content */}
               <div className="flex-1 min-w-0">
-                <div className="bg-card rounded-xl p-4 lg:p-6">
+                <div className="bg-card b-radius p-4 lg:p-6">
                   {renderContent()}
                 </div>
               </div>

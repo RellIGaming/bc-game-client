@@ -49,7 +49,7 @@ const CategoryCards = () => {
           <div
             key={cat.id}
             onClick={() => navigate(`/category/${cat.id}`)}
-            className="relative overflow-hidden rounded-xl bg-card cursor-pointer group gaming-card-hover min-h-[120px]"
+            className="relative overflow-hidden b-radius bg-card cursor-pointer group gaming-card-hover min-h-[120px]"
           >
             {/* Background Image */}
             {/* <div 

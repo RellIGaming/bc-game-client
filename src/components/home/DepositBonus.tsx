@@ -23,7 +23,7 @@ const DepositBonus = () => {
   const cryptos = [ADA, bnb, doge, eth, sql, trx, usdc, usdt, xpr];
 
   return (
-<section className="rounded-xl bg-gradient-to-r from-card via-card to-primary/5 p-4 lg:p-5">
+<section className="b-radius bg-[#213744] p-4 lg:p-5">
   <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
 
     {/* Crypto Icons - TOP in mobile */}

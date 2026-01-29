@@ -5,93 +5,81 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
-    /* Stake.ac inspired darker theme */
-    --background: 220 20% 8%;
-    --foreground: 210 20% 90%;
+:root {
+   /* Stake.ac inspired darker theme */
+  --background: 203 40% 14%;
+  --foreground: 210 20% 92%;
 
-    --card: 220 20% 11%;
-    --card-foreground: 210 20% 90%;
+  /* Cards & panels */
+  --card: 203 35% 18%;
+  --card-foreground: 210 20% 92%;
 
-    --popover: 220 20% 10%;
-    --popover-foreground: 210 20% 90%;
+  --popover: 203 35% 16%;
+  --popover-foreground: 210 20% 92%;
 
-    --primary: 160 84% 39%;
-    --primary-foreground: 0 0% 100%;
+  /* Primary brand color (green like image) */
+  --primary: 212 100% 50%;
+  --primary-foreground: 0 0% 100%;
 
-    --secondary: 220 18% 14%;
-    --secondary-foreground: 210 20% 90%;
+  /* Secondary blocks */
+  --secondary: 203 30% 22%;
+  --secondary-foreground: 210 20% 92%;
 
-    --muted: 220 15% 18%;
-    --muted-foreground: 220 10% 50%;
+  /* Muted text */
+  --muted: 203 25% 25%;
+  --muted-foreground: 210 10% 55%;
 
-    --accent: 160 84% 39%;
+ --accent: 160 84% 39%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 220 15% 16%;
-    --input: 220 18% 14%;
-    --ring: 160 84% 39%;
 
-    --radius: 0.75rem;
+  --border: 203 30% 20%;
+  --input: 203 30% 20%;
+ --ring: 212 100% 50%;
+  --radius: 3px;
 
-    /* Sidebar - slightly darker than body */
-    --sidebar-background: 220 22% 6%;
-    --sidebar-foreground: 210 20% 90%;
+  /* Sidebar */
+  --sidebar-background: 203 40% 12%;
+  --sidebar-foreground: 210 20% 90%;
     --sidebar-primary: 160 84% 39%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 220 18% 12%;
-    --sidebar-accent-foreground: 210 20% 90%;
+  --sidebar-accent: 203 35% 20%;
+ --sidebar-accent-foreground: 210 20% 90%;
     --sidebar-border: 220 15% 14%;
     --sidebar-ring: 160 84% 39%;
-
-    /* Custom gaming tokens - Stake style */
-    --gaming-green: 160 84% 39%;
+  /* Hover effect background */
+  --gaming-hover: 150 60% 20%;
+   --gaming-green: 160 84% 39%;
     --gaming-green-glow: 160 84% 50%;
     --gaming-dark: 220 22% 6%;
     --gaming-card: 220 20% 11%;
-    --gaming-hover: 220 18% 18%;
     --chat-bg: 220 20% 10%;
     --gold: 45 93% 58%;
     --vip-purple: 270 60% 60%;
 
-    /* Header specific - same as sidebar */
-    --header-bg: 220 22% 6%;
-  }
+  /* Header */
+  --header-bg: 204 37% 16%;
+}
 
-  /* :root {
-  --background: 203 36% 16%;
-  --foreground: 0 0% 98%;
 
-  --card: 203 36% 18%;
-  --card-foreground: 0 0% 98%;
+.light {
+  --background: 210 25% 96%;
+  --foreground: 210 30% 12%;
 
-  --popover: 203 36% 15%;
-  --popover-foreground: 0 0% 98%;
+  --card: 0 0% 100%;
+  --card-foreground: 210 30% 12%;
 
-  --secondary: 203 30% 22%;
-  --muted: 203 25% 25%;
+  --secondary: 210 20% 92%;
+  --muted: 210 15% 85%;
 
-  --sidebar-background: 203 36% 13%;
-  --header-bg: 203 36% 13%;
-
-  --gaming-dark: 203 36% 14%;
-  --chat-bg: 203 36% 16%;
-} */
-
-  .light {
-    --background: 210 20% 96%;
-    --foreground: 213 32% 12%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 213 32% 12%;
-
-    --popover: 0 0% 100%;
+  --primary: 212 100% 50%;
+  --border: 210 15% 80%;
+   --popover: 0 0% 100%;
     --popover-foreground: 213 32% 12%;
 
-    --primary: 160 84% 39%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 210 15% 92%;
@@ -110,12 +98,13 @@
     --input: 210 15% 90%;
     --ring: 160 84% 39%;
 
-    --sidebar-background: 210 20% 96%;
+  --sidebar-background: 210 25% 94%;
+--sidebar-background: 210 20% 96%;
     --sidebar-foreground: 213 32% 12%;
     --sidebar-primary: 160 84% 39%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 210 15% 92%;
-    --sidebar-accent-foreground: 213 32% 12%;
+      --sidebar-accent: 210 20% 90%;
+      --sidebar-accent-foreground: 213 32% 12%;
     --sidebar-border: 210 15% 85%;
     --sidebar-ring: 160 84% 39%;
 
@@ -128,10 +117,10 @@
     --gold: 45 93% 50%;
     --vip-purple: 270 60% 50%;
 
-    --header-bg: 0 0% 100%;
-  }
+  --header-bg: 0 0% 100%;
 }
 
+}
 @layer base {
   * {
     @apply border-border;
@@ -166,6 +155,16 @@
   .sidebar-item {
   transition: border-radius 0.25s ease, background 0.25s ease;
 }
+.sidebar-active {
+  background: linear-gradient(
+    90deg,
+    hsla(202, 35%, 20%, 1),
+    hsla(212, 98%, 33%, 1)
+  );
+  color: white;
+  box-shadow: inset 0 0 10px hsl(212, 100%, 50%, 1 / 0.4);
+}
+
   .flip-button {
     @apply transform transition-transform duration-300;
     transform-style: preserve-3d;
@@ -177,22 +176,35 @@
 
   /* Common interactive button */
   .hvr-btn {
-    background-color: var(--secondary);
-    position: relative;
-    /* transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); */
-
-  }
-
+  background: hsl(var(--secondary));
+  border-radius: 3px;
+  transition: all 0.25s ease;
+  position: relative;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+}
+.b-radius{ border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px; -ms-border-radius: 3px; -o-border-radius: 3px;
+}
 
   /* Hover gradient */
   .hvr-btn:hover {
-    background: linear-gradient(90deg, rgb(51, 200, 126) 0%, rgb(10, 80, 33) 50%, rgb(1, 14, 7) 100%);
+   background: linear-gradient(
+    90deg,
+    hsla(202, 35%, 20%, 1),
+    hsla(212, 98%, 33%, 1)
+  );
     color: #ffffff !important;
   }
 
   /* Active (mouse down / pressed) */
   .hvr-btn:active {
-    background: linear-gradient(90deg, rgb(51, 200, 126) 0%, rgb(10, 80, 33) 50%, rgb(1, 14, 7) 100%);
+ background: linear-gradient(
+    90deg,
+    hsla(202, 35%, 20%, 1),
+    hsla(212, 98%, 33%, 1)
+  );
     /* transform: scale(0.96); */
     color: #ffffff !important;
     /* -webkit-transform: scale(0.96);

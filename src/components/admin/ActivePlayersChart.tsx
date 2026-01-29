@@ -59,7 +59,7 @@ const ActivePlayersChart = () => {
           <span>Repossit</span>
         </div>
         <div className="flex items-center gap-2">
-          <span className="w-3 h-3 rounded-sm bg-primary/50" />
+          <span className="w-3 h-3 b-radius bg-primary/50" />
           <span>All Players</span>
         </div>
       </div>

@@ -165,7 +165,7 @@ const LanguageCurrencyModal = ({ isOpen, onClose }: LanguageCurrencyModalProps) 
                                                 key={lang.code}
                                                 onClick={() => setSelectedLanguage(lang.code)}
                                                 className={cn(
-                                                    "w-full flex items-center justify-between px-4 py-2 rounded-sm transition-colors",
+                                                    "w-full flex items-center justify-between px-4 py-2 b-radius transition-colors",
                                                     selectedLanguage === lang.code
                                                         ? "bg-secondary"
                                                         : "hover:bg-secondary/50"
@@ -192,7 +192,7 @@ const LanguageCurrencyModal = ({ isOpen, onClose }: LanguageCurrencyModalProps) 
                                                     <button
                                                         onClick={() => setSelectedCurrency(curr.code)}
                                                         className={cn(
-                                                            "w-full flex items-center justify-between px-3 py-1 rounded-sm transition-colors",
+                                                            "w-full flex items-center justify-between px-3 py-1 b-radius transition-colors",
                                                             selectedCurrency === curr.code
                                                                 ? "bg-secondary"
                                                                 : "hover:bg-secondary/50"
