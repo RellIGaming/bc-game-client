@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Search, Flame, Gamepad2, Dice1, Trophy, Star, Sparkles, Grid3X3, Play } from "lucide-react";
@@ -20,7 +20,7 @@ interface SearchModalProps {
   onClose: () => void;
 }
 
-const categories = [
+export const categories = [
   { id: "all", label: "All Games", icon: card2 },
   { id: "originals", label: "BC Originals", icon: card3 },
   { id: "hot", label: "Hot Games", icon: card4 },
@@ -30,7 +30,7 @@ const categories = [
   { id: "new", label: "New Releases", icon: card8 },
 ];
 
-const allGames = [
+export const allGames = [
   { id: 1, name: "CRASH", players: 2422, multiplier: "999x", image: card2, category: "originals" },
   { id: 2, name: "LIMBO", players: 312, multiplier: "500x", image: card8, category: "originals" },
   { id: 3, name: "TWIST", players: 248, multiplier: null, image: card7, category: "originals" },
@@ -58,7 +58,14 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [selectedGame, setSelectedGame] = useState<typeof allGames[0] | null>(null);
   const [gameModalOpen, setGameModalOpen] = useState(false);
+const [isMobile, setIsMobile] = useState(false);
 
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
   // Filter games based on search and category
   const filteredGames = useMemo(() => {
     let games = allGames;
@@ -103,7 +110,11 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-start justify-center pt-10 px-4"
+            className="
+fixed inset-0 bg-black/80 backdrop-blur-sm z-50
+sm:flex sm:items-start sm:justify-center sm:pt-10 sm:px-4
+"
+
             onClick={onClose}
           >
             <motion.div
@@ -111,9 +122,13 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
               onClick={(e) => e.stopPropagation()}
-              className="w-full max-w-7xl bg-card rounded-2xl overflow-hidden max-h-[85vh] flex flex-col"
+              className="
+w-full bg-card flex flex-col
+h-full
+sm:max-w-7xl sm:max-h-[85vh] sm:rounded-2xl
+"
+
             >
-              {/* Header */}
               <div className="flex items-center justify-between p-4">
                 <h2 className="text-lg font-semibold text-foreground">Explore</h2>
                 <button
@@ -242,8 +257,6 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
           </motion.div>
         )}
       </AnimatePresence>
-
-      {/* Game Detail Modal */}
       <GameDetailModal
         isOpen={gameModalOpen}
         onClose={() => setGameModalOpen(false)}

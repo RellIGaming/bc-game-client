@@ -53,7 +53,7 @@ const mockMessages = [
     user: "mazari0786",
     avatar: "",
     level: 19,
-    message: "Bast washes the bc game is good game",
+    message: "Bast washes the  game is good game",
     time: "19:32",
     levelColor: "bg-gold",
   },

@@ -1,6 +1,6 @@
 import { Globe, Home, Notebook, PlayIcon, Search, Signal, Star, X } from "lucide-react";
 import React, { useMemo, useState } from "react";
-import { Tooltip, TooltipContent , TooltipTrigger} from "../ui/tooltip";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { cn } from "@/lib/utils";
 
 const sportsCategory = [
@@ -18,9 +18,8 @@ const sportsCategory = [
   { id: "12", icon: Notebook, label: "My Bets" },
 ];
 
-const SportsCategoryTabs = () => {
+const SportsCategoryTabs = ({ showSearch, setShowSearch }) => {
   const [activeTab, setActiveTab] = useState("1");
-  const [showSearch, setShowSearch] = useState(false);
   const [query, setQuery] = useState("");
 
   const filteredCategories = useMemo(() => {
@@ -30,8 +29,8 @@ const SportsCategoryTabs = () => {
   }, [query]);
 
   return (
- <div className="w-full">
-      
+    <div className="w-full">
+
       {/* 🔥 STICKY TABS SECTION */}
       <div className="flex items-center gap-2 p-3 border-b border-border bg-card sticky top-0 z-40 overflow-x-auto custom-scrollbar">
         {filteredCategories.map((t) => {
@@ -71,27 +70,53 @@ const SportsCategoryTabs = () => {
 
       {/* ✅ SEARCH BAR OUTSIDE STICKY */}
       {showSearch && (
-        <div className="px-3 py-2 b-radius border-border flex items-center gap-2 mt-4 mx-2">
-          <input
-            autoFocus
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search sports..."
-            className="flex-1 px-3 py-3 bg-secondary b-radius border-b border border-border text-sm outline-none focus:ring-1 focus:ring-primary"
-          />
+       
+        <div className="animate-fade-in">
+          <div className="w-full mx-auto p-4">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="relative flex-1">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                <input
+                  type="text"
+                  placeholder="Search"
+                  autoFocus
+                  className="w-full pl-12 pr-4 py-3 bg-secondary rounded-lg text-foreground outline-none focus:ring-2 focus:ring-primary"
+                />
+              </div>
+              <button
+                onClick={() => {
+                  setShowSearch(false);
+                  setQuery("");
+                }}
+                className="px-4 py-3 bg-secondary text-foreground rounded-lg hover:bg-muted transition-colors"
+              >
+                Close
+              </button>
+            </div>
 
-          {/* ❌ Close Button */}
-          <button
-            onClick={() => {
-              setShowSearch(false);
-              setQuery("");
-            }}
-            className="px-2 py-2 b-radius bg-secondary hover:bg-destructive/20 transition-all"
-          >
-            <X className="w-4 h-4" />
-          </button>
+            <div className="flex flex-wrap gap-2 mb-8">
+              {['UEFA Europa League', 'UEFA Champions League', 'Penalty Shoot-out (10 shots)', 'Saloon Dice (10 rounds)', 'FA Cup (2x6 min)', 'Copa del Rey'].map((tag) => (
+                <button
+                  key={tag}
+                  className="px-4 py-2 bg-secondary text-foreground text-sm rounded-full hover:bg-muted transition-colors"
+                >
+                  {tag}
+                </button>
+              ))}
+            </div>
+            <div className="text-center py-20">
+              <div className="inline-flex items-center justify-center w-24 h-24 mb-6">
+                <div className="relative">
+                  <Search className="w-16 h-16 text-primary" />
+                  <div className="absolute -top-2 -right-2 w-8 h-8 bg-primary rounded-full" />
+                </div>
+              </div>
+              <h3 className="text-xl font-medium mb-2">Looking for something special?</h3>
+            </div>
+          </div>
         </div>
       )}
+
     </div>
   );
 };

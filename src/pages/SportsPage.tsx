@@ -5,14 +5,27 @@ import { useNavigate } from "react-router-dom";
 import Header from "@/components/layout/Header";
 import Sidebar from "@/components/layout/Sidebar";
 import SportsCategoryTabs from "@/components/sports/SportsCategoryTabs";
+import { BetSlip } from "@/components/sports/BetSlip";
+import { SportsTabs } from "@/components/sports/SportsTabs";
+import { Search } from "lucide-react";
+import { HighlightsTab } from "@/components/sports/HighlightsTab";
+import { EventBuilderTab } from "@/components/sports/EventBuilderTab";
+import { BetsFeedTab } from "@/components/sports/BetsFeedTab";
+import { BetItem, TabType } from "@/types/sports";
+import MobileNav from "@/components/layout/MobileNav";
+import SearchModal from "@/components/layout/SearchModal";
+import LanguageCurrencyModal from "@/components/layout/LanguageCurrencyModal";
+import SignUpModal from "@/components/auth/SignUpModal";
+import SignInModal from "@/components/auth/SignInModal";
+import ResetPasswordModal from "@/components/auth/ResetPasswordModal";
 
 interface SportsPageProps {
   isLoggedIn: boolean;
   setIsLoggedIn: (value: boolean) => void;
 }
 
-const SportsPage=({ isLoggedIn, setIsLoggedIn }: SportsPageProps) => {
- const navigate = useNavigate();
+const SportsPage = ({ isLoggedIn, setIsLoggedIn }: SportsPageProps) => {
+  const navigate = useNavigate();
   const [isDark, setIsDark] = useState(true);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -22,10 +35,25 @@ const SportsPage=({ isLoggedIn, setIsLoggedIn }: SportsPageProps) => {
   const [currencyOpen, setCurrencyOpen] = useState(false);
   const [signUpOpen, setSignUpOpen] = useState(false);
   const [signInOpen, setSignInOpen] = useState(false);
-   const [isMobile, setIsMobile] = useState(false);
-   const toggleTheme = () => setIsDark(!isDark);
-
-   const getMainMargin = () => {
+  const [resetPasswordOpen, setResetPasswordOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const toggleTheme = () => setIsDark(!isDark);
+  const [showSearch, setShowSearch] = useState(false);
+  const [pendingGameId, setPendingGameId] = useState<number | null>(null);
+const [activeTab, setActiveTab] = useState("sports");
+ const handleSwitchToSignIn = () => { setSignUpOpen(false); setSignInOpen(true); };
+  const handleSwitchToSignUp = () => { setSignInOpen(false); setSignUpOpen(true); };
+  const handleForgotPassword = () => { setSignInOpen(false); setResetPasswordOpen(true); };
+  const handleBackToLogin = () => { setResetPasswordOpen(false); setSignInOpen(true); };
+   const handleLoginSuccess = (value: boolean) => {
+    setIsLoggedIn(value);
+    setSignInOpen(false);
+    if (pendingGameId && value) {
+      navigate(`/game/${pendingGameId}`);
+      setPendingGameId(null);
+    }
+  };
+  const getMainMargin = () => {
     if (isMobile) return 0;
     if (!sidebarOpen) return 0;
     return sidebarCollapsed ? 64 : 240;
@@ -53,19 +81,38 @@ const SportsPage=({ isLoggedIn, setIsLoggedIn }: SportsPageProps) => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const [activeTab, setActiveTab] = useState("highlights");
-  const [betSlipOpen, setBetSlipOpen] = useState(false);
-  const [betRows, setBetRows] = useState([]);
-  const [quickBet, setQuickBet] = useState(false);
+  const [activeSportsTab, setActiveSportsTab] = useState<TabType>('highlights');
+  const [bets, setBets] = useState<BetItem[]>([]);
+  const [isBetSlipOpen, setIsBetSlipOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
 
-  const addBet = (bet) => {
-    setBetSlipOpen(true);
-    setBetRows((prev) => [...prev, bet]);
+  const selectedBetIds = bets.map((b) => b.id);
+
+  const handleAddBet = (bet: BetItem) => {
+    const existingIndex = bets.findIndex((b) => b.id === bet.id);
+    if (existingIndex >= 0) {
+      // Remove if already selected
+      setBets(bets.filter((b) => b.id !== bet.id));
+    } else {
+      // Add new bet
+      setBets([...bets, bet]);
+      setIsBetSlipOpen(true);
+    }
   };
 
+  const handleRemoveBet = (betId: string) => {
+    setBets(bets.filter((b) => b.id !== betId));
+  };
+
+  const handleClearAll = () => {
+    setBets([]);
+    setIsBetSlipOpen(false);
+  };
+
+
   return (
-   <div className="h-screen flex flex-col overflow-hidden bg-background">
-       <Header
+    <div className="h-screen flex flex-col overflow-hidden bg-background">
+      <Header
         onMenuClick={() => setSidebarOpen(!sidebarOpen)}
         onSearchClick={() => setSearchOpen(true)}
         onChatClick={() => setChatOpen(!chatOpen)}
@@ -96,150 +143,66 @@ const SportsPage=({ isLoggedIn, setIsLoggedIn }: SportsPageProps) => {
           onChatClick={() => setChatOpen(!chatOpen)}
         />
 
-        <main 
+        <main
           className="flex-1 min-w-0 pb-20 lg:pb-0 transition-all duration-300 overflow-y-auto custom-scrollbar"
           style={{ marginLeft: getMainMargin() }}
         >
-        {/* TOP TABS */}
-        <SportsCategoryTabs/>
-        <div className="flex gap-2 p-3 ml-2">
-          {["highlights", "event", "betsfeed"].map((t) => (
-            <button
-              key={t}
-              onClick={() => setActiveTab(t)}
-              className={`px-4 py-2 b-radius text-sm font-medium ${activeTab === t ? "bg-primary text-white" : "bg-secondary"}`}
-            >
-              {t === "highlights" && "Highlights"}
-              {t === "event" && "Event Builder"}
-              {t === "betsfeed" && "Bets Feed"}
-            </button>
-          ))}
-        </div>
+          <SportsCategoryTabs
+            showSearch={showSearch}
+            setShowSearch={setShowSearch}
+          />
 
-        {/* CONTENT */}
-        <div className="flex-1 overflow-y-auto p-4">
-          {activeTab === "highlights" && <Highlights addBet={addBet} />}
-          {activeTab === "event" && <EventBuilder addBet={addBet} />}
-          {activeTab === "betsfeed" && <BetsFeed addBet={addBet} />}
-        </div>
-      
+          {!showSearch && (
+            <div className="max-w-7xl mx-auto px-4 py-6">
+              <div className="flex items-center justify-between flex-wrap gap-4 mb-6">
+                <SportsTabs activeTab={activeSportsTab} onTabChange={setActiveSportsTab} />
+              </div>
+              <>
+                {activeSportsTab === 'highlights' && (
+                  <HighlightsTab onAddBet={handleAddBet} selectedBets={selectedBetIds} />
+                )}
+                {activeSportsTab === 'event-builder' && (
+                  <EventBuilderTab onAddBet={handleAddBet} selectedBets={selectedBetIds} />
+                )}
+                {activeSportsTab === 'bets-feed' && <BetsFeedTab onAddBet={handleAddBet} />}
+              </>
+            </div>
+          )}
+
+
+
           <Footer />
         </main>
-</div>
+      </div>
+       <MobileNav
+              onMenuClick={() => setSidebarOpen(!sidebarOpen)}
+              onSearchClick={() => setSearchOpen(true)}
+              onChatClick={() => setChatOpen(!chatOpen)}
+              activeTab={activeTab}
+              setActiveTab={setActiveTab}
+            />
+      
+            <SearchModal isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
+            <LanguageCurrencyModal isOpen={languageOpen} onClose={() => setLanguageOpen(false)} />
+            <SignUpModal isOpen={signUpOpen} onClose={() => setSignUpOpen(false)} onSwitchToSignIn={handleSwitchToSignIn} setIsLoggedIn={setIsLoggedIn} />
+            <SignInModal isOpen={signInOpen} onClose={() => setSignInOpen(false)} onSwitchToSignUp={handleSwitchToSignUp} onForgotPassword={handleForgotPassword} setIsLoggedIn={handleLoginSuccess} />
+            <ResetPasswordModal isOpen={resetPasswordOpen} onClose={() => setResetPasswordOpen(false)} onBackToLogin={handleBackToLogin} />
+        
       {/* BET SLIP MODAL */}
       <AnimatePresence>
-        {betSlipOpen && (
-          <motion.div
-            initial={{ x: 400 }}
-            animate={{ x: 0 }}
-            exit={{ x: 400 }}
-            className="fixed bottom-4 right-4 w-80 bg-card b-radius shadow-xl border border-border z-50 flex flex-col"
-          >
-            <div className="flex items-center justify-between p-3 border-b">
-              <span className="font-semibold">Bet Slip</span>
-              <button onClick={() => setBetSlipOpen(false)}>✕</button>
-            </div>
-
-            {/* QUICK BET TOGGLE */}
-            <div className="p-2 border-b flex items-center justify-between">
-              <span className="text-sm">Quick Bet</span>
-              <button
-                onClick={() => setQuickBet(!quickBet)}
-                className={`w-10 h-5 rounded-full ${quickBet ? "bg-primary" : "bg-secondary"}`}
-              />
-            </div>
-
-            {/* BET ROWS */}
-            {!quickBet && (
-              <div className="flex-1 overflow-y-auto p-2 space-y-2">
-                {betRows.map((b, i) => (
-                  <div key={i} className="p-2 bg-secondary b-radius text-sm">
-                    {b}
-                  </div>
-                ))}
-              </div>
-            )}
-
-            {/* FOOTER */}
-            <div className="p-3 border-t">
-              <button className="w-full py-2 bg-primary text-white b-radius">Place Bet</button>
-            </div>
-          </motion.div>
-        )}
+        {/* Bet Slip */}
+        <BetSlip
+          bets={bets}
+          onRemoveBet={handleRemoveBet}
+          onClearAll={handleClearAll}
+          isOpen={isBetSlipOpen}
+          onToggle={() => setIsBetSlipOpen(!isBetSlipOpen)}
+        />
       </AnimatePresence>
     </div>
   );
 }
 
-function Highlights({ addBet }) {
-  return (
-    <div className="grid md:grid-cols-3 gap-4">
-      {[1, 2, 3, 4, 5, 6].map((i) => (
-        <div key={i} className="bg-card p-4 b-radius border">
-          <div className="font-semibold">Match {i}</div>
-          <div className="grid grid-cols-3 gap-2 mt-3">
-            <button onClick={() => addBet(`Match ${i} - Option 1`)} className="bg-secondary p-2 rounded">1</button>
-            <button onClick={() => addBet(`Match ${i} - Draw`)} className="bg-secondary p-2 rounded">X</button>
-            <button onClick={() => addBet(`Match ${i} - Option 2`)} className="bg-secondary p-2 rounded">2</button>
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function EventBuilder({ addBet }) {
-  const [sport, setSport] = useState("soccer");
-  const [time, setTime] = useState("today");
-
-  return (
-    <div className="space-y-4">
-      <div className="flex gap-3">
-        <select value={sport} onChange={(e) => setSport(e.target.value)} className="bg-secondary p-2 b-radius">
-          <option value="soccer">Soccer</option>
-          <option value="basketball">Basketball</option>
-        </select>
-        <select value={time} onChange={(e) => setTime(e.target.value)} className="bg-secondary p-2 b-radius">
-          <option value="today">Today</option>
-          <option value="tomorrow">Tomorrow</option>
-        </select>
-      </div>
-
-      <div className="grid md:grid-cols-3 gap-4">
-        {[1, 2, 3].map((i) => (
-          <div key={i} className="bg-card p-4 b-radius border">
-            <div className="font-semibold">Event {i}</div>
-            <div className="grid grid-cols-3 gap-2 mt-3">
-              <button onClick={() => addBet(`Event ${i} - 1`)} className="bg-secondary p-2 rounded">1</button>
-              <button onClick={() => addBet(`Event ${i} - X`)} className="bg-secondary p-2 rounded">X</button>
-              <button onClick={() => addBet(`Event ${i} - 2`)} className="bg-secondary p-2 rounded">2</button>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function BetsFeed({ addBet }) {
-  return (
-    <div className="space-y-6">
-      {["Soccer", "Basketball", "Tennis"].map((cat) => (
-        <div key={cat}>
-          <h3 className="font-semibold mb-2">{cat}</h3>
-          <div className="space-y-2">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="bg-card p-3 b-radius flex justify-between items-center border">
-                <span>{cat} Match {i}</span>
-                <button onClick={() => addBet(`${cat} Match ${i}`)} className="bg-primary text-white px-3 py-1 rounded">Add</button>
-              </div>
-            ))}
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-}
 
 
 export default SportsPage;

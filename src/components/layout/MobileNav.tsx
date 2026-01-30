@@ -34,11 +34,11 @@ const MobileNav = ({
     } else if (id === "menu") {
       onMenuClick();
     } else if (id === "explore") {
-      onSearchClick();
+      navigate("/search");
     } else if (id === "casino") {
-      navigate("/category/casino");
+      navigate("/casino");
     } else if (id === "sports") {
-      navigate("/category/sports");
+      navigate("/sports");
     }
   };
 

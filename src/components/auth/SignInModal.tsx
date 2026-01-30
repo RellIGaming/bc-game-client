@@ -181,7 +181,6 @@ const SignInModal = ({ isOpen, onClose, onSwitchToSignUp, onForgotPassword,setIs
                   ))}
                 </div>
               </div>
-
               <p className="text-center text-sm text-muted-foreground mt-4">
                 New to Rellbet?{" "}
                 <button onClick={onSwitchToSignUp} className="text-primary font-medium hover:underline">
