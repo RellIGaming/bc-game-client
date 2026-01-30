@@ -51,6 +51,7 @@ import {
 } from "@/components/ui/tooltip";
 import mobileSc from "../../assets/images/i-3.png";
 import logo from "../../assets/images/logo.png";
+import Casino from "../../assets/images/casino-icon.png";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -411,6 +412,14 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                           )}
                         >
                           <item.icon className={cn("w-5 h-5", item.color)} />
+                          {/* <img
+                            src={item.icon}
+                            alt={item.label}
+                            className={cn(
+                              "w-5 h-5",
+                              isCollapsed && "mx-auto"
+                            )}
+                          /> */}
                         </button>
                       </TooltipTrigger>
                       <TooltipContent side="right">

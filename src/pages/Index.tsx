@@ -138,7 +138,7 @@ const Index = ({ isLoggedIn, setIsLoggedIn }: IndexProps) => {
           <Footer />
         </main>
 
-        <LiveChat isOpen={chatOpen} onClose={() => setChatOpen(false)} />
+        {/* <LiveChat isOpen={chatOpen} onClose={() => setChatOpen(false)} /> */}
       </div>
 
       <MobileNav
@@ -156,12 +156,12 @@ const Index = ({ isLoggedIn, setIsLoggedIn }: IndexProps) => {
       <ResetPasswordModal isOpen={resetPasswordOpen} onClose={() => setResetPasswordOpen(false)} onBackToLogin={handleBackToLogin} />
       <UserProfilePanel isOpen={profileOpen} onClose={() => setProfileOpen(false)} />
 
-      <button
+      {/* <button
         onClick={() => setChatOpen(true)}
         className="fixed bottom-20 right-4 w-12 h-12 rounded-full bg-primary text-primary-foreground shadow-lg gaming-glow lg:hidden flex items-center justify-center z-30"
       >
         <span className="text-xl">💬</span>
-      </button>
+      </button> */}
     </div>
   );
 };

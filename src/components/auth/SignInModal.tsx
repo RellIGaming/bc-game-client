@@ -58,13 +58,13 @@ const SignInModal = ({ isOpen, onClose, onSwitchToSignUp, onForgotPassword,setIs
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.95, opacity: 0 }}
             onClick={(e) => e.stopPropagation()}
-            className="w-full max-w-md bg-card rounded-2xl overflow-hidden"
+            className="w-full max-w-md bg-card b-radius overflow-hidden"
           >
             {/* Form */}
             <div className="p-6 relative">
               <button
                 onClick={onClose}
-                className="absolute top-4 right-4 p-2 rounded-lg hover:bg-secondary transition-colors"
+                className="absolute top-4 right-4 p-2 b-radius hover:bg-secondary transition-colors"
               >
                 <X className="w-5 h-5 text-muted-foreground" />
               </button>
@@ -72,10 +72,10 @@ const SignInModal = ({ isOpen, onClose, onSwitchToSignUp, onForgotPassword,setIs
               <h2 className="text-xl font-bold text-foreground mb-6">Sign In</h2>
 
               {/* Login Method Toggle */}
-              <div className="flex rounded-lg bg-secondary p-1 mb-4">
+              <div className="flex b-radius bg-secondary p-1 mb-4">
                 <button
                   onClick={() => setLoginMethod("password")}
-                  className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-md text-sm font-medium transition-colors ${
+                  className={`flex-1 flex items-center justify-center gap-2 py-2.5 b-radius text-sm font-medium transition-colors ${
                     loginMethod === "password"
                       ? "bg-card text-foreground"
                       : "text-muted-foreground hover:text-foreground"
@@ -86,7 +86,7 @@ const SignInModal = ({ isOpen, onClose, onSwitchToSignUp, onForgotPassword,setIs
                 </button>
                 <button
                   onClick={() => setLoginMethod("otp")}
-                  className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-md text-sm font-medium transition-colors ${
+                  className={`flex-1 flex items-center justify-center gap-2 py-2.5 b-radius text-sm font-medium transition-colors ${
                     loginMethod === "otp"
                       ? "bg-card text-foreground"
                       : "text-muted-foreground hover:text-foreground"

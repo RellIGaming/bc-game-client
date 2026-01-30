@@ -92,13 +92,13 @@ const handleSubmit = async (e: React.FormEvent) => {
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.95, opacity: 0 }}
             onClick={(e) => e.stopPropagation()}
-            className="w-full max-w-md bg-card rounded-2xl overflow-hidden max-h-[90vh] overflow-y-auto scrollbar-hide"
+            className="w-full max-w-md bg-card b-radius overflow-hidden max-h-[90vh] overflow-y-auto scrollbar-hide"
           >
             {/* Form */}
             <div className="p-6 relative">
               <button
                 onClick={onClose}
-                className="absolute top-4 right-4 p-2 rounded-lg hover:bg-secondary transition-colors"
+                className="absolute top-4 right-4 p-2 b-radius hover:bg-secondary transition-colors"
               >
                 <X className="w-5 h-5 text-muted-foreground" />
               </button>

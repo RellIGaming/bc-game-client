@@ -183,7 +183,7 @@ const Header = ({
             <Button
               variant="ghost"
               onClick={onSignInClick}
-              className="hvr-btn text-foreground bg-secondary transition-colors hover:bg-secondary btn-press text-xs lg:text-sm px-2 lg:px-4"
+              className="hvr-btn text-foreground bg-secondary transition-colors hover:bg-secondary btn-press text-xs lg:text-sm px-4 lg:px-4"
             >
               Login
             </Button>
