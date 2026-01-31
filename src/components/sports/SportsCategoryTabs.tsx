@@ -1,4 +1,4 @@
-import { Globe, Home, Notebook, PlayIcon, Search, Signal, Star, X } from "lucide-react";
+import { Globe, Home, Notebook, PlayIcon, Search, Signal, Slash, Star, X } from "lucide-react";
 import React, { useMemo, useState } from "react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { cn } from "@/lib/utils";
@@ -7,6 +7,7 @@ const sportsCategory = [
   { id: "1", icon: Home, label: "Home" },
   { id: "2", icon: Signal, label: "Live" },
   { id: "3", icon: Star, label: "Favourites" },
+  { id: "4", icon: Slash, label: "" },
   { id: "4", icon: Notebook, label: "My Bets" },
   { id: "5", icon: Globe, label: "Soccer" },
   { id: "6", icon: Home, label: "Original" },

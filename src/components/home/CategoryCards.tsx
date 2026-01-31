@@ -13,6 +13,7 @@ const categories = [
     description: "Dive into our in-house games, live casino and slots",
     icon: Gamepad2,
     color: "text-primary",
+    path:"/casino",
     // bgGradient: "from-emerald-900/80 to-emerald-950/80",
     image: casino,
     emoji: "🎰",
@@ -23,6 +24,7 @@ const categories = [
     description: "Bet on Football, Cricket, NFL, eSports & over 80 sports!",
     icon: Trophy,
     color: "text-vip",
+    path:"/sports",
     // bgGradient: "from-blue-900/80 to-blue-950/80",
     image: sports,
     emoji: "⚽",
@@ -48,7 +50,7 @@ const CategoryCards = () => {
         {categories.map((cat) => (
           <div
             key={cat.id}
-            onClick={() => navigate(`/category/${cat.id}`)}
+            onClick={() => navigate(cat.path)}
             className="relative overflow-hidden b-radius bg-card cursor-pointer group gaming-card-hover min-h-[120px]"
           >
             {/* Background Image */}

@@ -15,6 +15,8 @@ import GameDetailPage from "./pages/GameDetailPage";
 import WalletPage from "./pages/WalletPage";
 import SportsPage from "./pages/SportsPage";
 import SearchPage from "./pages/SearchPage";
+import AppLayout from "./components/layout/AppLayout";
+import Home from "./pages/Home";
 
 const queryClient = new QueryClient();
 
@@ -30,7 +32,9 @@ const App = () => {
       <Sonner />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Index isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
+          <Route element={<AppLayout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />}>
+          <Route path="/" element={<Home isLoggedIn={isLoggedIn} />} />
+          {/* <Route path="/" element={<Index isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} /> */}
             <Route path="/casino" element={<CasinoPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
             <Route path="/sports" element={<SportsPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
             <Route path="/search" element={<SearchPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
@@ -38,6 +42,7 @@ const App = () => {
             <Route path="/wallet/:section" element={<WalletPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
             <Route path="/category/:category" element={<CategoryPage />} />
             <Route path="/live-stats" element={<LiveStats />} />
+            </Route>
             <Route path="/admin-login" element={<AdminLogin />} />
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="*" element={<NotFound />} />

@@ -45,6 +45,7 @@ export interface BetItem {
 export interface BetsFeedItem {
   id: string;
   event: string;
+  // icon: string;
   outcome: string;
   odds: number;
   stake: string;
@@ -54,7 +55,7 @@ export interface BetsFeedItem {
   sport: string;
 }
 
-export type SportCategory = 
+export type SportCategory =
   | 'all'
   | 'soccer'
   | 'cricket'

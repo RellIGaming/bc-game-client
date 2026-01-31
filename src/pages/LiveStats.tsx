@@ -4,7 +4,7 @@ import { FileText, Vault, Ticket, ExternalLink, Info, TrendingDown, TrendingUp, 
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Header from "@/components/layout/Header";
-import logo from "../assets/images/logo.png";
+import Blogo from "../assets/images/logo.png";
 import Sidebar from "@/components/layout/Sidebar";
 import MobileNav from "@/components/layout/MobileNav";
 import LanguageCurrencyModal from "@/components/layout/LanguageCurrencyModal";
@@ -125,9 +125,7 @@ const LiveStats = () => {
           <div className="bg-card border border-border rounded-xl p-4 lg:p-6">
             <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
               <div className="flex items-center gap-4">
-                <div className=" flex items-center justify-center">
-                  <img src={logo} alt="logo" className="w-12 h-12 lg:w-16 lg:h-16"/>
-                </div>
+                  <img src={Blogo} alt="logo" className="w-12 h-12 lg:w-16 lg:h-16"/>
                 <div>
                   <div className="flex items-center gap-2">
                     <h1 className="text-xl lg:text-2xl font-bold text-foreground">Rell Token</h1>

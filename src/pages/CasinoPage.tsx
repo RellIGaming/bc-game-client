@@ -2,15 +2,7 @@ import { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { Search, Sparkles, Flame, LayoutGrid, CircleDot, Star, Spade, Dice1 } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import MobileNav from "@/components/layout/MobileNav";
-import SearchModal from "@/components/layout/SearchModal";
-import LanguageCurrencyModal from "@/components/layout/LanguageCurrencyModal";
-import SignInModal from "@/components/auth/SignInModal";
-import SignUpModal from "@/components/auth/SignUpModal";
-import ResetPasswordModal from "@/components/auth/ResetPasswordModal";
-import LiveChat from "@/components/layout/LiveChat";
-import Footer from "@/components/home/Footer";
-import GameCarousel from "@/components/home/GameCarousel";
+
 import HeroSection from "@/components/home/HeroSection";
 import LatestRoundRace from "@/components/home/LatestRoundRace";
 import Providers from "@/components/home/Providers";
@@ -83,13 +75,9 @@ interface CasinoPageProps {
 
 const CasinoPage = ({ isLoggedIn, setIsLoggedIn }: CasinoPageProps) => {
   const navigate = useNavigate();
-  const [isDark, setIsDark] = useState(true);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const [chatOpen, setChatOpen] = useState(false);
-  const [searchOpen, setSearchOpen] = useState(false);
-  const [languageOpen, setLanguageOpen] = useState(false);
-  const [currencyOpen, setCurrencyOpen] = useState(false);
+ 
   const [signUpOpen, setSignUpOpen] = useState(false);
   const [signInOpen, setSignInOpen] = useState(false);
   const [resetPasswordOpen, setResetPasswordOpen] = useState(false);
@@ -98,13 +86,6 @@ const CasinoPage = ({ isLoggedIn, setIsLoggedIn }: CasinoPageProps) => {
   const [activeCategory, setActiveCategory] = useState("lobby");
   const [searchQuery, setSearchQuery] = useState("");
   const [pendingGameId, setPendingGameId] = useState<number | null>(null);
-
-  useEffect(() => {
-    document.documentElement.classList.remove("light");
-    if (!isDark) {
-      document.documentElement.classList.add("light");
-    }
-  }, [isDark]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -122,11 +103,6 @@ const CasinoPage = ({ isLoggedIn, setIsLoggedIn }: CasinoPageProps) => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const toggleTheme = () => setIsDark(!isDark);
-  const handleSwitchToSignIn = () => { setSignUpOpen(false); setSignInOpen(true); };
-  const handleSwitchToSignUp = () => { setSignInOpen(false); setSignUpOpen(true); };
-  const handleForgotPassword = () => { setSignInOpen(false); setResetPasswordOpen(true); };
-  const handleBackToLogin = () => { setResetPasswordOpen(false); setSignInOpen(true); };
 
   // Handle login success - navigate to pending game
   const handleLoginSuccess = (value: boolean) => {
@@ -148,12 +124,7 @@ const CasinoPage = ({ isLoggedIn, setIsLoggedIn }: CasinoPageProps) => {
     }
   };
 
-  const getMainMargin = () => {
-    if (isMobile) return 0;
-    if (!sidebarOpen) return 0;
-    return sidebarCollapsed ? 64 : 240;
-  };
-
+ 
   // Filter games based on category and search
   const filteredGames = useMemo(() => {
     let games = allGames;
@@ -179,43 +150,12 @@ const CasinoPage = ({ isLoggedIn, setIsLoggedIn }: CasinoPageProps) => {
   };
 
   return (
-    <div className="h-screen flex flex-col overflow-hidden bg-background">
-       <Header
-        onMenuClick={() => setSidebarOpen(!sidebarOpen)}
-        onSearchClick={() => setSearchOpen(true)}
-        onChatClick={() => setChatOpen(!chatOpen)}
-        onSignInClick={() => setSignInOpen(true)}
-        onSignUpClick={() => setSignUpOpen(true)}
-        onLanguageClick={() => setLanguageOpen(true)}
-        onCurrencyClick={() => setCurrencyOpen(true)}
-        isDark={isDark}
-        onThemeToggle={toggleTheme}
-        isSidebarCollapsed={sidebarCollapsed}
-        onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
-        isLoggedIn={isLoggedIn}
-        onLogout={() => {
-          localStorage.removeItem("token");
-          setIsLoggedIn(false);
-        }}
-      />
-
-      <div className="flex flex-1 pt-14 overflow-hidden">
-        <Sidebar
-          isOpen={sidebarOpen}
-          isCollapsed={sidebarCollapsed}
-          onClose={() => setSidebarOpen(false)}
-          isDark={isDark}
-          onThemeToggle={toggleTheme}
-          onLanguageClick={() => setLanguageOpen(true)}
-          onCurrencyClick={() => setCurrencyOpen(true)}
-          onChatClick={() => setChatOpen(!chatOpen)}
-        />
-
+    <div className="">
         <main 
-          className="flex-1 min-w-0 pb-20 lg:pb-0 transition-all duration-300 overflow-y-auto custom-scrollbar"
-          style={{ marginLeft: getMainMargin() }}
+          className=""
+          
         >
-          <div className="px-3 lg:px-6 py-4 lg:py-5 space-y-4 lg:space-y-5">
+          <div className="px-1 lg:px-2 py-2 lg:py-4 space-y-4 lg:space-y-5">
             {/* Hero Banner */}
             <HeroSection onSignUp={() => setSignUpOpen(true)} isLoggedIn={isLoggedIn} />
 
@@ -343,26 +283,10 @@ const CasinoPage = ({ isLoggedIn, setIsLoggedIn }: CasinoPageProps) => {
               </div>
             )}
           </div>
-          <Footer />
         </main>
 
-        <LiveChat isOpen={chatOpen} onClose={() => setChatOpen(false)} />
       </div>
 
-      <MobileNav
-        onMenuClick={() => setSidebarOpen(!sidebarOpen)}
-        onSearchClick={() => setSearchOpen(true)}
-        onChatClick={() => setChatOpen(!chatOpen)}
-        activeTab={activeTab}
-        setActiveTab={setActiveTab}
-      />
-
-      <SearchModal isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
-      <LanguageCurrencyModal isOpen={languageOpen} onClose={() => setLanguageOpen(false)} />
-      <SignUpModal isOpen={signUpOpen} onClose={() => setSignUpOpen(false)} onSwitchToSignIn={handleSwitchToSignIn} setIsLoggedIn={setIsLoggedIn} />
-      <SignInModal isOpen={signInOpen} onClose={() => setSignInOpen(false)} onSwitchToSignUp={handleSwitchToSignUp} onForgotPassword={handleForgotPassword} setIsLoggedIn={handleLoginSuccess} />
-      <ResetPasswordModal isOpen={resetPasswordOpen} onClose={() => setResetPasswordOpen(false)} onBackToLogin={handleBackToLogin} />
-    </div>
   );
 };
 

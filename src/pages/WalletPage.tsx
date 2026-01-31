@@ -22,13 +22,6 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import Header from "@/components/layout/Header";
-import Sidebar from "@/components/layout/Sidebar";
-import MobileNav from "@/components/layout/MobileNav";
-import LiveChat from "@/components/layout/LiveChat";
-import SearchModal from "@/components/layout/SearchModal";
-import LanguageCurrencyModal from "@/components/layout/LanguageCurrencyModal";
 import Footer from "@/components/home/Footer";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
@@ -107,19 +100,14 @@ interface WalletPageProps {
 const WalletPage = ({ isLoggedIn, setIsLoggedIn }: WalletPageProps) => {
   const { section } = useParams();
   const navigate = useNavigate();
-  const location = useLocation();
   const [isDark, setIsDark] = useState(true);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const [chatOpen, setChatOpen] = useState(false);
-  const [searchOpen, setSearchOpen] = useState(false);
-  const [languageOpen, setLanguageOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState("casino");
+  
   const [isMobile, setIsMobile] = useState(false);
   const [activeSection, setActiveSection] = useState(section || "deposit");
   const [depositTab, setDepositTab] = useState<"crypto" | "fiat">("crypto");
   const [selectedCrypto, setSelectedCrypto] = useState("bc");
-  const [currencyOpen, setCurrencyOpen] = useState(false);
   const [selectedNetwork, setSelectedNetwork] = useState("solana");
   const [withdrawAmount, setWithdrawAmount] = useState("");
   const [withdrawAddress, setWithdrawAddress] = useState("");
@@ -706,41 +694,9 @@ const WalletPage = ({ isLoggedIn, setIsLoggedIn }: WalletPageProps) => {
   };
 
   return (
-    <div className="h-screen flex flex-col overflow-hidden bg-background">
-      <Header
-        onMenuClick={() => setSidebarOpen(!sidebarOpen)}
-        onSearchClick={() => setSearchOpen(true)}
-        onChatClick={() => setChatOpen(!chatOpen)}
-        onSignInClick={() => { }}
-        onSignUpClick={() => { }}
-        onLanguageClick={() => setLanguageOpen(true)}
-        onCurrencyClick={() => setCurrencyOpen(true)}
-        isDark={isDark}
-        onThemeToggle={toggleTheme}
-        isSidebarCollapsed={sidebarCollapsed}
-        onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
-        isLoggedIn={isLoggedIn}
-        onLogout={() => {
-          localStorage.removeItem("token");
-          setIsLoggedIn(false);
-        }}
-      />
-
-      <div className="flex flex-1 pt-14 overflow-hidden">
-        <Sidebar
-          isOpen={sidebarOpen}
-          isCollapsed={sidebarCollapsed}
-          onClose={() => setSidebarOpen(false)}
-          onChatClick={() => setChatOpen(chatOpen)}
-          isDark={isDark}
-          onThemeToggle={toggleTheme}
-          onLanguageClick={() => setLanguageOpen(true)}
-          onCurrencyClick={() => setCurrencyOpen(true)}
-        />
-
+    <div className="">
         <main
-          className="flex-1 min-w-0 pb-20 lg:pb-0 transition-all duration-300 overflow-y-auto custom-scrollbar"
-          style={{ marginLeft: getMainMargin() }}
+          className=""
         >
           <div className="px-3 lg:px-6 py-4 lg:py-5">
             <h1 className="text-xl font-bold text-foreground mb-4">WALLET</h1>
@@ -780,24 +736,6 @@ const WalletPage = ({ isLoggedIn, setIsLoggedIn }: WalletPageProps) => {
           </div>
           <Footer />
         </main>
-
-        <LiveChat isOpen={chatOpen} onClose={() => setChatOpen(false)} />
-      </div>
-
-      <MobileNav
-        onMenuClick={() => setSidebarOpen(!sidebarOpen)}
-        onSearchClick={() => setSearchOpen(true)}
-        onChatClick={() => setChatOpen(!chatOpen)}
-        activeTab={activeTab}
-        setActiveTab={setActiveTab}
-      />
-
-      <SearchModal isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
-      <LanguageCurrencyModal isOpen={languageOpen} onClose={() => setLanguageOpen(false)} />
-      <WithdrawGuideModal
-        open={openGuide}
-        onClose={() => setOpenGuide(false)}
-      />
     </div>
   );
 };

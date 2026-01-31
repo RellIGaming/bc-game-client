@@ -72,7 +72,6 @@ const menuItems = [
     hasSubmenu: true,
     color: "text-primary",
     submenu: [
-      { id: "lobby", label: "Lobby", icon: Sparkles },
       { id: "hot-games", label: "Hot Games", icon: Flame },
       { id: "slots", label: "Slots", icon: LayoutGrid },
       { id: "game Shows", label: "Game Shows", icon: CircleDot },
@@ -696,7 +695,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
           </div>
           {/* Theme Toggle */}
           {!isCollapsed ? (
-            <div className="p-3">
+            <div className="p-2">
               <div className="flex b-radius bg-secondary/50 p-1">
                 <button
                   onClick={() => isDark && onThemeToggle()}

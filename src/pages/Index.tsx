@@ -25,12 +25,14 @@ import HotGames from "@/components/home/HotGames";
 import Footer from "@/components/home/Footer";
 import HelpUs from "@/components/home/HelpUs";
 import Providers from "@/components/home/Providers";
+import { useNavigate } from "react-router-dom";
 
 interface IndexProps {
   isLoggedIn: boolean;
   setIsLoggedIn: (value: boolean) => void;
 }
 const Index = ({ isLoggedIn, setIsLoggedIn }: IndexProps) => {
+   const navigate = useNavigate();
   const [isDark, setIsDark] = useState(true);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -82,12 +84,20 @@ const Index = ({ isLoggedIn, setIsLoggedIn }: IndexProps) => {
     if (!sidebarOpen) return 0;
     return sidebarCollapsed ? 64 : 240;
   };
+ const onSearchClick = () => {
+  const isMobile = window.innerWidth < 768;
 
+  if (isMobile) {
+    navigate("/search");
+  } else {
+    setSearchOpen(true);
+  }
+};
   return (
     <div className="h-screen flex flex-col overflow-hidden bg-background">
       <Header
         onMenuClick={() => setSidebarOpen(!sidebarOpen)}
-        onSearchClick={() => setSearchOpen(true)}
+        onSearchClick={onSearchClick}
         onChatClick={() => setChatOpen(!chatOpen)}
         onSignInClick={() => setSignInOpen(true)}
         onSignUpClick={() => setSignUpOpen(true)}
@@ -143,7 +153,7 @@ const Index = ({ isLoggedIn, setIsLoggedIn }: IndexProps) => {
 
       <MobileNav
         onMenuClick={() => setSidebarOpen(!sidebarOpen)}
-        onSearchClick={() => setSearchOpen(true)}
+        onSearchClick={onSearchClick}
         onChatClick={() => setChatOpen(!chatOpen)}
         activeTab={activeTab}
         setActiveTab={setActiveTab}

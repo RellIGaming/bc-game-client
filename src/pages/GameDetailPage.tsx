@@ -102,40 +102,9 @@ const GameDetailPage = ({ isLoggedIn, setIsLoggedIn }: GameDetailPageProps) => {
 
   return (
     <div className="h-screen flex flex-col overflow-hidden bg-background">
-      <Header
-        onMenuClick={() => setSidebarOpen(!sidebarOpen)}
-        onSearchClick={() => setSearchOpen(true)}
-        onChatClick={() => setChatOpen(!chatOpen)}
-        onSignInClick={() => {}}
-        onSignUpClick={() => {}}
-        onLanguageClick={() => setLanguageOpen(true)}
-         onCurrencyClick={() => setCurrencyOpen(true)}
-        isDark={isDark}
-        onThemeToggle={toggleTheme}
-        isSidebarCollapsed={sidebarCollapsed}
-        onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
-        isLoggedIn={isLoggedIn}
-        onLogout={() => {
-          localStorage.removeItem("token");
-          setIsLoggedIn(false);
-        }}
-      />
-
-      <div className="flex flex-1 pt-14 overflow-hidden">
-        <Sidebar
-          isOpen={sidebarOpen}
-          isCollapsed={sidebarCollapsed}
-          onClose={() => setSidebarOpen(false)}
-          isDark={isDark}
-          onThemeToggle={toggleTheme}
-           onChatClick={() => setChatOpen(chatOpen)}
-          onLanguageClick={() => setLanguageOpen(true)}
-           onCurrencyClick={() => setCurrencyOpen(true)}
-        />
+      
 
         <main 
-          className="flex-1 min-w-0 pb-20 lg:pb-0 transition-all duration-300 overflow-y-auto custom-scrollbar"
-          style={{ marginLeft: getMainMargin() }}
         >
           <div className="px-3 lg:px-6 py-4 lg:py-5 space-y-4 lg:space-y-5">
             {/* Game Container */}
@@ -371,19 +340,6 @@ const GameDetailPage = ({ isLoggedIn, setIsLoggedIn }: GameDetailPageProps) => {
           <Footer />
         </main>
 
-        <LiveChat isOpen={chatOpen} onClose={() => setChatOpen(false)} />
-      </div>
-
-      <MobileNav
-        onMenuClick={() => setSidebarOpen(!sidebarOpen)}
-        onSearchClick={() => setSearchOpen(true)}
-        onChatClick={() => setChatOpen(!chatOpen)}
-        activeTab={activeTab}
-        setActiveTab={setActiveTab}
-      />
-
-      <SearchModal isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
-      <LanguageCurrencyModal isOpen={languageOpen} onClose={() => setLanguageOpen(false)} />
     </div>
   );
 };

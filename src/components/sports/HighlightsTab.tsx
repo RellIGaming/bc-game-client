@@ -41,8 +41,8 @@ export function HighlightsTab({ onAddBet, selectedBets }: HighlightsTabProps) {
                 selectedCategory === category.id ? 'active' : ''
               )}
             >
-              <span>{category.icon}</span>
-              <span>{category.name}</span>
+              <span className='text-xs'>{category.icon}</span>
+            <span className='text-xs'>{category.name}</span>
             </button>
           ))}
         </div>

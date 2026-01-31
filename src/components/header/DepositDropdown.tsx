@@ -30,7 +30,7 @@ const DepositDropdown = ({ isOpen, onClose, onDeposit }: DepositDropdownProps) =
   const [search, setSearch] = useState("");
   const [viewInCurrency, setViewInCurrency] = useState(false);
   const [hideSmall, setHideSmall] = useState(false);
-
+const [expanded, setExpanded] = useState(false);
   const filteredCurrencies = currencies.filter(c =>
     c.name.toLowerCase().includes(search.toLowerCase())
   );
@@ -44,11 +44,30 @@ const DepositDropdown = ({ isOpen, onClose, onDeposit }: DepositDropdownProps) =
         <>
           <div className="fixed inset-0 z-40" onClick={onClose} />
           <motion.div
-            initial={{ opacity: 0, y: -10 }}
+            initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            className="absolute top-full right-0 mt-2 w-80 bg-card border border-border rounded-xl shadow-2xl z-50 overflow-hidden"
+            exit={{ opacity: 0, y: 50 }}
+            className="
+    fixed inset-x-0 bottom-0 z-50
+    h-[70vh]
+    bg-card border-t border-border
+    rounded-t-lg
+    shadow-2xl
+    overflow-hidden
+
+    lg:absolute lg:top-full lg:right-0 lg:bottom-auto
+    lg:h-auto lg:w-80
+    lg:mt-2
+    lg:rounded-lg
+    lg:border
+  "
           >
+            <div
+              onClick={onClose}
+              className="lg:hidden flex justify-center pt-2 pb-1 cursor-pointer"
+            >
+              <div className="w-10 h-1.5 rounded-full bg-muted-foreground/40" />
+            </div>
             {/* Search */}
             <div className="p-3 border-b border-border">
               <div className="flex items-center gap-2">
@@ -96,9 +115,8 @@ const DepositDropdown = ({ isOpen, onClose, onDeposit }: DepositDropdownProps) =
                   {cryptoCurrencies.map((currency) => (
                     <div
                       key={currency.name}
-                      className={`flex items-center justify-between py-3 hover:bg-secondary/50 rounded-lg px-2 cursor-pointer transition-colors ${
-                        currency.name === "BC" ? "bg-secondary/80" : ""
-                      }`}
+                      className={`flex items-center justify-between py-3 hover:bg-secondary/50 rounded-lg px-2 cursor-pointer transition-colors ${currency.name === "BC" ? "bg-secondary/80" : ""
+                        }`}
                     >
                       <div className="flex items-center gap-3">
                         <span className="text-lg">{currency.icon}</span>
@@ -133,15 +151,13 @@ const DepositDropdown = ({ isOpen, onClose, onDeposit }: DepositDropdownProps) =
               <label className="flex items-center gap-2 cursor-pointer">
                 <span className="text-sm text-muted-foreground">Hide Small</span>
                 <div
-                  className={`w-10 h-5 rounded-full transition-colors cursor-pointer ${
-                    hideSmall ? "bg-primary" : "bg-secondary"
-                  }`}
+                  className={`w-10 h-5 rounded-full transition-colors cursor-pointer ${hideSmall ? "bg-primary" : "bg-secondary"
+                    }`}
                   onClick={() => setHideSmall(!hideSmall)}
                 >
                   <div
-                    className={`w-4 h-4 rounded-full bg-white mt-0.5 transition-transform ${
-                      hideSmall ? "translate-x-5" : "translate-x-0.5"
-                    }`}
+                    className={`w-4 h-4 rounded-full bg-white mt-0.5 transition-transform ${hideSmall ? "translate-x-5" : "translate-x-0.5"
+                      }`}
                   />
                 </div>
               </label>

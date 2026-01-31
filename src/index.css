@@ -219,6 +219,13 @@
     box-shadow: 0 0 0 2px rgba(42, 155, 149, 0.5);
   }
 
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+.animate-slide-up {
+  animation: slideUp 0.25s ease-out;
+}
 
 }
 

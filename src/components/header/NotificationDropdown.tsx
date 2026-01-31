@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { X, ChevronDown, Trash2 } from "lucide-react";
+import { X, ChevronDown, Trash2, ChevronLeft } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 type TabType = "promotions" | "transactions" | "system";
@@ -84,21 +84,53 @@ const NotificationDropdown = ({ isOpen, onClose }: NotificationDropdownProps) =>
         <>
           <div className="fixed inset-0 z-40" onClick={onClose} />
           <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            className="absolute top-full right-0 mt-2 w-96 bg-card border border-border rounded-xl shadow-2xl z-50 overflow-hidden"
-          >
+            initial={{
+              opacity: 0,
+              x: typeof window !== "undefined" && window.innerWidth < 1024 ? "100%" : 0,
+              y: typeof window !== "undefined" && window.innerWidth < 1024 ? 0 : -10,
+            }}
+            animate={{ opacity: 1, x: 0, y: 0 }}
+            exit={{
+              opacity: 0,
+              x: typeof window !== "undefined" && window.innerWidth < 1024 ? "100%" : 0,
+              y: typeof window !== "undefined" && window.innerWidth < 1024 ? 0 : -10,
+            }}
+            transition={{ type: "tween", duration: 0.3 }}
+            className="
+    fixed lg:absolute
+    inset-0 lg:inset-auto
+    lg:top-full lg:right-0
+    mt-0 lg:mt-2
+    w-full h-full lg:w-96 lg:h-auto
+    bg-card border border-border
+    rounded-none lg:rounded-xl
+    shadow-2xl
+    z-50
+    overflow-hidden
+  ">
             {/* Header */}
-            <div className="p-4 border-b border-border flex items-center justify-between">
-              <h3 className="text-lg font-semibold text-foreground">Notification</h3>
+            <div className="p-4 border-b border-border flex items-center gap-2">
+              {/* Mobile back arrow */}
               <button
                 onClick={onClose}
-                className="p-1 hover:bg-secondary rounded-lg transition-colors"
+                className="lg:hidden p-2 rounded-lg bg-secondary"
+              >
+                <ChevronLeft className="w-5 h-5 text-foreground" />
+              </button>
+
+              <h3 className="text-lg font-semibold text-foreground flex-1 text-center">
+                Notification
+              </h3>
+
+              {/* Desktop close icon */}
+              <button
+                onClick={onClose}
+                className="hidden lg:block p-1 hover:bg-secondary rounded-lg transition-colors"
               >
                 <X className="w-5 h-5 text-muted-foreground" />
               </button>
             </div>
+
 
             {/* Tabs */}
             <div className="flex border-b border-border">
@@ -106,11 +138,10 @@ const NotificationDropdown = ({ isOpen, onClose }: NotificationDropdownProps) =>
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`flex-1 py-3 px-4 text-sm font-medium transition-colors relative ${
-                    activeTab === tab.id
-                      ? "text-foreground"
-                      : "text-muted-foreground hover:text-foreground"
-                  }`}
+                  className={`flex-1 py-3 px-4 text-sm font-medium transition-colors relative ${activeTab === tab.id
+                    ? "text-foreground"
+                    : "text-muted-foreground hover:text-foreground"
+                    }`}
                 >
                   <span className="flex items-center justify-center gap-1">
                     {tab.label}
@@ -193,15 +224,13 @@ const NotificationDropdown = ({ isOpen, onClose }: NotificationDropdownProps) =>
               <label className="flex items-center gap-2 cursor-pointer">
                 <span className="text-sm text-muted-foreground">Show unread</span>
                 <div
-                  className={`w-10 h-5 rounded-full transition-colors cursor-pointer ${
-                    showUnread ? "bg-primary" : "bg-secondary"
-                  }`}
+                  className={`w-10 h-5 rounded-full transition-colors cursor-pointer ${showUnread ? "bg-primary" : "bg-secondary"
+                    }`}
                   onClick={() => setShowUnread(!showUnread)}
                 >
                   <div
-                    className={`w-4 h-4 rounded-full bg-white mt-0.5 transition-transform ${
-                      showUnread ? "translate-x-5" : "translate-x-0.5"
-                    }`}
+                    className={`w-4 h-4 rounded-full bg-white mt-0.5 transition-transform ${showUnread ? "translate-x-5" : "translate-x-0.5"
+                      }`}
                   />
                 </div>
               </label>

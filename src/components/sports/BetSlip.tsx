@@ -31,31 +31,32 @@ export function BetSlip({ bets, onRemoveBet, onClearAll, isOpen, onToggle }: Bet
   if (!isOpen && bets.length === 0) return null;
 
   return (
-    <div className="fixed bottom-4 right-4 z-50 w-80 max-w-[calc(100vw-2rem)]">
+    <> 
+    <div className="fixed bottom-0 right-4 z-50 w-80 max-w-[calc(70vw-2rem)]">
       {/* Collapsed Header */}
       <button
         onClick={onToggle}
         className={cn(
-          'w-full flex items-center justify-between px-4 py-3 rounded-t-xl transition-all',
+          'w-full flex items-center justify-between px-4 py-3 rounded-t-lg transition-all',
           quickBet
-            ? 'bg-gradient-to-r from-betting-purple to-primary'
-            : 'bg-gradient-to-r from-card to-card-elevated border border-border'
+            ? 'bg-primary'
+            : 'bg-primary border border-border'
         )}
       >
         <div className="flex items-center gap-2">
-          <div className="w-6 h-6 bg-secondary rounded flex items-center justify-center">
-            <span className="text-xs">📋</span>
+          <div className="w-6 h-6 flex items-center justify-center">
+            <span className="w-6 h-6">📋</span>
           </div>
           <span className="font-medium">Betslip</span>
           {bets.length > 0 && (
-            <span className="w-5 h-5 bg-primary text-primary-foreground text-xs rounded-full flex items-center justify-center">
+            <span className="w-5 h-5 text-primary-foreground text-xs rounded-full flex items-center justify-center">
               {bets.length}
             </span>
           )}
           <ChevronDown className={cn('w-4 h-4 transition-transform', isOpen && 'rotate-180')} />
         </div>
         <div className="flex items-center gap-2">
-          <span className="text-xs text-muted-foreground">QUICK BET</span>
+          <span className="text-xs text-[#ffffff]">QUICK BET</span>
           <Switch
             checked={quickBet}
             onCheckedChange={setQuickBet}
@@ -66,7 +67,7 @@ export function BetSlip({ bets, onRemoveBet, onClearAll, isOpen, onToggle }: Bet
 
       {/* Expanded Content */}
       {isOpen && (
-        <div className="bg-card border border-t-0 border-border rounded-b-xl shadow-2xl animate-slide-up overflow-hidden">
+        <div className="bg-card border border-t-0 border-border  shadow-2xl animate-slide-up overflow-hidden">
           {quickBet ? (
             /* Quick Bet Mode */
             <div className="p-4">
@@ -79,14 +80,14 @@ export function BetSlip({ bets, onRemoveBet, onClearAll, isOpen, onToggle }: Bet
                   My Bets page
                 </a>
               </p>
-              <div className="mt-4 flex items-center gap-2 text-sm text-muted-foreground">
+              <div className="mt-2 flex items-center gap-2 text-sm text-muted-foreground">
                 <AlertCircle className="w-4 h-4" />
                 <span>Please, login to place bet</span>
               </div>
-              <button className="w-full mt-4 py-3 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-betting-green-hover transition-colors">
+              <button className="w-full mt-4 py-3 bg-primary text-primary-foreground b-radius font-medium hover:bg-betting-green-hover transition-colors">
                 LOGIN
               </button>
-              <p className="text-center text-sm text-muted-foreground mt-3">
+              <p className="text-center text-sm text-muted-foreground mt-2">
                 Don't you have an account?{' '}
                 <a href="#" className="text-primary hover:underline">
                   Join Now!
@@ -115,7 +116,7 @@ export function BetSlip({ bets, onRemoveBet, onClearAll, isOpen, onToggle }: Bet
               </div>
 
               {/* Bets List */}
-              <div className="max-h-60 overflow-y-auto">
+              <div className="max-h-24 overflow-y-auto ">
                 {bets.length === 0 ? (
                   <div className="p-6 text-center text-muted-foreground">
                     <p className="text-sm">No bets added yet</p>
@@ -275,5 +276,18 @@ export function BetSlip({ bets, onRemoveBet, onClearAll, isOpen, onToggle }: Bet
         </div>
       )}
     </div>
+    {/* ===== MOBILE BETSLIP FAB ===== */}
+<button
+  onClick={onToggle}
+  className="md:hidden fixed bottom-4 right-4 z-50 w-14 h-14 rounded-full bg-primary text-primary-foreground shadow-xl flex items-center justify-center"
+>
+  <span className="text-xl">📋</span>
+  {bets.length > 0 && (
+    <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
+      {bets.length}
+    </span>
+  )}
+</button>
+</>
   );
 }

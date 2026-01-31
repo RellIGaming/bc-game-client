@@ -17,8 +17,18 @@ const BonusDropdown = ({ isOpen, onClose, onBonusDashboard }: BonusDropdownProps
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="absolute top-full right-0 mt-2 w-80 bg-card border border-border rounded-xl shadow-2xl z-50 overflow-hidden"
-          >
+            className="
+    fixed lg:absolute
+    top-16 lg:top-auto
+    left-0 lg:left-auto
+    right-0
+    w-full lg:w-80
+    mt-0 lg:mt-2
+    bg-card border border-border
+    rounded-t-lg lg:rounded-lg
+    shadow-2xl
+    z-50
+    overflow-hidden" >
             {/* Email Verification */}
             <div className="p-4 border-b border-border">
               <div className="flex items-center justify-between">

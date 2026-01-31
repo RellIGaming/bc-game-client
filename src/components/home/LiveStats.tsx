@@ -7,7 +7,7 @@ import Header from "@/components/layout/Header";
 import Sidebar from "@/components/layout/Sidebar";
 import MobileNav from "@/components/layout/MobileNav";
 import LanguageCurrencyModal from "@/components/layout/LanguageCurrencyModal";
-
+import Blogo from "../../assets/images/logo.png";
 // Mock chart data
 const chartData = [
   { time: "6", price: 0.00073 },
@@ -36,24 +36,7 @@ const allBets = [
 const LiveStats = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
-  const [isDark, setIsDark] = useState(true);
-  const [showLanguageModal, setShowLanguageModal] = useState(false);
-  const [isLoggedIn] = useState(!!localStorage.getItem("token"));
   const [timeRange, setTimeRange] = useState("1H");
-  const [activeTab, setActiveTab] = useState("home");
-  const [showSearchModal, setShowSearchModal] = useState(false);
-
-  const toggleSidebar = () => {
-    if (window.innerWidth < 1024) {
-      setIsSidebarOpen(!isSidebarOpen);
-    } else {
-      setIsSidebarCollapsed(!isSidebarCollapsed);
-    }
-  };
-
-  const handleMobileSidebarOpen = () => {
-    setIsSidebarOpen(true);
-  };
 
   const tokenStats = {
     price: "$0.00731",
@@ -80,50 +63,14 @@ const LiveStats = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Header
-        onMenuClick={toggleSidebar}
-        onSearchClick={() => setShowSearchModal(true)}
-        onChatClick={() => {}}
-        isSidebarCollapsed={isSidebarCollapsed}
-        onToggleCollapse={toggleSidebar}
-        isLoggedIn={isLoggedIn}
-        onSignInClick={() => {}}
-        onSignUpClick={() => {}}
-        onLogout={() => {}}
-        isDark={isDark}
-        onThemeToggle={() => setIsDark(!isDark)}
-        onLanguageClick={() => setShowLanguageModal(true)}
-         onCurrencyClick={() => setShowLanguageModal(true)}
-      />
-
-      <Sidebar
-        isOpen={isSidebarOpen}
-        isCollapsed={isSidebarCollapsed}
-        onClose={() => setIsSidebarOpen(false)}
-        isDark={isDark}
-        onThemeToggle={() => setIsDark(!isDark)}
-        onLanguageClick={() => setShowLanguageModal(true)}
-         onCurrencyClick={() => setShowLanguageModal(true)}
-          onChatClick={() => {}}
-      />
-
-      <main
-        className={`pt-14 pb-16 lg:pb-0 transition-all duration-300 ${
-          isSidebarOpen && !isSidebarCollapsed
-            ? "lg:ml-60"
-            : isSidebarCollapsed
-            ? "lg:ml-[70px]"
-            : "lg:ml-0"
-        }`}
-      >
+    
+      <main>
         <div className="p-4 lg:p-6 space-y-6">
           {/* Token Header Card */}
           <div className="bg-card border border-border rounded-xl p-4 lg:p-6">
             <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 lg:w-16 lg:h-16 rounded-full bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center">
-                  <span className="text-2xl lg:text-3xl font-bold text-primary-foreground">R</span>
-                </div>
+                  <img src={Blogo} alt="logo" className="w-12 h-12 lg:w-16 lg:h-16"/>
                 <div>
                   <div className="flex items-center gap-2">
                     <h1 className="text-xl lg:text-2xl font-bold text-foreground">Rell Token</h1>
@@ -427,18 +374,6 @@ const LiveStats = () => {
         </div>
       </main>
 
-      <MobileNav 
-        onMenuClick={handleMobileSidebarOpen} 
-        onSearchClick={() => setShowSearchModal(true)}
-        onChatClick={() => {}}
-        activeTab={activeTab}
-        setActiveTab={setActiveTab}
-      />
-
-      <LanguageCurrencyModal
-        isOpen={showLanguageModal}
-        onClose={() => setShowLanguageModal(false)}
-      />
     </div>
   );
 };

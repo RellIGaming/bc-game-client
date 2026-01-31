@@ -38,7 +38,7 @@ const LiveMatchBanner = () => {
   }, []);
 
   return (
-    <section className="relative w-full h-[180px] sm:h-[190px] md:h-[220px] lg:h-[240px] rounded-xl overflow-hidden">
+    <section className="relative w-full h-[180px] sm:h-[190px] md:h-[220px] lg:h-[240px] b-radius overflow-hidden">
 
       {/* SLIDER WRAPPER */}
       <div

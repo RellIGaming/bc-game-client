@@ -75,8 +75,8 @@ export function SportCategoryFilter({
                 )}
               >
                 <div className="flex items-center gap-3">
-                  <span className="text-lg">{sport.icon}</span>
-                  <span className="text-foreground font-medium">{sport.name}</span>
+                  <span className="text-xs">{sport.icon}</span>
+                  <span className="text-foreground text-xs">{sport.name}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div
