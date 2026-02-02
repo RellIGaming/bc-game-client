@@ -1,23 +1,26 @@
 import bcLogo from "../../assets/images/logo.png";
 import { Github, Globe, Icon, Mail, MessageCircle, Phone, Send, Share2 } from "lucide-react";
 import HelpUs from "./HelpUs";
+import GameFooterLogo from "./GameFooterLogo";
 
 
 const Footer = () => {
 
   const footerLinks = {
-    casino: ["Casino Promo", "Slots", "Live Casino", "New Releases", "Recommended", "Table Game", "Blackjack", "Baccarat"],
-    sports: ["Sports Home", "Live", "Rules", "Sport Betting Insights"],
-    support: ["VIP Club", "Referral", "Promotions", "Refer-a-friend", "Lottery", "BC Store"],
-    supportLegal: ["Licenses", "Help Center", "FAQ", "Privacy Policy", "Terms of Service", "Live Support",],
+    casino: ["Casino Home", "Slots", "Live Casino", "New Releases", "Recommended", "Table Game", "Blackjack", "Roulette", "Provides"],
+    sports: ["Sports Home", "Live Sports", "Football(Soccer)", "Cricket", "BasketBall", "Tennis", "FIFA", "Sports Rules"],
+    promo: ["VIP Club", "Bonus", "Promotions", "Affiliate", "Refer-a-friend", "Rellbet Shops"],
+    supportLegal: ["Help Center", "FAQ", "Live Support", "Licenses", "Privacy Policy", "Terms of Service", ,],
   };
 
 
   return (
-    <footer className="bg-sidebar border-t border-border/30 mx-6 p-4 hidden md:block">
-      <div className="py-4 lg:py-4">
+    <footer className="bg-sidebar border-t border-border/30 mx-0.5 p-0.5 sm:mx-6 sm:p-4">
+
+      <div className="py-1 lg:py-4">
 
         <HelpUs />
+        <GameFooterLogo />
         {/* Responsible Gaming Badges */}
         {/* <div className="flex flex-wrap items-center gap-4 py-4 border-y border-border/30 mb-8">
           {["SIGMA", "🛡️ Responsible Gambling", "GamCare", "betblocker"].map((badge, i) => (
@@ -28,81 +31,83 @@ const Footer = () => {
         </div> */}
 
         {/* Links Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-6 mb-8">
-          <div>
-            <h4 className="text-sm font-semibold text-foreground mb-3">Casino</h4>
-            <ul className="space-y-2">
-              {footerLinks.casino.slice(0, 6).map((link) => (
-                <li key={link}>
-                  <a href="#" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
-                    {link}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div>
-            <h4 className="text-sm font-semibold text-foreground mb-3">Sports</h4>
-            <ul className="space-y-2">
-              {footerLinks.sports.map((link) => (
-                <li key={link}>
-                  <a href="#" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
-                    {link}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div>
-            <h4 className="text-sm font-semibold text-foreground mb-3">Support</h4>
-            <ul className="space-y-2">
-              {footerLinks.support.map((link) => (
-                <li key={link}>
-                  <a href="#" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
-                    {link}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div>
-            <h4 className="text-sm font-semibold text-foreground mb-3">Support & Legal</h4>
-            <ul className="space-y-2">
-              {footerLinks.supportLegal.slice(0, 8).map((link) => (
-                <li key={link}>
-                  <a href="#" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
-                    {link}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div>
-            <h4 className="text-sm font-semibold text-foreground mb-3">Support</h4>
-            <ul className="space-y-2">
-              {["News 📰", "We're Hiring 🎉", "Business Contacts 📧", "Help Center", "Help Representative", "Live Support 💬",].map((link) => (
-                <li key={link}>
-                  <a href="#" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
-                    {link}
-                  </a>
-                </li>
-              ))}
-            </ul>
+        <div className="hidden md:block">
+          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-6 mb-8 px-2">
+            <div>
+              <h4 className="text-sm font-semibold text-foreground mb-2">Casino</h4>
+              <ul className="space-y-1">
+                {footerLinks.casino.slice(0, 6).map((link) => (
+                  <li key={link}>
+                    <a href="#" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
+                      {link}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-sm font-semibold text-foreground mb-2">Sports</h4>
+              <ul className="space-y-2">
+                {footerLinks.sports.map((link) => (
+                  <li key={link}>
+                    <a href="#" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
+                      {link}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-sm font-semibold text-foreground mb-2">Promo</h4>
+              <ul className="space-y-2">
+                {footerLinks.promo.map((link) => (
+                  <li key={link}>
+                    <a href="#" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
+                      {link}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-sm font-semibold text-foreground mb-2">Support & Legal</h4>
+              <ul className="space-y-2">
+                {footerLinks.supportLegal.slice(0, 8).map((link) => (
+                  <li key={link}>
+                    <a href="#" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
+                      {link}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-sm font-semibold text-foreground mb-2">About Us</h4>
+              <ul className="space-y-2">
+                {["Licence", "News ", "Work with us", "Business Contacts", "Help Desk", "Verify Representative", "Design Resource",].map((link) => (
+                  <li key={link}>
+                    <a href="#" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
+                      {link}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
         {/* Social & Community */}
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-6 py-4 border-t border-b border-border/30">
-          <div className="flex items-center gap-3">
+        <div className="flex flex-row lg:flex-row items-center justify-center gap-6 py-4 border-t border-b border-border/30 ">
+          {/* <div className="flex items-center gap-3">
             <img src={bcLogo} alt="Rellbet" className="w-6 h-6 w-auto" />
-          </div>
+          </div> */}
           <div className="flex flex-col sm:flex-row items-center gap-4">
-            <span className="text-xs text-muted-foreground">Join Our Global Community</span>
+            <span className="text-xs text-muted-foreground">Join Our Community</span>
             <div className="flex items-center gap-2">
               <div className="flex items-center gap-2">
                 {[MessageCircle, Share2, Send, Phone, Mail, Globe].map((Icon, i) => (
                   <button
                     key={i}
-                    className="w-8 h-8 rounded-full bg-secondary hover:bg-secondary/80 flex items-center justify-center transition-colors"
+                    className="w-8 h-8 rounded-lg bg-secondary hover:bg-secondary/80 flex items-center justify-center transition-colors"
                   >
                     <Icon className="w-4 h-4 text-muted-foreground" />
                   </button>
@@ -112,7 +117,7 @@ const Footer = () => {
             </div>
           </div>
 
-          <div className="flex items-center gap-4">
+          {/* <div className="flex items-center gap-4">
             <span className="text-xs text-muted-foreground">Join Our Local Community</span>
             <div className="flex items-center gap-2">
               {[Phone, Mail, Globe].map((Icon, i) => (
@@ -124,26 +129,24 @@ const Footer = () => {
                 </button>
               ))}
             </div>
-          </div>
+          </div> */}
         </div>
 
         {/* Bottom Section */}
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-4 pt-6">
-          <div className="flex items-center gap-3">
-            <img src={bcLogo} alt="Rellbet" className="h-5 w-auto opacity-60" />
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-4 pt-6 mx-2">
+          <div className="flex flex-col gap-1">
+            <div className="flex"><img src={bcLogo} alt="Rellbet" className="h-5 w-7 pr-2" /> <span>Rellbet</span></div>
             <div className="text-[10px] text-muted-foreground max-w-md">
-              The ultimate crypto gaming platform, is ready for the fun enthusiast. We're inspired by the needs and feedback of our players. A fresh approach and the dedication for continuous platform.
-            </div>
+              Rellbet offers an entertaining gaming experience that may involve certain risks.  You must be at least 18 years old to use this site.              </div>
           </div>
-          <div className="text-[10px] text-muted-foreground max-w-md">
-            Rellbet is operated by Paradigm B.V., registered under number 166165. Address: Korporaalweg 10, Curacao Rellbet is licensed under...
-          </div>
+          <div className="text-[10px] text-muted-foreground max-w-md pt-4">
+            Rellbet is operated by Rell Corporation.  Unauthorized use, copying, or distribution of any content is strictly prohibited.            </div>
         </div>
 
         {/* Copyright */}
-        <div className="text-center pt-6 border-t border-border/30 mt-6">
+        <div className="text-center pt-6 border-t border-border/30 mt-2">
           <p className="text-[10px] text-muted-foreground">
-            Copyright © 2025 Blockdrake Gaming Limited. All Rights Reserved. | SUPPORT@Rellbet | +599-9-5555123 TI
+            Copyright © 2025 Rellbet.com All rights reserved.
           </p>
         </div>
       </div>

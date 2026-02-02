@@ -75,7 +75,7 @@ const HeroSection = ({ onSignUp, isLoggedIn }: HeroSectionProps) => {
             {/* Content */}
             <div className="relative z-10 h-full flex flex-col justify-center px-4 sm:px-6 lg:px-12 max-w-[90%] sm:max-w-xl">
 
-              <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-5xl font-bold italic mb-2 sm:mb-3">
+              <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-5xl font-bold italic mb-2 sm:mb-1">
                 {banner.title}
               </h1>
 
@@ -83,15 +83,13 @@ const HeroSection = ({ onSignUp, isLoggedIn }: HeroSectionProps) => {
                 {banner.subtitle}
               </p>
 
-              <p className="text-lg sm:text-2xl lg:text-4xl font-bold text-primary mb-1">
+              <p className="text-lg sm:text-sm lg:text-4xl font-bold text-primary mb-1">
                 {banner.bonus}
               </p>
 
-              <p className="text-xs sm:text-sm text-white/80 mb-4 sm:mb-6">
+              <p className="text-xs sm:text-sm text-white/80 mb-4 sm:mb-1">
                 {banner.description}
               </p>
-
-
               <Button
                 onClick={onSignUp}
                 className="w-fit px-4 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base font-semibold b-radius sm:b-radius"
