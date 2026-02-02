@@ -1,11 +1,11 @@
-import { 
-  Globe, 
-  Home, 
-  Notebook, 
-  PlayIcon, 
-  Search, 
-  Signal, 
-  Star, 
+import {
+  Globe,
+  Home,
+  Notebook,
+  PlayIcon,
+  Search,
+  Signal,
+  Star,
   X,
   ChevronDown,
   Gamepad2,
@@ -23,6 +23,7 @@ import React, { useState } from "react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
+import SearchSportsCategory from "./SearchSportsCategory";
 
 const sportsCategory = [
   { id: "1", icon: Home, label: "Home" },
@@ -61,6 +62,7 @@ const dropdownCategories = [
   { label: "Chess", count: 4, icon: Boxes },
 ];
 
+
 interface SportsCategoryTabsProps {
   showSearch: boolean;
   setShowSearch: (value: boolean | ((prev: boolean) => boolean)) => void;
@@ -70,6 +72,11 @@ const SportsCategoryTabs = ({ showSearch, setShowSearch }: SportsCategoryTabsPro
   const [activeTab, setActiveTab] = useState("1");
   const [query, setQuery] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
+  const [activeSearchCategory, setActiveSearchCategory] = useState<{
+    category: string;
+    league: string;
+  } | null>(null);
+
   const [activeDropdownTab, setActiveDropdownTab] = useState<'sports' | 'esports' | 'racing'>('sports');
   const isMobile = useIsMobile();
 
@@ -78,7 +85,7 @@ const SportsCategoryTabs = ({ showSearch, setShowSearch }: SportsCategoryTabsPro
   const visibleBeforeDivider = sportsCategory.slice(0, 3);
   const divider = sportsCategory.find(c => c.isDivider);
   const afterDivider = sportsCategory.filter(c => !c.isDivider && sportsCategory.indexOf(c) > 3);
-  
+
   const visibleAfterDivider = isMobile ? afterDivider.slice(0, 2) : afterDivider.slice(0, 8);
   const hasMore = afterDivider.length > (isMobile ? 2 : 8);
 
@@ -158,8 +165,8 @@ const SportsCategoryTabs = ({ showSearch, setShowSearch }: SportsCategoryTabsPro
             onClick={() => setShowDropdown(!showDropdown)}
             className={cn(
               "flex items-center gap-1 px-3 py-2 rounded-md text-sm font-medium transition-all",
-              showDropdown 
-                ? "bg-primary text-primary-foreground" 
+              showDropdown
+                ? "bg-primary text-primary-foreground"
                 : "bg-secondary hover:bg-primary/20 text-muted-foreground"
             )}
           >
@@ -222,91 +229,24 @@ const SportsCategoryTabs = ({ showSearch, setShowSearch }: SportsCategoryTabsPro
         </div>
       )}
 
-      {/* Search Modal */}
-      {showSearch && (
-        <div className="">
-          <div className="mx-auto p-6">
-            {/* Search Header with quick filters */}
-            <div className="flex flex-wrap gap-4 overflow-x-auto pb-4 mb-4 border-b border-border">
-              <button className="p-2 text-muted-foreground hover:text-foreground">
-                <Home className="w-5 h-5" />
-              </button>
-              <button className="px-3 py-1 bg-betting-live text-white text-xs font-bold rounded">LIVE</button>
-              <button className="p-2 text-muted-foreground hover:text-foreground">
-                <Star className="w-5 h-5" />
-              </button>
-              <button className="p-2 text-muted-foreground hover:text-foreground">
-                <Notebook className="w-5 h-5" />
-              </button>
-              <button className="p-2 text-muted-foreground hover:text-foreground">
-                <Gamepad2 className="w-5 h-5" />
-              </button>
-              <button className="p-2 text-muted-foreground hover:text-foreground">
-                <Globe className="w-5 h-5" />
-              </button>
-              <button className="p-2 text-muted-foreground hover:text-foreground">
-                <Trophy className="w-5 h-5" />
-              </button>
-              <button className="p-2 text-muted-foreground hover:text-foreground">
-                <Target className="w-5 h-5" />
-              </button>
-            </div>
-
-            {/* Search Input */}
-            <div className="flex items-center gap-4 mb-6">
-              <div className="relative flex-1">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-                <input
-                  type="text"
-                  placeholder="Search"
-                  autoFocus
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  className="w-full pl-12 pr-4 py-3 bg-secondary rounded-lg text-foreground outline-none focus:ring-2 focus:ring-primary"
-                />
-              </div>
-              <button
-                onClick={() => {
-                  setShowSearch(false);
-                  setQuery("");
-                }}
-                className="px-4 py-3 bg-secondary text-foreground rounded-lg hover:bg-muted transition-colors"
-              >
-                Close
-              </button>
-            </div>
-
-            {/* Popular Tags */}
-            <div className="flex flex-wrap gap-2 mb-8">
-              {['UEFA Europa League', 'UEFA Champions League', 'Penalty Shoot-out (10 shots)', 'Saloon Dice (10 rounds)', 'FA Cup (2x6 min)', 'Copa del Rey'].map((tag) => (
-                <button
-                  key={tag}
-                  className="px-4 py-2 bg-secondary text-foreground text-sm rounded-full hover:bg-muted transition-colors"
-                >
-                  {tag}
-                </button>
-              ))}
-            </div>
-
-            {/* Empty State */}
-            <div className="text-center py-20">
-              <div className="inline-flex items-center justify-center w-24 h-24 mb-6">
-                <div className="relative">
-                  <Search className="w-16 h-16 text-primary" />
-                  <div className="absolute -top-2 -right-2 w-8 h-8 bg-primary rounded-full" />
-                </div>
-              </div>
-              <h3 className="text-xl font-medium mb-2">Looking for something special?</h3>
-            </div>
-          </div>
-        </div>
-      )}
-
+      {/* Search page */}
+      {/* {showSearch && (
+        <SearchSportsCategory
+          activeCategory={activeSearchCategory}
+          onBack={() => {
+            setShowSearch(false);
+            setActiveSearchCategory(null);
+          }}
+          onSelectCategory={(cat) => setActiveSearchCategory(cat)}
+          onAddBet={handleAddBet}
+          selectedBets={selectedBetIds}
+        />
+      )} */}
       {/* Click outside to close dropdown */}
       {showDropdown && (
-        <div 
-          className="fixed inset-0 z-40" 
-          onClick={() => setShowDropdown(false)} 
+        <div
+          className="fixed inset-0 z-40"
+          onClick={() => setShowDropdown(false)}
         />
       )}
     </div>

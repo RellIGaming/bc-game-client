@@ -18,19 +18,23 @@ interface SportsPageProps {
 
 const SportsPage = ({ isLoggedIn, setIsLoggedIn }: SportsPageProps) => {
   const navigate = useNavigate();
-   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [isDark, setIsDark] = useState(true);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  
-  const [signInOpen, setSignInOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
- 
-  const [showSearch, setShowSearch] = useState(false);
-  const [pendingGameId, setPendingGameId] = useState<number | null>(null);
-const [activeTab, setActiveTab] = useState("sports");
 
-   const handleLoginSuccess = (value: boolean) => {
+  const [signUpOpen, setSignUpOpen] = useState(false);
+  const [signInOpen, setSignInOpen] = useState(false);
+  const [resetPasswordOpen, setResetPasswordOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [showSearch, setShowSearch] = useState(false);
+  const [searchCategory, setSearchCategory] = useState<{
+    category: string;
+    league?: string;
+  } | null>(null);
+  const [pendingGameId, setPendingGameId] = useState<number | null>(null);
+  const [activeTab, setActiveTab] = useState("sports");
+
+  const handleLoginSuccess = (value: boolean) => {
     setIsLoggedIn(value);
     setSignInOpen(false);
     if (pendingGameId && value) {
@@ -38,8 +42,8 @@ const [activeTab, setActiveTab] = useState("sports");
       setPendingGameId(null);
     }
   };
- 
- 
+
+
 
   useEffect(() => {
     const handleResize = () => {
@@ -84,60 +88,46 @@ const [activeTab, setActiveTab] = useState("sports");
     setBets([]);
     setIsBetSlipOpen(false);
   };
-const handleCategorySelect = (category: string) => {
-    setSelectedCategory(category);
-  };
-  const handleBackFromCategory = () => {
-    setSelectedCategory(null);
-  };
-  // If a category is selected, show the category page
-  if (selectedCategory) {
-    return (
-      <>
-        <SearchSportsCategory
-          category={selectedCategory}
-          onBack={handleBackFromCategory}
-          onAddBet={handleAddBet}
-          selectedBets={selectedBetIds}
-        />
-        <BetSlip
-          bets={bets}
-          onRemoveBet={handleRemoveBet}
-          onClearAll={handleClearAll}
-          isOpen={isBetSlipOpen}
-          onToggle={() => setIsBetSlipOpen(!isBetSlipOpen)}
-        />
-      </>
-    );
-  }
+
 
   return (
     <div className="">
-        <main
-        >
-          <SportsCategoryTabs
-            showSearch={showSearch}
-            setShowSearch={setShowSearch}
-          />
+      <main
+      >
+        <SportsCategoryTabs
+          showSearch={showSearch}
+          setShowSearch={setShowSearch}
+        />
 
-          {!showSearch && (
-            <div className=" mx-auto px-4 py-4">
-              <div className="flex items-center justify-between flex-wrap gap-4 mb-4">
-                <SportsTabs activeTab={activeSportsTab} onTabChange={setActiveSportsTab} />
-              </div>
-              <>
-                {activeSportsTab === 'highlights' && (
-                  <HighlightsTab onAddBet={handleAddBet} selectedBets={selectedBetIds} />
-                )}
-                {activeSportsTab === 'event-builder' && (
-                  <EventBuilderTab onAddBet={handleAddBet} selectedBets={selectedBetIds} />
-                )}
-                {activeSportsTab === 'bets-feed' && <BetsFeedTab onAddBet={handleAddBet} />}
-              </>
+        {!showSearch ? (
+          <div className=" mx-auto px-4 py-4">
+            <div className="flex items-center justify-between flex-wrap gap-4 mb-4">
+              <SportsTabs activeTab={activeSportsTab} onTabChange={setActiveSportsTab} />
             </div>
-          )}
-        </main>
-     
+            <>
+              {activeSportsTab === 'highlights' && (
+                <HighlightsTab onAddBet={handleAddBet} selectedBets={selectedBetIds} />
+              )}
+              {activeSportsTab === 'event-builder' && (
+                <EventBuilderTab onAddBet={handleAddBet} selectedBets={selectedBetIds} />
+              )}
+              {activeSportsTab === 'bets-feed' && <BetsFeedTab onAddBet={handleAddBet} />}
+            </>
+          </div>
+        ) : (
+          <SearchSportsCategory
+            activeCategory={searchCategory}
+            onBack={() => {
+              setShowSearch(false);
+              setSearchCategory(null);
+            }}
+            onSelectCategory={(cat) => setSearchCategory(cat)}
+            onAddBet={handleAddBet}
+            selectedBets={selectedBetIds}
+          />
+        )}
+      </main>
+
       {/* BET SLIP MODAL */}
       <AnimatePresence>
         {/* Bet Slip */}
