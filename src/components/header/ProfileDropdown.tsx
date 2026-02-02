@@ -117,36 +117,48 @@ export const MobileProfile = ({ isOpen, onClose, onLogout }: ProfileDropdownProp
       transition={{ duration: 0.3 }}
       className="fixed inset-0 z-50 bg-[#0f1c26] text-white overflow-y-auto"
     >
-      {/* Header */}
-      <div className="flex items-center gap-3 p-4 border-b border-white/10 bg-transparent">
-        <button onClick={onClose}>
-          <ChevronLeft className="w-6 h-6" />
-        </button>
-        <span className="text-lg font-semibold">Profile</span>
-      </div>
-
-      {/* Banner & User info */}
+      {/* Banner + Header */}
       <div className="relative">
-        <img src={profileBanner} alt="banner" className="w-full h-24 object-cover" />
-        <div className="absolute right-4 top-1/2 -translate-y-1/2">
-          <ChevronRight className="w-5 h-5 text-white/60" />
+        {/* Banner */}
+        <img
+          src={profileBanner}
+          alt="banner"
+          className="w-full h-32 object-cover"
+        />
+
+        {/* Dark overlay for readability */}
+        <div className="absolute inset-0 bg-black/30" />
+
+        {/* Header on banner */}
+        <div className="absolute top-0 left-0 right-0 flex items-center gap-3 p-4 z-10">
+          <button
+            onClick={onClose}
+            className="w-8 h-8 rounded-full bg-black/30 flex items-center justify-center"
+          >
+            <ChevronLeft className="w-5 h-5 text-white" />
+          </button>
+          <span className="text-lg font-semibold text-white">Profile</span>
         </div>
-        <div className="absolute left-4 top-4 flex items-center gap-3">
+
+        {/* User Info */}
+        <div className="absolute left-4 bottom-4 flex items-center gap-3 z-10">
           <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-600 to-blue-500 flex items-center justify-center text-xl border-2 border-[#0f1c26]">
             🦁
           </div>
+
           <div>
             <div className="font-semibold flex items-center gap-1">
               Prince Wahid
-              <span className="text-green-400">●</span>
+              <span className="text-green-400 text-xs">●</span>
             </div>
-            <div className="text-xs text-white/60 flex items-center gap-1">
+            <div className="text-xs text-white/70 flex items-center gap-1">
               ID: 1215411
               <Copy className="w-3 h-3 cursor-pointer hover:text-white" />
             </div>
           </div>
         </div>
       </div>
+
 
       {/* VIP Section */}
       <div className="px-4 py-3 bg-[#0f1c26]">

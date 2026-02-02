@@ -8,6 +8,7 @@ import { HighlightsTab } from "@/components/sports/HighlightsTab";
 import { EventBuilderTab } from "@/components/sports/EventBuilderTab";
 import { BetsFeedTab } from "@/components/sports/BetsFeedTab";
 import { BetItem, TabType } from "@/types/sports";
+import SearchSportsCategory from "@/components/sports/SearchSportsCategory";
 
 
 interface SportsPageProps {
@@ -17,13 +18,12 @@ interface SportsPageProps {
 
 const SportsPage = ({ isLoggedIn, setIsLoggedIn }: SportsPageProps) => {
   const navigate = useNavigate();
+   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [isDark, setIsDark] = useState(true);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   
-  const [signUpOpen, setSignUpOpen] = useState(false);
   const [signInOpen, setSignInOpen] = useState(false);
-  const [resetPasswordOpen, setResetPasswordOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
  
   const [showSearch, setShowSearch] = useState(false);
@@ -84,7 +84,32 @@ const [activeTab, setActiveTab] = useState("sports");
     setBets([]);
     setIsBetSlipOpen(false);
   };
-
+const handleCategorySelect = (category: string) => {
+    setSelectedCategory(category);
+  };
+  const handleBackFromCategory = () => {
+    setSelectedCategory(null);
+  };
+  // If a category is selected, show the category page
+  if (selectedCategory) {
+    return (
+      <>
+        <SearchSportsCategory
+          category={selectedCategory}
+          onBack={handleBackFromCategory}
+          onAddBet={handleAddBet}
+          selectedBets={selectedBetIds}
+        />
+        <BetSlip
+          bets={bets}
+          onRemoveBet={handleRemoveBet}
+          onClearAll={handleClearAll}
+          isOpen={isBetSlipOpen}
+          onToggle={() => setIsBetSlipOpen(!isBetSlipOpen)}
+        />
+      </>
+    );
+  }
 
   return (
     <div className="">

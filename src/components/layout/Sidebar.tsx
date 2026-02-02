@@ -2,47 +2,14 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  Gamepad2,
-  Trophy,
-  Ticket,
-  TrendingUp,
-  Gift,
-  Crown,
-  Coins,
-  Users,
-  MessageCircle,
-  Shield,
-  HeartHandshake,
   ChevronDown,
   ExternalLink,
   Moon,
   Sun,
-  Sparkles,
-  Flame,
-  Star,
-  Dice1,
   Spade,
-  CircleDot,
-  LayoutGrid,
-  HeadphoneOff,
-  Globe,
-  DollarSign,
   ChevronRight,
-  Info,
-  Newspaper,
-  Briefcase,
-  Building,
-  FileText,
-  Headphones,
-  ShieldCheck,
-  Palette,
-  Scale,
-  AlertTriangle,
-  CheckCircle,
-  HelpCircle,
-  Mail,
-  Lock,
 } from "lucide-react";
+
 import { cn } from "@/lib/utils";
 import {
   Tooltip,
@@ -51,7 +18,69 @@ import {
 } from "@/components/ui/tooltip";
 import mobileSc from "../../assets/images/i-3.png";
 import logo from "../../assets/images/logo.png";
-import Casino from "../../assets/images/casino-icon.png";
+import casino from "../../assets/images/casino-green-icon.png";
+import sports from "../../assets/images/sports-icon.png";
+import hotGame from "../../assets/images/hot-game-icon.png";
+import newR from "../../assets/images/new-release-icon.png";
+import slot from "../../assets/images/slot-icon.png";
+import bonus from "../../assets/images/bonus-icon.png";
+import liveCasino from "../../assets/images/live-casino-icon.png";
+import tableGame from "../../assets/images/table-game-icon.png";
+import gameShow from "../../assets/images/game-show-icon.png";
+import bingo from "../../assets/images/bingo-icon.png";
+import theme from "../../assets/images/theme-icon.png";
+import provide from "../../assets/images/provide-icon.png";
+import soccer from "../../assets/images/soccer-icon.png";
+import tennis from "../../assets/images/tennis-icon.png";
+import basket from "../../assets/images/basket-icon.png";
+import cricket from "../../assets/images/cricket-icon.png";
+import fifa from "../../assets/images/fifa-icon.png";
+import aFootball from "../../assets/images/american-football-icon.png";
+import iceHockey from "../../assets/images/ice-hockey-icon.png";
+import handball from "../../assets/images/handball-icon.png";
+import racing from "../../assets/images/racing-icon.png";
+import promotion from "../../assets/images/promotion-icon.png";
+import daily from "../../assets/images/daily-contest-icon.png";
+import lucky from "../../assets/images/luckey-ticket-icon.png";
+import vip from "../../assets/images/vip-club-icon.png";
+import vBonus from "../../assets/images/bonus-icon.png";
+import referal from "../../assets/images/referal-icon.png";
+import fair from "../../assets/images/fair-icon.png";
+import gabling from "../../assets/images/gabling-icon.png";
+import sponsorship from "../../assets/images/sponsorship-icon.png";
+import joni from "../../assets/images/joni-icon.png";
+import rell from "../../assets/images/rell-icon.png";
+import frost from "../../assets/images/forst-icon.png";
+import bharat from "../../assets/images/bharat-icon.png";
+import legend from "../../assets/images/legend-icon.png";
+import nova from "../../assets/images/nova-icon.png";
+import language from "../../assets/images/language-icon.png";
+import currency from "../../assets/images/currency-icon.png";
+import support from "../../assets/images/support-icon.png";
+import about from "../../assets/images/about-icon.png";
+import liveStats from "../../assets/images/live-stats-icon.png";
+import achivement from "../../assets/images/achivement-icon.png";
+import help from "../../assets/images/help-desk.png";
+import legal from "../../assets/images/legal-icon.png";
+import rellbetL from "../../assets/images/rellbet-licence.png";
+import aware from "../../assets/images/aware-icon.png";
+import fairness from "../../assets/images/fairness-icon.png";
+import privacy from "../../assets/images/privacy-icon.png";
+import terms from "../../assets/images/terms-icon.png";
+import aml from "../../assets/images/aml-icon.png";
+import news from "../../assets/images/news-icon.png";
+import work from "../../assets/images/work-icon.png";
+import business from "../../assets/images/business-icon.png";
+import licence from "../../assets/images/licence.png";
+import verify from "../../assets/images/verify-icon.png";
+import design from "../../assets/images/desihn-icon.png";
+import faq from "../../assets/images/faq.png";
+import ceo from "../../assets/images/ceo-inbox.png";
+import helpC from "../../assets/images/help-center-icon.png";
+
+
+
+
 
 interface SidebarProps {
   isOpen: boolean;
@@ -68,63 +97,64 @@ const menuItems = [
   {
     id: "casino",
     label: "Casino",
-    icon: Gamepad2,
+    iconImg: casino,
     hasSubmenu: true,
-    color: "text-primary",
+    // color: "text-primary",
+  path: "/casino",
     submenu: [
-      { id: "hot-games", label: "Hot Games", icon: Flame },
-      { id: "slots", label: "Slots", icon: LayoutGrid },
-      { id: "game Shows", label: "Game Shows", icon: CircleDot },
-      { id: "live-casino", label: "Live Casino", icon: CircleDot },
-      { id: "bonus Buy", label: "Bonus Buy", icon: CircleDot },
-      { id: "burst Games", label: "Burst Games", icon: CircleDot },
-      { id: "new-releases", label: "New Releases", icon: Star },
-      { id: "poker", label: "Poker", icon: Spade },
-      { id: "bingo", label: "Bingo", icon: LayoutGrid },
-      { id: "table-games", label: "Table Games", icon: Dice1 },
-      { id: "providers", label: "Providers", icon: Spade },
-      { id: "themes", label: "Themes", icon: CircleDot },
+      { id: "hot-games", label: "Hot Games", iconImg: hotGame, path: "/casino", },
+      { id: "slots", label: "Slots", iconImg: slot , path: "/casino",},
+      { id: "game Shows", label: "Game Shows", iconImg: gameShow , path: "/casino",},
+      { id: "live-casino", label: "Live Casino", iconImg: liveCasino , path: "/casino",},
+      { id: "bonus Buy", label: "Bonus Buy", iconImg: bonus, path: "/casino", },
+      { id: "burst Games", label: "Burst Games", iconImg: frost, path: "/casino", },
+      { id: "new-releases", label: "New Releases", iconImg: newR, path: "/casino", },
+      { id: "poker", label: "Poker", iconImg: casino, path: "/casino", },
+      { id: "bingo", label: "Bingo", iconImg: bingo , path: "/casino",},
+      { id: "table-games", label: "Table Games", iconImg: tableGame, path: "/casino", },
+      { id: "providers", label: "Providers", iconImg: provide , path: "/casino",},
+      { id: "themes", label: "Themes", iconImg: theme, path: "/casino", },
 
     ],
   },
   {
     id: "sports",
     label: "Sports",
-    icon: Trophy,
+    iconImg: sports,
     hasSubmenu: true,
-    color: "text-primary",
+   path: "/sports",
     submenu: [
-      //  { id: "lobby", label: "Lobby", icon: Sparkles },
-      { id: "soccer", label: "Soccer", icon: Sparkles },
-      { id: "tennis", label: "Tennis", icon: Sparkles },
-      { id: "basketball", label: "Basketball", icon: Sparkles },
-      { id: "cricket", label: "Cricket", icon: Sparkles },
-      { id: "fIFA", label: "FIFA", icon: Sparkles },
-      { id: "american Football", label: "American Football", icon: Sparkles },
-      { id: "ice Hockey", label: "Ice Hockey", icon: Trophy },
-      { id: "baseball", label: "Baseball", icon: Trophy },
-      { id: "handball", label: "Handball", icon: Trophy },
-      { id: "racing", label: "Racing", icon: Trophy },
+      //  { id: "lobby", label: "Lobby", iconImg: Sparkles },
+      { id: "soccer", label: "Soccer", iconImg: soccer, path: "/sports", },
+      { id: "tennis", label: "Tennis", iconImg: tennis,path: "/sports", },
+      { id: "basketball", label: "Basketball", iconImg: basket, path: "/sports", },
+      { id: "cricket", label: "Cricket", iconImg: cricket,path: "/sports",  },
+      { id: "fIFA", label: "FIFA", iconImg: fifa, path: "/sports", },
+      { id: "american Football", label: "American Football", iconImg: aFootball,path: "/sports",  },
+      { id: "ice Hockey", label: "Ice Hockey", iconImg: fifa,path: "/sports",  },
+      { id: "baseball", label: "Baseball", iconImg: basket,  path: "/sports",},
+      { id: "handball", label: "Handball", iconImg: handball, path: "/sports", },
+      { id: "racing", label: "Racing", iconImg: racing, path: "/sports", },
     ],
   },
   // {
   //   id: "lottery",
   //   label: "Lottery",
-  //   icon: Ticket,
+  //   iconImg: Ticket,
   //   hasSubmenu: true,
-  //   color: "text-primary",
+  //   path:"/",
   //   submenu: [
-  //     { id: "lottery", label: "All Lottery", icon: Ticket },
+  //     { id: "lottery", label: "All Lottery", iconImg: Ticket },
   //   ],
   // },
   // {
   //   id: "crypto-futures",
   //   label: "Crypto Futures",
-  //   icon: TrendingUp,
+  //   iconImg: TrendingUp,
   //   hasSubmenu: true,
   //   color: "text-gold",
   //   submenu: [
-  //     { id: "crypto-futures", label: "Crypto Futures", icon: TrendingUp },
+  //     { id: "crypto-futures", label: "Crypto Futures", iconImg: TrendingUp },
   //   ],
   // },
 
@@ -134,118 +164,125 @@ const midItems = [
   {
     id: "promotions",
     label: "Promotions",
-    icon: Gift,
+    iconImg: promotion,
     hasSubmenu: false,
-    color: "text-gold",
-
+    path: "/promotions",
+    
   }, {
     id: "daily",
     label: "Daily Contest",
-    icon: Gift,
+    iconImg: daily,
     hasSubmenu: false,
-    color: "text-gold",
+       path: "/daily",
+    
   }, {
     id: "lucky",
     label: "Lucky Tickets",
-    icon: Gift,
+    iconImg: lucky,
     hasSubmenu: false,
-    color: "text-gold",
+     path: "/lucky",
   },
 ]
 
 const bottomItems = [
-  { id: "vip-club", label: "VIP Club", icon: Crown, color: "text-vip" },
-  { id: "bonus", label: "Bonus", icon: Coins, color: "text-foreground" },
-  { id: "referral", label: "Referral", icon: Users, color: "text-foreground" },
+  { id: "vip-club", label: "VIP Club", iconImg: vip,  path: "/vip", },
+  { id: "bonus", label: "Bonus", iconImg: vBonus, color: "text-foreground",  path: "/bonus", },
+  { id: "referral", label: "Referral", iconImg: referal, color: "text-foreground",  path: "/referal", },
   {
     id: "fair",
     label: "Provably Fair",
-    icon: Shield,
+    iconImg: fair,
     external: true,
-    color: "text-foreground",
+     path: "/fair",
+    
   },
 
   {
     id: "responsible-gambling",
     label: "Responsible Gambling",
-    icon: HeartHandshake,
-    color: "text-foreground",
+    iconImg: gabling,
+     path: "/gabling",
   },
 ];
 const extremBottom = [
   {
     id: "sponsorships",
     label: "Sponsorships",
-    icon: Trophy,
+    iconImg: sponsorship,
     hasSubmenu: true,
-    color: "text-primary",
+    path: "/sponsorships",
     submenu: [
-      { id: "json", label: "Json Derulo", icon: Trophy },
-      { id: "lilpump", label: "Lil Pump", icon: Trophy },
-      { id: "miami", label: "Miami Club", icon: Trophy },
-      { id: "sponship", label: "Sponsorship Journey", icon: Trophy },
-      { id: "colby covinton", label: "Colby Covinton", icon: Trophy },
-      { id: "jean", label: "Jean Silva", icon: Trophy },
+      { id: "json", label: "Json Derulo", iconImg: joni, path: "/sponsorships", },
+      { id: "lilpump", label: "Lil Pump", iconImg: rell, path: "/sponsorships", },
+      { id: "miami", label: "Miami Club", iconImg: frost,path: "/sponsorships",  },
+      { id: "sponship", label: "Sponsorship Journey", iconImg: bharat, path: "/sponsorships", },
+      { id: "colby covinton", label: "Colby Covinton", iconImg: legend, path: "/sponsorships", },
+      { id: "jean", label: "Jean Silva", iconImg: joni, path: "/sponsorships", },
     ],
   }, {
     id: "live",
     label: "24/7 Live Support ",
-    icon: HeadphoneOff,
-  },
-  {
-    id: "currency",
-    label: "Currency",
-    icon: DollarSign,
+    iconImg: support,
+     path: "/support",
   },
   {
     id: "language",
     label: "English",
-    icon: Globe,
-  }
+    iconImg: language,
+    //  path: "/language",
+  },
+  {
+    id: "currency",
+    label: "Currency",
+    iconImg: currency,
+    // path: "/currency",
+  },
+
 
 ]
 const mobileExtraMenu = [
   {
     id: "about",
     label: "About Us",
-    icon: Info,
-    color: "text-primary",
+    iconImg: about,
+    path: "/about",
     hasSubmenu: true,
     submenu: [
-      { id: "achievement", label: "Achievement", icon: Trophy },
-      { id: "news", label: "News", icon: Newspaper },
-      { id: "work", label: "Work With Us", icon: Briefcase },
-      { id: "business", label: "Business Contacts", icon: Building },
-      { id: "licence", label: "Licence", icon: FileText },
-      { id: "helpdesk", label: "Help Desk", icon: Headphones },
-      { id: "verify", label: "Verify Representative", icon: ShieldCheck },
-      { id: "design", label: "Design Resource", icon: Palette },
+      { id: "achievement", label: "Achievement", iconImg: achivement, path: "/about", },
+      { id: "news", label: "News", iconImg: news, path: "/about", },
+      { id: "work", label: "Work With Us", iconImg: work,  path: "/about",},
+      { id: "business", label: "Business Contacts", iconImg: business,path: "/about", },
+      { id: "licence", label: "Licence", iconImg: licence,path: "/about", },
+      { id: "helpdesk", label: "Help Desk", iconImg: help, path: "/about", },
+      { id: "verify", label: "Verify Representative", iconImg: verify,path: "/about", },
+      { id: "design", label: "Design Resource", iconImg: design,path: "/about", },
     ],
   },
   {
     id: "legal",
     label: "Legal",
-    icon: Scale,
-    color: "text-primary",
+    iconImg: legal,
     hasSubmenu: true,
+    path: "/legal",
     submenu: [
-      { id: "rellbet-licence", label: "Rellbet Licence", icon: FileText },
-      { id: "gamble", label: "Gamble Aware", icon: AlertTriangle },
-      { id: "fairness", label: "Fairness", icon: CheckCircle },
-      { id: "privacy", label: "Privacy Policy", icon: Lock },
-      { id: "terms", label: "Terms Of Service", icon: FileText },
-      { id: "aml", label: "AML", icon: Shield },
+      { id: "rellbet-licence", label: "Rellbet Licence", iconImg: rellbetL,  path: "/legal", },
+      { id: "gamble", label: "Gamble Aware", iconImg: aware,   path: "/legal",},
+      { id: "fairness", label: "Fairness", iconImg: fairness,  path: "/legal", },
+      { id: "privacy", label: "Privacy Policy", iconImg: privacy,  path: "/legal", },
+      { id: "terms", label: "Terms Of Service", iconImg: terms,  path: "/legal", },
+      { id: "aml", label: "AML", iconImg: aml,  path: "/legal", },
     ],
   },
   {
     id: "live-mobile",
     label: "Live Support",
-    icon: Headphones,
+    iconImg: support,
     hasSubmenu: true,
+   path: "/support",
     submenu: [
-      { id: "help-center", label: "Help Center", icon: HelpCircle },
-      { id: "faq", label: "FAQ", icon: MessageCircle },
-      { id: "ceo", label: "CEO Inbox", icon: Mail },
+      { id: "help-center", label: "Help Center", iconImg: helpC, path: "/help", },
+      { id: "faq", label: "FAQ", iconImg: faq,path: "/faq",},
+      { id: "ceo", label: "CEO Inbox", iconImg: ceo, path: "/ceo", },
     ],
   },
 ];
@@ -348,7 +385,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
 
           {/* Token Price */}
           {!isCollapsed ? (
-            <div onClick={goLiveStats} className="mx-2 mt-3 p-3 b-radius bg-secondary/30 flex items-center gap-3 cursor-pointer">
+            <div onClick={goLiveStats} className="mx-2 mt-3 p-3 b-radius bg-sidebar-accent flex items-center gap-3 cursor-pointer">
               <div className="flex items-center justify-center">
                 <img src={logo} alt="logo" className="w-6 h-6" />
               </div>
@@ -358,10 +395,15 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                   <span className="text-xs text-destructive">↓ 6.80%</span>
                 </div>
                 <div className="flex">
+                  {/* <img
+                            src={liveStats}
+                            alt=""
+                            className="w-5 h-5 object-contain"
+                          /> */}
                   <p className="text-xs text-muted-foreground">$0.00777</p>
                   <ChevronRight
                     className={cn(
-                      "w-4 h-4 transition-transform ml-auto",
+                      "w-4 h-4 transition-transform ml-auto bg-[#1A2C38]",
                       expandedItems.includes("0") && "rotate-180"
                     )}
                   />
@@ -389,7 +431,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
           )}
 
           {/* Main Menu */}
-          <nav className={cn(" py-2 px-2  space-y-1", isCollapsed && "px-2")}>
+          <nav className={cn(" py-1 px-2  space-y-1", isCollapsed && "px-2")}>
             {menuItems.map((item) => (
               <div key={item.id}>
                 {isCollapsed ? (
@@ -397,7 +439,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                     "w-full bg-sidebar-accent overflow-hidden transition-all",
                     expandedItems.includes(item.id) ? "rounded-t-sm" : "b-radius"
                   )}>
-                    {/* Parent icon */}
+                    {/* Parent iconImg */}
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <button
@@ -410,9 +452,13 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                               : "hover:hvr-btn"
                           )}
                         >
-                          <item.icon className={cn("w-5 h-5", item.color)} />
+                          <img
+                            src={item.iconImg}
+                            alt={item.label}
+                            className="w-5 h-5 object-contain"
+                          />
                           {/* <img
-                            src={item.icon}
+                            src={item.iconImg}
                             alt={item.label}
                             className={cn(
                               "w-5 h-5",
@@ -426,7 +472,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                       </TooltipContent>
                     </Tooltip>
 
-                    {/* ✅ SHOW SUB ICONS ONLY IF EXPANDED */}
+                    {/* ✅ SHOW SUB iconImgS ONLY IF EXPANDED */}
                     <div className="rounded-b-sm bg-sidebar-accent transition-colors">
                       {item.hasSubmenu &&
                         expandedItems.includes(item.id) &&
@@ -437,7 +483,9 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                                 onClick={() => handleNavigate(sub.id)}
                                 className="bg-sidebar-accent transition-colors w-full flex items-center justify-center p-2 b-radius hover: hvr-btn"
                               >
-                                <sub.icon className="w-6 h-6" />
+                                <img
+                                  src={sub.iconImg}
+                                  alt={sub.label} className="w-5 h-5" />
                               </button>
                             </TooltipTrigger>
                             <TooltipContent side="right">
@@ -455,13 +503,17 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                         "w-full flex items-center gap-3 px-3 py-2.5 bg-sidebar-accent hover:hvr-btn",
                         expandedItems.includes(item.id) ? "rounded-t-sm" : "b-radius"
                       )}>
-                      <item.icon className={cn("w-5 h-5", item.color)} />
+                       <img
+                            src={item.iconImg}
+                            alt={item.label}
+                            className="w-5 h-5 object-contain"
+                          />
                       <span className="text-sm font-medium">{item.label}</span>
 
                       {item.hasSubmenu && (
                         <ChevronDown
                           className={cn(
-                            "w-4 h-4 transition-transform ml-auto",
+                            "w-4 h-4 transition-transform ml-auto bg-[#1A2C38] ",
                             expandedItems.includes(item.id) && "rotate-180"
                           )}
                         />
@@ -482,8 +534,12 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                               onClick={() => handleNavigate(sub.id)}
                               className="w-full flex items-center gap-3 px-3 py-2.5 b-radius bg-sidebar-accent hover:hvr-btn"
                             >
-                              <sub.icon className="w-5 h-5" />
-                              <span className="text-sm font-medium">{sub.label}</span>
+                             <img
+                            src={sub.iconImg}
+                            alt={sub.label}
+                            className="w-5 h-5 object-contain"
+                          />
+                              <span className="text-xs font-medium">{sub.label}</span>
                             </button>
                           ))}
                         </motion.div>
@@ -494,7 +550,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                 )}
               </div>
             ))}
-            <div className="my-3 bg-sidebar-accent transition-colors b-radius">
+            <div className="my-1 bg-sidebar-accent transition-colors b-radius">
               {midItems.map((item) => (
                 isCollapsed ? (
                   <Tooltip key={item.id}>
@@ -506,7 +562,11 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                           "hover: hvr-btn"
                         )}
                       >
-                        <item.icon className={cn("w-5 h-5", item.color)} />
+                         <img
+                            src={item.iconImg}
+                            alt={item.label}
+                            className="w-6 h-6 object-contain"
+                          />
                       </button>
                     </TooltipTrigger>
                     <TooltipContent side="right" className="bg-card border-border">
@@ -522,7 +582,11 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                       "hover: hvr-btn"
                     )}
                   >
-                    <item.icon className={cn("w-5 h-5", item.color)} />
+                    <img
+                            src={item.iconImg}
+                            alt={item.label}
+                            className="w-5 h-5 object-contain"
+                          />
                     <span className="flex-1 text-sm text-sidebar-foreground font-medium text-left">
                       {item.label}
                     </span>
@@ -531,7 +595,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
               ))}
 
             </div>
-            <div className="my-3 bg-sidebar-accent transition-colors b-radius">
+            <div className="bg-sidebar-accent transition-colors b-radius">
               {bottomItems.map((item) => (
                 isCollapsed ? (
                   <Tooltip key={item.id}>
@@ -543,7 +607,11 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                           "hover: hvr-btn"
                         )}
                       >
-                        <item.icon className={cn("w-5 h-5", item.color)} />
+                         <img
+                            src={item.iconImg}
+                            alt={item.label}
+                            className="w-5 h-5 object-contain"
+                          />
                       </button>
                     </TooltipTrigger>
                     <TooltipContent side="right" className="bg-card border-border">
@@ -559,7 +627,11 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                       "hover: hvr-btn"
                     )}
                   >
-                    <item.icon className={cn("w-5 h-5", item.color)} />
+                    <img
+                            src={item.iconImg}
+                            alt={item.label}
+                            className="w-5 h-5 object-contain"
+                          />
                     <span className="flex-1 text-sm text-sidebar-foreground font-medium text-left">
                       {item.label}
                     </span>
@@ -571,28 +643,8 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
               ))}
             </div>
           </nav>
-          {/* App Promo - Hidden when collapsed */}
-          {!isCollapsed && (
-            <div className="p-3 mx-2 b-radius bg-secondary/50 flex items-center mb-1">
-              <div className="flex items-center gap-1 w-full">
-                <div className="min-w-0">
-                  <p className="text-sm text-foreground truncate font-bold">
-                    Application
-                  </p>
-                  <p className="text-xs text-muted-foreground leading-tight">
-                    <span className="block">Unlock Fun with Exclusive</span>
-                    <span className="block opacity-80">Features</span>
-                  </p>
-                </div>
-                <img
-                  src={mobileSc}
-                  alt="m-screen"
-                  className="w-10 h-full "
-                />
-              </div>
-            </div>
-          )}
-          <div className={cn("flex-1 px-2 py-1 space-y-1", isCollapsed && "px-2")}>
+
+          <div className={cn("flex-1 px-2 space-y-1", isCollapsed && "px-2")}>
             {finalBottomMenu.map((item) => (
               <div key={item.id}>
                 {isCollapsed ? (
@@ -615,7 +667,11 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                             expandedItems.includes(item.id) ? "rounded-t-sm" : "b-radius"
                           )}
                         >
-                          <item.icon className={cn("w-5 h-5", item.color)} />
+                           <img
+                            src={item.iconImg}
+                            alt={item.label}
+                            className="w-5 h-5 object-contain"
+                          />
                         </button>
                       </TooltipTrigger>
                       <TooltipContent side="right">
@@ -634,7 +690,9 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                                 onClick={() => handleNavigate(sub.id)}
                                 className="w-full flex items-center justify-center p-2 bg-sidebar-accent hover:hvr-btn transition-colors"
                               >
-                                <sub.icon className="w-6 h-6" />
+                              <img
+                                  src={sub.iconImg}
+                                  alt={sub.label} className="w-6 h-6" />
                               </button>
                             </TooltipTrigger>
                             <TooltipContent side="right">
@@ -653,13 +711,17 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                         expandedItems.includes(item.id) ? "rounded-t-sm" : "b-radius"
                       )}
                     >
-                      <item.icon className={cn("w-5 h-5", item.color)} />
+                      <img
+                            src={item.iconImg}
+                            alt={item.label}
+                            className="w-5 h-5 object-contain"
+                          />
                       <span className="text-sm font-medium">{item.label}</span>
 
                       {item.hasSubmenu && (
                         <ChevronDown
                           className={cn(
-                            "w-4 h-4 ml-auto transition-transform",
+                            "w-4 h-4 ml-auto transition-transform bg-[#1A2C38]",
                             expandedItems.includes(item.id) && "rotate-180"
                           )}
                         />
@@ -680,14 +742,37 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                               onClick={() => handleNavigate(sub.id)}
                               className="w-full flex items-center gap-3 px-3 py-2.5 bg-sidebar-accent b-radius hover:hvr-btn transition-colors"
                             >
-                              <sub.icon className="w-5 h-5" />
-                              <span className="text-sm font-medium">{sub.label}</span>
+                              <img
+                                  src={sub.iconImg}
+                                  alt={sub.label} className="w-5 h-5" />
+                              <span className="text-xs font-medium">{sub.label}</span>
                             </button>
                           ))}
                         </motion.div>
                       )}
                     </AnimatePresence>
                   </>
+                )}
+                {/* ✅ INSERT APPLICATION CARD AFTER LIVE SUPPORT App Promo - Hidden when collapsed */}
+                {!isCollapsed && item.id === "live" && (
+                  <div className="p-3 mt-1 b-radius bg-sidebar-accent flex items-center mb-1">
+                    <div className="flex items-center gap-1 w-full">
+                      <div className="min-w-0">
+                        <p className="text-sm text-foreground truncate font-bold">
+                          Application
+                        </p>
+                        <p className="text-xs text-muted-foreground leading-tight">
+                          <span className="block">Unlock Fun with Exclusive</span>
+                          <span className="block opacity-80">Features</span>
+                        </p>
+                      </div>
+                      <img
+                        src={mobileSc}
+                        alt="m-screen"
+                        className="w-10 h-full "
+                      />
+                    </div>
+                  </div>
                 )}
               </div>
             ))}
