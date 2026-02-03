@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ChevronDown,
@@ -292,7 +292,8 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
   const [expandedItems, setExpandedItems] = useState<string[]>([]);
   const navigate = useNavigate();
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
-
+const location = useLocation();
+const sidebarRef = useRef(null);
 
   const goLiveStats = () => {
     navigate("/live-stats");
@@ -331,11 +332,6 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
       onClose();
     }
   };
-
-
-
-
-
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 1024);
     window.addEventListener("resize", handleResize);
@@ -351,6 +347,45 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
     ? [...mobileExtraMenu, ...extremBottom]
     : extremBottom;
 
+useEffect(() => {
+  if (!isMobile || !isOpen) return;
+
+  const handleScroll = () => {
+    onClose();
+  };
+
+  window.addEventListener("scroll", handleScroll, { passive: true });
+
+  return () => {
+    window.removeEventListener("scroll", handleScroll);
+  };
+}, [isMobile, isOpen]);
+useEffect(() => {
+  if (!isMobile || !isOpen) return;
+
+  const handleClickOutside = (event) => {
+    if (
+      sidebarRef.current &&
+      !sidebarRef.current.contains(event.target)
+    ) {
+      onClose();
+    }
+  };
+
+  document.addEventListener("mousedown", handleClickOutside);
+  document.addEventListener("touchstart", handleClickOutside);
+
+  return () => {
+    document.removeEventListener("mousedown", handleClickOutside);
+    document.removeEventListener("touchstart", handleClickOutside);
+  };
+}, [isMobile, isOpen]);
+
+useEffect(() => {
+  if (isMobile && isOpen) {
+    onClose();
+  }
+}, [location.pathname]);
   return (
     <>
       {/* Mobile Overlay */}
@@ -361,13 +396,14 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 bg-black/60 z-40 lg:hidden"
+            className="fixed inset-0 bg-black/60 z-30 lg:hidden"
           />
         )}
       </AnimatePresence>
 
       {/* Sidebar */}
       <motion.aside
+       ref={sidebarRef}
         initial={false}
         animate={{
           width: isOpen ? sidebarWidth : 0,
