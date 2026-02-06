@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { toast } from 'sonner';
 import { useNavigate, useParams } from 'react-router-dom';
- import qrCode from "../../assets/images/qr-code.png"
+import qrCode from "../../assets/images/qr-code.png"
 // Crypto currencies
 const cryptoCurrencies = [
     { id: "eth", name: "ETH", icon: "🔵", network: "Ethereum" },
@@ -39,7 +39,11 @@ const fiatMethods = [
     { id: "upi3", name: "UPI", range: "300 ~ 50,000", badge: null },
     { id: "upi4", name: "UPI", range: "200 ~ 10,000", badge: null },
 ];
-const Deposit = () => {
+type DepositProps = {
+    variant?: "page" | "modal";
+};
+
+const Deposit = ({ variant = "page" }: { variant?: "page" | "modal" }) => {
 
     const { section } = useParams();
     const navigate = useNavigate();
@@ -52,9 +56,16 @@ const Deposit = () => {
         toast.success("Address copied to clipboard!");
     };
     return (
-        <div className="">
+        <div
+            className={cn(
+                "w-full",
+                variant === "modal"
+                    ? "max-w-md mx-auto px-4 py-3 overflow-y-auto"
+                    : "px-0"
+            )}
+        >
             {/* Crypto/Fiat Tabs */}
-            
+
             <div className="flex rounded-lg bg-secondary border border-border overflow-hidden p-1">
                 <button
                     onClick={() => setDepositTab("crypto")}
@@ -102,7 +113,13 @@ const Deposit = () => {
                         Didn't see your currency? Add here
                     </p>
                     {/* Currency and Network Selection */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div
+                        className={cn(
+                            "grid gap-4",
+                            variant === "modal" ? "grid-cols-1" : "grid-cols-1 sm:grid-cols-2"
+                        )}
+                    >
+
                         <div>
                             <label className="text-sm text-muted-foreground mb-2 block">Deposit Currency</label>
                             <div className="flex items-center gap-2 px-4 py-3 bg-secondary rounded-lg">
@@ -136,7 +153,15 @@ const Deposit = () => {
                     </div>
                     {/* Deposit Address */}
                     <div className="bg-card rounded-xl p-6">
-                        <div className="flex flex-col md:flex-row gap-6">
+                        <div
+                            className={cn(
+                                "flex gap-4",
+                                variant === "modal"
+                                    ? "flex-col"
+                                    : "flex-col md:flex-row"
+                            )}
+                        >
+
                             <div className="w-32 h-32 bg-white rounded-xl flex items-center justify-center">
 
                                 <img src={qrCode} alt="qrcode" className='' />

@@ -81,11 +81,11 @@ const GameCarousel = ({
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex flex-row items-center justify-between"><img src={icon} alt={title} className="w-4 h-4 mr-4" /><h2 className="text-base sm:text-lg font-bold text-foreground">{title}</h2></div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1">
           {categoryPath && (
             <button
               onClick={() => navigate(categoryPath)}
-              className="text-muted-foreground text-xs sm:text-sm py-2 px-3 sm:py-1.5 b-radius bg-secondary hover:bg-secondary/80 transition-colors"
+              className="text-muted-foreground text-xs px-2 sm:px-1.5 py-1 sm:py-1.5 b-radius bg-secondary hover:bg-secondary/80 transition-colors"
             >
               All
             </button>
@@ -93,15 +93,15 @@ const GameCarousel = ({
           <div className="flex items-center gap-1">
             <button
               onClick={prev}
-              className="text-xs sm:text-sm p-2 sm:p-1.5 b-radius bg-secondary hover:bg-secondary/80 transition-colors"
+              className=" p-1 sm:p-1.5 b-radius bg-secondary hover:bg-secondary/80 transition-colors"
             >
-              <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground" />
+              <ChevronLeft className="w-4 h-4  text-muted-foreground" />
             </button>
             <button
               onClick={next}
-              className="text-xs sm:text-sm p-2 sm:p-1.5 b-radius bg-secondary hover:bg-secondary/80 transition-colors"
+              className="p-1 sm:p-1.5 b-radius bg-secondary hover:bg-secondary/80 transition-colors"
             >
-              <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground" />
+              <ChevronRight className="w-4 h-4  text-muted-foreground" />
             </button>
           </div>
         </div>

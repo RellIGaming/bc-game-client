@@ -260,11 +260,11 @@ export const MobileProfile = ({
         <div className="absolute top-0 left-0 right-0 flex items-center gap-3 p-4 z-10">
           <button
             onClick={onClose}
-            className="w-8 h-8 rounded-full bg-black/30 flex items-center justify-center"
+            className="w-8 h-8 rounded-lg bg-secondary flex items-center justify-center"
           >
             <ChevronLeft className="w-5 h-5 text-white" />
           </button>
-          <span className="text-lg font-semibold text-white">Profile</span>
+          {/* <span className="text-lg font-semibold text-white">Profile</span> */}
         </div>
 
         {/* User Info */}
@@ -275,7 +275,7 @@ export const MobileProfile = ({
           </div>
 
           <div>
-            <div className="font-semibold flex items-center gap-1">
+            <div className="font-semibold flex items-center gap-1 text-[22px]">
               Prince Wahid
               <span className="text-green-400 text-xs">●</span>
             </div>
@@ -284,7 +284,7 @@ export const MobileProfile = ({
               <Copy className="w-3 h-3 cursor-pointer hover:text-white" />
             </div>
           </div>
-          <ChevronRight className="w-5 h-5 ml-auto text-white/70" />
+          <ChevronRight className="w-6 h-6 ml-auto text-white/70" />
         </div>
 
       </div>
@@ -294,12 +294,12 @@ export const MobileProfile = ({
         <div className="px-4 py-3 bg-[#213744]">
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-2">
-              <span className="text-sm text-white">VIP 0</span>
+              <span className="text-lg text-white">VIP 0</span>
               <span className="px-2 py-0.5 hvr-btn text-sm rounded text-white/80">Bronze</span>
             </div>
-            <div className="flex items-center gap-1 text-sm text-white bg-[#1A2C38] p-1">
+            <div className="flex items-center gap-1 text-lg text-white bg-[#1A2C38] p-1">
               VIP Club
-              <ChevronRight className="w-4 h-4" />
+              <ChevronRight className="w-6 h-6" />
             </div>
           </div>
           <VipProgressBar currentXP={3500} requiredXP={5000} />
@@ -373,7 +373,7 @@ export const MobileProfile = ({
               {/* Right */}
               <div className="flex items-center gap-2">
                 {item.right}
-                <ChevronRight className="w-4 h-4 bg-[#1A2C38]" />
+                <ChevronRight className="w-6 h-6 bg-[#1A2C38]" />
               </div>
             </button>
           ))}
@@ -397,7 +397,7 @@ export const MobileProfile = ({
               {/* Right */}
               <div className="flex items-center gap-2">
                 {item.right}
-                <ChevronRight className="w-4 h-4 bg-[#1A2C38]" />
+                <ChevronRight className="w-6 h-6 bg-[#1A2C38]" />
               </div>
             </button>
           ))}
@@ -424,7 +424,7 @@ export const MobileProfile = ({
             <img src={themeIcon} alt="logo" className="w-5 h-5 text-white/60" />
             <span>Leave Feedback</span>
           </div>
-          <ChevronRight className="w-4 h-4 bg-[#222627]" />
+          <ChevronRight className="w-6 h-6 bg-[#222627]" />
         </button>
 
         {/* Join Community */}

@@ -9,6 +9,7 @@ import NotificationDropdown from "@/components/header/NotificationDropdown";
 import ProfileDropdown from "@/components/header/ProfileDropdown";
 import BonusDashboardModal from "@/components/header/BonusDashboardModal";
 import DepositDropdown from "../header/DepositDropdown";
+import DepositPopover from "../header/DepositPopover";
 
 interface HeaderProps {
   onMenuClick: () => void;
@@ -47,7 +48,7 @@ const Header = ({
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const [bonusDashboardOpen, setBonusDashboardOpen] = useState(false);
-
+  const [openDepositPopover, setOpenDepositPopover] = useState(false);
   const handleBonusDashboard = () => {
     setBonusOpen(false);
     setBonusDashboardOpen(true);
@@ -96,42 +97,54 @@ const Header = ({
 
           {isLoggedIn ? (
             <>
-              {/* Balance Dropdown - desktop only */}
-              <div className="relative ">
+              <div className="relative flex items-center bg-secondary b-radius">
+
+                {/* LEFT → Dropdown */}
                 <button
-                  onClick={() => setDepositOpen(!depositOpen)}
-                  className="
-    flex items-center
-    h-7 min-h-8
-    lg:h-auto
-    bg-secondary b-radius
-    pl-2 pr-1
-    lg:pl-3
-    lg:pr-1
-    py-0 lg:py-1
-    hover:bg-secondary/80
-    transition-colors
-  "
+                  onClick={() => {
+                    setOpenDepositPopover(false);
+                    setDepositOpen(true);
+                  }}
+                  className="flex items-center pl-2 pr-2 py-1 hover:bg-secondary/80 w-[152px]"
                 >
-                  <span className="text-primary text-sm lg:text-lg leading-none mr-1">
-                    ₿
+                  <span className="text-primary text-sm lg:text-lg mr-1">₿</span>
+                  <span className="text-foreground text-xs lg:text-sm font-medium mr-2">
+                    ₹0.003
                   </span>
-
-                  <span className="text-foreground text-xs lg:text-sm font-medium leading-none mr-6">
-                    ₹0.00
-                  </span>
-
-                  <ChevronDown className="w-3 h-3 lg:w-4 lg:h-4 text-muted-foreground " />
-                  <Plus className="w-6 h-6 lg:hidden py-1 px-2 bg-primary ml-4" />
-                <span className="hidden lg:inline bg-primary text-sm py-1 b-radius px-3">Deposit</span>
+                  <ChevronDown className="w-3 h-3 lg:w-4 lg:h-4 text-muted-foreground ml-auto" />
                 </button>
 
-                <DepositDropdown
-                  isOpen={depositOpen}
-                  onClose={() => setDepositOpen(false)}
-                  onDeposit={() => { }}
+                {/* RIGHT → Popover */}
+                <DepositPopover
+                  open={openDepositPopover}
+                  onOpenChange={(open) => {
+                    setDepositOpen(false);
+                    setOpenDepositPopover(open);
+                  }}
+                  trigger={
+                    <button className="flex items-center justify-center
+        bg-primary text-primary-foreground
+       h-6 w-6
+        lg:h-auto lg:w-auto
+        px-0 lg:px-3
+        py-0 lg:py-1
+        mr-1 rounded-lg">
+                      <Plus className="w-4 h-4 lg:hidden m-1" />
+                      <span className="hidden lg:inline text-sm font-medium">Deposit</span>
+                    </button>
+                  }
                 />
+
+                {/* DROPDOWN */}
+                {depositOpen && (
+                  <DepositDropdown
+                    isOpen
+                    onClose={() => setDepositOpen(false)}
+                    onDeposit={() => { }}
+                  />
+                )}
               </div>
+
 
               {/* Mobile Balance Field */}
               {/* <div className="flex lg:hidden items-center gap-1 bg-secondary b-radius px-2 py-1">

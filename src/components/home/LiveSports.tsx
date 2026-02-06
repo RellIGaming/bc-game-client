@@ -118,24 +118,24 @@ const LiveSports = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <h2 className="text-base sm:text-lg font-bold text-foreground">Live Sports</h2>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1">
          <button
-              className="text-muted-foreground text-xs sm:text-sm py-2 px-3 sm:py-1.5 b-radius bg-secondary hover:bg-secondary/80 transition-colors"
+              className="text-muted-foreground text-xs py-2 px-2 sm:py-1.5 b-radius bg-secondary hover:bg-secondary/80 transition-colors"
             >
               All
             </button>
           <div className="flex items-center gap-1">
             <button
               onClick={() => scroll("left")}
-              className="text-xs sm:text-sm p-2 sm:p-1.5 b-radius bg-secondary hover:bg-secondary/80 transition-colors"
+              className=" p-1 sm:p-1.5 b-radius bg-secondary hover:bg-secondary/80 transition-colors"
             >
-              <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground" />
+              <ChevronLeft className="w-4 h-4  text-muted-foreground" />
             </button>
             <button
               onClick={() => scroll("right")}
-              className="text-xs sm:text-sm p-2 sm:p-1.5 b-radius bg-secondary hover:bg-secondary/80 transition-colors"
+              className=" p-1 sm:p-1.5 b-radius bg-secondary hover:bg-secondary/80 transition-colors"
             >
-              <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground" />
+              <ChevronLeft className="w-4 h-4  text-muted-foreground" />
             </button>
           </div>
         </div>

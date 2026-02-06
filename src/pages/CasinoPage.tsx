@@ -406,21 +406,21 @@ const GameCarouselWithClick = ({
     <section className="space-y-3 sm:space-y-4">
       <div className="flex items-center justify-between">
         <h2 className="text-base sm:text-lg font-bold text-foreground">{title}</h2>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1">
           {categoryPath && (
             <button
               onClick={() => navigate(categoryPath)}
-              className="text-xs sm:text-sm text-primary hover:underline"
-            >
+              className="text-muted-foreground text-xs px-2 sm:px-1.5 py-1 sm:py-1.5 b-radius bg-secondary hover:bg-secondary/80 transition-colors"
+>
               All
             </button>
           )}
           <div className="flex items-center gap-1">
             <button onClick={prev} className="p-1 sm:p-1.5 b-radius bg-secondary hover:bg-secondary/80 transition-colors">
-              <ChevronLeft className="w-3 h-3 sm:w-4 sm:h-4 text-muted-foreground" />
+              <ChevronLeft className="w-4 h-4 text-muted-foreground" />
             </button>
             <button onClick={next} className="p-1 sm:p-1.5 b-radius bg-secondary hover:bg-secondary/80 transition-colors">
-              <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4 text-muted-foreground" />
+              <ChevronRight className="w-4 h-4 text-muted-foreground" />
             </button>
           </div>
         </div>

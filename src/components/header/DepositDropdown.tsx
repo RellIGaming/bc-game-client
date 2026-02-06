@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { ChevronDown, Search, ArrowDownUp, Info } from "lucide-react";
+import { ChevronDown, Search, ArrowDownUp, Info, Plus } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { cn } from "@/lib/utils";
 
 interface Currency {
   symbol: string;
@@ -30,11 +31,11 @@ const DepositDropdown = ({ isOpen, onClose, onDeposit }: DepositDropdownProps) =
   const [search, setSearch] = useState("");
   const [viewInCurrency, setViewInCurrency] = useState(false);
   const [hideSmall, setHideSmall] = useState(false);
-const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(false);
   const filteredCurrencies = currencies.filter(c =>
     c.name.toLowerCase().includes(search.toLowerCase())
   );
-
+  const [depositTab, setDepositTab] = useState<"deposit" | "bonus">("deposit");
   const cashCurrencies = filteredCurrencies.filter(c => c.category === "cash");
   const cryptoCurrencies = filteredCurrencies.filter(c => c.category === "crypto");
 
@@ -68,6 +69,26 @@ const [expanded, setExpanded] = useState(false);
             >
               <div className="w-10 h-1.5 rounded-full bg-muted-foreground/40" />
             </div>
+            <div className="flex rounded-lg bg-secondary border border-border overflow-hidden p-1">
+              <button
+                onClick={() => setDepositTab("deposit")}
+                className={cn(
+                  "flex-1 py-3 text-sm font-medium transition-colors",
+                  depositTab === "deposit" ? "bg-secondary text-foreground" : "bg-card text-muted-foreground"
+                )}
+              >
+                Deposit Balance
+              </button>
+              <button
+                onClick={() => setDepositTab("bonus")}
+                className={cn(
+                  "flex-1 py-3 text-sm font-medium transition-colors",
+                  depositTab === "bonus" ? "bg-primary text-primary-foreground" : "bg-card text-muted-foreground"
+                )}
+              >
+                Bonus Balance
+              </button>
+            </div>
             {/* Search */}
             <div className="p-3 border-b border-border">
               <div className="flex items-center gap-2">
@@ -82,60 +103,103 @@ const [expanded, setExpanded] = useState(false);
                   />
                 </div>
                 <button className="p-2 bg-secondary rounded-lg hover:bg-secondary/80 transition-colors">
-                  <ArrowDownUp className="w-4 h-4 text-muted-foreground" />
+                  <Plus className="w-4 h-4 text-muted-foreground" />
                 </button>
               </div>
             </div>
-
-            {/* Currency List */}
-            <div className="max-h-80 overflow-y-auto scrollbar-hide">
-              {/* Cash Section */}
-              {cashCurrencies.length > 0 && (
-                <div className="px-3 py-2">
-                  <span className="text-xs text-muted-foreground font-medium">Cash</span>
-                  {cashCurrencies.map((currency) => (
-                    <div
-                      key={currency.name}
-                      className="flex items-center justify-between py-3 hover:bg-secondary/50 rounded-lg px-2 cursor-pointer transition-colors"
-                    >
-                      <div className="flex items-center gap-3">
-                        <span className="text-lg">{currency.icon}</span>
-                        <span className="text-foreground font-medium">{currency.name}</span>
+            {depositTab === "deposit" ? (
+              <div className="max-h-80 overflow-y-auto scrollbar-hide">
+                {cashCurrencies.length > 0 && (
+                  <div className="px-3 py-2">
+                    <span className="text-xs text-muted-foreground font-medium">Cash</span>
+                    {cashCurrencies.map((currency) => (
+                      <div
+                        key={currency.name}
+                        className="flex items-center justify-between py-3 hover:bg-secondary/50 rounded-lg px-2 cursor-pointer transition-colors"
+                      >
+                        <div className="flex items-center gap-3">
+                          <span className="text-lg">{currency.icon}</span>
+                          <span className="text-foreground font-medium">{currency.name}</span>
+                        </div>
+                        <span className="text-foreground">{currency.balance}</span>
                       </div>
-                      <span className="text-foreground">{currency.balance}</span>
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              {/* Cryptocurrency Section */}
-              {cryptoCurrencies.length > 0 && (
-                <div className="px-3 py-2">
-                  <span className="text-xs text-muted-foreground font-medium">Cryptocurrency</span>
-                  {cryptoCurrencies.map((currency) => (
-                    <div
-                      key={currency.name}
-                      className={`flex items-center justify-between py-3 hover:bg-secondary/50 rounded-lg px-2 cursor-pointer transition-colors ${currency.name === "BC" ? "bg-secondary/80" : ""
-                        }`}
-                    >
-                      <div className="flex items-center gap-3">
-                        <span className="text-lg">{currency.icon}</span>
-                        <span className="text-foreground font-medium">{currency.name}</span>
-                        {currency.name === "BC" && (
-                          <Info className="w-4 h-4 text-primary" />
-                        )}
+                    ))}
+                  </div>
+                )}
+                {cryptoCurrencies.length > 0 && (
+                  <div className="px-3 py-2">
+                    <span className="text-xs text-muted-foreground font-medium">Cryptocurrency</span>
+                    {cryptoCurrencies.map((currency) => (
+                      <div
+                        key={currency.name}
+                        className={`flex items-center justify-between py-3 hover:bg-secondary/50 rounded-lg px-2 cursor-pointer transition-colors ${currency.name === "BC" ? "bg-secondary/80" : ""
+                          }`}
+                      >
+                        <div className="flex items-center gap-3">
+                          <span className="text-lg">{currency.icon}</span>
+                          <span className="text-foreground font-medium">{currency.name}</span>
+                          {currency.name === "BC" && (
+                            <Info className="w-4 h-4 text-primary" />
+                          )}
+                        </div>
+                        <div className="text-right">
+                          <div className="text-foreground">{currency.balance}</div>
+                          {currency.subBalance && (
+                            <div className="text-xs text-muted-foreground">{currency.subBalance}</div>
+                          )}
+                        </div>
                       </div>
-                      <div className="text-right">
-                        <div className="text-foreground">{currency.balance}</div>
-                        {currency.subBalance && (
-                          <div className="text-xs text-muted-foreground">{currency.subBalance}</div>
-                        )}
+                    ))}
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="max-h-80 overflow-y-auto scrollbar-hide">
+                {cashCurrencies.length > 0 && (
+                  <div className="px-3 py-2">
+                    <span className="text-xs text-muted-foreground font-medium">Cash</span>
+                    {cashCurrencies.map((currency) => (
+                      <div
+                        key={currency.name}
+                        className="flex items-center justify-between py-3 hover:bg-secondary/50 rounded-lg px-2 cursor-pointer transition-colors"
+                      >
+                        <div className="flex items-center gap-3">
+                          <span className="text-lg">{currency.icon}</span>
+                          <span className="text-foreground font-medium">{currency.name}</span>
+                        </div>
+                        <span className="text-foreground">{currency.balance}</span>
                       </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
+                    ))}
+                  </div>
+                )}
+                {cryptoCurrencies.length > 0 && (
+                  <div className="px-3 py-2">
+                    <span className="text-xs text-muted-foreground font-medium">Cryptocurrency</span>
+                    {cryptoCurrencies.map((currency) => (
+                      <div
+                        key={currency.name}
+                        className={`flex items-center justify-between py-3 hover:bg-secondary/50 rounded-lg px-2 cursor-pointer transition-colors ${currency.name === "BC" ? "bg-secondary/80" : ""
+                          }`}
+                      >
+                        <div className="flex items-center gap-3">
+                          <span className="text-lg">{currency.icon}</span>
+                          <span className="text-foreground font-medium">{currency.name}</span>
+                          {currency.name === "BC" && (
+                            <Info className="w-4 h-4 text-primary" />
+                          )}
+                        </div>
+                        <div className="text-right">
+                          <div className="text-foreground">{currency.balance}</div>
+                          {currency.subBalance && (
+                            <div className="text-xs text-muted-foreground">{currency.subBalance}</div>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
 
             {/* Footer Options */}
             <div className="p-3 border-t border-border flex items-center justify-between">

@@ -100,19 +100,19 @@ const menuItems = [
     iconImg: casino,
     hasSubmenu: true,
     // color: "text-primary",
-  path: "/casino",
+    path: "/casino",
     submenu: [
       { id: "hot-games", label: "Hot Games", iconImg: hotGame, path: "/casino", },
-      { id: "slots", label: "Slots", iconImg: slot , path: "/casino",},
-      { id: "game Shows", label: "Game Shows", iconImg: gameShow , path: "/casino",},
-      { id: "live-casino", label: "Live Casino", iconImg: liveCasino , path: "/casino",},
+      { id: "slots", label: "Slots", iconImg: slot, path: "/casino", },
+      { id: "game Shows", label: "Game Shows", iconImg: gameShow, path: "/casino", },
+      { id: "live-casino", label: "Live Casino", iconImg: liveCasino, path: "/casino", },
       { id: "bonus Buy", label: "Bonus Buy", iconImg: bonus, path: "/casino", },
       { id: "burst Games", label: "Burst Games", iconImg: frost, path: "/casino", },
       { id: "new-releases", label: "New Releases", iconImg: newR, path: "/casino", },
       { id: "poker", label: "Poker", iconImg: casino, path: "/casino", },
-      { id: "bingo", label: "Bingo", iconImg: bingo , path: "/casino",},
+      { id: "bingo", label: "Bingo", iconImg: bingo, path: "/casino", },
       { id: "table-games", label: "Table Games", iconImg: tableGame, path: "/casino", },
-      { id: "providers", label: "Providers", iconImg: provide , path: "/casino",},
+      { id: "providers", label: "Providers", iconImg: provide, path: "/casino", },
       { id: "themes", label: "Themes", iconImg: theme, path: "/casino", },
 
     ],
@@ -122,17 +122,17 @@ const menuItems = [
     label: "Sports",
     iconImg: sports,
     hasSubmenu: true,
-   path: "/sports",
+    path: "/sports",
     submenu: [
       //  { id: "lobby", label: "Lobby", iconImg: Sparkles },
       { id: "soccer", label: "Soccer", iconImg: soccer, path: "/sports", },
-      { id: "tennis", label: "Tennis", iconImg: tennis,path: "/sports", },
+      { id: "tennis", label: "Tennis", iconImg: tennis, path: "/sports", },
       { id: "basketball", label: "Basketball", iconImg: basket, path: "/sports", },
-      { id: "cricket", label: "Cricket", iconImg: cricket,path: "/sports",  },
+      { id: "cricket", label: "Cricket", iconImg: cricket, path: "/sports", },
       { id: "fIFA", label: "FIFA", iconImg: fifa, path: "/sports", },
-      { id: "american Football", label: "American Football", iconImg: aFootball,path: "/sports",  },
-      { id: "ice Hockey", label: "Ice Hockey", iconImg: fifa,path: "/sports",  },
-      { id: "baseball", label: "Baseball", iconImg: basket,  path: "/sports",},
+      { id: "american Football", label: "American Football", iconImg: aFootball, path: "/sports", },
+      { id: "ice Hockey", label: "Ice Hockey", iconImg: fifa, path: "/sports", },
+      { id: "baseball", label: "Baseball", iconImg: basket, path: "/sports", },
       { id: "handball", label: "Handball", iconImg: handball, path: "/sports", },
       { id: "racing", label: "Racing", iconImg: racing, path: "/sports", },
     ],
@@ -167,41 +167,41 @@ const midItems = [
     iconImg: promotion,
     hasSubmenu: false,
     path: "/promotions",
-    
+
   }, {
     id: "daily",
     label: "Daily Contest",
     iconImg: daily,
     hasSubmenu: false,
-       path: "/daily",
-    
+    path: "/daily",
+
   }, {
     id: "lucky",
     label: "Lucky Tickets",
     iconImg: lucky,
     hasSubmenu: false,
-     path: "/lucky",
+    path: "/lucky",
   },
 ]
 
 const bottomItems = [
-  { id: "vip-club", label: "VIP Club", iconImg: vip,  path: "/vip", },
-  { id: "bonus", label: "Bonus", iconImg: vBonus, color: "text-foreground",  path: "/bonus", },
-  { id: "referral", label: "Referral", iconImg: referal, color: "text-foreground",  path: "/referal", },
+  { id: "vip-club", label: "VIP Club", iconImg: vip, path: "/vip", },
+  { id: "bonus", label: "Bonus", iconImg: vBonus, color: "text-foreground", path: "/bonus", },
+  { id: "referral", label: "Referral", iconImg: referal, color: "text-foreground", path: "/referal", },
   {
     id: "fair",
     label: "Provably Fair",
     iconImg: fair,
     external: true,
-     path: "/fair",
-    
+    path: "/fair",
+
   },
 
   {
     id: "responsible-gambling",
     label: "Responsible Gambling",
     iconImg: gabling,
-     path: "/gabling",
+    path: "/gabling",
   },
 ];
 const extremBottom = [
@@ -214,7 +214,7 @@ const extremBottom = [
     submenu: [
       { id: "json", label: "Json Derulo", iconImg: joni, path: "/sponsorships", },
       { id: "lilpump", label: "Lil Pump", iconImg: rell, path: "/sponsorships", },
-      { id: "miami", label: "Miami Club", iconImg: frost,path: "/sponsorships",  },
+      { id: "miami", label: "Miami Club", iconImg: frost, path: "/sponsorships", },
       { id: "sponship", label: "Sponsorship Journey", iconImg: bharat, path: "/sponsorships", },
       { id: "colby covinton", label: "Colby Covinton", iconImg: legend, path: "/sponsorships", },
       { id: "jean", label: "Jean Silva", iconImg: joni, path: "/sponsorships", },
@@ -223,7 +223,7 @@ const extremBottom = [
     id: "live",
     label: "24/7 Live Support ",
     iconImg: support,
-     path: "/support",
+    path: "/support",
   },
   {
     id: "language",
@@ -250,12 +250,12 @@ const mobileExtraMenu = [
     submenu: [
       { id: "achievement", label: "Achievement", iconImg: achivement, path: "/about", },
       { id: "news", label: "News", iconImg: news, path: "/about", },
-      { id: "work", label: "Work With Us", iconImg: work,  path: "/about",},
-      { id: "business", label: "Business Contacts", iconImg: business,path: "/about", },
-      { id: "licence", label: "Licence", iconImg: licence,path: "/about", },
+      { id: "work", label: "Work With Us", iconImg: work, path: "/about", },
+      { id: "business", label: "Business Contacts", iconImg: business, path: "/about", },
+      { id: "licence", label: "Licence", iconImg: licence, path: "/about", },
       { id: "helpdesk", label: "Help Desk", iconImg: help, path: "/about", },
-      { id: "verify", label: "Verify Representative", iconImg: verify,path: "/about", },
-      { id: "design", label: "Design Resource", iconImg: design,path: "/about", },
+      { id: "verify", label: "Verify Representative", iconImg: verify, path: "/about", },
+      { id: "design", label: "Design Resource", iconImg: design, path: "/about", },
     ],
   },
   {
@@ -265,12 +265,12 @@ const mobileExtraMenu = [
     hasSubmenu: true,
     path: "/legal",
     submenu: [
-      { id: "rellbet-licence", label: "Rellbet Licence", iconImg: rellbetL,  path: "/legal", },
-      { id: "gamble", label: "Gamble Aware", iconImg: aware,   path: "/legal",},
-      { id: "fairness", label: "Fairness", iconImg: fairness,  path: "/legal", },
-      { id: "privacy", label: "Privacy Policy", iconImg: privacy,  path: "/legal", },
-      { id: "terms", label: "Terms Of Service", iconImg: terms,  path: "/legal", },
-      { id: "aml", label: "AML", iconImg: aml,  path: "/legal", },
+      { id: "rellbet-licence", label: "Rellbet Licence", iconImg: rellbetL, path: "/legal", },
+      { id: "gamble", label: "Gamble Aware", iconImg: aware, path: "/legal", },
+      { id: "fairness", label: "Fairness", iconImg: fairness, path: "/legal", },
+      { id: "privacy", label: "Privacy Policy", iconImg: privacy, path: "/legal", },
+      { id: "terms", label: "Terms Of Service", iconImg: terms, path: "/legal", },
+      { id: "aml", label: "AML", iconImg: aml, path: "/legal", },
     ],
   },
   {
@@ -278,10 +278,10 @@ const mobileExtraMenu = [
     label: "Live Support",
     iconImg: support,
     hasSubmenu: true,
-   path: "/support",
+    path: "/support",
     submenu: [
       { id: "help-center", label: "Help Center", iconImg: helpC, path: "/help", },
-      { id: "faq", label: "FAQ", iconImg: faq,path: "/faq",},
+      { id: "faq", label: "FAQ", iconImg: faq, path: "/faq", },
       { id: "ceo", label: "CEO Inbox", iconImg: ceo, path: "/ceo", },
     ],
   },
@@ -292,8 +292,8 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
   const [expandedItems, setExpandedItems] = useState<string[]>([]);
   const navigate = useNavigate();
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
-const location = useLocation();
-const sidebarRef = useRef(null);
+  const location = useLocation();
+  const sidebarRef = useRef(null);
 
   const goLiveStats = () => {
     navigate("/live-stats");
@@ -347,45 +347,61 @@ const sidebarRef = useRef(null);
     ? [...mobileExtraMenu, ...extremBottom]
     : extremBottom;
 
-useEffect(() => {
-  if (!isMobile || !isOpen) return;
+  useEffect(() => {
+    if (!isMobile || !isOpen) return;
 
-  const handleScroll = () => {
-    onClose();
-  };
+    const handleScroll = () => {
+      onClose();
+    };
 
-  window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("scroll", handleScroll, { passive: true });
 
-  return () => {
-    window.removeEventListener("scroll", handleScroll);
-  };
-}, [isMobile, isOpen]);
-useEffect(() => {
-  if (!isMobile || !isOpen) return;
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [isMobile, isOpen]);
+  useEffect(() => {
+    if (!isMobile || !isOpen) return;
 
-  const handleClickOutside = (event) => {
-    if (
-      sidebarRef.current &&
-      !sidebarRef.current.contains(event.target)
-    ) {
+    const handleClickOutside = (event) => {
+      if (
+        sidebarRef.current &&
+        !sidebarRef.current.contains(event.target)
+      ) {
+        onClose();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("touchstart", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("touchstart", handleClickOutside);
+    };
+  }, [isMobile, isOpen]);
+
+  useEffect(() => {
+    if (isMobile && isOpen) {
       onClose();
     }
+  }, [location.pathname]);
+
+  const toggleSubmenu = (id: string) => {
+    setExpandedItems((prev) =>
+      prev.includes(id)
+        ? prev.filter((i) => i !== id)
+        : [...prev, id]
+    );
   };
 
-  document.addEventListener("mousedown", handleClickOutside);
-  document.addEventListener("touchstart", handleClickOutside);
-
-  return () => {
-    document.removeEventListener("mousedown", handleClickOutside);
-    document.removeEventListener("touchstart", handleClickOutside);
+  const openParentRoute = (item: any) => {
+    if (item.id === "casino") navigate("/casino");
+    else if (item.id === "sports") navigate("/sports");
+    else if (item.id === "sponsorships") navigate("/sponsorships");
+    else if (item.path) handleNavigate(item.path);
   };
-}, [isMobile, isOpen]);
 
-useEffect(() => {
-  if (isMobile && isOpen) {
-    onClose();
-  }
-}, [location.pathname]);
   return (
     <>
       {/* Mobile Overlay */}
@@ -403,7 +419,7 @@ useEffect(() => {
 
       {/* Sidebar */}
       <motion.aside
-       ref={sidebarRef}
+        ref={sidebarRef}
         initial={false}
         animate={{
           width: isOpen ? sidebarWidth : 0,
@@ -437,12 +453,18 @@ useEffect(() => {
                             className="w-5 h-5 object-contain"
                           /> */}
                   <p className="text-xs text-muted-foreground">$0.00777</p>
-                  <ChevronRight
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                    }}
                     className={cn(
-                      "w-4 h-4 transition-transform ml-auto bg-[#1A2C38]",
+                      "ml-auto flex items-center justify-center",
+                      "w-5 h-5 rounded-lg bg-[#1A2C38] hover:bg-[#223a4a] transition",
                       expandedItems.includes("0") && "rotate-180"
                     )}
-                  />
+                  >
+                    <ChevronDown className="w-4 h-4" />
+                  </button>
                 </div>
 
               </div>
@@ -479,7 +501,8 @@ useEffect(() => {
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <button
-                          onClick={() => handleMenuItemClick(item.id, item.hasSubmenu)}
+                          // onClick={() => handleMenuItemClick(item.id, item.hasSubmenu)}
+                          onClick={() => openParentRoute(item)}
                           className={cn(
                             "w-full flex items-center justify-center p-2 bg-sidebar-accent transition-colors",
                             "hover: hvr-btn",
@@ -534,25 +557,33 @@ useEffect(() => {
                 ) : (
                   <>
                     <button
-                      onClick={() => handleMenuItemClick(item.id, item.hasSubmenu)}
+                      // onClick={() => handleMenuItemClick(item.id, item.hasSubmenu)}
+                      onClick={() => openParentRoute(item)}
                       className={cn(
                         "w-full flex items-center gap-3 px-3 py-2.5 bg-sidebar-accent hover:hvr-btn",
                         expandedItems.includes(item.id) ? "rounded-t-sm" : "b-radius"
                       )}>
-                       <img
-                            src={item.iconImg}
-                            alt={item.label}
-                            className="w-5 h-5 object-contain"
-                          />
+                      <img
+                        src={item.iconImg}
+                        alt={item.label}
+                        className="w-5 h-5 object-contain"
+                      />
                       <span className="text-sm font-medium">{item.label}</span>
 
                       {item.hasSubmenu && (
-                        <ChevronDown
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            toggleExpand(item.id);
+                          }}
                           className={cn(
-                            "w-4 h-4 transition-transform ml-auto bg-[#1A2C38] ",
+                            "ml-auto flex items-center justify-center",
+                            "w-5 h-5 rounded-lg bg-[#1A2C38] hover:bg-[#223a4a] transition",
                             expandedItems.includes(item.id) && "rotate-180"
                           )}
-                        />
+                        >
+                          <ChevronDown className="w-4 h-4" />
+                        </button>
                       )}
                     </button>
 
@@ -570,11 +601,11 @@ useEffect(() => {
                               onClick={() => handleNavigate(sub.id)}
                               className="w-full flex items-center gap-3 px-3 py-2.5 b-radius bg-sidebar-accent hover:hvr-btn"
                             >
-                             <img
-                            src={sub.iconImg}
-                            alt={sub.label}
-                            className="w-5 h-5 object-contain"
-                          />
+                              <img
+                                src={sub.iconImg}
+                                alt={sub.label}
+                                className="w-5 h-5 object-contain"
+                              />
                               <span className="text-xs font-medium">{sub.label}</span>
                             </button>
                           ))}
@@ -598,11 +629,11 @@ useEffect(() => {
                           "hover: hvr-btn"
                         )}
                       >
-                         <img
-                            src={item.iconImg}
-                            alt={item.label}
-                            className="w-6 h-6 object-contain"
-                          />
+                        <img
+                          src={item.iconImg}
+                          alt={item.label}
+                          className="w-6 h-6 object-contain"
+                        />
                       </button>
                     </TooltipTrigger>
                     <TooltipContent side="right" className="bg-card border-border">
@@ -619,10 +650,10 @@ useEffect(() => {
                     )}
                   >
                     <img
-                            src={item.iconImg}
-                            alt={item.label}
-                            className="w-5 h-5 object-contain"
-                          />
+                      src={item.iconImg}
+                      alt={item.label}
+                      className="w-5 h-5 object-contain"
+                    />
                     <span className="flex-1 text-sm text-sidebar-foreground font-medium text-left">
                       {item.label}
                     </span>
@@ -643,11 +674,11 @@ useEffect(() => {
                           "hover: hvr-btn"
                         )}
                       >
-                         <img
-                            src={item.iconImg}
-                            alt={item.label}
-                            className="w-5 h-5 object-contain"
-                          />
+                        <img
+                          src={item.iconImg}
+                          alt={item.label}
+                          className="w-5 h-5 object-contain"
+                        />
                       </button>
                     </TooltipTrigger>
                     <TooltipContent side="right" className="bg-card border-border">
@@ -664,10 +695,10 @@ useEffect(() => {
                     )}
                   >
                     <img
-                            src={item.iconImg}
-                            alt={item.label}
-                            className="w-5 h-5 object-contain"
-                          />
+                      src={item.iconImg}
+                      alt={item.label}
+                      className="w-5 h-5 object-contain"
+                    />
                     <span className="flex-1 text-sm text-sidebar-foreground font-medium text-left">
                       {item.label}
                     </span>
@@ -703,7 +734,7 @@ useEffect(() => {
                             expandedItems.includes(item.id) ? "rounded-t-sm" : "b-radius"
                           )}
                         >
-                           <img
+                          <img
                             src={item.iconImg}
                             alt={item.label}
                             className="w-5 h-5 object-contain"
@@ -726,7 +757,7 @@ useEffect(() => {
                                 onClick={() => handleNavigate(sub.id)}
                                 className="w-full flex items-center justify-center p-2 bg-sidebar-accent hover:hvr-btn transition-colors"
                               >
-                              <img
+                                <img
                                   src={sub.iconImg}
                                   alt={sub.label} className="w-6 h-6" />
                               </button>
@@ -741,26 +772,35 @@ useEffect(() => {
                 ) : (
                   <>
                     <button
-                      onClick={() => item.hasSubmenu && toggleExpand(item.id)}
+                      // onClick={() => item.hasSubmenu && toggleExpand(item.id)}
+                      onClick={() => openParentRoute(item)}
                       className={cn(
                         "w-full flex items-center gap-3 px-3 py-2.5 bg-sidebar-accent hover:hvr-btn transition-colors",
                         expandedItems.includes(item.id) ? "rounded-t-sm" : "b-radius"
                       )}
                     >
                       <img
-                            src={item.iconImg}
-                            alt={item.label}
-                            className="w-5 h-5 object-contain"
-                          />
+                        src={item.iconImg}
+                        alt={item.label}
+                        className="w-5 h-5 object-contain"
+                      />
                       <span className="text-sm font-medium">{item.label}</span>
 
                       {item.hasSubmenu && (
-                        <ChevronDown
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            toggleExpand(item.id);
+                          }}
                           className={cn(
-                            "w-4 h-4 ml-auto transition-transform bg-[#1A2C38]",
+                            "ml-auto flex items-center justify-center",
+                            "w-5 h-5 rounded-lg bg-[#1A2C38] hover:bg-[#223a4a] transition",
                             expandedItems.includes(item.id) && "rotate-180"
                           )}
-                        />
+                        >
+                          <ChevronDown className="w-4 h-4" />
+                        </button>
+
                       )}
                     </button>
 
@@ -779,8 +819,8 @@ useEffect(() => {
                               className="w-full flex items-center gap-3 px-3 py-2.5 bg-sidebar-accent b-radius hover:hvr-btn transition-colors"
                             >
                               <img
-                                  src={sub.iconImg}
-                                  alt={sub.label} className="w-5 h-5" />
+                                src={sub.iconImg}
+                                alt={sub.label} className="w-5 h-5" />
                               <span className="text-xs font-medium">{sub.label}</span>
                             </button>
                           ))}
