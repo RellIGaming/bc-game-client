@@ -185,7 +185,8 @@ const WalletPage = ({ isLoggedIn, setIsLoggedIn }: WalletPageProps) => {
           </div>
           {/* Main Content */}
           <div className="flex-1 min-w-0">
-            <div className="bg-card rounded-lg p-4">
+            {/* <div className="bg-card rounded-lg p-4"> */}
+            <div className="">
               {renderContent()}
             </div>
           </div>

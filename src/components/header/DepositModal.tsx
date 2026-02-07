@@ -1,56 +1,43 @@
-import * as React from "react";
-import { X, ArrowLeft } from "lucide-react";
+import { X } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { Drawer, DrawerContent } from "@/components/ui/drawer";
 import Deposit from "../walet/Deposit";
-import { useMediaQuery } from '@/hooks/use-media-query';
+import { useMediaQuery } from "@/hooks/use-media-query";
 
-type DepositModalProps = {
+type Props = {
   open: boolean;
   onClose: () => void;
 };
 
-const DepositModal = ({ open, onClose }: DepositModalProps) => {
+const DepositModal = ({ open, onClose }: Props) => {
   const isDesktop = useMediaQuery("(min-width: 768px)");
 
-  // 🖥 Desktop → Modal
-  if (isDesktop) {
-    return (
-      <Dialog open={open} onOpenChange={onClose}>
-        <DialogContent
-          className="
-    w-full
-    max-w-[520px]
-    p-0
-    overflow-hidden
-    bg-background
-  "
-        >
-          <Deposit variant="modal" />
-        </DialogContent>
+  if (!isDesktop) return null;
 
-      </Dialog>
-    );
-  }
-
-  // 📱 Mobile → Right Drawer
   return (
-    <Drawer open={open} onOpenChange={onClose} direction="right">
-      <DrawerContent className="h-full w-full max-w-full rounded-none">
-        {/* Header */}
-        <div className="flex items-center gap-3 p-4 border-b">
-          <button onClick={onClose}>
-            <ArrowLeft className="w-5 h-5" />
-          </button>
+    <Dialog open={open} onOpenChange={onClose}>
+      <DialogContent
+        className="
+          p-0
+          max-w-[520px]
+          h-[80vh]
+          flex
+          flex-col
+        "
+      >
+        {/* HEADER */}
+        <div className="sticky top-0 z-10 flex items-center justify-between px-4 py-3 border-b bg-background">
           <h3 className="font-medium">Deposit</h3>
+          <button onClick={onClose}>
+            <X className="w-5 h-5 text-muted-foreground" />
+          </button>
         </div>
 
-        {/* Body */}
-        <div className="p-4 overflow-y-auto h-[calc(100vh-64px)]">
+        {/* BODY (SCROLLS) */}
+        <div className="flex-1 overflow-y-auto px-4 py-3">
           <Deposit variant="modal" />
         </div>
-      </DrawerContent>
-    </Drawer>
+      </DialogContent>
+    </Dialog>
   );
 };
 

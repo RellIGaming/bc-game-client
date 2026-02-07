@@ -185,9 +185,9 @@ const midItems = [
 ]
 
 const bottomItems = [
-  { id: "vip-club", label: "VIP Club", iconImg: vip, path: "/vip", },
+  { id: "vip-club", label: "VIP Club", iconImg: vip, path: "/vip-club", },
   { id: "bonus", label: "Bonus", iconImg: vBonus, color: "text-foreground", path: "/bonus", },
-  { id: "referral", label: "Referral", iconImg: referal, color: "text-foreground", path: "/referal", },
+  { id: "referal", label: "Referral", iconImg: referal, color: "text-foreground", path: "/referal", },
   {
     id: "fair",
     label: "Provably Fair",
@@ -198,10 +198,10 @@ const bottomItems = [
   },
 
   {
-    id: "responsible-gambling",
+    id: "gambling",
     label: "Responsible Gambling",
     iconImg: gabling,
-    path: "/gabling",
+    path: "/gambling",
   },
 ];
 const extremBottom = [
@@ -399,6 +399,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
     if (item.id === "casino") navigate("/casino");
     else if (item.id === "sports") navigate("/sports");
     else if (item.id === "sponsorships") navigate("/sponsorships");
+   
     else if (item.path) handleNavigate(item.path);
   };
 

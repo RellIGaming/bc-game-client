@@ -47,7 +47,7 @@ const Balance = () => {
         return true;
     });
     return (
-        <div className="space-y-6 bg-card ">
+        <div className="space-y-6 bg-card rounded-lg p-4">
             {/* Balance Summary */}
             <div className="flex flex-row gap-4 bg-secondary rounded-lg">
 

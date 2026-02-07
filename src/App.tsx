@@ -17,6 +17,11 @@ import SportsPage from "./pages/SportsPage";
 import SearchPage from "./pages/SearchPage";
 import AppLayout from "./components/layout/AppLayout";
 import Home from "./pages/Home";
+import VipClubPage from "./pages/VipClubPage";
+import BonusPage from "./pages/BonusPage";
+import ReferralPage from "./pages/ReferralPage";
+import ProvablyFairPage from "./pages/ProvablyFairPage";
+import ResponsibleGamblingPage from "./pages/ResponsibleGamblingPage";
 
 const queryClient = new QueryClient();
 
@@ -26,32 +31,37 @@ const App = () => {
   );
 
   return (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route element={<AppLayout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />}>
-          <Route path="/" element={<Home isLoggedIn={isLoggedIn} />} />
-          {/* <Route path="/" element={<Index isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} /> */}
-            <Route path="/casino" element={<CasinoPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
-            <Route path="/sports" element={<SportsPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
-            <Route path="/search" element={<SearchPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
-             <Route path="/wallet" element={<WalletPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
-            <Route path="/game/:gameId" element={<GameDetailPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
-            <Route path="/wallet/:section" element={<WalletPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
-            <Route path="/category/:category" element={<CategoryPage />} />
-            <Route path="/live-stats" element={<LiveStats />} />
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Routes>
+            <Route element={<AppLayout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />}>
+              <Route path="/" element={<Home isLoggedIn={isLoggedIn} />} />
+              {/* <Route path="/" element={<Index isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} /> */}
+              <Route path="/casino" element={<CasinoPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
+              <Route path="/sports" element={<SportsPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
+              <Route path="/search" element={<SearchPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
+              <Route path="/wallet" element={<WalletPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
+              <Route path="/game/:gameId" element={<GameDetailPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
+              <Route path="/wallet/:section" element={<WalletPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
+              <Route path="/category/:category" element={<CategoryPage />} />
+              <Route path="/live-stats" element={<LiveStats />} />
+              <Route path="/category/vip-club" element={<VipClubPage />} />
+              <Route path="/category/bonus" element={<BonusPage />} />
+              <Route path="/category/referal" element={<ReferralPage />} />
+              <Route path="/category/fair" element={<ProvablyFairPage />} />
+              <Route path="/category/gambling" element={<ResponsibleGamblingPage />} />
             </Route>
             <Route path="/admin-login" element={<AdminLogin />} />
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-)
+          </Routes>
+        </BrowserRouter>
+      </TooltipProvider>
+    </QueryClientProvider>
+  )
 };
 
 export default App;
