@@ -22,6 +22,10 @@ import BonusPage from "./pages/BonusPage";
 import ReferralPage from "./pages/ReferralPage";
 import ProvablyFairPage from "./pages/ProvablyFairPage";
 import ResponsibleGamblingPage from "./pages/ResponsibleGamblingPage";
+import SponsorshipPage from "./pages/SponsorshipPage";
+import PromotionsPage from "./pages/PromotionsPage";
+import DailyContestPage from "./pages/DailyContestPage";
+import WeeklyRafflePage from "./pages/WeeklyRafflePage";
 
 const queryClient = new QueryClient();
 
@@ -53,6 +57,10 @@ const App = () => {
               <Route path="/category/referal" element={<ReferralPage />} />
               <Route path="/category/fair" element={<ProvablyFairPage />} />
               <Route path="/category/gambling" element={<ResponsibleGamblingPage />} />
+              <Route path="/category/sponsorships" element={<SponsorshipPage />} />
+              <Route path="/category/promotions" element={<PromotionsPage />} />
+              <Route path="/category/daily" element={<DailyContestPage />} />
+              <Route path="/category/lucky" element={<WeeklyRafflePage />} />
             </Route>
             <Route path="/admin-login" element={<AdminLogin />} />
             <Route path="/admin" element={<AdminDashboard />} />

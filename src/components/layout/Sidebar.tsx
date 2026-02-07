@@ -398,8 +398,15 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
   const openParentRoute = (item: any) => {
     if (item.id === "casino") navigate("/casino");
     else if (item.id === "sports") navigate("/sports");
-    else if (item.id === "sponsorships") navigate("/sponsorships");
-   
+    else if (item.id === "promotions") {
+      navigate("/promotions");
+    } else if (item.id === "daily") {
+      navigate("/daily");
+    } else if (item.id === "lucky") {
+      navigate("/lucky");
+    } else if (item.id === "sponsorships") {
+      navigate("/sponsorships");
+    }
     else if (item.path) handleNavigate(item.path);
   };
 
