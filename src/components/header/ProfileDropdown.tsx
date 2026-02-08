@@ -102,7 +102,7 @@ const ProfileDropdown = ({ isOpen, onClose, onLogout }: ProfileDropdownProps) =>
   const [isDark, setIsDark] = useState(true);
   const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
   const toggleTheme = () => setIsDark(!isDark);
-   const navigate = useNavigate();
+  const navigate = useNavigate();
   return (
     <AnimatePresence>
       {isOpen && (
@@ -238,6 +238,7 @@ export const MobileProfile = ({
   ];
   return (
     <motion.div
+      onClick={(e) => e.stopPropagation()}
       initial={{ x: "100%" }}
       animate={{ x: 0 }}
       exit={{ x: "100%" }}
@@ -316,10 +317,16 @@ export const MobileProfile = ({
 
           </div>
           <div className="flex gap-3 mt-4">
-            <button className="flex-1 bg-[#1A2C38] hover:bg-primary py-2.5 rounded-lg font-semibold transition-colors">
+            <button onClick={(e) => {
+              e.stopPropagation();
+              navigate("/wallet/deposit");
+            }} className="flex-1 bg-[#1A2C38] hover:bg-primary py-2.5 rounded-lg font-semibold transition-colors">
               Deposit
             </button>
-            <button className="flex-1 bg-[#1A2C38] hover:bg-primary py-2.5 rounded-lg transition-colors">
+            <button onClick={(e) => {
+              e.stopPropagation();
+              navigate("/wallet/withdraw");
+            }} className="flex-1 bg-[#1A2C38] hover:bg-primary py-2.5 rounded-lg transition-colors">
               Withdraw
             </button>
           </div>

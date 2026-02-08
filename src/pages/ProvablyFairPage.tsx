@@ -17,7 +17,7 @@ const ProvablyFairPage = () => {
         <div className="flex flex-col lg:flex-row gap-6">
           {/* Sidebar */}
           <div className="lg:w-64 shrink-0">
-            <div className="bg-card rounded-xl p-2 space-y-0.5 lg:sticky lg:top-20">
+            <div className="bg-card rounded-lg p-2 space-y-0.5 lg:sticky lg:top-20">
               {sidebarItems.map((item) => (
                 <button
                   key={item}
@@ -36,7 +36,7 @@ const ProvablyFairPage = () => {
           </div>
           {/* Content */}
           <div className="flex-1">
-            <div className="bg-card rounded-xl p-6 space-y-6">
+            <div className="bg-card rounded-lg p-6 space-y-6">
               {activeItem === "Provably Fair" && (
                 <>
                   <div className="flex items-center gap-3 mb-4">

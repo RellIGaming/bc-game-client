@@ -120,7 +120,7 @@ const LiveSports = () => {
         <h2 className="text-base sm:text-lg font-bold text-foreground">Live Sports</h2>
         <div className="flex items-center gap-1">
          <button
-              className="text-muted-foreground text-xs py-2 px-2 sm:py-1.5 b-radius bg-secondary hover:bg-secondary/80 transition-colors"
+              className="text-muted-foreground text-xs px-2 sm:px-1.5 py-1 sm:py-1.5 b-radius bg-secondary hover:bg-secondary/80 transition-colors"
             >
               All
             </button>

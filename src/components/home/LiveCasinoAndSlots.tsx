@@ -5,7 +5,7 @@ const liveGames = [
   { id: 1, name: "TVBET", type: "Live", color: "bg-orange-500", icon: "📺" },
   { id: 2, name: "COCO ROULETTE", type: "Live", color: "bg-pink-500", icon: "🎡" },
   { id: 3, name: "VIVO GAMING", type: "Live", color: "bg-green-600", icon: "🎲" },
-  { id: 4, name: "BC GAME LOUNGE", type: "Live", color: "bg-amber-500", icon: "🎰" },
+  { id: 4, name: "GAME LOUNGE", type: "Live", color: "bg-amber-500", icon: "🎰" },
   { id: 5, name: "GIOCHI LIVE", type: "Live", color: "bg-purple-500", icon: "🃏" },
   { id: 6, name: "ROULETTE", type: "Live", color: "bg-red-500", icon: "🎯" },
 ];

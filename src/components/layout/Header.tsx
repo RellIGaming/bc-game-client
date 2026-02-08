@@ -86,7 +86,7 @@ const Header = ({
         </div>
 
         {/* Right Actions */}
-        <div className="flex items-center gap-1 lg:gap-2">
+        <div className="flex items-center gap-2 lg:gap-2">
           {/* Search - desktop only */}
           <button
             onClick={onSearchClick}
@@ -105,13 +105,13 @@ const Header = ({
                     setOpenDepositPopover(false);
                     setDepositOpen(true);
                   }}
-                  className="flex items-center pl-2 pr-2 py-1 hover:bg-secondary/80 w-[152px]"
+                  className="flex items-center pl-2 pr-2 py-2 lg:py-1  hover:bg-secondary/80 w-[152px]"
                 >
                   <span className="text-primary text-sm lg:text-lg mr-1">₿</span>
                   <span className="text-foreground text-xs lg:text-sm font-medium mr-2">
                     ₹0.003
                   </span>
-                  <ChevronDown className="w-3 h-3 lg:w-4 lg:h-4 text-muted-foreground ml-auto" />
+                  <ChevronDown className="w-5 h-5 lg:w-4 lg:h-4 text-muted-foreground ml-auto" />
                 </button>
 
                 {/* RIGHT → Popover */}
@@ -170,7 +170,7 @@ const Header = ({
               <div className="relative ">
                 <button
                   onClick={() => setBonusOpen(!bonusOpen)}
-                  className="flex py-1 px-1 lg:px-2 lg:py-2 b-radius bg-secondary transition-all hvr-btn btn-press relative"
+                  className="flex py-2 px-2 lg:px-2 lg:py-2 b-radius bg-secondary transition-all hvr-btn btn-press relative"
                 >
                   <Gift className="w-5 h-5 text-muted-foreground" />
                   <span className="absolute -top-1 -right-1 w-4 h-4 bg-primary text-primary-foreground text-xs rounded-full flex items-center justify-center">
@@ -188,7 +188,7 @@ const Header = ({
               <div className="relative ">
                 <button
                   onClick={() => setNotificationOpen(!notificationOpen)}
-                  className="flex py-1 px-1 lg:px-2 lg:py-2 b-radius bg-secondary transition-all hvr-btn btn-press relative"
+                  className="flex py-2 px-2 lg:px-2 lg:py-2 b-radius bg-secondary transition-all hvr-btn btn-press relative"
                 >
                   <Bell className="w-5 h-5 text-muted-foreground" />
                   <span className="absolute -top-1 -right-1 w-4 h-4 bg-primary text-primary-foreground text-xs rounded-full flex items-center justify-center">
@@ -205,7 +205,7 @@ const Header = ({
               <div className="relative">
                 <button
                   onClick={() => setProfileOpen(!profileOpen)}
-                  className="w-7 h-7 lg:w-9 lg:h-9 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center overflow-hidden hover:ring-2 hover:ring-primary transition-all"
+                  className="w-9 h-9 lg:w-9 lg:h-9 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center overflow-hidden hover:ring-2 hover:ring-primary transition-all"
                 >
                   <span className="text-lg lg:text-xl">🦁</span>
                 </button>

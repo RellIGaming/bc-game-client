@@ -46,7 +46,7 @@ const sportsCategory = [
 
 const dropdownCategories = [
   { label: "Soccer", count: 719, icon: Globe },
-  { label: "BC.GAME: Originals", count: 4, icon: Gamepad2 },
+  { label: "GAME: Originals", count: 4, icon: Gamepad2 },
   { label: "eSoccer", count: 113, icon: Dribbble },
   { label: "Tennis", count: 245, icon: Target },
   { label: "Basketball", count: 73, icon: Trophy },

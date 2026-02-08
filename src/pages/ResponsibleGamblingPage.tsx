@@ -53,7 +53,7 @@ const ResponsibleGamblingPage = () => {
         <div className="flex flex-col lg:flex-row gap-6">
           {/* Sidebar */}
           <div className="lg:w-56 shrink-0">
-            <div className="bg-card rounded-xl p-2 space-y-0.5 lg:sticky lg:top-20">
+            <div className="bg-card rounded-lg p-2 space-y-0.5 lg:sticky lg:top-20">
               {sidebarTabs.map((tab) => (
                 <button
                   key={tab.id}
@@ -76,17 +76,17 @@ const ResponsibleGamblingPage = () => {
             <div className="flex flex-col lg:flex-row gap-6">
               <div className="flex-1">
                 {activeTab === "faqs" && (
-                  <div className="bg-card rounded-xl p-6 space-y-6">
-                    <h2 className="text-xl font-bold">Responsible Gambling At BC.GAME</h2>
+                  <div className="bg-card rounded-lg p-6 space-y-6">
+                    <h2 className="text-xl font-bold">Responsible Gambling At rellbet.GAME</h2>
                     <p className="text-sm text-muted-foreground leading-relaxed">
-                      At BC.GAME, it is strictly forbidden for individuals under the age of 18 to engage in gambling activities.
+                      At rellbet.GAME, it is strictly forbidden for individuals under the age of 18 to engage in gambling activities.
                     </p>
                     <p className="text-sm text-muted-foreground leading-relaxed">
-                      Online gambling can be a fun and potentially rewarding way to spend your time. At BC.GAME, we prioritize our players' best interests and support responsible gambling.
+                      Online gambling can be a fun and potentially rewarding way to spend your time. At rellbet.GAME, we prioritize our players' best interests and support responsible gambling.
                     </p>
                     <h3 className="font-bold">Responsible Gambling</h3>
                     <p className="text-sm text-muted-foreground leading-relaxed">
-                      BC.GAME is here to provide an excellent and enjoyable gaming experience and recognize our responsibility in preventing problematic activity. We advise all players to take into account the following, and not game irresponsibly:
+                      rellbet.GAME is here to provide an excellent and enjoyable gaming experience and recognize our responsibility in preventing problematic activity. We advise all players to take into account the following, and not game irresponsibly:
                     </p>
                     <ul className="list-disc pl-6 text-sm text-muted-foreground space-y-1">
                       <li>Play for entertainment, not to make money.</li>
@@ -98,7 +98,7 @@ const ResponsibleGamblingPage = () => {
                     </ul>
                     <h3 className="font-bold">Underage Gambling</h3>
                     <p className="text-sm text-muted-foreground leading-relaxed">
-                      Players must be at least legal gambling age in their jurisdiction (at least 18+) in order to play at BC.GAME. It is their responsibility to be aware of the age restrictions where they reside and play, and to confirm their legitimacy when creating an account at BC.GAME.
+                      Players must be at least legal gambling age in their jurisdiction (at least 18+) in order to play at rellbet.GAME. It is their responsibility to be aware of the age restrictions where they reside and play, and to confirm their legitimacy when creating an account at rellbet.GAME.
                     </p>
                     <h3 className="font-bold">Where to Get Help</h3>
                     <p className="text-sm text-muted-foreground leading-relaxed">If you need assistance, please contact:</p>
@@ -113,7 +113,7 @@ const ResponsibleGamblingPage = () => {
                   </div>
                 )}
                 {activeTab === "self-assessment" && (
-                  <div className="bg-card rounded-xl p-6 space-y-4">
+                  <div className="bg-card rounded-lg p-6 space-y-4">
                     <h2 className="text-xl font-bold">Self-Assessment</h2>
                     <p className="text-sm text-muted-foreground leading-relaxed">
                       Gambling can be an enjoyable pastime for many people, providing entertainment and the thrill of taking a risk. However, for some individuals, gambling can become more than just a harmless activity. Recognizing the signs of problem gambling is the first step towards addressing this issue.
@@ -130,7 +130,7 @@ const ResponsibleGamblingPage = () => {
                   </div>
                 )}
                 {activeTab === "gambling-limits" && (
-                  <div className="bg-card rounded-xl p-6 space-y-4">
+                  <div className="bg-card rounded-lg p-6 space-y-4">
                     <h2 className="text-xl font-bold">Gambling Limits</h2>
                     <p className="text-sm text-muted-foreground leading-relaxed">
                       Gain control over your play or betting by using loss or wagering limits. These limits allow you to control the maximum loss or wagered amount over a daily, weekly or monthly period.
@@ -145,21 +145,21 @@ const ResponsibleGamblingPage = () => {
                   </div>
                 )}
                 {activeTab === "self-exclusion" && (
-                  <div className="bg-card rounded-xl p-6 space-y-4">
+                  <div className="bg-card rounded-lg p-6 space-y-4">
                     <h2 className="text-xl font-bold">Self-Exclusion</h2>
                     <p className="text-sm text-muted-foreground leading-relaxed">
-                      Are you seeking a break from BC.GAME? Initiate the automated self-exclusion process by establishing a limit, and you will be temporarily barred from accessing your account for the selected period.
+                      Are you seeking a break from rellbet.GAME? Initiate the automated self-exclusion process by establishing a limit, and you will be temporarily barred from accessing your account for the selected period.
                     </p>
                     <p className="text-sm text-muted-foreground">You will receive an email to confirm your request.</p>
                     <div className="space-y-4 mt-4">
-                      <div className="bg-secondary rounded-xl p-5 flex items-start gap-4">
+                      <div className="bg-secondary rounded-lg p-5 flex items-start gap-4">
                         <Clock className="w-8 h-8 text-muted-foreground shrink-0 mt-1" />
                         <div>
                           <h4 className="font-bold text-sm mb-1">Step 1: Take a 24 Hours Cooldown</h4>
                           <p className="text-xs text-muted-foreground">Take a 24 hours cooldown from betting from both casino and sports. You will still be able to access the platform and you can earn and claim rewards.</p>
                         </div>
                       </div>
-                      <div className="bg-secondary rounded-xl p-5 flex items-start gap-4">
+                      <div className="bg-secondary rounded-lg p-5 flex items-start gap-4">
                         <Shield className="w-8 h-8 text-muted-foreground shrink-0 mt-1" />
                         <div>
                           <h4 className="font-bold text-sm mb-1">Step 2: Self-Exclusion</h4>
@@ -175,7 +175,7 @@ const ResponsibleGamblingPage = () => {
                   </div>
                 )}
                 {activeTab === "budget-calculator" && (
-                  <div className="bg-card rounded-xl p-6 space-y-6">
+                  <div className="bg-card rounded-lg p-6 space-y-6">
                     <h2 className="text-xl font-bold">Budget Calculator</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       {/* Income */}
@@ -238,8 +238,8 @@ const ResponsibleGamblingPage = () => {
               {/* Need Help Sidebar - only on gambling-limits and self-exclusion */}
               {(activeTab === "gambling-limits" || activeTab === "self-exclusion") && (
                 <div className="lg:w-64 shrink-0">
-                  <div className="bg-card rounded-xl p-6 text-center">
-                    <div className="w-16 h-16 mx-auto rounded-xl bg-primary/20 flex items-center justify-center mb-4">
+                  <div className="bg-card rounded-lg p-6 text-center">
+                    <div className="w-16 h-16 mx-auto rounded-lg bg-primary/20 flex items-center justify-center mb-4">
                       <MessageCircle className="w-8 h-8 text-primary" />
                     </div>
                     <h4 className="font-bold mb-2">Need Help?</h4>

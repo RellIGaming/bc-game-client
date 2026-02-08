@@ -157,11 +157,11 @@ const WalletPage = ({ isLoggedIn, setIsLoggedIn }: WalletPageProps) => {
   };
   return (
     <div className="min-h-screen bg-background">
-      <div className="max-w-7xl mx-auto px-4 py-8">
-        <h1 className="text-xl font-bold mb-4">WALLET</h1>
+      <div className="max-w-7xl mx-auto px-4 py-8 ">
+        <h1 className="text-xl font-bold mb-4 hidden md:block">WALLET</h1>
         <div className="flex flex-col lg:flex-row gap-6">
           {/* Sidebar Menu */}
-          <div className="lg:w-64 shrink-0 bg-card rounded-lg">
+          <div className="lg:w-64 shrink-0 bg-card rounded-lg hidden md:block">
             <div className={cn(
               "flex lg:flex-col gap-2 overflow-x-auto lg:overflow-visible pb-2 lg:pb-0",
               isMobile && "flex-nowrap"

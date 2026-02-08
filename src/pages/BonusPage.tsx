@@ -43,7 +43,7 @@ const BonusPage = () => {
           </div>
         </div>
         {/* Connect Wallet Banner */}
-        <div className="bg-card rounded-xl p-4 flex flex-wrap items-center gap-4">
+        <div className="bg-card rounded-lg p-4 flex flex-wrap items-center gap-4">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary">💳</div>
             <div>
@@ -60,7 +60,7 @@ const BonusPage = () => {
         </div>
         {/* Total Bonus & Monthly Deposit */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <div className="bg-gradient-to-br from-secondary to-card rounded-xl p-6">
+          <div className="bg-gradient-to-br from-secondary to-card rounded-lg p-6">
             <p className="text-sm text-muted-foreground mb-1">Total Bonus Claimed (INR)</p>
             <p className="text-3xl font-bold mb-3">₹0.00</p>
             <div className="grid grid-cols-2 gap-2 text-xs text-muted-foreground">
@@ -71,7 +71,7 @@ const BonusPage = () => {
             </div>
             <button className="text-primary text-xs mt-3 flex items-center gap-1">Details <ChevronRight className="w-3 h-3" /></button>
           </div>
-          <div className="bg-card rounded-xl p-6">
+          <div className="bg-card rounded-lg p-6">
             <div className="flex items-center justify-between mb-4">
               <p className="font-semibold text-sm">Monthly Deposit Bonus <span className="text-xs text-muted-foreground">Get up to: ₹9,052,448.03</span></p>
             </div>
@@ -91,7 +91,7 @@ const BonusPage = () => {
           </div>
         </div>
         {/* VIP Bonus */}
-        <div className="bg-card rounded-xl p-6">
+        <div className="bg-card rounded-lg p-6">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-4">
               <div className="w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center text-3xl">✅</div>
@@ -128,7 +128,7 @@ const BonusPage = () => {
           <h2 className="text-xl font-bold mb-4">General Bonus</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {generalBonuses.map((bonus, i) => (
-              <div key={i} className="bg-card rounded-xl p-4 flex flex-col">
+              <div key={i} className="bg-card rounded-lg p-4 flex flex-col">
                 <div className="flex items-center justify-between mb-3">
                   <div className="text-3xl">{bonus.icon}</div>
                   <Info className="w-4 h-4 text-muted-foreground" />
@@ -147,7 +147,7 @@ const BonusPage = () => {
         {/* Special Bonus */}
         <div>
           <h2 className="text-xl font-bold mb-4">Special Bonus</h2>
-          <div className="bg-card rounded-xl p-12 text-center">
+          <div className="bg-card rounded-lg p-12 text-center">
             <div className="text-5xl mb-4">🎁</div>
             <p className="text-muted-foreground">Stay tuned—something's coming!</p>
           </div>

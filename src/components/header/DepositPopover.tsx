@@ -61,7 +61,7 @@ const DepositPopover = ({ open, onOpenChange, trigger }: Props) => {
         </div>
 
         {/* Body */}
-        <div className="p-4 overflow-y-auto h-[calc(100vh-64px)]">
+        <div className="lg:p-4 overflow-y-auto h-[calc(100vh-64px)]">
           <Deposit variant="modal" />
         </div>
       </DrawerContent>

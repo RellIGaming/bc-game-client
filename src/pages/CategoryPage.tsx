@@ -47,7 +47,7 @@ const allGames: Game[] = [
   { id: 19, name: "TVBET", provider: "TVBET", color: "bg-orange-500", icon: "📺", players: 156, category: "live-casino" },
   { id: 20, name: "COCO ROULETTE", provider: "Evolution", color: "bg-pink-500", icon: "🎡", players: 423, category: "live-casino" },
   { id: 21, name: "VIVO GAMING", provider: "Vivo", color: "bg-green-600", icon: "🎲", players: 89, category: "live-casino" },
-  { id: 22, name: "BC GAME LOUNGE", provider: "Rellbet", color: "bg-amber-500", icon: "🎰", players: 234, category: "live-casino" },
+  { id: 22, name: "GAME LOUNGE", provider: "Rellbet", color: "bg-amber-500", icon: "🎰", players: 234, category: "live-casino" },
   { id: 23, name: "GIOCHI LIVE", provider: "Evolution", color: "bg-purple-500", icon: "🃏", players: 178, category: "live-casino" },
   { id: 24, name: "LIGHTNING ROULETTE", provider: "Evolution", color: "bg-red-500", icon: "⚡", players: 567, category: "live-casino" },
   

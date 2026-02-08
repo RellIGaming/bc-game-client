@@ -39,7 +39,7 @@ const ReferralPage = () => {
               key={tab}
               onClick={() => setActiveTab(tab)}
               className={cn(
-                "px-4 py-2 rounded-full text-sm font-medium transition-colors",
+                "px-4 py-2 rounded-lg text-sm font-medium transition-colors",
                 activeTab === tab ? "bg-primary text-primary-foreground" : "bg-card text-muted-foreground hover:bg-secondary"
               )}
             >
@@ -49,7 +49,7 @@ const ReferralPage = () => {
         </div>
         {/* Invite Section */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-          <div className="lg:col-span-2 bg-card rounded-xl p-6 space-y-4">
+          <div className="lg:col-span-2 bg-card rounded-lg p-6 space-y-4">
             <div className="flex items-center justify-between">
               <h3 className="font-bold">Invite a Friend to Get</h3>
               <button className="text-primary text-xs">Referral Terms & Conditions</button>
@@ -65,8 +65,8 @@ const ReferralPage = () => {
               <div>
                 <label className="text-xs text-muted-foreground">Referral Link</label>
                 <div className="flex items-center gap-2 mt-1">
-                  <input readOnly value="https://bc.game/i-47fxv73u0-n/" className="flex-1 bg-secondary rounded-lg px-3 py-2 text-xs border border-border" />
-                  <Button size="sm" variant="outline" onClick={() => handleCopy("https://bc.game/i-47fxv73u0-n/")}>Copy</Button>
+                  <input readOnly value="https://rellbet.game/i-47fxv73u0-n/" className="flex-1 bg-secondary rounded-lg px-3 py-2 text-xs border border-border" />
+                  <Button size="sm" variant="outline" onClick={() => handleCopy("https://rellbet.game/i-47fxv73u0-n/")}>Copy</Button>
                 </div>
               </div>
               <div>
@@ -77,18 +77,27 @@ const ReferralPage = () => {
                 </div>
               </div>
             </div>
-            <div className="flex items-center gap-2">
-              <span className="text-xs text-muted-foreground">Share via socials</span>
-              <div className="flex gap-2">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+              <span className="text-xs text-muted-foreground">
+                Share via socials
+              </span>
+
+              <div className="flex gap-2 flex-wrap">
                 {socialIcons.map((icon, i) => (
-                  <button key={i} className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center text-sm hover:bg-primary/20 transition-colors">
+                  <button
+                    key={i}
+                    className="w-8 h-8 rounded-full bg-secondary 
+                   flex items-center justify-center text-sm
+                   hover:bg-primary/20 transition-colors"
+                  >
                     {icon}
                   </button>
                 ))}
               </div>
             </div>
+
           </div>
-          <div className="bg-card rounded-xl p-6 space-y-4">
+          <div className="bg-card rounded-lg p-6 space-y-4">
             <div className="grid grid-cols-2 gap-4 text-center">
               <div>
                 <Users className="w-8 h-8 mx-auto text-muted-foreground mb-1" />
@@ -116,14 +125,14 @@ const ReferralPage = () => {
           </div>
         </div>
         {/* Rewards Activities */}
-        <div className="bg-card rounded-xl p-8 text-center">
+        <div className="bg-card rounded-lg p-8 text-center">
           <h3 className="font-bold text-lg mb-6">Rewards Activities</h3>
           <div className="text-5xl mb-3">👻</div>
           <p className="text-muted-foreground text-sm">No info yet</p>
           <p className="text-muted-foreground text-sm">Invite friends to join you now!</p>
         </div>
         {/* Live Rewards */}
-        <div className="bg-card rounded-xl p-4">
+        <div className="bg-card rounded-lg p-4">
           <div className="flex items-center gap-3 mb-3">
             <span className="flex items-center gap-1 text-sm font-semibold">
               <span className="w-2 h-2 rounded-full bg-primary animate-pulse" /> Live Rewards
@@ -142,7 +151,7 @@ const ReferralPage = () => {
           </div>
         </div>
         {/* Affiliate Program */}
-        <div className="bg-card rounded-xl p-6 flex flex-col md:flex-row items-center gap-6">
+        <div className="bg-card rounded-lg p-6 flex flex-col md:flex-row items-center gap-6">
           <div className="text-6xl">🎰🎲🎯</div>
           <div className="flex-1">
             <h3 className="text-xl font-bold mb-2">Learn more about our <span className="text-primary">Affiliate program</span></h3>
@@ -151,7 +160,7 @@ const ReferralPage = () => {
               If you can invite players and their wager amount reaches a billion dollars and above, you will get your own customized casino!
             </p>
             <div className="flex items-center gap-2">
-              <input readOnly value="business@bc.game" className="flex-1 bg-secondary rounded-lg px-3 py-2 text-sm border border-border" />
+              <input readOnly value="business@relbet.game" className="flex-1 bg-secondary rounded-lg px-3 py-2 text-sm border border-border" />
               <Button size="sm">Send Now</Button>
             </div>
           </div>
@@ -159,7 +168,7 @@ const ReferralPage = () => {
         {/* FAQ */}
         <div>
           <h2 className="text-xl font-bold mb-4">Frequently Asked Questions</h2>
-          <div className="bg-card rounded-xl divide-y divide-border">
+          <div className="bg-card rounded-lg divide-y divide-border">
             {faqs.map((faq, i) => (
               <button
                 key={i}
