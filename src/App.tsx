@@ -52,7 +52,7 @@ const App = () => {
               <Route path="/wallet/:section" element={<WalletPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
               <Route path="/category/:category" element={<CategoryPage />} />
               <Route path="/live-stats" element={<LiveStats />} />
-              <Route path="/category/vip-club" element={<VipClubPage />} />
+              <Route path="/category/vip-club" element={<VipClubPage isLoggedIn={isLoggedIn} />} />
               <Route path="/category/bonus" element={<BonusPage />} />
               <Route path="/category/referal" element={<ReferralPage />} />
               <Route path="/category/fair" element={<ProvablyFairPage />} />

@@ -9,8 +9,16 @@ import {
 } from "lucide-react";
 
 interface Props {
- isLoggedIn?: boolean;
+  isLoggedIn?: boolean;
 }
+const tierColors: Record<string, string> = {
+  Bronze: "#CD7F32",
+  Silver: "#C0C0C0",
+  Gold: "#FFD700",
+  "Platinum I": "linear-gradient(135deg, #E5E4E2, #A0B2C6)",
+  "Diamond II": "linear-gradient(135deg, #B9F2FF, #7FDBFF)",
+};
+
 
 export default function VipBonusTable({ isLoggedIn }: Props) {
   if (!isLoggedIn) return null;
@@ -18,19 +26,19 @@ export default function VipBonusTable({ isLoggedIn }: Props) {
   const tiers = ["Bronze", "Silver", "Gold", "Platinum I", "Diamond II"];
 
   const bonusRows = [
-    { label: "Raining", icon: <Flame size={16} /> },
-    { label: "Daily Bonus", icon: <Gift size={16} /> },
-    { label: "Coin Drops", icon: <Coins size={16} /> },
-    { label: "Tips", icon: <DollarSign size={16} /> },
-    { label: "VIP Spin", icon: <Trophy size={16} /> },
-    { label: "Level-up Bonus", icon: <Star size={16} /> },
-    { label: "Recharge", icon: <DollarSign size={16} /> },
-    { label: "Weekly Cashback", icon: <Coins size={16} /> },
-    { label: "Monthly Cashback", icon: <Coins size={16} /> },
-    { label: "Sports Weekly Cashback", icon: <Trophy size={16} /> },
-    { label: "No-fee Withdrawal", icon: <DollarSign size={16} /> },
-    { label: "Exclusive VIP Perks", icon: <Crown size={16} /> },
-    { label: "Luxury Giveaway", icon: <Gift size={16} /> },
+    { label: "Raining", icon: <Flame size={20} /> },
+    { label: "Daily Bonus", icon: <Gift size={20} /> },
+    { label: "Coin Drops", icon: <Coins size={20} /> },
+    { label: "Tips", icon: <DollarSign size={20} /> },
+    { label: "VIP Spin", icon: <Trophy size={20} /> },
+    { label: "Level-up Bonus", icon: <Star size={20} /> },
+    { label: "Recharge", icon: <DollarSign size={20} /> },
+    { label: "Weekly Cashback", icon: <Coins size={20} /> },
+    { label: "Monthly Cashback", icon: <Coins size={20} /> },
+    { label: "Sports Weekly Cashback", icon: <Trophy size={20} /> },
+    { label: "No-fee Withdrawal", icon: <DollarSign size={20} /> },
+    { label: "Exclusive VIP Perks", icon: <Crown size={20} /> },
+    { label: "Luxury Giveaway", icon: <Gift size={20} /> },
   ];
 
   return (
@@ -61,11 +69,10 @@ export default function VipBonusTable({ isLoggedIn }: Props) {
               <div
                 key={row.label}
                 className={`grid grid-cols-6 text-sm items-center
-                ${
-                  index % 2 === 0
+                ${index % 2 === 0
                     ? "bg-[#242829]"
                     : "bg-[#2a2f30]"
-                }`}
+                  }`}
               >
                 {/* Bonus Type Column */}
                 <div className="flex items-center gap-2 p-3 text-white">
@@ -74,7 +81,7 @@ export default function VipBonusTable({ isLoggedIn }: Props) {
                 </div>
 
                 {/* Tier Columns */}
-                {tiers.map((_, i) => (
+                {tiers.map((tier, i) => (
                   <div
                     key={i}
                     className="flex justify-center p-3 text-white"
@@ -82,8 +89,8 @@ export default function VipBonusTable({ isLoggedIn }: Props) {
                     {i >= 0 && i <= 4 ? (
                       <Star
                         size={16}
-                        className="text-yellow-400"
-                        fill="currentColor"
+                        style={{ color: tierColors[tier] }}
+                        fill={tierColors[tier]}
                       />
                     ) : (
                       "-"

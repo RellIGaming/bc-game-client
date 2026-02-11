@@ -35,10 +35,10 @@ const faqs = [
   { q: "What is the VIP Transfer?", a: "VIP Transfer allows you to transfer your VIP benefits to another platform account under certain conditions." },
   { q: "What makes the rellbet.GAME VIP Club different from others?", a: "Our VIP program focuses on personalized rewards, real-world experiences, and dedicated support without rigid level requirements." },
 ];
-const VipClubPage = ({isLoggedIn}) => {
+const VipClubPage = ({ isLoggedIn }) => {
   const [faqCategory, setFaqCategory] = useState("General");
   const [openFaq, setOpenFaq] = useState<number | null>(null);
-   const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false);
   return (
     <div className="min-h-screen bg-background text-foreground">
       <div className="max-w-5xl mx-auto px-1  space-y-2">
@@ -96,14 +96,14 @@ const VipClubPage = ({isLoggedIn}) => {
           </button>
         </div> */}
         <div
-          className="mt-4 mb-4
+          className="
+    mt-4 mb-4
     relative
-    flex flex-col sm:flex-row
-    items-center gap-6
+    flex items-center gap-4 sm:gap-6
     rounded-lg bg-card
-    py-4 pl-0 pr-4
+    py-3 sm:py-4 pl-0 pr-4
     overflow-hidden
-    h-[200px] 
+    h-[140px] sm:h-[200px]
   "
           style={{
             backgroundImage:
@@ -111,36 +111,36 @@ const VipClubPage = ({isLoggedIn}) => {
           }}
         >
           {/* LEFT IMAGES */}
-          <div className="relative flex-shrink-0 h-[180px] w-[190px]  ">
+          <div className="relative flex-shrink-0 h-[120px] sm:h-[180px] w-[140px] sm:w-[190px]">
             <img
               src={bonusBadge}
               alt=""
-              className="w-28 sm:w-40 mx-auto"
+              className="w-20 sm:w-40 mx-auto"
             />
             <img
               src={bonusAngel}
               alt=""
-              className="w-60 -mt-12"
+              className="w-40 sm:w-60 -mt-8 sm:-mt-12"
             />
           </div>
 
           {/* CENTER CONTENT */}
           <div className="flex-1 w-full">
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-primary">
+            <h2 className="text-xl sm:text-3xl font-extrabold text-primary">
               VIP 0
             </h2>
 
             {/* PROGRESS BAR */}
-            <div className="mt-4 bg-black/30 rounded-full h-3 overflow-hidden">
+            <div className="mt-3 sm:mt-4 bg-black/30 rounded-full h-2 sm:h-3 overflow-hidden">
               <div className="h-full w-[5%] bg-primary" />
             </div>
 
-            <div className="flex justify-between text-xs text-muted-foreground mt-2">
+            <div className="flex justify-between text-[10px] sm:text-xs text-muted-foreground mt-2">
               <span>0 XP</span>
               <span>1 XP</span>
             </div>
 
-            <p className="text-xs text-muted-foreground mt-1">
+            <p className="text-[10px] sm:text-xs text-muted-foreground mt-1">
               1 XP until VIP 1
             </p>
           </div>
@@ -148,16 +148,23 @@ const VipClubPage = ({isLoggedIn}) => {
           {/* RIGHT ACTION */}
           <button
             onClick={() => setOpen(true)}
-            className="sm:absolute sm:right-6 sm:top-6
-          px-4 py-2 rounded-lg
-          bg-primary text-black text-xs font-semibold"
+            className="
+      absolute right-4 top-4
+      px-3 sm:px-4 py-1.5 sm:py-2
+      rounded-lg
+      bg-primary text-black
+      text-[10px] sm:text-xs font-semibold
+    "
           >
             View Level Up Detail
           </button>
         </div>
-         {open && <VipModal onClose={() => setOpen(false)} />}
 
-          {isLoggedIn && <VipBonusTable />}
+        {open && <VipModal onClose={() => setOpen(false)} />}
+
+        {isLoggedIn && <VipBonusTable isLoggedIn={isLoggedIn} />}
+
+
         {/* Premium VIP Rewards */}
         <div className="text-center mt-8">
           <h2 className="text-2xl md:text-3xl font-bold mb-2">

@@ -48,13 +48,13 @@ const BonusPage = () => {
         </div>
         <div
           className="
+    mt-4 mb-4
     relative
-    flex flex-col sm:flex-row
-    items-center gap-6
+    flex items-center gap-4 sm:gap-6
     rounded-lg bg-card
-    py-4 pl-0 pr-4
+    py-3 sm:py-4 pl-0 pr-4
     overflow-hidden
-    h-[200px] 
+    h-[140px] sm:h-[200px]
   "
           style={{
             backgroundImage:
@@ -62,36 +62,36 @@ const BonusPage = () => {
           }}
         >
           {/* LEFT IMAGES */}
-          <div className="relative flex-shrink-0 h-[180px] w-[190px]  ">
+          <div className="relative flex-shrink-0 h-[120px] sm:h-[180px] w-[140px] sm:w-[190px]">
             <img
               src={bonusBadge}
               alt=""
-              className="w-28 sm:w-40 mx-auto"
+              className="w-20 sm:w-40 mx-auto"
             />
             <img
               src={bonusAngel}
               alt=""
-              className="w-60 -mt-12"
+              className="w-40 sm:w-60 -mt-8 sm:-mt-12"
             />
           </div>
 
           {/* CENTER CONTENT */}
           <div className="flex-1 w-full">
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-primary">
+            <h2 className="text-xl sm:text-3xl font-extrabold text-primary">
               VIP 0
             </h2>
 
             {/* PROGRESS BAR */}
-            <div className="mt-4 bg-black/30 rounded-full h-3 overflow-hidden">
+            <div className="mt-3 sm:mt-4 bg-black/30 rounded-full h-2 sm:h-3 overflow-hidden">
               <div className="h-full w-[5%] bg-primary" />
             </div>
 
-            <div className="flex justify-between text-xs text-muted-foreground mt-2">
+            <div className="flex justify-between text-[10px] sm:text-xs text-muted-foreground mt-2">
               <span>0 XP</span>
               <span>1 XP</span>
             </div>
 
-            <p className="text-xs text-muted-foreground mt-1">
+            <p className="text-[10px] sm:text-xs text-muted-foreground mt-1">
               1 XP until VIP 1
             </p>
           </div>
@@ -99,9 +99,13 @@ const BonusPage = () => {
           {/* RIGHT ACTION */}
           <button
             onClick={() => setOpen(true)}
-            className="sm:absolute sm:right-6 sm:top-6
-          px-4 py-2 rounded-lg
-          bg-primary text-black text-xs font-semibold"
+            className="
+      absolute right-4 top-4
+      px-3 sm:px-4 py-1.5 sm:py-2
+      rounded-lg
+      bg-primary text-black
+      text-[10px] sm:text-xs font-semibold
+    "
           >
             View Level Up Detail
           </button>
@@ -125,7 +129,7 @@ const BonusPage = () => {
             <Button size="sm" className="bg-primary text-primary-foreground text-xs">Connect Now</Button>
           </div>
         </div> */}
-        
+
         {/* Total Bonus & Monthly Deposit */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <div className="bg-gradient-to-br from-secondary to-card rounded-lg p-6">
@@ -247,7 +251,7 @@ const BonusPage = () => {
 export default BonusPage;
 
 
- export const VipModal=({ onClose }: { onClose: () => void })=> {
+export const VipModal = ({ onClose }: { onClose: () => void }) => {
   const [openTier, setOpenTier] = useState<string | null>("Bronze");
 
   const toggleTier = (tier: string) => {
@@ -267,7 +271,8 @@ export default BonusPage;
         { level: "VIP 07", xp: 4000 },
       ],
     },
-    { name: "Silver   VIP 8–21", key: "Silver",
+    {
+      name: "Silver   VIP 8–21", key: "Silver",
       levels: [
         { level: "VIP 02", xp: 100 },
         { level: "VIP 03", xp: 200 },
@@ -276,7 +281,7 @@ export default BonusPage;
         { level: "VIP 06", xp: 3000 },
         { level: "VIP 07", xp: 4000 },
       ],
-     },
+    },
     { name: "Gold     VIP 22–37", key: "Gold" },
     { name: "Platinum I   VIP 38–55", key: "Platinum1" },
     { name: "Platinum II  VIP 56–69", key: "Platinum2" },
