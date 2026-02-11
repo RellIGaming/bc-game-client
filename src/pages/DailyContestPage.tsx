@@ -60,7 +60,7 @@ const DailyContestPage = () => {
   const pad = (n: number) => n.toString().padStart(2, "0");
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <div className="max-w-5xl mx-auto px-3 sm:px-4 py-6 space-y-6">
+      <div className=" max-w-5xl mx-auto px-1 sm:px-2 py-6 space-y-6">
         {/* Hero Section */}
         <div className="bg-card b-radius p-5 sm:p-6">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 items-center">

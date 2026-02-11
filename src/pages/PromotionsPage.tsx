@@ -3,13 +3,16 @@ import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import DepositModal from "@/components/header/DepositModal";
+import giftBox1 from "../assets/images/promo-4-box.png";
+import giftBox2 from "../assets/images/promotion-box.png";
+
 const depositTiers = [
-  { pct: "180%", label: "1st Deposit", min: "₹150.00" },
-  { pct: "240%", label: "2nd Deposit Bonus", min: "₹300.00" },
-  { pct: "300%", label: "3rd Deposit Bonus", min: "₹450.00" },
-  { pct: "360%", label: "4th Deposit Bonus", min: "₹800.00" },
+  { pct: "180%", label: "1st Deposit", min: "₹150.00", icon:giftBox1 },
+  { pct: "240%", label: "2nd Deposit Bonus", min: "₹300.00" , icon:giftBox2},
+  { pct: "300%", label: "3rd Deposit Bonus", min: "₹450.00", icon:giftBox1 },
+  { pct: "360%", label: "4th Deposit Bonus", min: "₹800.00",icon:giftBox2 },
 ];
-const promotionTabs = ["All", "Casino", "Sports", "BC Exclusive"];
+const promotionTabs = ["All", "Casino", "Sports", "Rellbet Exclusive"];
 const promotionCards = [
   { title: "0 House Edge + Instant Rakeback", sub: "1,000,000,000 TOKENS UP FOR GRABS", ends: "Ends 3/1/2026, 5:29:59 AM", category: ["All", "Casino"], badge: "EXCLUSIVE" },
   { title: "Double The Spins", sub: "BET $10 - GET 20 FREE SPINS", ends: "Ends 2/10/2026, 9:29:59 PM", category: ["All", "Casino"], badge: "EXCLUSIVE" },
@@ -17,7 +20,7 @@ const promotionCards = [
   { title: "IEM Kraków 2026", sub: "WAGER LEADERBOARD HONORS", ends: "Ends 2/9/2026, 5:29:59 AM", category: ["All", "Sports"], badge: null },
   { title: "IEM Kraków 2026 Cashdrop", sub: "CS DAILY CASH", ends: "Ends 2/9/2026, 5:29:59 AM", category: ["All", "Sports"], badge: null },
   { title: "Bet & Win", sub: "₹6,000,000", ends: "Ends 2/9/2026, 5:29:59 AM", category: ["All", "Casino"], badge: null },
-  { title: "Platipus Network Tournament", sub: "SHARE €25000 PRIZE POOL", ends: "Ends 2/8/2026, 5:29:59 AM", category: ["All", "BC Exclusive"], badge: null },
+  { title: "Platipus Network Tournament", sub: "SHARE €25000 PRIZE POOL", ends: "Ends 2/8/2026, 5:29:59 AM", category: ["All", "Rellbet Exclusive"], badge: null },
   { title: "BNG Prize Drop", sub: "$260,000 PRIZE POOL", ends: "Ends 4/2/2026, 9:29:59 AM", category: ["All", "Casino"], badge: null },
   { title: "Lucky Horse Cash Rain", sub: "€500,000", ends: "Ends 3/2/2026, 5:29:59 AM", category: ["All", "Casino"], badge: null },
   { title: "Sport Weekly Bonus", sub: "BET $500 AND GET UP TO $1000!", ends: "Ends 4/1/2026, 5:29:59 AM", category: ["All", "Sports"], badge: null },
@@ -30,7 +33,7 @@ const PromotionsPage = () => {
   const filteredCards = promotionCards.filter((c) => c.category.includes(activeTab));
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <div className="max-w-5xl mx-auto px-3 sm:px-4 py-6 space-y-6">
+      <div className=" max-w-5xl mx-auto px-1 sm:px-2 py-6 space-y-6">
         {/* Header Banner */}
         <div className="bg-card b-radius p-5 sm:p-6">
           <p className="text-sm text-muted-foreground">Promotion</p>
@@ -38,7 +41,7 @@ const PromotionsPage = () => {
             <div>
               <p className="text-muted-foreground text-sm">Great Deposit Bonus</p>
               <h1 className="text-2xl sm:text-3xl font-bold">Up TO 360% Bonus</h1>
-              <div className="flex gap-2 mt-3">
+              <div className="flex flex-row justify-between mt-3">
                 <button onClick={() => setShowDeposit(true)} className="bg-primary text-primary-foreground px-4 py-2 b-radius text-sm font-medium">
                   Deposit Now
                 </button>
@@ -50,9 +53,9 @@ const PromotionsPage = () => {
             {/* Deposit Tiers */}
             <div className="flex gap-3 sm:gap-4 overflow-x-auto scrollbar-hide">
               {depositTiers.map((tier, i) => (
-                <div key={i} className="flex flex-col items-center shrink-0">
-                  <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gradient-to-br from-yellow-600 to-yellow-800 flex items-center justify-center">
-                    <span className="text-lg sm:text-xl font-bold text-yellow-200">🏆</span>
+                <div key={i} className="flex flex-col items-center shrink-0 rounded-lg bg-gradient-to-br from-yellow-600 to-yellow-800">
+                  <div className="w-full h-auto sm:w-20 sm:h-20   flex items-center justify-center">
+                    <img src={tier.icon} alt="" />
                   </div>
                   <p className="text-sm font-bold text-primary mt-1">{tier.pct} Bonus</p>
                   <p className="text-[10px] text-muted-foreground">{i + 1}{["st", "nd", "rd", "th"][i]} Deposit</p>

@@ -1,7 +1,10 @@
 import { useState } from "react";
-import { ChevronRight, Info, Lock, Gift, Clock } from "lucide-react";
+import { ChevronRight, Info, Lock, Gift, Clock, X, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import bonusBadge from "../assets/images/badge-bonus.png";
+import bonusAngel from "../assets/images/angle-bonus.png";
+
 const monthlyTiers = [
   { pct: "180%", active: true },
   { pct: "240%", active: false },
@@ -26,9 +29,10 @@ const generalBonuses = [
 ];
 const BonusPage = () => {
   const [redeemCode, setRedeemCode] = useState("");
+  const [open, setOpen] = useState(false);
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <div className="max-w-5xl mx-auto px-4 py-8 space-y-8">
+      <div className="max-w-5xl mx-auto px-1 py-8 space-y-8">
         {/* Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <h1 className="text-2xl font-bold">Bonus</h1>
@@ -42,8 +46,71 @@ const BonusPage = () => {
             <Button className="bg-card hover:bg-card-hover text-foreground text-sm px-4">Redeem Code</Button>
           </div>
         </div>
+        <div
+          className="
+    relative
+    flex flex-col sm:flex-row
+    items-center gap-6
+    rounded-lg bg-card
+    py-4 pl-0 pr-4
+    overflow-hidden
+    h-[200px] 
+  "
+          style={{
+            backgroundImage:
+              "linear-gradient(-12deg, transparent 28%, rgba(113,113,113,0.45) 82%)",
+          }}
+        >
+          {/* LEFT IMAGES */}
+          <div className="relative flex-shrink-0 h-[180px] w-[190px]  ">
+            <img
+              src={bonusBadge}
+              alt=""
+              className="w-28 sm:w-40 mx-auto"
+            />
+            <img
+              src={bonusAngel}
+              alt=""
+              className="w-60 -mt-12"
+            />
+          </div>
+
+          {/* CENTER CONTENT */}
+          <div className="flex-1 w-full">
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-primary">
+              VIP 0
+            </h2>
+
+            {/* PROGRESS BAR */}
+            <div className="mt-4 bg-black/30 rounded-full h-3 overflow-hidden">
+              <div className="h-full w-[5%] bg-primary" />
+            </div>
+
+            <div className="flex justify-between text-xs text-muted-foreground mt-2">
+              <span>0 XP</span>
+              <span>1 XP</span>
+            </div>
+
+            <p className="text-xs text-muted-foreground mt-1">
+              1 XP until VIP 1
+            </p>
+          </div>
+
+          {/* RIGHT ACTION */}
+          <button
+            onClick={() => setOpen(true)}
+            className="sm:absolute sm:right-6 sm:top-6
+          px-4 py-2 rounded-lg
+          bg-primary text-black text-xs font-semibold"
+          >
+            View Level Up Detail
+          </button>
+        </div>
+
+        {/* MODAL */}
+        {open && <VipModal onClose={() => setOpen(false)} />}
         {/* Connect Wallet Banner */}
-        <div className="bg-card rounded-lg p-4 flex flex-wrap items-center gap-4">
+        {/* <div className="bg-card rounded-lg p-4 flex flex-wrap items-center gap-4">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary">💳</div>
             <div>
@@ -57,7 +124,8 @@ const BonusPage = () => {
             <span>🎁 Withdraw Bonus</span>
             <Button size="sm" className="bg-primary text-primary-foreground text-xs">Connect Now</Button>
           </div>
-        </div>
+        </div> */}
+        
         {/* Total Bonus & Monthly Deposit */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <div className="bg-gradient-to-br from-secondary to-card rounded-lg p-6">
@@ -91,7 +159,7 @@ const BonusPage = () => {
           </div>
         </div>
         {/* VIP Bonus */}
-        <div className="bg-card rounded-lg p-6">
+        {/* <div className="bg-card rounded-lg p-6">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-4">
               <div className="w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center text-3xl">✅</div>
@@ -122,10 +190,30 @@ const BonusPage = () => {
             <p className="text-xs text-muted-foreground">1XP until VIP 1</p>
             <p className="text-primary text-xs mt-1">Bet in APP to Claim 1.5 x XP</p>
           </div>
-        </div>
+        </div> */}
         {/* General Bonus */}
         <div>
           <h2 className="text-xl font-bold mb-4">General Bonus</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {generalBonuses.map((bonus, i) => (
+              <div key={i} className="bg-card rounded-lg p-4 flex flex-col">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="text-3xl">{bonus.icon}</div>
+                  <Info className="w-4 h-4 text-muted-foreground" />
+                </div>
+                <h4 className="font-semibold text-sm mb-1">{bonus.title}</h4>
+                {bonus.badge && <span className="text-xs text-primary bg-primary/10 px-2 py-0.5 rounded w-fit mb-1">{bonus.badge}</span>}
+                <p className="text-xs text-muted-foreground whitespace-pre-line flex-1">{bonus.desc}</p>
+                {bonus.countdown && <p className="text-xs text-muted-foreground mt-2"><Clock className="w-3 h-3 inline mr-1" />{bonus.countdown}</p>}
+                {bonus.action && (
+                  <Button size="sm" className="mt-3 w-full bg-primary text-primary-foreground text-xs">{bonus.action}</Button>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+        <div>
+          <h2 className="text-xl font-bold mb-4">VIP Bonus</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {generalBonuses.map((bonus, i) => (
               <div key={i} className="bg-card rounded-lg p-4 flex flex-col">
@@ -157,3 +245,118 @@ const BonusPage = () => {
   );
 };
 export default BonusPage;
+
+
+ export const VipModal=({ onClose }: { onClose: () => void })=> {
+  const [openTier, setOpenTier] = useState<string | null>("Bronze");
+
+  const toggleTier = (tier: string) => {
+    setOpenTier((prev) => (prev === tier ? null : tier));
+  };
+
+  const tiers = [
+    {
+      name: "Bronze  VIP 2–7",
+      key: "Bronze",
+      levels: [
+        { level: "VIP 02", xp: 100 },
+        { level: "VIP 03", xp: 200 },
+        { level: "VIP 04", xp: 1000 },
+        { level: "VIP 05", xp: 2000 },
+        { level: "VIP 06", xp: 3000 },
+        { level: "VIP 07", xp: 4000 },
+      ],
+    },
+    { name: "Silver   VIP 8–21", key: "Silver",
+      levels: [
+        { level: "VIP 02", xp: 100 },
+        { level: "VIP 03", xp: 200 },
+        { level: "VIP 04", xp: 1000 },
+        { level: "VIP 05", xp: 2000 },
+        { level: "VIP 06", xp: 3000 },
+        { level: "VIP 07", xp: 4000 },
+      ],
+     },
+    { name: "Gold     VIP 22–37", key: "Gold" },
+    { name: "Platinum I   VIP 38–55", key: "Platinum1" },
+    { name: "Platinum II  VIP 56–69", key: "Platinum2" },
+  ];
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
+      <div className="w-full max-w-md rounded-xl bg-[#2b2f30] p-5 text-white relative max-h-[90vh] overflow-y-auto">
+
+        {/* HEADER */}
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-lg font-semibold">VIP Level System</h3>
+          <button onClick={onClose}>
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+
+        {/* XP BOX */}
+        <div className="bg-[#1f2324] rounded-lg p-4 text-sm text-white/80 mb-4">
+          <p className="font-semibold mb-1">XP Calculation:</p>
+          <p>
+            XP for Originals, Slots, and Live Casino is based on wager and
+            house edge (max 2%); $1 wager counts 1 XP.
+          </p>
+          <p className="mt-1">
+            Racing/Lottery/Trading count 1×, Sports count 2×.
+          </p>
+        </div>
+
+        {/* ACCORDION */}
+        <div className="space-y-3">
+          {tiers.map((tier) => {
+            const isOpen = openTier === tier.key;
+
+            return (
+              <div key={tier.key} className="bg-[#1f2324] rounded-lg overflow-hidden">
+
+                {/* TIER HEADER */}
+                <button
+                  onClick={() => toggleTier(tier.key)}
+                  className="w-full flex justify-between items-center px-4 py-3 text-sm font-medium"
+                >
+                  <span>{tier.name}</span>
+                  {isOpen ? (
+                    <ChevronDown className="w-4 h-4" />
+                  ) : (
+                    <ChevronRight className="w-4 h-4" />
+                  )}
+                </button>
+
+                {/* DROPDOWN CONTENT */}
+                {isOpen && tier.levels && (
+                  <div className="border-t border-white/10 text-sm">
+
+                    <div className="flex justify-between px-4 py-2 text-white/50 text-xs">
+                      <span>Level</span>
+                      <span>Required XP</span>
+                    </div>
+
+                    {tier.levels.map((item, index) => (
+                      <div
+                        key={item.level}
+                        className={`flex justify-between px-4 py-2 transition
+      ${index % 2 === 0 ? "bg-[#2a2f30]" : "bg-[#242829]"}
+      hover:bg-white/5`}
+                      >
+                        <span>{item.level}</span>
+                        <span className="font-semibold">{item.xp}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+

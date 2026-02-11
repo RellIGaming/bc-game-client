@@ -40,10 +40,10 @@ const fiatMethods = [
     { id: "upi4", name: "UPI", range: "200 ~ 10,000", badge: null },
 ];
 type DepositProps = {
-    variant?: "page" | "modal";
+    variant?: "page" | "modal" | "drawer";
 };
 
-const Deposit = ({ variant = "page" }: { variant?: "page" | "modal" }) => {
+const Deposit = ({ variant = "page" }: DepositProps) => {
 
     const { section } = useParams();
     const navigate = useNavigate();
@@ -60,33 +60,74 @@ const Deposit = ({ variant = "page" }: { variant?: "page" | "modal" }) => {
             className={cn(
                 "w-full",
                 variant === "modal"
-                    ? "max-w-md mx-auto px-4 py-3 "
+                    ? "px-4 py-3 "
                     : "px-0"
             )}
         >
             {/* Crypto/Fiat Tabs */}
-            <div className='sticky top-0 z-10'>
-                <div className="flex rounded-lg bg-secondary border border-border overflow-hidden p-1 mb-3">
-                    <button
-                        onClick={() => setDepositTab("crypto")}
-                        className={cn(
-                            "flex-1 py-3 text-sm font-medium transition-colors",
-                            depositTab === "crypto" ? "bg-secondary text-foreground" : "bg-card text-muted-foreground"
-                        )}
-                    >
-                        Crypto
-                    </button>
-                    <button
-                        onClick={() => setDepositTab("fiat")}
-                        className={cn(
-                            "flex-1 py-3 text-sm font-medium transition-colors",
-                            depositTab === "fiat" ? "bg-secondary text-primary-foreground" : "bg-card text-muted-foreground"
-                        )}
-                    >
-                        Fiat
-                    </button>
+            {variant === "page" && (
+                <div className="hidden lg:block sticky top-0 z-10">
+                    <div className="flex rounded-lg bg-secondary border border-border overflow-hidden p-1 mb-3">
+                        <button
+                            onClick={() => setDepositTab("crypto")}
+                            className={cn(
+                                "flex-1 py-2 text-sm font-medium transition-colors",
+                                depositTab === "crypto" ? "bg-secondary text-foreground" : "bg-card text-muted-foreground"
+                            )}
+                        >
+                            Crypto
+                        </button>
+                        <button
+                            onClick={() => setDepositTab("fiat")}
+                            className={cn(
+                                "flex-1 py-2 text-sm font-medium transition-colors",
+                                depositTab === "fiat" ? "bg-secondary text-primary-foreground" : "bg-card text-muted-foreground"
+                            )}
+                        >
+                            Fiat
+                        </button>
+                    </div>
+                </div>)}
+            {variant !== "page" && (
+                <div className=" sticky top-0 z-10 bg-card">
+                    <div className="flex border-b border-border">
+
+                        <button
+                            onClick={() => setDepositTab("crypto")}
+                            className={cn(
+                                "flex-1 py-3 text-sm font-semibold transition-all relative",
+                                depositTab === "crypto"
+                                    ? "text-primary"
+                                    : "text-muted-foreground hover:text-foreground"
+                            )}
+                        >
+                            Crypto
+
+                            {depositTab === "crypto" && (
+                                <span className="absolute left-0 bottom-0 w-full h-[2px] bg-blue-500 rounded-full" />
+                            )}
+                        </button>
+
+                        <button
+                            onClick={() => setDepositTab("fiat")}
+                            className={cn(
+                                "flex-1 py-3 text-sm font-semibold transition-all relative",
+                                depositTab === "fiat"
+                                    ? "text-primary"
+                                    : "text-muted-foreground hover:text-foreground"
+                            )}
+                        >
+                            Fiat
+
+                            {depositTab === "fiat" && (
+                                <span className="absolute left-0 bottom-0 w-full h-[2px] bg-blue-500 rounded-full" />
+                            )}
+                        </button>
+
+                    </div>
                 </div>
-            </div>
+            )}
+
             <div className='bg-card rounded-lg flex-1 overflow-y-auto space-y-6 p-4'>
                 {depositTab === "crypto" ? (
                     <div className="space-y-6">
@@ -214,7 +255,7 @@ const Deposit = ({ variant = "page" }: { variant?: "page" | "modal" }) => {
                             </p>
                         </div>
                         {/* Deposit Methods */}
-                        <div className="bg-card rounded-xl p-6">
+                        <div className="bg-card rounded-xl">
                             <div className="flex items-center justify-between mb-4">
                                 <h4 className="font-medium">Deposit Method</h4>
                                 <span className="text-sm text-primary">

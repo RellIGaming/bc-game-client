@@ -12,7 +12,7 @@ const ProvablyFairPage = () => {
   const [selectedGame, setSelectedGame] = useState("Crash");
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <div className="max-w-5xl mx-auto px-4 py-8">
+      <div className="max-w-5xl mx-auto px-1 py-8">
         <h1 className="text-2xl font-bold mb-6">Help Center</h1>
         <div className="flex flex-col lg:flex-row gap-6">
           {/* Sidebar */}

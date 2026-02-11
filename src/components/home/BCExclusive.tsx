@@ -19,7 +19,7 @@ const BCExclusive = () => {
     }, []);
   return (
     <GameCarousel
-      title="BC Exclusive"
+      title="Rellbet Exclusive"
       games={games}
       categoryPath="/category/exclusive"
       labelText="ORIGINAL GAME"

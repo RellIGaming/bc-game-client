@@ -100,7 +100,7 @@ const SportsPage = ({ isLoggedIn, setIsLoggedIn }: SportsPageProps) => {
         />
 
         {!showSearch ? (
-          <div className=" mx-auto px-4 py-4">
+          <div className=" mx-auto px-2 py-4">
             <div className="flex items-center justify-between flex-wrap gap-4 mb-4">
               <SportsTabs activeTab={activeSportsTab} onTabChange={setActiveSportsTab} />
             </div>

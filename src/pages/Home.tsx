@@ -14,7 +14,7 @@ import Footer from "@/components/home/Footer";
 
 const Home = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
   return (
-    <div className="px-3 lg:px-6 py-4 space-y-6">
+    <div className="px-1 lg:px-2 py-4 space-y-6">
       <HeroSection isLoggedIn={isLoggedIn} onSignUp={() => {}} />
       <RecentBigWins />
       <CategoryCards />

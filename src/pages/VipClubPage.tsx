@@ -8,7 +8,10 @@ import bonus from "../assets/images/bonus-box-vip.png";
 import lossBack from "../assets/images/loseback-coin.png";
 import bigBanner from "../assets/images/vip-banner.png";
 import middleBanner from "../assets/images/banner-vip-middle.png";
-
+import bonusBadge from "../assets/images/badge-bonus.png";
+import bonusAngel from "../assets/images/angle-bonus.png";
+import { VipModal } from "./BonusPage";
+import VipBonusTable from "@/components/vip/VipBonusTable";
 
 
 
@@ -32,41 +35,38 @@ const faqs = [
   { q: "What is the VIP Transfer?", a: "VIP Transfer allows you to transfer your VIP benefits to another platform account under certain conditions." },
   { q: "What makes the rellbet.GAME VIP Club different from others?", a: "Our VIP program focuses on personalized rewards, real-world experiences, and dedicated support without rigid level requirements." },
 ];
-const VipClubPage = () => {
+const VipClubPage = ({isLoggedIn}) => {
   const [faqCategory, setFaqCategory] = useState("General");
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+   const [open, setOpen] = useState(false);
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <div className="max-w-5xl mx-auto px-4 py-8 space-y-2">
+      <div className="max-w-5xl mx-auto px-1  space-y-2">
         {/* Hero Banner */}
-        <div className="hidden sm:block relative mb-14">
-          {/* Banner */}
+        {/* <div className="hidden sm:block relative mb-14">
           <div className="relative w-full h-[320px] overflow-hidden rounded-lg">
-            {/* Background */}
             <img
               src={bigBanner}
               alt="VIP Background"
               className="absolute inset-0 w-full h-full object-cover"
             />
 
-            {/* Floating Coins */}
             <img
               src={coin1}
-              className="hidden sm:block absolute -top-6 left-6 w-36 animate-float"
+              className="hidden sm:block absolute top-4 left-6 w-36 animate-float"
               alt=""
             />
             <img
               src={coin2}
-              className="hidden sm:block absolute -top-6 right-10 w-36 animate-float-delayed"
+              className="hidden sm:block absolute top-4 right-10 w-36 animate-float-delayed"
               alt=""
             />
 
-            {/* Content */}
             <div className="relative z-10 text-center px-4 pt-10">
               <img
                 src={middleBanner}
                 alt="VIP Crown"
-                className="w-1/2 mx-auto -mt-10"
+                className="w-1/2 mx-auto "
               />
 
               <p className="text-[#d6b26a] text-xs sm:text-sm font-semibold tracking-widest uppercase -mt-12">
@@ -82,8 +82,6 @@ const VipClubPage = () => {
               </p>
             </div>
           </div>
-
-          {/* Join Now Button (HALF OUTSIDE) */}
           <button
             className="
       absolute -bottom-6 left-1/2 -translate-x-1/2
@@ -96,8 +94,70 @@ const VipClubPage = () => {
           >
             Join Now
           </button>
-        </div>
+        </div> */}
+        <div
+          className="mt-4 mb-4
+    relative
+    flex flex-col sm:flex-row
+    items-center gap-6
+    rounded-lg bg-card
+    py-4 pl-0 pr-4
+    overflow-hidden
+    h-[200px] 
+  "
+          style={{
+            backgroundImage:
+              "linear-gradient(-12deg, transparent 28%, rgba(113,113,113,0.45) 82%)",
+          }}
+        >
+          {/* LEFT IMAGES */}
+          <div className="relative flex-shrink-0 h-[180px] w-[190px]  ">
+            <img
+              src={bonusBadge}
+              alt=""
+              className="w-28 sm:w-40 mx-auto"
+            />
+            <img
+              src={bonusAngel}
+              alt=""
+              className="w-60 -mt-12"
+            />
+          </div>
 
+          {/* CENTER CONTENT */}
+          <div className="flex-1 w-full">
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-primary">
+              VIP 0
+            </h2>
+
+            {/* PROGRESS BAR */}
+            <div className="mt-4 bg-black/30 rounded-full h-3 overflow-hidden">
+              <div className="h-full w-[5%] bg-primary" />
+            </div>
+
+            <div className="flex justify-between text-xs text-muted-foreground mt-2">
+              <span>0 XP</span>
+              <span>1 XP</span>
+            </div>
+
+            <p className="text-xs text-muted-foreground mt-1">
+              1 XP until VIP 1
+            </p>
+          </div>
+
+          {/* RIGHT ACTION */}
+          <button
+            onClick={() => setOpen(true)}
+            className="sm:absolute sm:right-6 sm:top-6
+          px-4 py-2 rounded-lg
+          bg-primary text-black text-xs font-semibold"
+          >
+            View Level Up Detail
+          </button>
+        </div>
+         {open && <VipModal onClose={() => setOpen(false)} />}
+
+          {isLoggedIn && <VipBonusTable />}
         {/* Premium VIP Rewards */}
         <div className="text-center mt-8">
           <h2 className="text-2xl md:text-3xl font-bold mb-2">
