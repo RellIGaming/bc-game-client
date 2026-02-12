@@ -19,7 +19,7 @@ const BCOriginals = () => {
   }, []);
   return (
     <GameCarousel
-      title="BC Originals"
+      title="Rellbet Originals"
       games={games}
       categoryPath="/category/originals"
       labelText="ORIGINAL GAME"

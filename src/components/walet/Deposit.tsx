@@ -225,7 +225,7 @@ const Deposit = ({ variant = "page" }: DepositProps) => {
                             </div>
                             <div className="flex items-start gap-2 text-sm text-muted-foreground bg-[#314940] rounded-lg p-3 mt-2">
                                 <AlertTriangle className="w-4 h-4 mt-0.5 shrink-0 text-yellow-500" />
-                                Send only BC to this deposit address. Transfers below 100 BC will not be credited.
+                                Send only Rellbet to this deposit address. Transfers below 100 Rellbet will not be credited.
                             </div>
                         </div>
                     </div>

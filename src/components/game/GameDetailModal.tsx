@@ -89,7 +89,7 @@ const GameDetailModal = ({ isOpen, onClose, game, onSignIn }: GameDetailModalPro
 
               {/* Game Icon */}
               <div className="absolute inset-0 flex items-center justify-center">
-                <span className="text-8xl">{game.icon || "🎮"}</span>
+                <img src={game.icon || "🎮"} alt="logo"  className=""/>
               </div>
 
               {/* Sign In Overlay */}

@@ -49,10 +49,12 @@ const ResponsibleGamblingPage = () => {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <div className="max-w-5xl mx-auto px-1 py-8">
-        <h1 className="text-2xl font-bold text-primary mb-6">Responsible Gambling</h1>
         <div className="flex flex-col lg:flex-row gap-6">
-          {/* Sidebar */}
-          <div className="lg:w-56 shrink-0">
+           <div className="lg:w-64 lg:sticky lg:top-20">
+             <div className="space-y-4"> 
+            <h1 className="text-lg font-bold px-2">
+             Responsible Gambling
+            </h1>
             <div className="bg-card rounded-lg p-2 space-y-0.5 lg:sticky lg:top-20">
               {sidebarTabs.map((tab) => (
                 <button
@@ -71,8 +73,9 @@ const ResponsibleGamblingPage = () => {
               ))}
             </div>
           </div>
+          </div>
           {/* Content */}
-          <div className="flex-1">
+          <div className="flex-1 mt-11">
             <div className="flex flex-col lg:flex-row gap-6">
               <div className="flex-1">
                 {activeTab === "faqs" && (

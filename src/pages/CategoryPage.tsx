@@ -5,6 +5,14 @@ import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import GameDetailModal from "@/components/game/GameDetailModal";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
+import card2 from "@/assets/images/card-2.png";
+import card3 from "@/assets/images/card-3.png";
+import card4 from "@/assets/images/card-4.png";
+import card5 from "@/assets/images/card-5.png";
+import card6 from "@/assets/images/card-6.png";
+import card7 from "@/assets/images/card-7.png";
+import card8 from "@/assets/images/card-8.png";
+import card9 from "@/assets/images/card-9.png";
 
 interface Game {
   id: number;
@@ -20,85 +28,85 @@ interface Game {
 
 const allGames: Game[] = [
   // Casino Games
-  { id: 1, name: "CRASH", provider: "Rellbet", color: "bg-green-500", icon: "🚀", players: 2009, multiplier: "999x", category: "casino" },
-  { id: 2, name: "LIMBO", provider: "Rellbet", color: "bg-blue-600", icon: "🎯", players: 280, multiplier: "500x", category: "casino" },
-  { id: 3, name: "PLINKO", provider: "Rellbet", color: "bg-emerald-500", icon: "⚪", players: 138, multiplier: "2.1x", category: "casino" },
-  { id: 4, name: "DICE", provider: "Rellbet", color: "bg-red-500", icon: "🎲", players: 276, multiplier: "9900x", category: "casino" },
-  { id: 5, name: "MINES", provider: "Rellbet", color: "bg-yellow-500", icon: "💣", players: 312, category: "casino" },
-  { id: 6, name: "TOWER LEGEND", provider: "Rellbet", color: "bg-purple-500", icon: "🗼", players: 172, category: "casino" },
+  { id: 1, name: "CRASH", provider: "Rellbet", color: "bg-green-500", icon: card2, players: 2009, multiplier: "999x", category: "casino" },
+  { id: 2, name: "LIMBO", provider: "Rellbet", color: "bg-blue-600", icon: card3, players: 280, multiplier: "500x", category: "casino" },
+  { id: 3, name: "PLINKO", provider: "Rellbet", color: "bg-emerald-500", icon: card4, players: 138, multiplier: "2.1x", category: "casino" },
+  { id: 4, name: "DICE", provider: "Rellbet", color: "bg-red-500", icon: card5, players: 276, multiplier: "9900x", category: "casino" },
+  { id: 5, name: "MINES", provider: "Rellbet", color: "bg-yellow-500", icon: card6, players: 312, category: "casino" },
+  { id: 6, name: "TOWER LEGEND", provider: "Rellbet", color: "bg-purple-500", icon: card7, players: 172, category: "casino" },
   
-  // BC Originals
-  { id: 7, name: "CRASH", provider: "Rellbet", color: "bg-green-500", icon: "🚀", players: 2009, multiplier: "999x", category: "originals" },
-  { id: 8, name: "LIMBO", provider: "Rellbet", color: "bg-blue-600", icon: "🎯", players: 280, multiplier: "500x", category: "originals" },
-  { id: 9, name: "TWIST", provider: "Rellbet", color: "bg-purple-600", icon: "🌀", players: 248, category: "originals" },
-  { id: 10, name: "ULTIMATE DICE", provider: "Rellbet", color: "bg-red-500", icon: "🎲", players: 58, multiplier: "9900x", category: "originals" },
-  { id: 11, name: "JADE", provider: "Rellbet", color: "bg-cyan-500", icon: "💎", players: 99, category: "originals" },
-  { id: 12, name: "BULLET SPIN", provider: "Rellbet", color: "bg-indigo-500", icon: "🔫", players: 99, category: "originals" },
+  // Rellbet Originals
+  { id: 7, name: "CRASH", provider: "Rellbet", color: "bg-green-500", icon: card8, players: 2009, multiplier: "999x", category: "originals" },
+  { id: 8, name: "LIMBO", provider: "Rellbet", color: "bg-blue-600", icon: card9, players: 280, multiplier: "500x", category: "originals" },
+  { id: 9, name: "TWIST", provider: "Rellbet", color: "bg-purple-600", icon: card2, players: 248, category: "originals" },
+  { id: 10, name: "ULTIMATE DICE", provider: "Rellbet", color: "bg-red-500", icon: card4, players: 58, multiplier: "9900x", category: "originals" },
+  { id: 11, name: "JADE", provider: "Rellbet", color: "bg-cyan-500", icon: card4, players: 99, category: "originals" },
+  { id: 12, name: "BULLET SPIN", provider: "Rellbet", color: "bg-indigo-500", icon: card5, players: 99, category: "originals" },
   
   // Slots
-  { id: 13, name: "AVIATOR", provider: "Spribe", color: "bg-red-500", icon: "✈️", players: 1423, category: "slots" },
-  { id: 14, name: "GOLDEN JOKER", provider: "JILI", color: "bg-amber-500", icon: "🃏", players: 86, category: "slots" },
-  { id: 15, name: "QUEEN OF INCA", provider: "FC", color: "bg-orange-500", icon: "👸", players: 31, category: "slots" },
-  { id: 16, name: "FORTUNE GEMS", provider: "JILI", color: "bg-emerald-500", icon: "💎", players: 245, category: "slots" },
-  { id: 17, name: "MONEY COMING", provider: "JILI", color: "bg-yellow-500", icon: "💰", players: 189, category: "slots" },
-  { id: 18, name: "WILD BOUNTY", provider: "PG", color: "bg-cyan-500", icon: "🏴‍☠️", players: 324, category: "slots" },
+  { id: 13, name: "AVIATOR", provider: "Spribe", color: "bg-red-500", icon: card2, players: 1423, category: "slots" },
+  { id: 14, name: "GOLDEN JOKER", provider: "JILI", color: "bg-amber-500", icon:card2, players: 86, category: "slots" },
+  { id: 15, name: "QUEEN OF INCA", provider: "FC", color: "bg-orange-500", icon: card3, players: 31, category: "slots" },
+  { id: 16, name: "FORTUNE GEMS", provider: "JILI", color: "bg-emerald-500", icon: card4, players: 245, category: "slots" },
+  { id: 17, name: "MONEY COMING", provider: "JILI", color: "bg-yellow-500", icon: card5, players: 189, category: "slots" },
+  { id: 18, name: "WILD BOUNTY", provider: "PG", color: "bg-cyan-500", icon: card2, players: 324, category: "slots" },
   
   // Live Casino
-  { id: 19, name: "TVBET", provider: "TVBET", color: "bg-orange-500", icon: "📺", players: 156, category: "live-casino" },
-  { id: 20, name: "COCO ROULETTE", provider: "Evolution", color: "bg-pink-500", icon: "🎡", players: 423, category: "live-casino" },
-  { id: 21, name: "VIVO GAMING", provider: "Vivo", color: "bg-green-600", icon: "🎲", players: 89, category: "live-casino" },
-  { id: 22, name: "GAME LOUNGE", provider: "Rellbet", color: "bg-amber-500", icon: "🎰", players: 234, category: "live-casino" },
-  { id: 23, name: "GIOCHI LIVE", provider: "Evolution", color: "bg-purple-500", icon: "🃏", players: 178, category: "live-casino" },
-  { id: 24, name: "LIGHTNING ROULETTE", provider: "Evolution", color: "bg-red-500", icon: "⚡", players: 567, category: "live-casino" },
+  { id: 19, name: "TVBET", provider: "TVBET", color: "bg-orange-500", icon: card5, players: 156, category: "live-casino" },
+  { id: 20, name: "COCO ROULETTE", provider: "Evolution", color: "bg-pink-500", icon: card5, players: 423, category: "live-casino" },
+  { id: 21, name: "VIVO GAMING", provider: "Vivo", color: "bg-green-600", icon: card5, players: 89, category: "live-casino" },
+  { id: 22, name: "GAME LOUNGE", provider: "Rellbet", color: "bg-amber-500", icon: card5, players: 234, category: "live-casino" },
+  { id: 23, name: "GIOCHI LIVE", provider: "Evolution", color: "bg-purple-500", icon: card5, players: 178, category: "live-casino" },
+  { id: 24, name: "LIGHTNING ROULETTE", provider: "Evolution", color: "bg-red-500", icon: card5, players: 567, category: "live-casino" },
   
   // Sports
-  { id: 25, name: "FOOTBALL", provider: "BC Sports", color: "bg-green-500", icon: "⚽", players: 2345, category: "sports" },
-  { id: 26, name: "BASKETBALL", provider: "BC Sports", color: "bg-orange-500", icon: "🏀", players: 1234, category: "sports" },
-  { id: 27, name: "TENNIS", provider: "BC Sports", color: "bg-lime-500", icon: "🎾", players: 567, category: "sports" },
-  { id: 28, name: "ESPORTS", provider: "BC Sports", color: "bg-purple-500", icon: "🎮", players: 890, category: "sports" },
+  { id: 25, name: "FOOTBALL", provider: "Rellbet Sports", color: "bg-green-500", icon: card4, players: 2345, category: "sports" },
+  { id: 26, name: "BASKETBALL", provider: "Rellbet Sports", color: "bg-orange-500", icon:card4, players: 1234, category: "sports" },
+  { id: 27, name: "TENNIS", provider: "Rellbet Sports", color: "bg-lime-500", icon: card4, players: 567, category: "sports" },
+  { id: 28, name: "ESPORTS", provider: "Rellbet Sports", color: "bg-purple-500", icon: card4, players: 890, category: "sports" },
   
   // Lottery
-  { id: 29, name: "MEGA MILLIONS", provider: "BC Lottery", color: "bg-yellow-500", icon: "🎫", players: 4567, category: "lottery" },
-  { id: 30, name: "POWERBALL", provider: "BC Lottery", color: "bg-red-500", icon: "🎱", players: 3456, category: "lottery" },
-  { id: 31, name: "KENO", provider: "Rellbet", color: "bg-blue-500", icon: "🔢", players: 274, category: "lottery" },
+  { id: 29, name: "MEGA MILLIONS", provider: "Rellbet Lottery", color: "bg-yellow-500", icon: card4, players: 4567, category: "lottery" },
+  { id: 30, name: "POWERBALL", provider: "Rellbet Lottery", color: "bg-red-500", icon: card4, players: 3456, category: "lottery" },
+  { id: 31, name: "KENO", provider: "Rellbet", color: "bg-blue-500", icon: card4, players: 274, category: "lottery" },
   
   // Hot Games
-  { id: 32, name: "CRASH", provider: "Rellbet", color: "bg-green-500", icon: "🚀", players: 2009, multiplier: "999x", category: "hot-games" },
-  { id: 33, name: "AVIATOR", provider: "Spribe", color: "bg-red-500", icon: "✈️", players: 1423, category: "hot-games" },
-  { id: 34, name: "LIGHTNING ROULETTE", provider: "Evolution", color: "bg-red-500", icon: "⚡", players: 567, category: "hot-games" },
+  { id: 32, name: "CRASH", provider: "Rellbet", color: "bg-green-500", icon: card4, players: 2009, multiplier: "999x", category: "hot-games" },
+  { id: 33, name: "AVIATOR", provider: "Spribe", color: "bg-red-500", icon: card4, players: 1423, category: "hot-games" },
+  { id: 34, name: "LIGHTNING ROULETTE", provider: "Evolution", color: "bg-red-500", icon: card7, players: 567, category: "hot-games" },
   
   // New Releases
-  { id: 35, name: "DRAGON HATCH", provider: "PG", color: "bg-red-600", icon: "🐉", players: 234, category: "new-releases" },
-  { id: 36, name: "FORTUNE OX", provider: "PG", color: "bg-amber-600", icon: "🐂", players: 456, category: "new-releases" },
+  { id: 35, name: "DRAGON HATCH", provider: "PG", color: "bg-red-600", icon:card7, players: 234, category: "new-releases" },
+  { id: 36, name: "FORTUNE OX", provider: "PG", color: "bg-amber-600", icon: card7, players: 456, category: "new-releases" },
   
   // Blackjack
-  { id: 37, name: "CLASSIC BLACKJACK", provider: "Evolution", color: "bg-green-700", icon: "🃏", players: 345, category: "blackjack" },
-  { id: 38, name: "VIP BLACKJACK", provider: "Evolution", color: "bg-gold", icon: "🎰", players: 123, category: "blackjack" },
+  { id: 37, name: "CLASSIC BLACKJACK", provider: "Evolution", color: "bg-green-700", icon: card8, players: 345, category: "blackjack" },
+  { id: 38, name: "VIP BLACKJACK", provider: "Evolution", color: "bg-gold", icon:card8, players: 123, category: "blackjack" },
   
   // Roulette
-  { id: 39, name: "EUROPEAN ROULETTE", provider: "Evolution", color: "bg-red-600", icon: "🎡", players: 567, category: "roulette" },
-  { id: 40, name: "AMERICAN ROULETTE", provider: "Evolution", color: "bg-blue-600", icon: "🎯", players: 234, category: "roulette" },
+  { id: 39, name: "EUROPEAN ROULETTE", provider: "Evolution", color: "bg-red-600", icon: card5, players: 567, category: "roulette" },
+  { id: 40, name: "AMERICAN ROULETTE", provider: "Evolution", color: "bg-blue-600", icon: card8, players: 234, category: "roulette" },
   
   // Baccarat
-  { id: 41, name: "SPEED BACCARAT", provider: "Evolution", color: "bg-amber-600", icon: "🎴", players: 456, category: "baccarat" },
-  { id: 42, name: "NO COMMISSION BACCARAT", provider: "Evolution", color: "bg-purple-600", icon: "💎", players: 234, category: "baccarat" },
+  { id: 41, name: "SPEED BACCARAT", provider: "Evolution", color: "bg-amber-600", icon: card8, players: 456, category: "baccarat" },
+  { id: 42, name: "NO COMMISSION BACCARAT", provider: "Evolution", color: "bg-purple-600", icon: card8, players: 234, category: "baccarat" },
   
   // Poker
-  { id: 43, name: "TEXAS HOLDEM", provider: "Evolution", color: "bg-green-600", icon: "🃏", players: 789, category: "poker" },
-  { id: 44, name: "THREE CARD POKER", provider: "Evolution", color: "bg-blue-600", icon: "♠️", players: 345, category: "poker" },
+  { id: 43, name: "TEXAS HOLDEM", provider: "Evolution", color: "bg-green-600", icon:card8, players: 789, category: "poker" },
+  { id: 44, name: "THREE CARD POKER", provider: "Evolution", color: "bg-blue-600", icon: card8, players: 345, category: "poker" },
   
   // Bingo
-  { id: 45, name: "MEGA BINGO", provider: "Rellbet", color: "bg-pink-500", icon: "🎱", players: 234, category: "bingo" },
-  { id: 46, name: "SPEED BINGO", provider: "Rellbet", color: "bg-purple-500", icon: "⚡", players: 167, category: "bingo" },
+  { id: 45, name: "MEGA BINGO", provider: "Rellbet", color: "bg-pink-500", icon: card8, players: 234, category: "bingo" },
+  { id: 46, name: "SPEED BINGO", provider: "Rellbet", color: "bg-purple-500", icon: card8, players: 167, category: "bingo" },
   
   // Table Games
-  { id: 47, name: "CRAPS", provider: "Evolution", color: "bg-red-500", icon: "🎲", players: 123, category: "table-games" },
-  { id: 48, name: "SIC BO", provider: "Evolution", color: "bg-blue-500", icon: "🎯", players: 234, category: "table-games" },
+  { id: 47, name: "CRAPS", provider: "Evolution", color: "bg-red-500", icon: card8, players: 123, category: "table-games" },
+  { id: 48, name: "SIC BO", provider: "Evolution", color: "bg-blue-500", icon: card8, players: 234, category: "table-games" },
 ];
 
 const categoryTitles: Record<string, string> = {
   "casino": "Casino",
-  "originals": "BC Originals",
+  "originals": "Rellbet Originals",
   "slots": "Slots",
   "live-casino": "Live Casino",
   "sports": "Sports",
@@ -142,11 +150,11 @@ const CategoryPage = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <div className="sticky top-0 z-40 bg-gaming-dark/95 backdrop-blur-sm px-4 py-3">
+      <div className="sticky top-0 z-40 px-4 py-3 mb-6">
         <div className="flex items-center gap-4">
           <button
             onClick={handleBack}
-            className="p-2 rounded-lg bg-secondary hover:bg-secondary/80 transition-colors"
+            className="p-2 rounded-lg bg-secondary  transition-colors"
           >
             <ChevronLeft className="w-5 h-5 text-foreground" />
           </button>
@@ -183,7 +191,7 @@ const CategoryPage = () => {
 
                 {/* Game Icon */}
                 <div className="absolute inset-0 flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
-                  <span className="text-5xl lg:text-6xl">{game.icon}</span>
+                  <img src={game.icon} alt="icon" />
                 </div>
 
                 {/* Bottom Info */}

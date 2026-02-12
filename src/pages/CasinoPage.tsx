@@ -19,7 +19,7 @@ import card9 from "@/assets/images/card-9.png";
 // Category tabs
 const categoryTabs = [
   { id: "lobby", label: "Lobby", icon: Sparkles },
-  { id: "bc-originals", label: "BC Originals", icon: Sparkles },
+  { id: "rellbet-originals", label: "Rellbet Originals", icon: Sparkles },
   { id: "hot-games", label: "Hot Games", icon: Flame },
   { id: "slots", label: "Slots", icon: LayoutGrid },
   { id: "live-casino", label: "Live Casino", icon: CircleDot },
@@ -34,13 +34,13 @@ const categoryTabs = [
 
 // Mock game data
 const allGames = [
-  { id: 1, name: "Crash", image: card2, multiplier: "999x", players: 2558, provider: "ORIGINAL", category: ["bc-originals", "hot-games", "lobby"] },
-  { id: 2, name: "Limbo", image: card3, multiplier: "500×", players: 270, provider: "ORIGINAL", category: ["bc-originals", "lobby"] },
-  { id: 3, name: "Plinko", image: card4, players: 298, provider: "ORIGINAL", category: ["bc-originals", "lobby"] },
-  { id: 4, name: "Twist", image: card5, players: 298, provider: "ORIGINAL", category: ["bc-originals"] },
-  { id: 5, name: "Keno", image: card6, multiplier: "12", players: 247, provider: "ORIGINAL", category: ["bc-originals", "lobby"] },
-  { id: 6, name: "Classic Dice", image: card7, players: 328, provider: "ORIGINAL", category: ["bc-originals", "lobby"] },
-  { id: 7, name: "Hilo", image: card2, players: 286, provider: "ORIGINAL", category: ["bc-originals"] },
+  { id: 1, name: "Crash", image: card2, multiplier: "999x", players: 2558, provider: "ORIGINAL", category: ["rellbet-originals", "hot-games", "lobby"] },
+  { id: 2, name: "Limbo", image: card3, multiplier: "500×", players: 270, provider: "ORIGINAL", category: ["rellbet-originals", "lobby"] },
+  { id: 3, name: "Plinko", image: card4, players: 298, provider: "ORIGINAL", category: ["rellbet-originals", "lobby"] },
+  { id: 4, name: "Twist", image: card5, players: 298, provider: "ORIGINAL", category: ["rellbet-originals"] },
+  { id: 5, name: "Keno", image: card6, multiplier: "12", players: 247, provider: "ORIGINAL", category: ["rellbet-originals", "lobby"] },
+  { id: 6, name: "Classic Dice", image: card7, players: 328, provider: "ORIGINAL", category: ["rellbet-originals", "lobby"] },
+  { id: 7, name: "Hilo", image: card2, players: 286, provider: "ORIGINAL", category: ["rellbet-originals"] },
   { id: 8, name: "Fortune Gems 3", image: card8, players: 127, provider: "JILI", category: ["hot-games", "slots", "lobby"] },
   { id: 9, name: "Showdown", image: card9, players: 84, provider: "JILI", category: ["hot-games", "lobby"] },
   { id: 10, name: "Fortune Rabbit", image: card2, players: 91, provider: "JILI", category: ["hot-games", "slots"] },
@@ -54,7 +54,7 @@ const allGames = [
   { id: 18, name: "Cash or Crash", image: card2, players: 145, provider: "Evolution", category: ["game-shows"] },
   { id: 19, name: "Crazy Time", image:card2, players: 312, provider: "Evolution", category: ["game-shows", "lobby"] },
   { id: 20, name: "Mega Ball", image: card3, players: 98, provider: "Evolution", category: ["game-shows"] },
-  { id: 21, name: "BC Poker", image: card4, players: 567, provider: "ORIGINAL", category: ["poker", "lobby"] },
+  { id: 21, name: "Rellbet Poker", image: card4, players: 567, provider: "ORIGINAL", category: ["poker", "lobby"] },
   { id: 22, name: "Video Poker", image: card5, players: 234, provider: "NetEnt", category: ["poker"] },
   { id: 23, name: "Teen Patti", image: card6, players: 189, provider: "JILI", category: ["poker", "table-games"] },
   { id: 24, name: "Speed Blackjack", image: card7, players: 167, provider: "Evolution", category: ["blackjack", "table-games"] },
@@ -195,9 +195,9 @@ const CasinoPage = ({ isLoggedIn, setIsLoggedIn }: CasinoPageProps) => {
               // Lobby view - show carousels for each category
               <div className="space-y-6">
                 <GameCarouselWithClick
-                  title="BC Originals"
-                  games={getGamesByCategory("bc-originals")}
-                  categoryPath="/casino?category=bc-originals"
+                  title="Rellbet Originals"
+                  games={getGamesByCategory("rellbet-originals")}
+                  categoryPath="/casino?category=rellbet-originals"
                   labelText="ORIGINAL"
                   onGameClick={handleGameClick}
                 />

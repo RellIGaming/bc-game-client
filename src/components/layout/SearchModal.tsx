@@ -22,7 +22,7 @@ interface SearchModalProps {
 
 export const categories = [
   { id: "all", label: "All Games", icon: card2 },
-  { id: "originals", label: "BC Originals", icon: card3 },
+  { id: "originals", label: "Rellbet Originals", icon: card3 },
   { id: "hot", label: "Hot Games", icon: card4 },
   { id: "slots", label: "Slots", icon: card5 },
   { id: "live", label: "Live Casino", icon: card6 },

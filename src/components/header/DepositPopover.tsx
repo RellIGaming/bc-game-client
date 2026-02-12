@@ -79,7 +79,7 @@ const DepositPopover = ({ open, onOpenChange, trigger }: Props) => {
           </div>
           {/* Body */}
           <div className=" overflow-y-auto max-h-[80vh]">
-            <Deposit variant="modal" />
+            <Deposit variant="page" />
           </div>
         </DialogContent>
       </Dialog>

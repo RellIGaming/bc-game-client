@@ -26,7 +26,7 @@ const mockWins = [
   { id: 12, game: "Crasher", user: "somero", amount: "TRL 77K", currency: "", image: card3 },
 ];
 
-const categories = ["All", "BC Originals", "Slots", "Live Casino"];
+const categories = ["All", "Rellbet Originals", "Slots", "Live Casino"];
 
 const RecentBigWins = () => {
   const [activeCategory, setActiveCategory] = useState("All");

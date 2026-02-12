@@ -243,7 +243,7 @@ const LiveStats = () => {
                     </div>
                   </div>
                   <div className="mt-4 pt-4 border-t border-border text-center">
-                    <span className="text-xs text-muted-foreground">BC Supply (Max. Supply)</span>
+                    <span className="text-xs text-muted-foreground">Rellbet Supply (Max. Supply)</span>
                     <div className="text-lg font-bold text-foreground">{tokenStats.maxSupply}</div>
                   </div>
                 </div>

@@ -103,7 +103,7 @@ const NotificationDropdown = ({ isOpen, onClose }: NotificationDropdownProps) =>
     mt-0 lg:mt-2
     w-full h-full lg:w-96 lg:h-auto
     bg-card border border-border
-    rounded-none lg:rounded-xl
+    rounded-none lg:rounded-lg
     shadow-2xl
     z-50
     overflow-hidden
@@ -133,14 +133,15 @@ const NotificationDropdown = ({ isOpen, onClose }: NotificationDropdownProps) =>
 
 
             {/* Tabs */}
-            <div className="flex border-b border-border">
+            <div className="flex bg-secondary rounded-lg p-1">
               {tabs.map((tab) => (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`flex-1 py-3 px-4 text-sm font-medium transition-colors relative ${activeTab === tab.id
-                    ? "text-foreground"
-                    : "text-muted-foreground hover:text-foreground"
+                  className={`flex-1 py-2 px-4 text-sm font-medium transition-colors rounded-lg
+        ${activeTab === tab.id
+                      ? "bg-primary text-foreground"
+                      : "text-muted-foreground hover:text-foreground"
                     }`}
                 >
                   <span className="flex items-center justify-center gap-1">
@@ -151,15 +152,10 @@ const NotificationDropdown = ({ isOpen, onClose }: NotificationDropdownProps) =>
                       </span>
                     )}
                   </span>
-                  {activeTab === tab.id && (
-                    <motion.div
-                      layoutId="activeTab"
-                      className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary"
-                    />
-                  )}
                 </button>
               ))}
             </div>
+
 
             {/* Notifications List */}
             <div className="max-h-96 overflow-y-auto scrollbar-hide">

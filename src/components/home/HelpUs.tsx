@@ -4,7 +4,7 @@ import GameFooterLogo from './GameFooterLogo';
 
 const HelpUs = () => {
     return (
-        <div  className='bg-sidebar border-t border-border/30 p-4 b-radius hidden md:block'>
+        <div  className='bg-sidebar border-t border-border/30 py-4 b-radius hidden md:block'>
             {/* Crypto Online Casino Section */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
                 <div>

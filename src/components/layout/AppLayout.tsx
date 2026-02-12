@@ -127,7 +127,7 @@ const AppLayout = ({ isLoggedIn, setIsLoggedIn }: AppLayoutProps) => {
 
         {/* ✅ MAIN CONTENT (pages render here) */}
         <main
-          className="flex-1 min-w-0 pb-20 lg:pb-0 overflow-y-auto transition-all duration-300"
+          className="flex-1 min-w-0 pb-14 lg:pb-0 overflow-y-auto transition-all duration-300"
           style={{ marginLeft: getMainMargin() }}
         >
           <Outlet /> {/* 👈 THIS IS THE MAGIC */}

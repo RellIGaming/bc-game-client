@@ -404,9 +404,10 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
       navigate("/daily");
     } else if (item.id === "lucky") {
       navigate("/lucky");
-    } else if (item.id === "sponsorships") {
-      navigate("/sponsorships");
-    }
+    } 
+     else if (item.id === "sponsorships") {
+      navigate("/category/sponsorships");
+    } 
     else if (item.path) handleNavigate(item.path);
   };
 

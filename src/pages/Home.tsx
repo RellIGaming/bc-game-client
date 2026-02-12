@@ -14,7 +14,10 @@ import Footer from "@/components/home/Footer";
 
 const Home = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
   return (
-    <div className="px-1 lg:px-2 py-4 space-y-6">
+    <div className="min-h-screen flex flex-col">
+
+  {/* Content Wrapper */}
+  <div className="flex-1 px-1 lg:px-2 py-4 space-y-6">
       <HeroSection isLoggedIn={isLoggedIn} onSignUp={() => {}} />
       <RecentBigWins />
       <CategoryCards />
@@ -27,6 +30,7 @@ const Home = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
       <BingoGames />
       <LatestRoundRace />
       <HotGames />
+      </div>
       <Footer />
     </div>
   );

@@ -15,7 +15,7 @@ const Footer = () => {
 
 
   return (
-    <footer className="bg-sidebar border-t border-border/30 mx-0.5 p-0.5 sm:p-4">
+    <footer className="w-full bg-sidebar border-t border-border/30 px-4 py-4">
 
       <div className="py-1 lg:py-4">
 
@@ -96,11 +96,13 @@ const Footer = () => {
           </div>
         </div>
         {/* Social & Community */}
-        <div className="flex flex-row lg:flex-row items-center justify-center gap-6 py-4 border-t border-b border-border/30 ">
+        <div className="flex flex-row lg:flex-row items-center justify-center gap-6 py-4  bg-[#213744] sm:bg-transparent 
+                p-4 sm:p-0 
+                rounded-lg sm:rounded-none mt-2">
           {/* <div className="flex items-center gap-3">
             <img src={bcLogo} alt="Rellbet" className="w-6 h-6 w-auto" />
           </div> */}
-          <div className="flex flex-col sm:flex-row items-center gap-4">
+         <div className="flex flex-col sm:flex-row items-center gap-4">
             <span className="text-xs text-muted-foreground">Join Our Community</span>
             <div className="flex items-center gap-2">
               <div className="flex items-center gap-2">

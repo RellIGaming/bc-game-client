@@ -126,7 +126,7 @@ const GameDetailPage = ({ isLoggedIn, setIsLoggedIn }: GameDetailPageProps) => {
                         >
                           <span className="flex items-center gap-2">
                             <span>{currentBalance?.icon}</span>
-                            <span>BC ({balanceType === "deposit" ? "Deposit Balance" : "Bonus Balance"})</span>
+                            <span>Rellbet ({balanceType === "deposit" ? "Deposit Balance" : "Bonus Balance"})</span>
                           </span>
                           <ChevronDown className={cn("w-4 h-4 transition-transform", isBalanceDropdownOpen && "rotate-180")} />
                         </button>
@@ -206,7 +206,7 @@ const GameDetailPage = ({ isLoggedIn, setIsLoggedIn }: GameDetailPageProps) => {
 
                     {/* Insufficient Balance Warning */}
                     <p className="text-sm text-muted-foreground mb-2">
-                      Insufficient BC balance, switch to another asset or deposit to continue playing.
+                      Insufficient Rellbet balance, switch to another asset or deposit to continue playing.
                     </p>
 
                     {/* Bonus Banner */}

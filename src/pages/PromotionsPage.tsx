@@ -35,35 +35,65 @@ const PromotionsPage = () => {
     <div className="min-h-screen bg-background text-foreground">
       <div className=" max-w-5xl mx-auto px-1 sm:px-2 py-6 space-y-6">
         {/* Header Banner */}
-        <div className="bg-card b-radius p-5 sm:p-6">
-          <p className="text-sm text-muted-foreground">Promotion</p>
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mt-2">
-            <div>
-              <p className="text-muted-foreground text-sm">Great Deposit Bonus</p>
-              <h1 className="text-2xl sm:text-3xl font-bold">Up TO 360% Bonus</h1>
-              <div className="flex flex-row justify-between mt-3">
-                <button onClick={() => setShowDeposit(true)} className="bg-primary text-primary-foreground px-4 py-2 b-radius text-sm font-medium">
-                  Deposit Now
-                </button>
-                <button onClick={() => setShowBonusTnC(true)} className="bg-secondary text-foreground px-4 py-2 b-radius text-sm font-medium hover:bg-muted">
-                  More Details
-                </button>
-              </div>
-            </div>
-            {/* Deposit Tiers */}
-            <div className="flex gap-3 sm:gap-4 overflow-x-auto scrollbar-hide">
-              {depositTiers.map((tier, i) => (
-                <div key={i} className="flex flex-col items-center shrink-0 rounded-lg bg-gradient-to-br from-yellow-600 to-yellow-800">
-                  <div className="w-full h-auto sm:w-20 sm:h-20   flex items-center justify-center">
-                    <img src={tier.icon} alt="" />
-                  </div>
-                  <p className="text-sm font-bold text-primary mt-1">{tier.pct} Bonus</p>
-                  <p className="text-[10px] text-muted-foreground">{i + 1}{["st", "nd", "rd", "th"][i]} Deposit</p>
-                </div>
-              ))}
-            </div>
+         <p className="text-sm text-muted-foreground">Promotion</p>
+       <div className="bg-card b-radius p-2 sm:p-4 h-[200px]">
+ 
+
+  <div className="grid grid-cols-1 lg:grid-cols-6 gap-6 item-center justify-center">
+
+    {/* 1 COL - LEFT CONTENT */}
+    <div className="lg:col-span-2 mt-4">
+      <p className="text-muted-foreground text-sm">
+        Great Deposit Bonus
+      </p>
+
+      <h1 className="text-xl sm:text-3xl font-bold">
+        Up TO 360% Bonus
+      </h1>
+
+      <div className="flex gap-3 mt-4">
+        <button
+          onClick={() => setShowDeposit(true)}
+          className="bg-primary text-primary-foreground px-4 py-2 b-radius text-sm font-medium"
+        >
+          Deposit Now
+        </button>
+
+        <button
+          onClick={() => setShowBonusTnC(true)}
+          className="bg-secondary text-foreground px-4 py-2 b-radius text-sm font-medium hover:bg-muted"
+        >
+          More Details
+        </button>
+      </div>
+    </div>
+
+    {/* 4 COL - DEPOSIT TIERS */}
+    <div className="lg:col-span-4 grid grid-cols-2 sm:grid-cols-4 gap-4 h-[170px]">
+      {depositTiers.map((tier, i) => (
+        <div
+          key={i}
+          className="flex flex-col items-center rounded-lg p-3 bg-gradient-to-br from-yellow-600 to-yellow-800  h-full"
+        >
+          <div className="w-24 h-full flex items-center justify-center">
+            <img src={tier.icon} alt="" className="max-w-full" />
           </div>
+
+          <p className="text-sm font-bold text-primary mt-2">
+            {tier.pct} Bonus
+          </p>
+
+          <p className="text-[10px] text-muted-foreground">
+            {i + 1}
+            {["st", "nd", "rd", "th"][i]} Deposit
+          </p>
         </div>
+      ))}
+    </div>
+
+  </div>
+</div>
+
         {/* Promotion Tabs */}
         <div className="flex gap-4 border-b border-border">
           {["Latest Promotion", "Archived"].map((tab) => (

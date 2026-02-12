@@ -43,7 +43,9 @@ const VipClubPage = ({ isLoggedIn }) => {
     <div className="min-h-screen bg-background text-foreground">
       <div className="max-w-5xl mx-auto px-1  space-y-2">
         {/* Hero Banner */}
-        {/* <div className="hidden sm:block relative mb-14">
+        
+       <div className="hidden sm:block relative mb-4">
+       
           <div className="relative w-full h-[320px] overflow-hidden rounded-lg">
             <img
               src={bigBanner}
@@ -62,7 +64,7 @@ const VipClubPage = ({ isLoggedIn }) => {
               alt=""
             />
 
-            <div className="relative z-10 text-center px-4 pt-10">
+            <div className="relative z-10 text-center px-4 -pt-10">
               <img
                 src={middleBanner}
                 alt="VIP Crown"
@@ -82,6 +84,7 @@ const VipClubPage = ({ isLoggedIn }) => {
               </p>
             </div>
           </div>
+          {!isLoggedIn && ( 
           <button
             className="
       absolute -bottom-6 left-1/2 -translate-x-1/2
@@ -94,71 +97,9 @@ const VipClubPage = ({ isLoggedIn }) => {
           >
             Join Now
           </button>
-        </div> */}
-        <div
-          className="
-    mt-4 mb-4
-    relative
-    flex items-center gap-4 sm:gap-6
-    rounded-lg bg-card
-    py-3 sm:py-4 pl-0 pr-4
-    overflow-hidden
-    h-[140px] sm:h-[200px]
-  "
-          style={{
-            backgroundImage:
-              "linear-gradient(-12deg, transparent 28%, rgba(113,113,113,0.45) 82%)",
-          }}
-        >
-          {/* LEFT IMAGES */}
-          <div className="relative flex-shrink-0 h-[120px] sm:h-[180px] w-[140px] sm:w-[190px]">
-            <img
-              src={bonusBadge}
-              alt=""
-              className="w-20 sm:w-40 mx-auto"
-            />
-            <img
-              src={bonusAngel}
-              alt=""
-              className="w-40 sm:w-60 -mt-8 sm:-mt-12"
-            />
-          </div>
-
-          {/* CENTER CONTENT */}
-          <div className="flex-1 w-full">
-            <h2 className="text-xl sm:text-3xl font-extrabold text-primary">
-              VIP 0
-            </h2>
-
-            {/* PROGRESS BAR */}
-            <div className="mt-3 sm:mt-4 bg-black/30 rounded-full h-2 sm:h-3 overflow-hidden">
-              <div className="h-full w-[5%] bg-primary" />
-            </div>
-
-            <div className="flex justify-between text-[10px] sm:text-xs text-muted-foreground mt-2">
-              <span>0 XP</span>
-              <span>1 XP</span>
-            </div>
-
-            <p className="text-[10px] sm:text-xs text-muted-foreground mt-1">
-              1 XP until VIP 1
-            </p>
-          </div>
-
-          {/* RIGHT ACTION */}
-          <button
-            onClick={() => setOpen(true)}
-            className="
-      absolute right-4 top-4
-      px-3 sm:px-4 py-1.5 sm:py-2
-      rounded-lg
-      bg-primary text-black
-      text-[10px] sm:text-xs font-semibold
-    "
-          >
-            View Level Up Detail
-          </button>
-        </div>
+          )}
+        </div> 
+        
 
         {open && <VipModal onClose={() => setOpen(false)} />}
 

@@ -394,7 +394,7 @@ const WalletPage = ({ isLoggedIn, setIsLoggedIn }: WalletPageProps) => {
                       </div>
                       <div className="flex items-center gap-2 p-2 bg-destructive/10 rounded-lg text-destructive text-sm">
                         <Info className="w-4 h-4 flex-shrink-0" />
-                        Send only BC to this deposit address. Transfers below 100 BC will not be credited.
+                        Send only Rellbet to this deposit address. Transfers below 100 Rellbet will not be credited.
                       </div>
                     </div>
                   </div>
