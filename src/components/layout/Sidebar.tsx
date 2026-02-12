@@ -445,7 +445,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
 
           {/* Token Price */}
           {!isCollapsed ? (
-            <div onClick={goLiveStats} className="mx-2 mt-3 p-3 b-radius bg-sidebar-accent flex items-center gap-3 cursor-pointer">
+            <div onClick={goLiveStats} className="mx-2 mt-4 p-3 b-radius bg-sidebar-accent flex items-center gap-3 cursor-pointer">
               <div className="flex items-center justify-center">
                 <img src={logo} alt="logo" className="w-6 h-6" />
               </div>
@@ -461,17 +461,17 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                             className="w-5 h-5 object-contain"
                           /> */}
                   <p className="text-xs text-muted-foreground">$0.00777</p>
-                  <button
+                   <button
                     onClick={(e) => {
                       e.stopPropagation();
                     }}
                     className={cn(
-                      "ml-auto flex items-center justify-center",
+                      "ml-auto flex items-center justify-center -mt-2",
                       "w-5 h-5 rounded-lg bg-[#1A2C38] hover:bg-[#223a4a] transition",
                       expandedItems.includes("0") && "rotate-180"
                     )}
                   >
-                    <ChevronDown className="w-4 h-4" />
+                    <ChevronRight className="w-5 h-5" />
                   </button>
                 </div>
 
@@ -590,7 +590,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                             expandedItems.includes(item.id) && "rotate-180"
                           )}
                         >
-                          <ChevronDown className="w-4 h-4" />
+                          <ChevronDown className="w-5 h-5" />
                         </button>
                       )}
                     </button>
@@ -710,9 +710,9 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                     <span className="flex-1 text-sm text-sidebar-foreground font-medium text-left">
                       {item.label}
                     </span>
-                    {item.external && (
+                    {/* {item.external && (
                       <ExternalLink className="w-4 h-4 text-muted-foreground" />
-                    )}
+                    )} */}
                   </button>
                 )
               ))}
@@ -806,7 +806,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                             expandedItems.includes(item.id) && "rotate-180"
                           )}
                         >
-                          <ChevronDown className="w-4 h-4" />
+                          <ChevronDown className="w-5 h-5" />
                         </button>
 
                       )}

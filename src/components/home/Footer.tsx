@@ -15,7 +15,7 @@ const Footer = () => {
 
 
   return (
-    <footer className="bg-sidebar border-t border-border/30 mx-0.5 p-0.5 sm:mx-6 sm:p-4">
+    <footer className="bg-sidebar border-t border-border/30 mx-0.5 p-0.5 sm:p-4">
 
       <div className="py-1 lg:py-4">
 
@@ -135,14 +135,16 @@ const Footer = () => {
         {/* Bottom Section */}
         <div className="flex flex-col lg:flex-row items-center justify-between gap-4 pt-6 mx-2">
           <div className="flex flex-col gap-1">
-            <div className="flex"><img src={bcLogo} alt="Rellbet" className="h-5 w-7 pr-2" /> <span>Rellbet</span></div>
-            <div className="text-[10px] text-muted-foreground max-w-md">
+            <div className="flex"><img src={bcLogo} alt="Rellbet" className="h-8 w-10 pr-2" /> <span className="text-xl font-bold">Rellbet</span></div>
+            <div className="text-[12px] text-muted-foreground max-w-md font-bold">
               Rellbet offers an entertaining gaming experience that may involve certain risks.  You must be at least 18 years old to use this site.              </div>
           </div>
-          <div className="text-[10px] text-muted-foreground max-w-md pt-4">
+          <div className="flex flex-col gap-1">
+        <div className="flex"><img src={bcLogo} alt="Rellbet" className="h-8 w-10 pr-2" /> <span className="text-xl font-bold">Rellbet</span></div>
+            <div className="text-[12px] text-muted-foreground max-w-md font-bold">
             Rellbet is operated by Rell Corporation.  Unauthorized use, copying, or distribution of any content is strictly prohibited.            </div>
         </div>
-
+</div>
         {/* Copyright */}
         <div className="text-center pt-6 border-t border-border/30 mt-2">
           <p className="text-[10px] text-muted-foreground">

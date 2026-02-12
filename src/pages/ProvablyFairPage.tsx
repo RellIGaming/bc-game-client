@@ -11,12 +11,12 @@ const ProvablyFairPage = () => {
   const [activeItem, setActiveItem] = useState("Provably Fair");
   const [selectedGame, setSelectedGame] = useState("Crash");
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <div className="max-w-5xl mx-auto px-1 py-8">
-        <h1 className="text-2xl font-bold mb-6">Help Center</h1>
-        <div className="flex flex-col lg:flex-row gap-6">
+   <div className="min-h-screen bg-background">
+      <div className="max-w-7xl mx-auto px-4 py-8 ">
+        <h1 className="text-lg font-bold mb-4 lg:sticky">Help Center</h1>
+       <div className="flex flex-col lg:flex-row gap-6">
           {/* Sidebar */}
-          <div className="lg:w-64 shrink-0">
+          <div className="lg:w-64">
             <div className="bg-card rounded-lg p-2 space-y-0.5 lg:sticky lg:top-20">
               {sidebarItems.map((item) => (
                 <button
@@ -35,8 +35,8 @@ const ProvablyFairPage = () => {
             </div>
           </div>
           {/* Content */}
-          <div className="flex-1">
-            <div className="bg-card rounded-lg p-6 space-y-6">
+          <div className="flex-1 min-w-0">
+            <div className="bg-card rounded-lg p-6 space-y-6 ">
               {activeItem === "Provably Fair" && (
                 <>
                   <div className="flex items-center gap-3 mb-4">
