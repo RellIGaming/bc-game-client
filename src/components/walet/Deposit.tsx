@@ -71,8 +71,8 @@ const Deposit = ({ variant = "page" }: DepositProps) => {
                         <button
                             onClick={() => setDepositTab("crypto")}
                             className={cn(
-                                "flex-1 py-2 text-sm font-medium transition-colors",
-                                depositTab === "crypto" ? "bg-secondary text-foreground" : "bg-card text-muted-foreground"
+                                "flex-1 py-2 text-sm font-medium transition-colors rounded-lg",
+                                depositTab === "crypto" ? "bg-primary text-foreground" : "bg-card text-muted-foreground"
                             )}
                         >
                             Crypto
@@ -80,8 +80,8 @@ const Deposit = ({ variant = "page" }: DepositProps) => {
                         <button
                             onClick={() => setDepositTab("fiat")}
                             className={cn(
-                                "flex-1 py-2 text-sm font-medium transition-colors",
-                                depositTab === "fiat" ? "bg-secondary text-primary-foreground" : "bg-card text-muted-foreground"
+                                "flex-1 py-2 text-sm font-medium transition-colors rounded-lg",
+                                depositTab === "fiat" ? "bg-primary text-primary-foreground" : "bg-card text-muted-foreground"
                             )}
                         >
                             Fiat
@@ -138,7 +138,7 @@ const Deposit = ({ variant = "page" }: DepositProps) => {
                                     key={crypto.id}
                                     onClick={() => setSelectedCrypto(crypto.id)}
                                     className={cn(
-                                        "flex items-center gap-2 px-3 py-2 rounded-full text-sm transition-colors",
+                                        "flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-colors",
                                         selectedCrypto === crypto.id
                                             ? "bg-secondary text-foreground"
                                             : "bg-card text-muted-foreground hover:bg-secondary/50"
@@ -148,7 +148,7 @@ const Deposit = ({ variant = "page" }: DepositProps) => {
                                     {crypto.name}
                                 </button>
                             ))}
-                            <button className="flex items-center gap-1 px-3 py-2 rounded-full text-sm text-muted-foreground">
+                            <button className="flex items-center gap-1 px-3 py-2 rounded-lg text-sm text-muted-foreground">
                                 More <ChevronDown className="w-4 h-4" />
                             </button>
                         </div>

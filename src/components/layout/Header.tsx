@@ -56,7 +56,7 @@ const Header = ({
 
   const handleLogoClick = () => {
     navigate("/");
-    window.location.reload();
+    // window.location.reload();
   };
 
   return (

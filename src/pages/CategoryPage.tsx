@@ -114,7 +114,7 @@ const categoryTitles: Record<string, string> = {
   "hot-games": "Hot Games",
   "new-releases": "New Releases",
   "blackjack": "Blackjack",
-  "roulette": "Roulette",
+  "themes": "Themes",
   "baccarat": "Baccarat",
   "poker": "Poker",
   "bingo": "Bingo",

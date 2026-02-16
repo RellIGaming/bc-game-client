@@ -4,6 +4,18 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import bonusBadge from "../assets/images/badge-bonus.png";
 import bonusAngel from "../assets/images/angle-bonus.png";
+import bonusDaily from "../assets/images/daily-bonus-calendar.png";
+import rockBack from "../assets/images/bcd-roclback.png";
+import telegram from "../assets/images/telegram-bonus.png";
+import luckySpin from "../assets/images/lucky-spin.png";
+import quest from "../assets/images/quest-bonus.png";
+import challenge from "../assets/images/challenge.png";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { DailyBonusModal } from "@/components/bonus/DailyBonusModal";
+import { WagerContributionModal } from "@/components/bonus/WagerContributionModal";
+import { BcdRakebackModal } from "@/components/bonus/BcdRakebackModal";
+import { LuckySpinModal } from "@/components/bonus/LuckySpinModal";
+import { VaultProModal } from "@/components/bonus/VaultProModal";
 
 const monthlyTiers = [
   { pct: "180%", active: true },
@@ -17,19 +29,84 @@ const vipBonusItems = [
   { icon: "⚽", title: "Sports Weekly Cashback", desc: "Up to $1,000 every Saturday" },
   { icon: "🔄", title: "Recharge Boost", desc: "Earned bonus credits with every reload" },
   { icon: "🌮", title: "Taco Tuesday", desc: "Snap your exclusive Taco Bonus every Tuesday" },
+
 ];
 const generalBonuses = [
-  { icon: "☀️", title: "Daily Bonus", desc: "Available at VIP 2", action: null },
-  { icon: "🪙", title: "BCD Rakeback", desc: "Locked BCD: 1 BCD\nUnlock Rate: 20%\nReady to claim: 0 BCD", countdown: "Claim in 10h 13m 59s", action: "Claim" },
-  { icon: "📱", title: "Telegram Subscription", desc: "Connect your TG account, join our TG channel to claim more daily bonuses!", badge: "Earn 2 BCD Bonus", action: "Go Verify" },
-  { icon: "🎯", title: "Quests", desc: "Daily Quests: 0/3\nWeekly Quests: 0/1", action: "Claim" },
-  { icon: "🏆", title: "Challenge", desc: "Challenges com...: 0/4\nMy rewards: 0 BCD", action: "View" },
-  { icon: "🎰", title: "Lucky Spin", desc: "VIP Spin: Reach VIP 8\nDaily Spin: ₹0.00/₹18,104.89", action: "Claim" },
-  { icon: "🏦", title: "Vault Pro", desc: "My Holdings: ₹0.00\nTotal Return: ₹0.00", action: "Transfer In" },
+  {
+    icon: bonusDaily,
+    title: "Daily Bonus",
+    lockedText: "Available at VIP 2",
+    action: null,
+  },
+  {
+    icon: rockBack,
+    title: "BCD Rakeback",
+    stats: [
+      { label: "Locked BCD:", value: "1 BCD" },
+      { label: "Unlock Rate:", value: "20%" },
+      { label: "Ready to claim:", value: "0 BCD" },
+    ],
+    countdown: "Claim in 17h 33m 45s",
+    action: "Claim",
+  },
+  {
+    icon: telegram,
+    title: "Telegram Subscription",
+    badge: "Earn 2 BCD Bonus",
+    description:
+      "Connect your TG account, join our TG channel to claim more daily bonuses!",
+    action: "Go Verify",
+  },
+  {
+    icon: quest,
+    title: "Quests",
+    stats: [
+      { label: "Daily Quests:", value: "0/3" },
+      { label: "Weekly Quests:", value: "0/1" },
+    ],
+    action: "Claim",
+  },
+  {
+    icon: challenge,
+    title: "Challenge",
+    stats: [
+      { label: "Challenges completed:", value: "0/6" },
+      { label: "My rewards:", value: "0 BCD" },
+    ],
+    action: "View",
+  },
+  {
+    icon: luckySpin,
+    title: "Lucky Spin",
+    stats: [
+      { label: "VIP Spin:", value: "Reach VIP 8" },
+      { label: "Daily Spin:", value: "₹0.00/₹18,134.87" },
+    ],
+    action: "Claim",
+  },
+  {
+    icon: luckySpin,
+    title: "Vault Pro",
+    stats: [
+      { label: "My Holdings:", value: "₹0.00" },
+      { label: "Total Return:", value: "₹0.00" },
+    ],
+    action: "Transfer In",
+  },
 ];
+type ModalType =
+  | "daily"
+  | "bcd"
+  | "lucky"
+  | "vault"
+  | "wager"
+  | null;
+
 const BonusPage = () => {
+  const [activeModal, setActiveModal] = useState<ModalType>(null);
   const [redeemCode, setRedeemCode] = useState("");
   const [open, setOpen] = useState(false);
+ 
   return (
     <div className="min-h-screen bg-background text-foreground">
       <div className="max-w-5xl mx-auto px-1 py-8 space-y-8">
@@ -113,22 +190,7 @@ const BonusPage = () => {
 
         {/* MODAL */}
         {open && <VipModal onClose={() => setOpen(false)} />}
-        {/* Connect Wallet Banner */}
-        {/* <div className="bg-card rounded-lg p-4 flex flex-wrap items-center gap-4">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary">💳</div>
-            <div>
-              <p className="font-semibold text-sm">Connect Cwallet to Earn Bonus</p>
-              <p className="text-xs text-primary">ℹ️ What Is Cwallet?</p>
-            </div>
-          </div>
-          <div className="flex flex-wrap items-center gap-4 ml-auto text-xs text-muted-foreground">
-            <span>⚡ Instant Payment</span>
-            <span>💸 Zero Fee</span>
-            <span>🎁 Withdraw Bonus</span>
-            <Button size="sm" className="bg-primary text-primary-foreground text-xs">Connect Now</Button>
-          </div>
-        </div> */}
+
 
         {/* Total Bonus & Monthly Deposit */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
@@ -162,56 +224,85 @@ const BonusPage = () => {
             <p className="text-xs text-muted-foreground text-center mt-2">💎 Deposit bonus will be added to your 🪙 Rakeback</p>
           </div>
         </div>
-        {/* VIP Bonus */}
-        {/* <div className="bg-card rounded-lg p-6">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-4">
-              <div className="w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center text-3xl">✅</div>
-              <div>
-                <h3 className="font-bold text-lg">VIP 0</h3>
-                <div className="w-48 bg-secondary rounded-full h-2 mt-2">
-                  <div className="bg-primary h-2 rounded-full" style={{ width: "0%" }} />
-                </div>
-                <p className="text-xs text-muted-foreground mt-1">0 XP &nbsp;&nbsp; 1 XP</p>
-              </div>
-            </div>
-            <button className="text-primary text-sm">View Level Up Details</button>
-          </div>
-          <h4 className="font-semibold text-sm mb-3">Hit VIP 22 - Your Bonus Buffet Awaits!</h4>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            {vipBonusItems.map((item, i) => (
-              <div key={i} className="bg-secondary rounded-lg p-3 flex items-start gap-2">
-                <span className="text-lg">{item.icon}</span>
-                <div>
-                  <p className="text-sm font-medium">{item.title}</p>
-                  <p className="text-xs text-muted-foreground">{item.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className="mt-4 text-center">
-            <p className="text-xs text-muted-foreground">Total VIP Bonus Claimed: <span className="text-foreground">₹0.00</span></p>
-            <p className="text-xs text-muted-foreground">1XP until VIP 1</p>
-            <p className="text-primary text-xs mt-1">Bet in APP to Claim 1.5 x XP</p>
-          </div>
-        </div> */}
+
         {/* General Bonus */}
         <div>
           <h2 className="text-xl font-bold mb-4">General Bonus</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {generalBonuses.map((bonus, i) => (
-              <div key={i} className="bg-card rounded-lg p-4 flex flex-col">
-                <div className="flex items-center justify-between mb-3">
-                  <div className="text-3xl">{bonus.icon}</div>
-                  <Info className="w-4 h-4 text-muted-foreground" />
+              <div key={i} className="bg-card rounded-lg p-2 flex flex-col h-full">
+                {bonus.title !== "Telegram Subscription" &&
+                  bonus.title !== "Quests" &&
+                  bonus.title !== "Challenge" && (
+                    <button
+                      onClick={() => {
+                        if (bonus.title === "Daily Bonus") {
+                          setActiveModal("daily");
+                        } else if (bonus.title === "BCD Rakeback") {
+                          setActiveModal("bcd");
+                        } else if (bonus.title === "Lucky Spin") {
+                          setActiveModal("lucky");
+                        } else if (bonus.title === "Vault Pro") {
+                          setActiveModal("vault");
+                        }
+                      }}
+                    >
+                      <Info className="w-4 h-4 text-muted-foreground ml-auto" />
+                    </button>
+                  )}
+                <div className="flex items-center justify-center mb-2">
+                  <img src={bonus.icon} alt="icon" className="w-24 h-24" />
                 </div>
-                <h4 className="font-semibold text-sm mb-1">{bonus.title}</h4>
-                {bonus.badge && <span className="text-xs text-primary bg-primary/10 px-2 py-0.5 rounded w-fit mb-1">{bonus.badge}</span>}
-                <p className="text-xs text-muted-foreground whitespace-pre-line flex-1">{bonus.desc}</p>
-                {bonus.countdown && <p className="text-xs text-muted-foreground mt-2"><Clock className="w-3 h-3 inline mr-1" />{bonus.countdown}</p>}
-                {bonus.action && (
-                  <Button size="sm" className="mt-3 w-full bg-primary text-primary-foreground text-xs">{bonus.action}</Button>
-                )}
+                <h4 className="font-bold text-sm mb-2 flex items-center justify-center">{bonus.title}</h4>
+                <div className="bg-background rounded-lg p-2 flex flex-col flex-1">
+
+                  {/* Badge */}
+                  {bonus.badge && (
+                    <span className="text-xs text-primary bg-primary/10 px-2 py-0.5 rounded w-fit mb-2">
+                      {bonus.badge}
+                    </span>
+                  )}
+
+                  {/* Locked Text */}
+                  {bonus.lockedText && (
+                    <p className="text-xs text-muted-foreground mb-2">
+                      🔒 {bonus.lockedText}
+                    </p>
+                  )}
+
+                  {/* Description */}
+                  {bonus.description && (
+                    <p className="text-xs text-muted-foreground mb-2">
+                      {bonus.description}
+                    </p>
+                  )}
+
+                  {/* Stats (Label + Value aligned like image) */}
+                  {bonus.stats &&
+                    bonus.stats.map((stat, index) => (
+                      <div key={index} className="flex justify-between text-xs text-muted-foreground mb-2">
+                        <span>{stat.label}</span>
+                        <span className="font-medium text-foreground">{stat.value}</span>
+                      </div>
+                    ))}
+
+                  {/* Countdown */}
+                  {bonus.countdown && (
+                    <p className="text-xs text-muted-foreground mt-2 flex items-center mb-2">
+                      <Clock className="w-3 h-3 mr-1" />
+                      {bonus.countdown}
+                    </p>
+                  )}
+                  {bonus.action && (
+                    <Button
+                      size="sm"
+                      className="mt-auto w-full bg-primary text-primary-foreground text-xs"
+                    >
+                      {bonus.action}
+                    </Button>
+                  )}
+                </div>
+
               </div>
             ))}
           </div>
@@ -220,22 +311,84 @@ const BonusPage = () => {
           <h2 className="text-xl font-bold mb-4">VIP Bonus</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {generalBonuses.map((bonus, i) => (
-              <div key={i} className="bg-card rounded-lg p-4 flex flex-col">
-                <div className="flex items-center justify-between mb-3">
-                  <div className="text-3xl">{bonus.icon}</div>
-                  <Info className="w-4 h-4 text-muted-foreground" />
+              <div key={i} className="bg-card rounded-lg p-2 flex flex-col h-full">
+                {bonus.title !== "Telegram Subscription" &&
+                  bonus.title !== "Quests" &&
+                  bonus.title !== "Challenge" && (
+                    <button
+                      onClick={() => {
+                        if (bonus.title === "Daily Bonus") {
+                          setActiveModal("daily");
+                        } else if (bonus.title === "BCD Rakeback") {
+                          setActiveModal("bcd");
+                        } else if (bonus.title === "Lucky Spin") {
+                          setActiveModal("lucky");
+                        } else if (bonus.title === "Vault Pro") {
+                          setActiveModal("vault");
+                        }
+                      }}
+                    >
+                      <Info className="w-4 h-4 text-muted-foreground ml-auto" />
+                    </button>
+                  )}
+                <div className="flex items-center justify-center mb-2">
+                  <img src={bonus.icon} alt="icon" className="w-24 h-24" />
                 </div>
-                <h4 className="font-semibold text-sm mb-1">{bonus.title}</h4>
-                {bonus.badge && <span className="text-xs text-primary bg-primary/10 px-2 py-0.5 rounded w-fit mb-1">{bonus.badge}</span>}
-                <p className="text-xs text-muted-foreground whitespace-pre-line flex-1">{bonus.desc}</p>
-                {bonus.countdown && <p className="text-xs text-muted-foreground mt-2"><Clock className="w-3 h-3 inline mr-1" />{bonus.countdown}</p>}
-                {bonus.action && (
-                  <Button size="sm" className="mt-3 w-full bg-primary text-primary-foreground text-xs">{bonus.action}</Button>
-                )}
+                <h4 className="font-bold text-sm mb-2 flex items-center justify-center">{bonus.title}</h4>
+                <div className="bg-background rounded-lg p-2 flex flex-col flex-1">
+
+                  {/* Badge */}
+                  {bonus.badge && (
+                    <span className="text-xs text-primary bg-primary/10 px-2 py-0.5 rounded w-fit mb-2">
+                      {bonus.badge}
+                    </span>
+                  )}
+
+                  {/* Locked Text */}
+                  {bonus.lockedText && (
+                    <p className="text-xs text-muted-foreground mb-2">
+                      🔒 {bonus.lockedText}
+                    </p>
+                  )}
+
+                  {/* Description */}
+                  {bonus.description && (
+                    <p className="text-xs text-muted-foreground mb-2">
+                      {bonus.description}
+                    </p>
+                  )}
+
+                  {/* Stats (Label + Value aligned like image) */}
+                  {bonus.stats &&
+                    bonus.stats.map((stat, index) => (
+                      <div key={index} className="flex justify-between text-xs text-muted-foreground mb-2">
+                        <span>{stat.label}</span>
+                        <span className="font-medium text-foreground">{stat.value}</span>
+                      </div>
+                    ))}
+
+                  {/* Countdown */}
+                  {bonus.countdown && (
+                    <p className="text-xs text-muted-foreground mt-2 flex items-center mb-2">
+                      <Clock className="w-3 h-3 mr-1" />
+                      {bonus.countdown}
+                    </p>
+                  )}
+                  {bonus.action && (
+                    <Button
+                      size="sm"
+                      className="mt-auto w-full bg-primary text-primary-foreground text-xs"
+                    >
+                      {bonus.action}
+                    </Button>
+                  )}
+                </div>
+
               </div>
             ))}
           </div>
         </div>
+
         {/* Special Bonus */}
         <div>
           <h2 className="text-xl font-bold mb-4">Special Bonus</h2>
@@ -244,6 +397,31 @@ const BonusPage = () => {
             <p className="text-muted-foreground">Stay tuned—something's coming!</p>
           </div>
         </div>
+        {/* Daily Modal */}
+        <DailyBonusModal
+          open={activeModal === "daily"}
+          onOpenChange={() => setActiveModal(null)}
+          onOpenWager={() => setActiveModal("wager")}
+        />
+
+        {/* Wager Modal */}
+        <WagerContributionModal
+          open={activeModal === "wager"}
+          onOpenChange={() => setActiveModal(null)}
+        />
+        <BcdRakebackModal
+          open={activeModal === "bcd"}
+          onOpenChange={() => setActiveModal(null)}
+          onOpenWager={() => setActiveModal("wager")}
+        />
+        <LuckySpinModal
+          open={activeModal === "lucky"}
+          onOpenChange={() => setActiveModal(null)}
+        />
+        <VaultProModal
+          open={activeModal === "vault"}
+          onOpenChange={() => setActiveModal(null)}
+        />
       </div>
     </div>
   );

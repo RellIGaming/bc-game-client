@@ -73,8 +73,8 @@ const DepositDropdown = ({ isOpen, onClose, onDeposit }: DepositDropdownProps) =
               <button
                 onClick={() => setDepositTab("deposit")}
                 className={cn(
-                  "flex-1 py-3 text-sm font-medium transition-colors",
-                  depositTab === "deposit" ? "bg-secondary text-foreground" : "bg-card text-muted-foreground"
+                  "flex-1 py-1 text-sm font-medium transition-colors rounded-lg",
+                  depositTab === "deposit" ? "bg-primary text-foreground" : "bg-card text-muted-foreground"
                 )}
               >
                 Deposit Balance
@@ -82,8 +82,8 @@ const DepositDropdown = ({ isOpen, onClose, onDeposit }: DepositDropdownProps) =
               <button
                 onClick={() => setDepositTab("bonus")}
                 className={cn(
-                  "flex-1 py-3 text-sm font-medium transition-colors",
-                  depositTab === "bonus" ? "bg-primary text-primary-foreground" : "bg-card text-muted-foreground"
+                  "flex-1 py-1 text-sm font-medium transition-colors rounded-lg",
+                  depositTab === "bonus" ? "bg-primary text-foreground" : "bg-card text-muted-foreground"
                 )}
               >
                 Bonus Balance
