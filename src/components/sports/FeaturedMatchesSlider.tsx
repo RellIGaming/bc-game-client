@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Dot } from "lucide-react";
 
 const matches = [
  {
@@ -85,7 +85,9 @@ const FeaturedMatchesSlider = () => {
 
   return (
     <div className="relative w-full overflow-hidden">
-
+<div className="flex- flex-row mb-2">
+  <p className="text-lg font-bold">Live</p>
+</div>
       {/* Slider Track */}
       <div
         className="flex transition-transform duration-700 ease-in-out gap-4"

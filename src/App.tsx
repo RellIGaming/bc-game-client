@@ -9,7 +9,6 @@ import NotFound from "./pages/NotFound";
 import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
 import { useState } from "react";
-import LiveStats from "./components/home/LiveStats";
 import CasinoPage from "./pages/CasinoPage";
 import GameDetailPage from "./pages/GameDetailPage";
 import WalletPage from "./pages/WalletPage";
@@ -26,6 +25,9 @@ import SponsorshipPage from "./pages/SponsorshipPage";
 import PromotionsPage from "./pages/PromotionsPage";
 import DailyContestPage from "./pages/DailyContestPage";
 import WeeklyRafflePage from "./pages/WeeklyRafflePage";
+import QuestHubPage from "./components/bonus/QuestHubPage";
+import ChallengePage from "./components/bonus/ChallengePage";
+import LiveStats from './pages/LiveStats';
 
 const queryClient = new QueryClient();
 
@@ -61,6 +63,8 @@ const App = () => {
               <Route path="/category/promotions" element={<PromotionsPage />} />
               <Route path="/category/daily" element={<DailyContestPage />} />
               <Route path="/category/lucky" element={<WeeklyRafflePage />} />
+              <Route path="/quest-hub" element={<QuestHubPage />} />
+              <Route path="/challenge" element={<ChallengePage />} />
             </Route>
             <Route path="/admin-login" element={<AdminLogin />} />
             <Route path="/admin" element={<AdminDashboard />} />

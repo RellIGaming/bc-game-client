@@ -90,7 +90,7 @@ const SportsCategoryTabs = ({ showSearch, setShowSearch }: SportsCategoryTabsPro
   const hasMore = afterDivider.length > (isMobile ? 2 : 8);
 
   return (
-    <div className="relative">
+    <div className="relative sticky top-0 z-50">
       {/* STICKY TABS SECTION */}
       <div className="flex items-center gap-1 p-2 bg-card rounded-lg overflow-x-auto scrollbar-hide">
         {/* First 3 icons */}

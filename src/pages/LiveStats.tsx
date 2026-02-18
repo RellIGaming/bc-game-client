@@ -3,14 +3,8 @@ import { Area, AreaChart, ResponsiveContainer, XAxis, YAxis, Tooltip } from "rec
 import { FileText, Vault, Ticket, ExternalLink, Info, TrendingDown, TrendingUp, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import Header from "@/components/layout/Header";
 import Blogo from "../assets/images/logo.png";
-import Sidebar from "@/components/layout/Sidebar";
-import MobileNav from "@/components/layout/MobileNav";
-import LanguageCurrencyModal from "@/components/layout/LanguageCurrencyModal";
-
-
-
+// Mock chart data
 const chartData = [
   { time: "6", price: 0.00073 },
   { time: "8", price: 0.000725 },
@@ -38,26 +32,7 @@ const allBets = [
 const LiveStats = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
-  const [isDark, setIsDark] = useState(true);
-  const [showLanguageModal, setShowLanguageModal] = useState(false);
-  const [isLoggedIn] = useState(!!localStorage.getItem("token"));
   const [timeRange, setTimeRange] = useState("1H");
-  const [activeTab, setActiveTab] = useState("home");
-  const [showSearchModal, setShowSearchModal] = useState(false);
- const [currencyOpen, setCurrencyOpen] = useState(false);
-  const [chatOpen, setChatOpen] = useState(false);
-
-  const toggleSidebar = () => {
-    if (window.innerWidth < 1024) {
-      setIsSidebarOpen(!isSidebarOpen);
-    } else {
-      setIsSidebarCollapsed(!isSidebarCollapsed);
-    }
-  };
-
-  const handleMobileSidebarOpen = () => {
-    setIsSidebarOpen(true);
-  };
 
   const tokenStats = {
     price: "$0.00731",
@@ -84,45 +59,11 @@ const LiveStats = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Header
-        onMenuClick={toggleSidebar}
-        onSearchClick={() => setShowSearchModal(true)}
-        isSidebarCollapsed={isSidebarCollapsed}
-        onToggleCollapse={toggleSidebar}
-        isLoggedIn={isLoggedIn}
-        onSignInClick={() => {}}
-        onSignUpClick={() => {}}
-        onLogout={() => {}}
-        isDark={isDark}
-        onThemeToggle={() => setIsDark(!isDark)}
-        onLanguageClick={() => setShowLanguageModal(true)}
-         onCurrencyClick={() => setCurrencyOpen(true)}
-         onChatClick={() => setChatOpen(!chatOpen)}
-      />
-
-      <Sidebar
-        isOpen={isSidebarOpen}
-        isCollapsed={isSidebarCollapsed}
-        onClose={() => setIsSidebarOpen(false)}
-        isDark={isDark}
-        onThemeToggle={() => setIsDark(!isDark)}
-        onLanguageClick={() => setShowLanguageModal(true)}
-         onCurrencyClick={() => setCurrencyOpen(true)}
-       onChatClick={() => setChatOpen(chatOpen)}
-      />
-
-      <main
-        className={`pt-14 pb-16 lg:pb-0 transition-all duration-300 ${
-          isSidebarOpen && !isSidebarCollapsed
-            ? "lg:ml-60"
-            : isSidebarCollapsed
-            ? "lg:ml-[70px]"
-            : "lg:ml-0"
-        }`}
-      >
-        <div className="p-4 lg:p-6 space-y-6">
+    
+      <main>
+        <div className="px-1 lg:px-2 py-2 lg:py-4 space-y-4 lg:space-y-5">
           {/* Token Header Card */}
-          <div className="bg-card border border-border rounded-xl p-4 lg:p-6">
+          <div className="bg-card border border-border rounded-lg p-4 lg:p-6">
             <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
               <div className="flex items-center gap-4">
                   <img src={Blogo} alt="logo" className="w-12 h-12 lg:w-16 lg:h-16"/>
@@ -178,7 +119,7 @@ const LiveStats = () => {
 
             <TabsContent value="overview" className="space-y-6 mt-6">
               {/* Price Chart */}
-              <div className="bg-card border border-border rounded-xl p-4 lg:p-6">
+              <div className="bg-card border border-border rounded-lg p-4 lg:p-6">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
                   <div>
                     <div className="flex items-center gap-2">
@@ -251,7 +192,7 @@ const LiveStats = () => {
               {/* Token Stats Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 {/* Token Supply Card */}
-                <div className="bg-card border border-border rounded-xl p-4 col-span-1 md:col-span-2 lg:col-span-1">
+                <div className="bg-card border border-border rounded-lg p-4 col-span-1 md:col-span-2 lg:col-span-1">
                   <div className="flex items-center gap-4">
                     <div className="relative w-20 h-20">
                       <svg className="w-full h-full -rotate-90" viewBox="0 0 36 36">
@@ -304,7 +245,7 @@ const LiveStats = () => {
                 </div>
 
                 {/* Platform Stats Cards */}
-                <div className="bg-card border border-border rounded-xl p-4">
+                <div className="bg-card border border-border rounded-lg p-4">
                   <div className="flex items-center gap-2 text-xs text-muted-foreground mb-1">
                     <span className="w-2 h-2 rounded-full bg-primary" />
                     Total Wager
@@ -313,7 +254,7 @@ const LiveStats = () => {
                   <div className="text-xs text-muted-foreground">{platformStats.totalWagerLast24h}</div>
                 </div>
 
-                <div className="bg-card border border-border rounded-xl p-4">
+                <div className="bg-card border border-border rounded-lg p-4">
                   <div className="flex items-center gap-2 text-xs text-muted-foreground mb-1">
                     <span className="w-2 h-2 rounded-full bg-primary" />
                     Online
@@ -322,7 +263,7 @@ const LiveStats = () => {
                   <div className="text-xs text-muted-foreground">{platformStats.onlineLast24h}</div>
                 </div>
 
-                <div className="bg-card border border-border rounded-xl p-4">
+                <div className="bg-card border border-border rounded-lg p-4">
                   <div className="flex items-center gap-2 text-xs text-muted-foreground mb-1">
                     <span className="w-2 h-2 rounded-full bg-yellow-500" />
                     Bets
@@ -333,7 +274,7 @@ const LiveStats = () => {
               </div>
 
               {/* Win Amount Card */}
-              <div className="bg-card border border-border rounded-xl p-4">
+              <div className="bg-card border border-border rounded-lg p-4">
                 <div className="flex items-center gap-2 text-xs text-muted-foreground mb-1">
                   <span className="w-2 h-2 rounded-full bg-primary" />
                   Win Amount
@@ -343,7 +284,7 @@ const LiveStats = () => {
               </div>
 
               {/* Partner Logos */}
-              <div className="bg-card border border-border rounded-xl p-4">
+              <div className="bg-card border border-border rounded-lg p-4">
                 <div className="flex flex-wrap items-center justify-center gap-6 lg:gap-12 text-muted-foreground">
                   {["SOLSCAN", "CoinMarketCap", "OKX", "CoinGecko", "GMGN"].map((partner) => (
                     <div key={partner} className="text-sm font-medium hover:text-foreground transition-colors cursor-pointer">
@@ -354,7 +295,7 @@ const LiveStats = () => {
               </div>
 
               {/* All Bets Table */}
-              <div className="bg-card border border-border rounded-xl overflow-hidden">
+              <div className="bg-card border border-border rounded-lg overflow-hidden">
                 <div className="p-4 border-b border-border flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <h3 className="font-semibold text-foreground">All Bets</h3>
@@ -401,9 +342,8 @@ const LiveStats = () => {
                 </div>
               </div>
             </TabsContent>
-
             <TabsContent value="trade" className="mt-6">
-              <div className="bg-card border border-border rounded-xl p-8 text-center">
+              <div className="bg-card border border-border rounded-lg p-8 text-center">
                 <TrendingUp className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
                 <h3 className="text-xl font-semibold text-foreground mb-2">Trade Coming Soon</h3>
                 <p className="text-muted-foreground">Trading features will be available soon.</p>
@@ -411,7 +351,7 @@ const LiveStats = () => {
             </TabsContent>
 
             <TabsContent value="vault" className="mt-6">
-              <div className="bg-card border border-border rounded-xl p-8 text-center">
+              <div className="bg-card border border-border rounded-lg p-8 text-center">
                 <Vault className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
                 <h3 className="text-xl font-semibold text-foreground mb-2">Vault Pro</h3>
                 <p className="text-muted-foreground">Secure vault features coming soon.</p>
@@ -419,7 +359,7 @@ const LiveStats = () => {
             </TabsContent>
 
             <TabsContent value="lottery" className="mt-6">
-              <div className="bg-card border border-border rounded-xl p-8 text-center">
+              <div className="bg-card border border-border rounded-lg p-8 text-center">
                 <Ticket className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
                 <h3 className="text-xl font-semibold text-foreground mb-2">Lottery</h3>
                 <p className="text-muted-foreground">Lottery features coming soon.</p>
@@ -429,18 +369,6 @@ const LiveStats = () => {
         </div>
       </main>
 
-      <MobileNav 
-        onMenuClick={handleMobileSidebarOpen} 
-        onSearchClick={() => setShowSearchModal(true)}
-        onChatClick={() => {}}
-        activeTab={activeTab}
-        setActiveTab={setActiveTab}
-      />
-
-      <LanguageCurrencyModal
-        isOpen={showLanguageModal}
-        onClose={() => setShowLanguageModal(false)}
-      />
     </div>
   );
 };
