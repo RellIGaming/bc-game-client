@@ -1,111 +1,102 @@
 import {
-  Globe,
-  Home,
-  Notebook,
-  PlayIcon,
-  Search,
-  Signal,
-  Star,
-  X,
-  ChevronDown,
-  Gamepad2,
-  Trophy,
-  Bike,
-  Dribbble,
-  Target,
-  Swords,
-  Volleyball,
-  Table2,
-  Boxes,
-  Flame
+  Globe, Home, Notebook, Search, Signal, Star, ChevronDown,
+  Gamepad2, Trophy, Bike, Dribbble, Target, Swords, Volleyball,
+  Table2, Boxes, Flame
 } from "lucide-react";
 import React, { useState } from "react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
-import SearchSportsCategory from "./SearchSportsCategory";
+import { useNavigate } from "react-router-dom";
 
 const sportsCategory = [
-  { id: "1", icon: Home, label: "Home" },
-  { id: "2", icon: Signal, label: "Live", isLive: true },
-  { id: "3", icon: Star, label: "Favourites" },
-  { id: "divider", icon: null, label: "", isDivider: true },
-  { id: "4", icon: Notebook, label: "My Bets" },
-  { id: "5", icon: Globe, label: "Soccer" },
-  { id: "6", icon: Gamepad2, label: "Originals", hasNotification: true },
-  { id: "7", icon: Dribbble, label: "eSoccer" },
-  { id: "8", icon: Target, label: "Tennis" },
-  { id: "9", icon: Swords, label: "Boxing" },
-  { id: "10", icon: Trophy, label: "Basketball" },
-  { id: "11", icon: Volleyball, label: "Volleyball" },
-  { id: "12", icon: Table2, label: "Table Tennis" },
-  { id: "13", icon: Bike, label: "Racing" },
-  { id: "14", icon: Boxes, label: "Chess" },
-  { id: "15", icon: Flame, label: "MMA" },
+  { id: "home", icon: Home, label: "Home", sportKey: undefined },
+  { id: "live", icon: Signal, label: "Live", isLive: true, sportKey: undefined },
+  { id: "fav", icon: Star, label: "Favourites", sportKey: undefined },
+  { id: "divider", icon: null, label: "", isDivider: true, sportKey: undefined },
+  { id: "mybets", icon: Notebook, label: "My Bets", sportKey: undefined },
+  { id: "soccer", icon: Globe, label: "Soccer", sportKey: "soccer" },
+  { id: "originals", icon: Gamepad2, label: "Originals", hasNotification: true, sportKey: undefined },
+  { id: "esoccer", icon: Dribbble, label: "eSoccer", sportKey: "esoccer" },
+  { id: "tennis", icon: Target, label: "Tennis", sportKey: "tennis" },
+  { id: "boxing", icon: Swords, label: "Boxing", sportKey: "boxing" },
+  { id: "basketball", icon: Trophy, label: "Basketball", sportKey: "basketball" },
+  { id: "counter-strike", icon: Gamepad2, label: "Counter-Strike", sportKey: "counter-strike" },
+  { id: "volleyball", icon: Volleyball, label: "Volleyball", sportKey: "volleyball" },
+  { id: "table-tennis", icon: Table2, label: "Table Tennis", sportKey: "table-tennis" },
+  { id: "ice-hockey", icon: Boxes, label: "Ice Hockey", sportKey: "ice-hockey" },
+  { id: "dota2", icon: Swords, label: "Dota 2", sportKey: "dota2" },
+  { id: "mma", icon: Flame, label: "MMA", sportKey: "mma" },
+  { id: "handball", icon: Volleyball, label: "Handball", sportKey: "handball" },
+  { id: "racing", icon: Bike, label: "Racing", sportKey: "racing" },
 ];
 
 const dropdownCategories = [
-  { label: "Soccer", count: 719, icon: Globe },
-  { label: "GAME: Originals", count: 4, icon: Gamepad2 },
-  { label: "eSoccer", count: 113, icon: Dribbble },
-  { label: "Tennis", count: 245, icon: Target },
-  { label: "Basketball", count: 73, icon: Trophy },
-  { label: "Baseball", count: 3, icon: Swords },
-  { label: "Cricket", count: 36, icon: Volleyball },
-  { label: "Volleyball", count: 31, icon: Volleyball },
-  { label: "Predictions", count: 4, icon: Flame },
-  { label: "Ice Hockey", count: 95, icon: Boxes },
-  { label: "Boxing", count: 40, icon: Swords },
-  { label: "American Football", count: 9, icon: Trophy },
-  { label: "Table Tennis", count: 6, icon: Table2 },
-  { label: "eBasketball", count: 50, icon: Trophy },
-  { label: "Chess", count: 4, icon: Boxes },
+  { label: "Soccer", count: 719, icon: Globe, sportKey: "soccer" },
+  { label: "GAME: Originals", count: 4, icon: Gamepad2, sportKey: undefined },
+  { label: "eSoccer", count: 113, icon: Dribbble, sportKey: "esoccer" },
+  { label: "Tennis", count: 245, icon: Target, sportKey: "tennis" },
+  { label: "Basketball", count: 73, icon: Trophy, sportKey: "basketball" },
+  { label: "Counter-Strike", count: 43, icon: Gamepad2, sportKey: "counter-strike" },
+  { label: "Cricket", count: 36, icon: Volleyball, sportKey: "cricket" },
+  { label: "Volleyball", count: 31, icon: Volleyball, sportKey: "volleyball" },
+  { label: "Ice Hockey", count: 95, icon: Boxes, sportKey: "ice-hockey" },
+  { label: "Dota 2", count: 19, icon: Swords, sportKey: "dota2" },
+  { label: "Boxing", count: 40, icon: Swords, sportKey: "boxing" },
+  { label: "American Football", count: 9, icon: Trophy, sportKey: "american-football" },
+  { label: "Table Tennis", count: 6, icon: Table2, sportKey: "table-tennis" },
+  { label: "MMA", count: 15, icon: Flame, sportKey: "mma" },
+  { label: "Handball", count: 12, icon: Volleyball, sportKey: "handball" },
 ];
-
 
 interface SportsCategoryTabsProps {
   showSearch: boolean;
   setShowSearch: (value: boolean | ((prev: boolean) => boolean)) => void;
+  onCategorySelect?: (category: string) => void;
+  activeCategory?: string;
 }
 
-const SportsCategoryTabs = ({ showSearch, setShowSearch }: SportsCategoryTabsProps) => {
-  const [activeTab, setActiveTab] = useState("1");
-  const [query, setQuery] = useState("");
+const SportsCategoryTabs = ({ showSearch, setShowSearch, onCategorySelect, activeCategory }: SportsCategoryTabsProps) => {
   const [showDropdown, setShowDropdown] = useState(false);
-  const [activeSearchCategory, setActiveSearchCategory] = useState<{
-    category: string;
-    league: string;
-  } | null>(null);
-
   const [activeDropdownTab, setActiveDropdownTab] = useState<'sports' | 'esports' | 'racing'>('sports');
   const isMobile = useIsMobile();
+  const navigate = useNavigate();
 
-  // Desktop: show first 3, divider, then next icons until "More"
-  // Mobile: show first 3, divider, then 2 icons, then dropdown
+  const handleTabClick = (tab: typeof sportsCategory[0]) => {
+    if (tab.sportKey) {
+      onCategorySelect?.(tab.sportKey);
+    } else if (tab.id === 'home') {
+      navigate('/sports');
+    }
+  };
+
+  const handleDropdownClick = (cat: typeof dropdownCategories[0]) => {
+    if (cat.sportKey) {
+      onCategorySelect?.(cat.sportKey);
+      setShowDropdown(false);
+    }
+  };
+
   const visibleBeforeDivider = sportsCategory.slice(0, 3);
   const divider = sportsCategory.find(c => c.isDivider);
   const afterDivider = sportsCategory.filter(c => !c.isDivider && sportsCategory.indexOf(c) > 3);
-
-  const visibleAfterDivider = isMobile ? afterDivider.slice(0, 2) : afterDivider.slice(0, 8);
-  const hasMore = afterDivider.length > (isMobile ? 2 : 8);
+  const visibleAfterDivider = isMobile ? afterDivider.slice(0, 2) : afterDivider.slice(0, 10);
+  const hasMore = afterDivider.length > (isMobile ? 2 : 10);
 
   return (
-    <div className="relative sticky top-0 z-50">
-      {/* STICKY TABS SECTION */}
+    <div className="relative">
       <div className="flex items-center gap-1 p-2 bg-card rounded-lg overflow-x-auto scrollbar-hide">
-        {/* First 3 icons */}
         {visibleBeforeDivider.map((t) => {
           const Icon = t.icon;
           if (!Icon) return null;
-
           return (
             <Tooltip key={t.id}>
               <TooltipTrigger asChild>
                 <button
-                  onClick={() => setActiveTab(t.id)}
+                  onClick={() => handleTabClick(t)}
                   className={cn(
                     "flex items-center justify-center px-3 py-2 rounded-md text-sm font-medium transition-all whitespace-nowrap relative",
-                    activeTab === t.id
+                    (activeCategory === t.sportKey || (!activeCategory && t.id === 'home'))
                       ? "bg-primary text-primary-foreground"
                       : "bg-secondary hover:bg-primary/20 text-muted-foreground"
                   )}
@@ -117,31 +108,24 @@ const SportsCategoryTabs = ({ showSearch, setShowSearch }: SportsCategoryTabsPro
                   )}
                 </button>
               </TooltipTrigger>
-              <TooltipContent>
-                {t.label}
-              </TooltipContent>
+              <TooltipContent>{t.label}</TooltipContent>
             </Tooltip>
           );
         })}
 
-        {/* Vertical Divider */}
-        {divider && (
-          <div className="w-px h-6 bg-border mx-1" />
-        )}
+        {divider && <div className="w-px h-6 bg-border mx-1" />}
 
-        {/* Icons after divider */}
         {visibleAfterDivider.map((t) => {
           const Icon = t.icon;
           if (!Icon) return null;
-
           return (
             <Tooltip key={t.id}>
               <TooltipTrigger asChild>
                 <button
-                  onClick={() => setActiveTab(t.id)}
+                  onClick={() => handleTabClick(t)}
                   className={cn(
                     "flex items-center justify-center px-3 py-2 rounded-md text-sm font-medium transition-all whitespace-nowrap relative",
-                    activeTab === t.id
+                    activeCategory === t.sportKey
                       ? "bg-primary text-primary-foreground"
                       : "bg-secondary hover:bg-primary/20 text-muted-foreground"
                   )}
@@ -152,29 +136,23 @@ const SportsCategoryTabs = ({ showSearch, setShowSearch }: SportsCategoryTabsPro
                   )}
                 </button>
               </TooltipTrigger>
-              <TooltipContent>
-                {t.label}
-              </TooltipContent>
+              <TooltipContent>{t.label}</TooltipContent>
             </Tooltip>
           );
         })}
 
-        {/* More dropdown button */}
         {hasMore && (
           <button
             onClick={() => setShowDropdown(!showDropdown)}
             className={cn(
               "flex items-center gap-1 px-3 py-2 rounded-md text-sm font-medium transition-all",
-              showDropdown
-                ? "bg-primary text-primary-foreground"
-                : "bg-secondary hover:bg-primary/20 text-muted-foreground"
+              showDropdown ? "bg-primary text-primary-foreground" : "bg-secondary hover:bg-primary/20 text-muted-foreground"
             )}
           >
             <ChevronDown className={cn("w-4 h-4 transition-transform", showDropdown && "rotate-180")} />
           </button>
         )}
 
-        {/* Search Icon */}
         <button
           onClick={() => setShowSearch((prev) => !prev)}
           className="ml-auto px-3 py-2 rounded-md bg-secondary hover:bg-primary/20 transition-all text-muted-foreground"
@@ -183,10 +161,8 @@ const SportsCategoryTabs = ({ showSearch, setShowSearch }: SportsCategoryTabsPro
         </button>
       </div>
 
-      {/* Dropdown Menu */}
       {showDropdown && (
         <div className="absolute top-full left-0 right-0 mt-2 z-50 bg-card border border-border rounded-xl shadow-2xl overflow-hidden animate-fade-in">
-          {/* Tabs: Sports, Esports, Racing */}
           <div className="flex items-center justify-center gap-2 p-4 border-b border-border">
             {(['sports', 'esports', 'racing'] as const).map((tab) => (
               <button
@@ -194,9 +170,7 @@ const SportsCategoryTabs = ({ showSearch, setShowSearch }: SportsCategoryTabsPro
                 onClick={() => setActiveDropdownTab(tab)}
                 className={cn(
                   "px-6 py-2 rounded-full text-sm font-medium transition-all capitalize",
-                  activeDropdownTab === tab
-                    ? "bg-secondary text-foreground"
-                    : "text-muted-foreground hover:text-foreground"
+                  activeDropdownTab === tab ? "bg-secondary text-foreground" : "text-muted-foreground hover:text-foreground"
                 )}
               >
                 {tab}
@@ -207,17 +181,17 @@ const SportsCategoryTabs = ({ showSearch, setShowSearch }: SportsCategoryTabsPro
             </button>
           </div>
 
-          {/* Category Grid */}
-          <div className={cn(
-            "p-4 max-h-80 overflow-y-auto",
-            isMobile ? "grid grid-cols-1 gap-1" : "grid grid-cols-4 gap-x-8 gap-y-2"
-          )}>
+          <div className={cn("p-4 max-h-80 overflow-y-auto", isMobile ? "grid grid-cols-1 gap-1" : "grid grid-cols-4 gap-x-8 gap-y-2")}>
             {dropdownCategories.map((cat, index) => {
               const Icon = cat.icon;
               return (
                 <button
                   key={index}
-                  className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-secondary transition-colors text-left w-full"
+                  onClick={() => handleDropdownClick(cat)}
+                  className={cn(
+                    "flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-secondary transition-colors text-left w-full",
+                    activeCategory === cat.sportKey && "bg-primary/20"
+                  )}
                 >
                   <Icon className="w-5 h-5 text-muted-foreground" />
                   <span className="text-sm text-foreground flex-1">{cat.label}</span>
@@ -229,25 +203,8 @@ const SportsCategoryTabs = ({ showSearch, setShowSearch }: SportsCategoryTabsPro
         </div>
       )}
 
-      {/* Search page */}
-      {/* {showSearch && (
-        <SearchSportsCategory
-          activeCategory={activeSearchCategory}
-          onBack={() => {
-            setShowSearch(false);
-            setActiveSearchCategory(null);
-          }}
-          onSelectCategory={(cat) => setActiveSearchCategory(cat)}
-          onAddBet={handleAddBet}
-          selectedBets={selectedBetIds}
-        />
-      )} */}
-      {/* Click outside to close dropdown */}
       {showDropdown && (
-        <div
-          className="fixed inset-0 z-40"
-          onClick={() => setShowDropdown(false)}
-        />
+        <div className="fixed inset-0 z-40" onClick={() => setShowDropdown(false)} />
       )}
     </div>
   );

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { X, HelpCircle, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
+
 const leaderboardData = [
   { rank: 1, player: "Highlanderrr", wager: "₹393,085.88K", prize: "₹221,448.21 (50%)", medal: "🥇" },
   { rank: 2, player: "SH4NERonKic", wager: "₹84,812,001.06", prize: "₹110,724.10 (25%)", medal: "🥈" },
@@ -14,6 +15,7 @@ const leaderboardData = [
   { rank: 9, player: "Qekyegtplwcc", wager: "₹13,119,817.17", prize: "₹2,214.48 (0.5%)", hideRank: false },
   { rank: 10, player: "Hidden", wager: "₹12,424,242.13", prize: "₹1,771.58 (0.4%)", hideRank: false },
 ];
+
 const historyData = [
   { rank: 1, player: "Hidden", wager: "₹992,457.71K", prize: "₹3,132.16K (50%)", medal: "🥇" },
   { rank: 2, player: "Highlanderrr", wager: "₹718,213.71K", prize: "₹1,566.08K (25%)", medal: "🥈" },
@@ -26,11 +28,13 @@ const historyData = [
   { rank: 9, player: "buckmastterflex", wager: "₹152,178.48K", prize: "₹31.32K (0.5%)" },
   { rank: 10, player: "Adamir", wager: "₹131,333.81K", prize: "₹25.05K (0.4%)" },
 ];
+
 const rulesContent = [
   "The contest prize pool closely depends on the bankroll, the more players bet the bigger it grows. Current prize pool will be showed on the Contest page.",
   "10 most wagering players carve up the prize pool.",
   "This Contest support wagering in:",
 ];
+
 const rulesCurrencies = [
   "MATIC, COP, APT, UAH, IOTX, SHIB, KES, RAY, NEAR, WLD, HNT, FDUSD, FLOOR, GNF, DGB, BCD",
   "BSV, BCH, SUI, CAKE, POL, PYUSD, BTCB, TRY, GMT, BTC, TWT, ARB, GMX, TWD, XAF, A",
@@ -40,10 +44,12 @@ const rulesCurrencies = [
   "AVC, BBTC, PEN, TUSD, ENA, BOME, cbBTC, KHR, THETA, VSYS, ENJ, AED, TND, JMD, NEXO, TFUEL",
   "LUNA, AAVE, EURS, NGN, UNI, MDL, JitoSOL, NOK, PHP, GD, YFI, XTZ, HYPE, ELON, GM, INR",
 ];
+
 const DailyContestPage = () => {
   const [showHistory, setShowHistory] = useState(false);
   const [showRules, setShowRules] = useState(false);
   const [timeLeft, setTimeLeft] = useState({ hours: 23, minutes: 5, seconds: 2 });
+
   useEffect(() => {
     const timer = setInterval(() => {
       setTimeLeft((prev) => {
@@ -57,10 +63,12 @@ const DailyContestPage = () => {
     }, 1000);
     return () => clearInterval(timer);
   }, []);
+
   const pad = (n: number) => n.toString().padStart(2, "0");
+
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <div className=" max-w-5xl mx-auto px-1 sm:px-2 py-6 space-y-6">
+      <div className="max-w-5xl mx-auto px-3 sm:px-4 py-6 space-y-6">
         {/* Hero Section */}
         <div className="bg-card b-radius p-5 sm:p-6">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 items-center">
@@ -116,6 +124,7 @@ const DailyContestPage = () => {
             </div>
           </div>
         </div>
+
         {/* My Position */}
         <div className="bg-card b-radius p-4 flex flex-col sm:flex-row items-center gap-4">
           <div className="flex items-center gap-3 flex-1">
@@ -137,6 +146,7 @@ const DailyContestPage = () => {
             <span className="bg-secondary px-2 py-0.5 b-radius text-xs font-medium">Top 10</span>
           </p>
         </div>
+
         {/* Leaderboard */}
         <div className="space-y-3">
           <div className="flex items-center justify-between">
@@ -151,6 +161,7 @@ const DailyContestPage = () => {
               History <ChevronRight className="w-4 h-4" />
             </button>
           </div>
+
           {/* Table */}
           <div className="bg-card b-radius overflow-x-auto">
             <table className="w-full text-sm">
@@ -184,6 +195,7 @@ const DailyContestPage = () => {
           </div>
         </div>
       </div>
+
       {/* History Modal */}
       <Dialog open={showHistory} onOpenChange={setShowHistory}>
         <DialogContent className="p-0 max-w-lg max-h-[85vh] flex flex-col">
@@ -225,6 +237,7 @@ const DailyContestPage = () => {
           </div>
         </DialogContent>
       </Dialog>
+
       {/* Rules Modal */}
       <Dialog open={showRules} onOpenChange={setShowRules}>
         <DialogContent className="p-0 max-w-md max-h-[85vh] flex flex-col">
@@ -257,4 +270,5 @@ const DailyContestPage = () => {
     </div>
   );
 };
+
 export default DailyContestPage;

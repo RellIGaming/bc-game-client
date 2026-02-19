@@ -124,17 +124,18 @@ const menuItems = [
     hasSubmenu: true,
     path: "/sports",
     submenu: [
-      //  { id: "lobby", label: "Lobby", iconImg: Sparkles },
-      { id: "soccer", label: "Soccer", iconImg: soccer, path: "/sports", },
-      { id: "tennis", label: "Tennis", iconImg: tennis, path: "/sports", },
-      { id: "basketball", label: "Basketball", iconImg: basket, path: "/sports", },
-      { id: "cricket", label: "Cricket", iconImg: cricket, path: "/sports", },
-      { id: "fIFA", label: "FIFA", iconImg: fifa, path: "/sports", },
-      { id: "american Football", label: "American Football", iconImg: aFootball, path: "/sports", },
-      { id: "ice Hockey", label: "Ice Hockey", iconImg: fifa, path: "/sports", },
-      { id: "baseball", label: "Baseball", iconImg: basket, path: "/sports", },
-      { id: "handball", label: "Handball", iconImg: handball, path: "/sports", },
-      { id: "racing", label: "Racing", iconImg: racing, path: "/sports", },
+      { id: "soccer", label: "Soccer", iconImg: soccer, path: "/sports/soccer" },
+      { id: "tennis", label: "Tennis", iconImg: tennis, path: "/sports/tennis" },
+      { id: "basketball", label: "Basketball", iconImg: basket, path: "/sports/basketball" },
+      { id: "cricket", label: "Cricket", iconImg: cricket, path: "/sports/cricket" },
+      { id: "esoccer", label: "eSoccer", iconImg: fifa, path: "/sports/esoccer" },
+      { id: "counter-strike", label: "Counter-Strike", iconImg: fifa, path: "/sports/counter-strike" },
+      { id: "american-football", label: "American Football", iconImg: aFootball, path: "/sports/american-football" },
+      { id: "ice-hockey", label: "Ice Hockey", iconImg: iceHockey, path: "/sports/ice-hockey" },
+      { id: "dota2", label: "Dota 2", iconImg: basket, path: "/sports/dota2" },
+      { id: "handball", label: "Handball", iconImg: handball, path: "/sports/handball" },
+      { id: "mma", label: "MMA", iconImg: racing, path: "/sports/mma" },
+      { id: "racing", label: "Racing", iconImg: racing, path: "/sports/racing" },
     ],
   },
   // {
@@ -212,12 +213,15 @@ const extremBottom = [
     hasSubmenu: true,
     path: "/sponsorships",
     submenu: [
-      { id: "json", label: "Json Derulo", iconImg: joni, path: "/sponsorships", },
-      { id: "lilpump", label: "Lil Pump", iconImg: rell, path: "/sponsorships", },
-      { id: "miami", label: "Miami Club", iconImg: frost, path: "/sponsorships", },
-      { id: "sponship", label: "Sponsorship Journey", iconImg: bharat, path: "/sponsorships", },
-      { id: "colby covinton", label: "Colby Covinton", iconImg: legend, path: "/sponsorships", },
-      { id: "jean", label: "Jean Silva", iconImg: joni, path: "/sponsorships", },
+      { id: "json-derulo", label: "Jason Derulo", iconImg: joni, path: "/sponsorships/jason-derulo" },
+      { id: "lil-pump", label: "Lil Pump", iconImg: rell, path: "/sponsorships/lil-pump" },
+      { id: "miami-club", label: "Miami Club", iconImg: frost, path: "/sponsorships/miami-club" },
+      { id: "sponsorship-journey", label: "Sponsorship Journey", iconImg: bharat, path: "/sponsorships/journey" },
+      { id: "colby-covington", label: "Colby Covington", iconImg: legend, path: "/sponsorships/colby-covington" },
+      { id: "ohiggins", label: "O'Higgins", iconImg: nova, path: "/sponsorships/ohiggins" },
+      { id: "bc-esports", label: "BC Game Esports", iconImg: frost, path: "/sponsorships/bc-esports" },
+      { id: "kwara-united", label: "Kwara United", iconImg: bharat, path: "/sponsorships/kwara-united" },
+      { id: "leicester", label: "Leicester City", iconImg: legend, path: "/sponsorships/leicester" },
     ],
   }, {
     id: "live",
@@ -308,8 +312,28 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
       navigate(path);
     } else if (path === "casino" || path === "lobby") {
       navigate("/casino");
+    } else if (path === "promotions") {
+      navigate("/promotions");
+    } else if (path === "daily") {
+      navigate("/daily");
+    } else if (path === "lucky") {
+      navigate("/lucky");
+    } else if (path === "sponsorships") {
+      navigate("/sponsorships");
     } else {
       navigate(`/category/${path}`);
+    }
+    if (window.innerWidth < 1024) {
+      onClose();
+    }
+  };
+
+  // For submenu items that have their own path, navigate directly
+  const handleSubNavigate = (sub: any) => {
+    if (sub.path) {
+      navigate(sub.path);
+    } else {
+      handleNavigate(sub.id);
     }
     if (window.innerWidth < 1024) {
       onClose();
@@ -398,17 +422,11 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
   const openParentRoute = (item: any) => {
     if (item.id === "casino") navigate("/casino");
     else if (item.id === "sports") navigate("/sports");
-    else if (item.id === "promotions") {
-      navigate("/promotions");
-    } else if (item.id === "daily") {
-      navigate("/daily");
-    } else if (item.id === "lucky") {
-      navigate("/lucky");
-    } 
-     else if (item.id === "sponsorships") {
-      navigate("/category/sponsorships");
-    } 
-    else if (item.path) handleNavigate(item.path);
+    else if (item.id === "sponsorships") navigate("/sponsorships");
+    else if (item.id === "promotions") navigate("/promotions");
+    else if (item.id === "daily") navigate("/daily");
+    else if (item.id === "lucky") navigate("/lucky");
+    else if (item.path) handleNavigate(item.path, true);
   };
 
   return (
@@ -548,7 +566,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                           <Tooltip key={sub.id}>
                             <TooltipTrigger asChild>
                               <button
-                                onClick={() => handleNavigate(sub.id)}
+                                onClick={() => handleSubNavigate(sub)}
                                 className="bg-sidebar-accent transition-colors w-full flex items-center justify-center p-2 b-radius hover: hvr-btn"
                               >
                                 <img
@@ -607,7 +625,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                           {item.submenu?.map((sub) => (
                             <button
                               key={sub.id}
-                              onClick={() => handleNavigate(sub.id)}
+                              onClick={() => handleSubNavigate(sub)}
                               className="w-full flex items-center gap-3 px-3 py-2.5 b-radius bg-sidebar-accent hover:hvr-btn"
                             >
                               <img
@@ -632,7 +650,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                   <Tooltip key={item.id}>
                     <TooltipTrigger asChild>
                       <button
-                        onClick={() => handleNavigate(item.id)}
+                        onClick={() => openParentRoute(item)}
                         className={cn(
                           "w-full flex items-center justify-center p-2.5 b-radius",
                           "hover: hvr-btn"
@@ -652,7 +670,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                 ) : (
                   <button
                     key={item.id}
-                    onClick={() => handleNavigate(item.id)}
+                    onClick={() => openParentRoute(item)}
                     className={cn(
                       "w-full flex items-center gap-3 px-3 py-2.5 b-radius ",
                       "hover: hvr-btn"
@@ -763,7 +781,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                           <Tooltip key={sub.id}>
                             <TooltipTrigger asChild>
                               <button
-                                onClick={() => handleNavigate(sub.id)}
+                                onClick={() => handleSubNavigate(sub)}
                                 className="w-full flex items-center justify-center p-2 bg-sidebar-accent hover:hvr-btn transition-colors"
                               >
                                 <img
@@ -824,7 +842,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                           {item.submenu?.map((sub) => (
                             <button
                               key={sub.id}
-                              onClick={() => handleNavigate(sub.id)}
+                              onClick={() => handleSubNavigate(sub)}
                               className="w-full flex items-center gap-3 px-3 py-2.5 bg-sidebar-accent b-radius hover:hvr-btn transition-colors"
                             >
                               <img

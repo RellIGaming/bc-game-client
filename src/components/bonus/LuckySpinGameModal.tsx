@@ -4,10 +4,12 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { useIsMobile } from "@/hooks/use-mobile";
+
 interface LuckySpinGameModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
+
 const prizes = [
   { label: "0.1 USDT", color: "#2d7a3a" },
   { label: "50 USDT", color: "#1a5c28" },
@@ -20,19 +22,23 @@ const prizes = [
   { label: "LUCK WIN", color: "#2d7a3a" },
   { label: "0.5 USDT", color: "#1a5c28" },
 ];
+
 export function LuckySpinGameModal({ open, onOpenChange }: LuckySpinGameModalProps) {
   const isMobile = useIsMobile();
   const [spinning, setSpinning] = useState(false);
   const [rotation, setRotation] = useState(0);
   const [result, setResult] = useState<string | null>(null);
+
   const handleSpin = () => {
     if (spinning) return;
     setSpinning(true);
     setResult(null);
+
     const extraSpins = 5 * 360;
     const randomAngle = Math.floor(Math.random() * 360);
     const totalRotation = rotation + extraSpins + randomAngle;
     setRotation(totalRotation);
+
     setTimeout(() => {
       const finalAngle = totalRotation % 360;
       const segmentAngle = 360 / prizes.length;
@@ -41,6 +47,7 @@ export function LuckySpinGameModal({ open, onOpenChange }: LuckySpinGameModalPro
       setSpinning(false);
     }, 4000);
   };
+
   const content = (
     <div className="flex flex-col h-full">
       <div className="flex items-center justify-between p-4 border-b border-border">
@@ -50,6 +57,7 @@ export function LuckySpinGameModal({ open, onOpenChange }: LuckySpinGameModalPro
         <h2 className="font-bold text-lg">Lucky Spin</h2>
         <Settings className="w-5 h-5 text-muted-foreground" />
       </div>
+
       <div className="p-4 space-y-4 flex-1 overflow-y-auto">
         {/* Tier badges */}
         <div className="flex items-center gap-2 justify-center">
@@ -62,7 +70,9 @@ export function LuckySpinGameModal({ open, onOpenChange }: LuckySpinGameModalPro
             Bronze — LV 2 or Above
           </div>
         </div>
+
         <p className="text-center text-xs text-primary underline cursor-pointer">Bonus Details</p>
+
         {/* Spin Wheel */}
         <div className="relative mx-auto w-[280px] h-[280px] sm:w-[320px] sm:h-[320px]">
           {/* Outer ring with dots */}
@@ -90,6 +100,7 @@ export function LuckySpinGameModal({ open, onOpenChange }: LuckySpinGameModalPro
               const textX = 150 + 90 * Math.cos(midAngle);
               const textY = 150 + 90 * Math.sin(midAngle);
               const textRotation = angle + 360 / prizes.length / 2;
+
               return (
                 <g key={i}>
                   <path
@@ -118,11 +129,13 @@ export function LuckySpinGameModal({ open, onOpenChange }: LuckySpinGameModalPro
             <text x="150" y="145" fill="#ffd700" fontSize="9" fontWeight="bold" textAnchor="middle">LUCK</text>
             <text x="150" y="160" fill="#ffd700" fontSize="9" fontWeight="bold" textAnchor="middle">WIN</text>
           </svg>
+
           {/* Pointer */}
           <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1 z-10">
             <div className="w-0 h-0 border-l-[12px] border-r-[12px] border-t-[20px] border-l-transparent border-r-transparent border-t-primary" />
           </div>
         </div>
+
         {/* Spin Button */}
         <div className="text-center">
           <Button
@@ -133,12 +146,15 @@ export function LuckySpinGameModal({ open, onOpenChange }: LuckySpinGameModalPro
             {spinning ? "Spinning..." : "🎰 SPIN NOW"}
           </Button>
         </div>
+
         {result && (
           <div className="text-center bg-primary/20 rounded-lg p-3">
             <p className="text-primary font-bold">🎉 You won: {result}!</p>
           </div>
         )}
+
         <p className="text-center text-sm text-muted-foreground">Available at: VIP 2</p>
+
         {/* Stats */}
         <div className="grid grid-cols-2 gap-3">
           <div className="bg-secondary rounded-lg p-3 text-center">
@@ -156,6 +172,7 @@ export function LuckySpinGameModal({ open, onOpenChange }: LuckySpinGameModalPro
       </div>
     </div>
   );
+
   if (isMobile) {
     return (
       <Sheet open={open} onOpenChange={onOpenChange}>
@@ -165,6 +182,7 @@ export function LuckySpinGameModal({ open, onOpenChange }: LuckySpinGameModalPro
       </Sheet>
     );
   }
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-md p-0 max-h-[90vh] overflow-y-auto [&>button]:hidden">

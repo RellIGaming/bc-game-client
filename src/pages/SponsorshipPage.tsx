@@ -1,85 +1,22 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
+import { ExternalLink } from "lucide-react";
+
 const tabs = [
-  { id: "cloud9", label: "Cloud 9 CS:GO" },
-  { id: "afa", label: "AFA" },
-  { id: "daniel", label: "Daniel Sturdy" },
-  { id: "dota", label: "Cloud 9 DOTA 2" },
   { id: "journey", label: "Sponsorship Journey" },
+  { id: "ohiggins", label: "O'Higgins" },
+  { id: "jason-derulo", label: "Jason Derulo" },
+  { id: "lil-pump", label: "Lil Pump" },
+  { id: "colby-covington", label: "Colby Covington" },
+  { id: "miami-club", label: "Miami Club" },
+  { id: "bc-esports", label: "BC Game Esports" },
+  { id: "kwara-united", label: "Kwara United" },
+  { id: "sashimi-poker", label: "Sashimi Poker" },
+  { id: "leicester", label: "Leicester City" },
 ];
-const sponsorships: Record<string, { title: string; subtitle: string; partner: string; period: string; sections: { heading: string; content: string }[]; images?: string[] }> = {
-  cloud9: {
-    title: "Cloud9 CS:GO",
-    subtitle: "Official Partnership",
-    partner: "Cloud9 Esports",
-    period: "August 2023 – March 2024",
-    sections: [
-      {
-        heading: "Cloud9 Official Partner – CS:GO (August 2023 – March 2024)",
-        content: "We are proud to announce an official partnership with Cloud9, marking a significant milestone in the esports industry. This high-profile collaboration offered fans a deeper connection to the growing esports ecosystem led by Cloud9.\n\nAt the Crypto Crown of the Year, we supported Cloud9's iconic $2.5 million while also raising the groundwork for future innovations in iGaming. The partnership marked a positive step in creating exciting synergies between esports and crypto gaming, fostering a vibrant and competitive environment."
-      },
-      {
-        heading: "Unlocking a New Era of Esports and iGaming",
-        content: "Cloud9 is widely recognized for its prominent role in the League of Champions Series, as well as its remarkable underlying tenure of ELEAGUE Boston, Starfire 2018—two events that made cloud9 one of the most iconic esports teams in North America. With a deep-rooted fan base and rich history, Cloud9's legacy remains influential in the industry.\n\nCollaborating with such a legendary organization was an immense honor. This partnership represented a meaningful step in a journey to connect iGaming and esports, paving the way for future possibilities."
-      },
-      {
-        heading: "A New Frontier",
-        content: "Have you ever envisioned a world where esports and iGaming converge on a single, interconnected stage, allowing fans to seamlessly immerse themselves?\n\nThis collaboration marked the beginning of a vision—ushering in a new era of digital entertainment where crypto casinos and competitive gaming co-exist. It embodies creativity, innovation, and above all the landscapes of iGaming, and we're proudly took part in this evolution."
-      },
-    ],
-  },
-  afa: {
-    title: "Argentine Football Association",
-    subtitle: "Global Crypto Casino Partner",
-    partner: "AFA (Argentine Football Association)",
-    period: "September 2023 – August 2024",
-    sections: [
-      {
-        heading: "Global Crypto Casino Partner (September 2023 – August 2024)",
-        content: "We served as the official global crypto casino partner of the Argentine Football Association (AFA)—an organization synonymous with world-class football excellence. This landmark agreement granted exclusive association rights with AFA's coveted imagery during that time, including the iconic FIFA World Cup in 2022 trophy."
-      },
-      {
-        heading: "Strategic Alliance",
-        content: "The collaboration aimed to bridge the emerging world of blockchain gaming with the universal passion for football. This strategic alignment between our platform and AFA greatly expanded the intersection of iGaming, Web3, and sports engagement. During the initial period of collaboration, a series of co-branded promotional campaigns was designed to bring added value to both crypto users and football enthusiasts."
-      },
-      {
-        heading: "A New Era (2023–2024 Retrospective)",
-        content: "During this period of collaboration, we embraced new digital frontiers—integrating cutting-edge betting solutions and Web3 functionalities, gamification elements, and sports culture convergence to provide fans with enhanced digital experiences. By bridging technology and passion, we aimed to elevate fan engagement across borders."
-      },
-    ],
-  },
-  daniel: {
-    title: "Daniel Sturdy",
-    subtitle: "Brand Ambassador",
-    partner: "Daniel Sturdy",
-    period: "2024 – Present",
-    sections: [
-      {
-        heading: "Brand Ambassador Partnership",
-        content: "Daniel Sturdy brings charisma and relatability to our brand as an official ambassador. His social media reach and entertainment prowess help connect our platform with a wider, diverse audience."
-      },
-      {
-        heading: "Digital Content Collaboration",
-        content: "Through engaging video content, live streams, and social media collaborations, Daniel showcases the platform's features in an authentic and entertaining way. His unique personality resonates with both gaming enthusiasts and crypto-curious audiences."
-      },
-    ],
-  },
-  dota: {
-    title: "Cloud9 DOTA 2",
-    subtitle: "Esports Partnership",
-    partner: "Cloud9 DOTA 2 Division",
-    period: "2023 – 2024",
-    sections: [
-      {
-        heading: "DOTA 2 Esports Partnership",
-        content: "Our partnership extended to Cloud9's DOTA 2 division, one of the most competitive teams in the international DOTA 2 scene. This collaboration brought together two powerhouses—blockchain gaming innovation and top-tier esports competition."
-      },
-      {
-        heading: "Tournament Presence",
-        content: "Throughout the partnership, our branding was prominently featured during major DOTA 2 tournaments, reaching millions of viewers worldwide. The collaboration included exclusive in-game events and promotions that bridged the gap between traditional esports viewing and crypto gaming engagement."
-      },
-    ],
-  },
+
+const sponsorships: Record<string, { title: string; subtitle: string; partner: string; period: string; officialWebsite?: string; sections: { heading: string; content: string }[] }> = {
   journey: {
     title: "Sponsorship Journey",
     subtitle: "Our Path Forward",
@@ -92,7 +29,7 @@ const sponsorships: Record<string, { title: string; subtitle: string; partner: s
       },
       {
         heading: "Key Milestones",
-        content: "• Cloud9 CS:GO Partnership — Marking our entry into esports sponsorship\n• AFA Global Partnership — Reaching football fans worldwide\n• Brand Ambassador Programs — Connecting with diverse audiences\n• Cloud9 DOTA 2 — Expanding our esports portfolio\n• Future Plans — More exciting partnerships to come"
+        content: "• Cloud9 CS:GO Partnership — Marking our entry into esports sponsorship\n• AFA Global Partnership — Reaching football fans worldwide\n• Brand Ambassador Programs — Connecting with diverse audiences\n• Cloud9 DOTA 2 — Expanding our esports portfolio\n• Miami Club — Pickleball innovation\n• Future Plans — More exciting partnerships to come"
       },
       {
         heading: "Looking Ahead",
@@ -100,38 +37,240 @@ const sponsorships: Record<string, { title: string; subtitle: string; partner: s
       },
     ],
   },
+  ohiggins: {
+    title: "O'Higgins F.C.",
+    subtitle: "Official Partnership",
+    partner: "O'Higgins Football Club",
+    period: "2024 – Present",
+    officialWebsite: "https://ohiggins.cl",
+    sections: [
+      {
+        heading: "BC.GAME Partners with O'Higgins F.C.",
+        content: "We are proud to announce our official partnership with O'Higgins Football Club, one of the most storied clubs in Chilean football. This collaboration brings together the passion of South American football with the innovation of crypto gaming."
+      },
+      {
+        heading: "A Historic Partnership",
+        content: "O'Higgins F.C., based in Rancagua, Chile, has a rich history in Chilean football. Founded in 1955, the club has won multiple league titles and consistently competes at the highest level. Our partnership aims to bring exciting new digital experiences to their passionate fanbase."
+      },
+      {
+        heading: "Community Impact",
+        content: "This partnership goes beyond branding — it's about building community. Through joint initiatives, we aim to promote responsible gaming, support grassroots football development, and create innovative fan engagement opportunities across Latin America."
+      },
+    ],
+  },
+  "jason-derulo": {
+    title: "Jason Derulo",
+    subtitle: "Brand Ambassador",
+    partner: "Jason Derulo",
+    period: "2024 – Present",
+    sections: [
+      {
+        heading: "Jason Derulo x BC.GAME",
+        content: "Grammy-nominated artist Jason Derulo joins as our global brand ambassador, bringing his massive following and entertainment expertise to the crypto gaming world. With over 50 million social media followers, Jason helps connect our platform with a global audience."
+      },
+      {
+        heading: "A Perfect Match",
+        content: "Jason Derulo's energy, creativity, and global appeal make him the perfect ambassador for our brand. His content creation abilities and genuine interest in crypto technology create authentic connections between entertainment and blockchain gaming."
+      },
+      {
+        heading: "Campaign Highlights",
+        content: "Through engaging social media content, live events, and exclusive promotions, Jason Derulo showcases the excitement of crypto gaming to millions of fans worldwide. His involvement has significantly expanded our brand awareness across key demographics."
+      },
+    ],
+  },
+  "lil-pump": {
+    title: "Lil Pump",
+    subtitle: "Brand Ambassador",
+    partner: "Lil Pump",
+    period: "2024 – Present",
+    sections: [
+      {
+        heading: "Lil Pump Joins BC.GAME",
+        content: "Rapper and cultural icon Lil Pump brings his bold energy and massive Gen-Z following to our brand. Known for his unapologetic style and viral presence, Lil Pump helps us connect with younger crypto-savvy audiences."
+      },
+      {
+        heading: "Breaking Boundaries",
+        content: "Lil Pump's fearless approach to content creation mirrors our own boldness in the crypto gaming space. Together, we're pushing boundaries and creating experiences that resonate with a new generation of digital entertainment consumers."
+      },
+      {
+        heading: "Digital-First Approach",
+        content: "Through TikTok, Instagram, and YouTube content, Lil Pump introduces crypto gaming concepts to audiences who are digital natives but may be new to blockchain gaming. His authentic engagement style drives genuine interest and participation."
+      },
+    ],
+  },
+  "colby-covington": {
+    title: "Colby Covington",
+    subtitle: "UFC Fighter Partnership",
+    partner: "Colby Covington",
+    period: "2024 – Present",
+    sections: [
+      {
+        heading: "Colby Covington x BC.GAME",
+        content: "UFC welterweight contender Colby Covington brings the fighting spirit to our brand partnership. Known for his electric personality and world-class fighting skills, Colby connects crypto gaming with the massive UFC fanbase."
+      },
+      {
+        heading: "Fight Night Promotions",
+        content: "During UFC events, our branding is prominently featured alongside Colby's fights, reaching millions of combat sports fans worldwide. Exclusive fight-night promotions and predictions add an extra layer of excitement for our community."
+      },
+      {
+        heading: "A Champion's Mentality",
+        content: "Colby's relentless work ethic and competitive spirit align perfectly with our platform's values. His partnership helps position BC.GAME at the intersection of combat sports and crypto gaming entertainment."
+      },
+    ],
+  },
+  "miami-club": {
+    title: "Miami Club",
+    subtitle: "Pickleball Partnership",
+    partner: "Miami Pickleball Club (MPC)",
+    period: "2025 – Present",
+    officialWebsite: "https://mpc.com",
+    sections: [
+      {
+        heading: "BC.GAME Teams Up with Miami Pickleball Club in an Exciting New Brand Collaboration",
+        content: "We are pumped to announce our latest collaboration with Miami Pickleball Club (MPC) — a game-changing partnership that brings together Pickleball and BC.GAME's unfiltered energy.\n\nPickleball is a fast-paced, high-energy game that combines tennis, badminton, and ping pong, and it's rapidly gaining momentum across the globe."
+      },
+      {
+        heading: "MPC x BC.GAME: A Fresh Collaboration with a Bold Edge",
+        content: "MPC is not your average sports team—it's part of the new wave of sports that's redefining what it means to compete. Hot off winning this year's Challenger title in the Major League of Pickleball, MPC is going to take the world by storm in 2025, and BC.Game will be along for the ride, featuring on the front of the jersey's.\n\nThis partnership is all about bringing innovation, excitement, and a little chaos to the table. Including exclusive pickleball events featuring variety of talent. Get ready for an entirely new way to experience sports and entertainment."
+      },
+      {
+        heading: "The Future is Untamed",
+        content: "At BC.GAME, we don't just play by the rules—we create new ones. Our partnership with MPC is all about embracing innovation, pushing limits, and offering our community fresh experiences that break free from the ordinary.\n\nMPC competes in the Major League of Pickleball and counts Nick Kyrgios, Naomi Osaka, Patrick Mahomes, Kygo, Rich Paul and more as investors."
+      },
+    ],
+  },
+  "bc-esports": {
+    title: "BC Game Esports",
+    subtitle: "Esports Division",
+    partner: "BC Game Esports Team",
+    period: "2023 – Present",
+    sections: [
+      {
+        heading: "BC Game Esports: Our Competitive Gaming Division",
+        content: "BC Game Esports represents our direct involvement in competitive gaming. Our esports division competes across multiple titles including CS2, Dota 2, and League of Legends, bringing the BC.GAME brand to the forefront of competitive gaming."
+      },
+      {
+        heading: "Tournament Achievements",
+        content: "Our esports teams have competed in major tournaments worldwide, building a reputation for competitive excellence. From regional qualifiers to international championships, BC Game Esports continues to grow and achieve new milestones."
+      },
+      {
+        heading: "Community Engagement",
+        content: "Beyond competition, our esports division runs community tournaments, streaming events, and educational content to help grow the gaming community. We believe esports and crypto gaming can coexist to create unique entertainment experiences."
+      },
+    ],
+  },
+  "kwara-united": {
+    title: "Kwara United",
+    subtitle: "Nigerian Football Partnership",
+    partner: "Kwara United FC",
+    period: "2024 – Present",
+    sections: [
+      {
+        heading: "BC.GAME Partners with Kwara United FC",
+        content: "Our partnership with Kwara United FC marks our expansion into African football. Kwara United, based in Ilorin, Nigeria, competes in the Nigerian Professional Football League and has a passionate, growing fanbase."
+      },
+      {
+        heading: "Growing African Football",
+        content: "This partnership reflects our commitment to supporting football development across Africa. Through jersey sponsorship, community initiatives, and digital engagement programs, we aim to contribute to the growth of Nigerian and African football."
+      },
+      {
+        heading: "Digital Innovation in African Sports",
+        content: "By bringing crypto gaming awareness to African football fans, we're helping bridge the digital divide and introducing new entertainment possibilities to a vibrant, tech-savvy population."
+      },
+    ],
+  },
+  "sashimi-poker": {
+    title: "Sashimi Poker",
+    subtitle: "Poker Partnership",
+    partner: "Sashimi Poker",
+    period: "2024 – Present",
+    sections: [
+      {
+        heading: "BC.GAME x Sashimi Poker",
+        content: "Our partnership with Sashimi Poker brings together two innovative forces in the gaming world. Sashimi Poker's unique approach to online poker aligns with our vision of creating exciting, fair, and transparent gaming experiences."
+      },
+      {
+        heading: "Poker Innovation",
+        content: "Together, we're exploring new ways to integrate blockchain technology with traditional poker, creating provably fair games and innovative tournament formats that appeal to both crypto enthusiasts and poker traditionalists."
+      },
+    ],
+  },
+  leicester: {
+    title: "Leicester City",
+    subtitle: "Premier League Partnership",
+    partner: "Leicester City FC",
+    period: "2024 – Present",
+    officialWebsite: "https://lcfc.com",
+    sections: [
+      {
+        heading: "BC.GAME x Leicester City FC",
+        content: "Our partnership with Leicester City FC represents a landmark moment in our sponsorship journey. Leicester City, the miraculous 2015-16 Premier League champions, bring a global fanbase and a story of defying the odds — values that resonate deeply with our brand."
+      },
+      {
+        heading: "Global Reach",
+        content: "With millions of fans worldwide, Leicester City provides unparalleled exposure across key markets. Our branding is featured prominently across the King Power Stadium and the club's digital channels, reaching fans in Europe, Asia, and beyond."
+      },
+      {
+        heading: "Shared Values",
+        content: "Like Leicester City's famous title run, BC.GAME believes in breaking barriers and achieving the unexpected. This partnership celebrates innovation, community, and the thrill of competition that unites sports fans and gamers alike."
+      },
+    ],
+  },
 };
+
 const SponsorshipPage = () => {
-  const [activeTab, setActiveTab] = useState("cloud9");
-  const data = sponsorships[activeTab];
+  const { tab } = useParams<{ tab?: string }>();
+  const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState(tab || "journey");
+
+  useEffect(() => {
+    if (tab && sponsorships[tab]) {
+      setActiveTab(tab);
+    }
+  }, [tab]);
+
+  const handleTabChange = (tabId: string) => {
+    setActiveTab(tabId);
+    navigate(`/sponsorships/${tabId}`, { replace: true });
+  };
+
+  const data = sponsorships[activeTab] || sponsorships["journey"];
+
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <div className=" max-w-5xl mx-auto px-1 sm:px-2 py-6 space-y-6">
-        {/* Tab Navigation - Horizontal scrollable */}
+      <div className="max-w-5xl mx-auto px-3 sm:px-4 py-6 space-y-6">
+        {/* Tab Navigation */}
         <div className="flex gap-1 overflow-x-auto scrollbar-hide pb-1">
-          {tabs.map((tab) => (
+          {tabs.map((t) => (
             <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
+              key={t.id}
+              onClick={() => handleTabChange(t.id)}
               className={cn(
                 "whitespace-nowrap px-4 py-2 text-sm font-medium b-radius transition-colors shrink-0",
-                activeTab === tab.id
+                activeTab === t.id
                   ? "bg-primary text-primary-foreground"
                   : "bg-card text-muted-foreground hover:text-foreground hover:bg-secondary"
               )}
             >
-              {tab.label}
+              {t.label}
             </button>
           ))}
         </div>
-        {/* Content Area */}
+
+        {/* Content */}
         <div className="space-y-6">
-          {/* Hero Section */}
+          {/* Hero */}
           <div className="bg-card b-radius p-6 sm:p-8">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div>
                 <h1 className="text-xl sm:text-2xl font-bold">{data.title}</h1>
                 <p className="text-sm text-muted-foreground mt-1">{data.subtitle}</p>
+                {data.officialWebsite && (
+                  <a href={data.officialWebsite} target="_blank" rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 text-xs text-primary mt-2 hover:underline">
+                    Official website <ExternalLink className="w-3 h-3" />
+                  </a>
+                )}
               </div>
               <div className="text-right">
                 <p className="text-xs text-muted-foreground">Partner</p>
@@ -140,7 +279,8 @@ const SponsorshipPage = () => {
               </div>
             </div>
           </div>
-          {/* Content Sections */}
+
+          {/* Sections */}
           {data.sections.map((section, i) => (
             <div key={i} className="bg-card b-radius p-5 sm:p-6 space-y-3">
               <h2 className="text-base sm:text-lg font-bold">{section.heading}</h2>
@@ -154,4 +294,5 @@ const SponsorshipPage = () => {
     </div>
   );
 };
+
 export default SponsorshipPage;

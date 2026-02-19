@@ -4,17 +4,21 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { useIsMobile } from "@/hooks/use-mobile";
+
 interface TelegramModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
+
 export function TelegramModal({ open, onOpenChange }: TelegramModalProps) {
   const isMobile = useIsMobile();
   const [step, setStep] = useState<"connect" | "done">("connect");
+
   const handleConnect = () => {
     window.open("https://t.me/BCGameOfficial", "_blank");
     setStep("done");
   };
+
   const content = (
     <div className="flex flex-col h-full">
       {/* Header */}
@@ -24,6 +28,7 @@ export function TelegramModal({ open, onOpenChange }: TelegramModalProps) {
         </button>
         <h2 className="font-bold text-lg">Telegram Subscription</h2>
       </div>
+
       <div className="p-6 space-y-6 flex-1">
         {/* Telegram Icon */}
         <div className="flex justify-center">
@@ -31,12 +36,14 @@ export function TelegramModal({ open, onOpenChange }: TelegramModalProps) {
             <Send className="w-10 h-10 text-[#0088cc]" />
           </div>
         </div>
+
         <div className="text-center space-y-2">
           <h3 className="text-xl font-bold">Earn 2 BCD Bonus</h3>
           <p className="text-sm text-muted-foreground">
             Connect your Telegram account and join our official channel to claim daily bonuses!
           </p>
         </div>
+
         {/* Steps */}
         <div className="space-y-4">
           <div className="flex items-start gap-3 bg-secondary rounded-lg p-4">
@@ -61,16 +68,19 @@ export function TelegramModal({ open, onOpenChange }: TelegramModalProps) {
             </div>
           </div>
         </div>
+
         <Button onClick={handleConnect} className="w-full bg-[#0088cc] hover:bg-[#0077b5] text-white">
           <Send className="w-4 h-4 mr-2" />
           Connect Telegram
         </Button>
+
         {step === "done" && (
           <p className="text-xs text-center text-primary">✓ Telegram opened. Complete the steps to earn your bonus!</p>
         )}
       </div>
     </div>
   );
+
   if (isMobile) {
     return (
       <Sheet open={open} onOpenChange={onOpenChange}>
@@ -80,6 +90,7 @@ export function TelegramModal({ open, onOpenChange }: TelegramModalProps) {
       </Sheet>
     );
   }
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-md p-0 [&>button]:hidden">

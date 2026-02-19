@@ -5,10 +5,12 @@ import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { useIsMobile } from "@/hooks/use-mobile";
+
 interface VaultTransferModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
+
 const currencies = [
   { id: "inr", name: "INR", icon: "🇮🇳", balance: 0 },
   { id: "bcd", name: "BCD", icon: "🟣", balance: 0 },
@@ -17,6 +19,7 @@ const currencies = [
   { id: "eth", name: "ETH", icon: "🔵", balance: 0 },
   { id: "btc", name: "BTC", icon: "🟠", balance: 0 },
 ];
+
 export function VaultTransferModal({ open, onOpenChange }: VaultTransferModalProps) {
   const isMobile = useIsMobile();
   const [amount, setAmount] = useState("0");
@@ -24,6 +27,7 @@ export function VaultTransferModal({ open, onOpenChange }: VaultTransferModalPro
   const [showDropdown, setShowDropdown] = useState(false);
   const [search, setSearch] = useState("");
   const dropdownRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
@@ -33,7 +37,9 @@ export function VaultTransferModal({ open, onOpenChange }: VaultTransferModalPro
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
   }, []);
+
   const filtered = currencies.filter(c => c.name.toLowerCase().includes(search.toLowerCase()));
+
   const content = (
     <div className="flex flex-col h-full">
       <div className="flex items-center gap-3 p-4 border-b border-border">
@@ -42,6 +48,7 @@ export function VaultTransferModal({ open, onOpenChange }: VaultTransferModalPro
         </button>
         <h2 className="font-bold text-lg flex-1 text-center pr-5">Transfer In</h2>
       </div>
+
       <div className="p-6 space-y-5">
         {/* Amount */}
         <div>
@@ -63,6 +70,7 @@ export function VaultTransferModal({ open, onOpenChange }: VaultTransferModalPro
                 <ChevronDown className="w-4 h-4" />
               </button>
             </div>
+
             {showDropdown && (
               <div className="absolute right-0 top-full mt-1 w-64 bg-card border border-border rounded-lg shadow-lg z-50 max-h-60 overflow-y-auto">
                 <div className="p-2">
@@ -96,22 +104,26 @@ export function VaultTransferModal({ open, onOpenChange }: VaultTransferModalPro
             )}
           </div>
         </div>
+
         {/* Available */}
         <div className="flex justify-between text-sm">
           <span className="text-muted-foreground">Available</span>
           <span className="font-medium">0</span>
         </div>
+
         {/* Daily Return */}
         <div className="flex justify-between text-sm">
           <span className="text-muted-foreground">Daily real-time return:</span>
           <span className="font-medium">0</span>
         </div>
+
         <Button className="w-full bg-primary text-primary-foreground">
           Transfer to Vault Pro
         </Button>
       </div>
     </div>
   );
+
   if (isMobile) {
     return (
       <Sheet open={open} onOpenChange={onOpenChange}>
@@ -121,6 +133,7 @@ export function VaultTransferModal({ open, onOpenChange }: VaultTransferModalPro
       </Sheet>
     );
   }
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-md p-0 [&>button]:hidden">

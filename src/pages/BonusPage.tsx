@@ -16,10 +16,10 @@ import { WagerContributionModal } from "@/components/bonus/WagerContributionModa
 import { BcdRakebackModal } from "@/components/bonus/BcdRakebackModal";
 import { LuckySpinModal } from "@/components/bonus/LuckySpinModal";
 import { VaultProModal } from "@/components/bonus/VaultProModal";
-import { useNavigate } from "react-router-dom";
 import { TelegramModal } from "@/components/bonus/TelegramModal";
 import { LuckySpinGameModal } from "@/components/bonus/LuckySpinGameModal";
 import { VaultTransferModal } from "@/components/bonus/VaultTransferModal";
+import { useNavigate } from "react-router-dom";
 
 const monthlyTiers = [
   { pct: "180%", active: true },
@@ -104,7 +104,7 @@ type ModalType =
   | "lucky"
   | "vault"
   | "wager"
-  |"telegram"
+  | "telegram"
   | "luckySpin"
   | "vaultTransfer"
   | null;
@@ -113,8 +113,8 @@ const BonusPage = () => {
   const [activeModal, setActiveModal] = useState<ModalType>(null);
   const [redeemCode, setRedeemCode] = useState("");
   const [open, setOpen] = useState(false);
-   const navigate = useNavigate();
-
+  const navigate = useNavigate();
+ 
   return (
     <div className="min-h-screen bg-background text-foreground">
       <div className="max-w-5xl mx-auto px-1 py-8 space-y-8">
@@ -308,7 +308,6 @@ const BonusPage = () => {
                       onClick={() => {
                         if (bonus.title === "Telegram Subscription") setActiveModal("telegram");
                         else if (bonus.title === "Quests") navigate("/quest-hub");
-                         else if (bonus.title === "BCD Rakeback") navigate("/quest-hub");
                         else if (bonus.title === "Challenge") navigate("/challenge");
                         else if (bonus.title === "Lucky Spin") setActiveModal("luckySpin");
                         else if (bonus.title === "Vault Pro") setActiveModal("vaultTransfer");
@@ -394,6 +393,13 @@ const BonusPage = () => {
                     <Button
                       size="sm"
                       className="mt-auto w-full bg-primary text-primary-foreground text-xs"
+                      onClick={() => {
+                        if (bonus.title === "Telegram Subscription") setActiveModal("telegram");
+                        else if (bonus.title === "Quests") navigate("/quest-hub");
+                        else if (bonus.title === "Challenge") navigate("/challenge");
+                        else if (bonus.title === "Lucky Spin") setActiveModal("luckySpin");
+                        else if (bonus.title === "Vault Pro") setActiveModal("vaultTransfer");
+                      }}
                     >
                       {bonus.action}
                     </Button>
@@ -425,7 +431,7 @@ const BonusPage = () => {
           open={activeModal === "wager"}
           onOpenChange={() => setActiveModal(null)}
         />
-       <BcdRakebackModal
+        <BcdRakebackModal
           open={activeModal === "bcd"}
           onOpenChange={() => setActiveModal(null)}
           onOpenWager={() => setActiveModal("wager")}
@@ -438,7 +444,7 @@ const BonusPage = () => {
           open={activeModal === "vault"}
           onOpenChange={() => setActiveModal(null)}
         />
-         <TelegramModal
+        <TelegramModal
           open={activeModal === "telegram"}
           onOpenChange={() => setActiveModal(null)}
         />

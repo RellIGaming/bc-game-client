@@ -7,7 +7,9 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+
 const myTicketsTabs = ["Active", "Past", "My Winnings"];
+
 const winnerListData = Array.from({ length: 20 }, (_, i) => ({
   no: i + 1,
   name: i < 5
@@ -18,12 +20,14 @@ const winnerListData = Array.from({ length: 20 }, (_, i) => ({
     ? [`₹451,622.40`, `₹316,027.86`, `₹181,043.96`, `₹136,738.72`, `₹95,524.48`][i]
     : `₹8,052.44`,
 }));
+
 const raffleRules = [
   { q: "How to Enter", a: "Log in and wager the required daily amount to earn a ticket. Each qualifying wager earns you one ticket automatically." },
   { q: "Weekly Raffle Draw", a: "The weekly raffle draw takes place every Monday at 5:30 PM. Winners are selected randomly from all valid tickets." },
   { q: "Terms and Conditions", a: "Participants must be at least 18 years old. Only verified accounts are eligible. Tickets are non-transferable." },
   { q: "Winning Prize Details:", a: "Prizes are distributed based on ticket number matches. Top prizes go to exact matches, with smaller prizes for partial matches." },
 ];
+
 const faqItems = [
   "How to earn the \"ticket\"? How many tickets can I collect?",
   "When the winner be announced?",
@@ -31,12 +35,14 @@ const faqItems = [
   "Can I join the next raffle with \"Old Ticket\"?",
   "Can I know more about the time period?",
 ];
+
 const WeeklyRafflePage = () => {
   const [mainTab, setMainTab] = useState<"My Tickets" | "Results">("My Tickets");
   const [activeSubTab, setActiveSubTab] = useState("Active");
   const [timeLeft, setTimeLeft] = useState({ days: 1, hours: 21, minutes: 0, seconds: 33 });
   const [currentRound, setCurrentRound] = useState("2026020220000");
   const [currentPage, setCurrentPage] = useState(1);
+
   useEffect(() => {
     const timer = setInterval(() => {
       setTimeLeft((prev) => {
@@ -51,9 +57,10 @@ const WeeklyRafflePage = () => {
     }, 1000);
     return () => clearInterval(timer);
   }, []);
+
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <div className=" max-w-5xl mx-auto px-1 sm:px-2 py-6 space-y-6">
+      <div className="max-w-5xl mx-auto px-3 sm:px-4 py-6 space-y-6">
         {/* Header */}
         <div className="flex flex-wrap items-center gap-3 text-sm">
           <h1 className="font-bold text-lg">Weekly Raffle</h1>
@@ -61,6 +68,7 @@ const WeeklyRafflePage = () => {
           <span className="text-primary text-xs cursor-pointer">How To Play?</span>
           <span className="text-xs text-muted-foreground">🎫 <span className="text-primary">Buy</span> get 1 ticket</span>
         </div>
+
         {/* Hero Banner */}
         <div className="bg-gradient-to-r from-accent/20 to-accent/5 b-radius p-5 sm:p-8 text-center relative overflow-hidden">
           <div className="relative z-10">
@@ -78,6 +86,7 @@ const WeeklyRafflePage = () => {
             </p>
           </div>
         </div>
+
         {/* How to Earn Ticket */}
         <div>
           <h3 className="font-bold text-sm mb-3">How to Earn Ticket</h3>
@@ -102,6 +111,7 @@ const WeeklyRafflePage = () => {
             </div>
           </div>
         </div>
+
         {/* Tabs: My Tickets / Results */}
         <div className="flex gap-4 border-b border-border">
           {(["My Tickets", "Results"] as const).map((tab) => (
@@ -117,6 +127,7 @@ const WeeklyRafflePage = () => {
             </button>
           ))}
         </div>
+
         {/* Tab Content */}
         {mainTab === "My Tickets" ? (
           <div className="space-y-4">
@@ -138,6 +149,7 @@ const WeeklyRafflePage = () => {
                 <span className="text-lg font-bold text-accent">₹0.00</span>
               </div>
             </div>
+
             {/* Sub Tabs */}
             <div className="flex gap-1 bg-card b-radius p-1">
               {myTicketsTabs.map((tab) => (
@@ -153,6 +165,7 @@ const WeeklyRafflePage = () => {
                 </button>
               ))}
             </div>
+
             {/* Content */}
             <div className="text-center py-8">
               <p className="text-xs text-muted-foreground mb-4">
@@ -181,6 +194,7 @@ const WeeklyRafflePage = () => {
                 Total participated tickets: <span className="text-accent font-bold">272935</span>
               </div>
             </div>
+
             {/* Winner List */}
             <div className="text-center font-bold text-lg mb-3">Winner List</div>
             <div className="bg-card b-radius overflow-x-auto">
@@ -217,6 +231,7 @@ const WeeklyRafflePage = () => {
                 </tbody>
               </table>
             </div>
+
             {/* Pagination */}
             <div className="flex items-center justify-center gap-2 pt-2">
               <button className="p-1 hover:bg-secondary b-radius"><ChevronLeft className="w-4 h-4" /></button>
@@ -236,6 +251,7 @@ const WeeklyRafflePage = () => {
             </div>
           </div>
         )}
+
         {/* Raffle Rules */}
         <div>
           <h3 className="font-bold text-lg mb-3">Raffle Rules</h3>
@@ -252,6 +268,7 @@ const WeeklyRafflePage = () => {
             ))}
           </Accordion>
         </div>
+
         {/* FAQ */}
         <div>
           <h3 className="font-bold text-lg mb-3">Frequently Asked Questions</h3>
@@ -272,4 +289,5 @@ const WeeklyRafflePage = () => {
     </div>
   );
 };
+
 export default WeeklyRafflePage;

@@ -9,6 +9,7 @@ import NotFound from "./pages/NotFound";
 import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
 import { useState } from "react";
+import LiveStats from "./components/home/LiveStats";
 import CasinoPage from "./pages/CasinoPage";
 import GameDetailPage from "./pages/GameDetailPage";
 import WalletPage from "./pages/WalletPage";
@@ -25,9 +26,8 @@ import SponsorshipPage from "./pages/SponsorshipPage";
 import PromotionsPage from "./pages/PromotionsPage";
 import DailyContestPage from "./pages/DailyContestPage";
 import WeeklyRafflePage from "./pages/WeeklyRafflePage";
-import QuestHubPage from "./components/bonus/QuestHubPage";
-import ChallengePage from "./components/bonus/ChallengePage";
-import LiveStats from './pages/LiveStats';
+import QuestHubPage from "./pages/QuestHubPage";
+import ChallengePage from "./pages/ChallengePage";
 
 const queryClient = new QueryClient();
 
@@ -48,6 +48,7 @@ const App = () => {
               {/* <Route path="/" element={<Index isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} /> */}
               <Route path="/casino" element={<CasinoPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
               <Route path="/sports" element={<SportsPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
+              <Route path="/sports/:category" element={<SportsPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
               <Route path="/search" element={<SearchPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
               <Route path="/wallet" element={<WalletPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
               <Route path="/game/:gameId" element={<GameDetailPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
@@ -59,10 +60,11 @@ const App = () => {
               <Route path="/category/referal" element={<ReferralPage />} />
               <Route path="/category/fair" element={<ProvablyFairPage />} />
               <Route path="/category/gambling" element={<ResponsibleGamblingPage />} />
-              <Route path="/category/sponsorships" element={<SponsorshipPage />} />
-              <Route path="/category/promotions" element={<PromotionsPage />} />
-              <Route path="/category/daily" element={<DailyContestPage />} />
-              <Route path="/category/lucky" element={<WeeklyRafflePage />} />
+              <Route path="/sponsorships" element={<SponsorshipPage />} />
+              <Route path="/sponsorships/:tab" element={<SponsorshipPage />} />
+              <Route path="/promotions" element={<PromotionsPage />} />
+              <Route path="/daily" element={<DailyContestPage />} />
+              <Route path="/lucky" element={<WeeklyRafflePage />} />
               <Route path="/quest-hub" element={<QuestHubPage />} />
               <Route path="/challenge" element={<ChallengePage />} />
             </Route>
