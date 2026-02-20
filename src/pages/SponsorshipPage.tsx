@@ -10,7 +10,7 @@ const tabs = [
   { id: "lil-pump", label: "Lil Pump" },
   { id: "colby-covington", label: "Colby Covington" },
   { id: "miami-club", label: "Miami Club" },
-  { id: "bc-esports", label: "BC Game Esports" },
+  { id: "bc-esports", label: "Rellbet Game Esports" },
   { id: "kwara-united", label: "Kwara United" },
   { id: "sashimi-poker", label: "Sashimi Poker" },
   { id: "leicester", label: "Leicester City" },
@@ -45,7 +45,7 @@ const sponsorships: Record<string, { title: string; subtitle: string; partner: s
     officialWebsite: "https://ohiggins.cl",
     sections: [
       {
-        heading: "BC.GAME Partners with O'Higgins F.C.",
+        heading: "Rellbet.Game Partners with O'Higgins F.C.",
         content: "We are proud to announce our official partnership with O'Higgins Football Club, one of the most storied clubs in Chilean football. This collaboration brings together the passion of South American football with the innovation of crypto gaming."
       },
       {
@@ -65,7 +65,7 @@ const sponsorships: Record<string, { title: string; subtitle: string; partner: s
     period: "2024 – Present",
     sections: [
       {
-        heading: "Jason Derulo x BC.GAME",
+        heading: "Jason Derulo x Rellbet.Game",
         content: "Grammy-nominated artist Jason Derulo joins as our global brand ambassador, bringing his massive following and entertainment expertise to the crypto gaming world. With over 50 million social media followers, Jason helps connect our platform with a global audience."
       },
       {
@@ -85,7 +85,7 @@ const sponsorships: Record<string, { title: string; subtitle: string; partner: s
     period: "2024 – Present",
     sections: [
       {
-        heading: "Lil Pump Joins BC.GAME",
+        heading: "Lil Pump Joins Rellbet.Game",
         content: "Rapper and cultural icon Lil Pump brings his bold energy and massive Gen-Z following to our brand. Known for his unapologetic style and viral presence, Lil Pump helps us connect with younger crypto-savvy audiences."
       },
       {
@@ -105,7 +105,7 @@ const sponsorships: Record<string, { title: string; subtitle: string; partner: s
     period: "2024 – Present",
     sections: [
       {
-        heading: "Colby Covington x BC.GAME",
+        heading: "Colby Covington x Rellbet.Game",
         content: "UFC welterweight contender Colby Covington brings the fighting spirit to our brand partnership. Known for his electric personality and world-class fighting skills, Colby connects crypto gaming with the massive UFC fanbase."
       },
       {
@@ -114,7 +114,7 @@ const sponsorships: Record<string, { title: string; subtitle: string; partner: s
       },
       {
         heading: "A Champion's Mentality",
-        content: "Colby's relentless work ethic and competitive spirit align perfectly with our platform's values. His partnership helps position BC.GAME at the intersection of combat sports and crypto gaming entertainment."
+        content: "Colby's relentless work ethic and competitive spirit align perfectly with our platform's values. His partnership helps position Rellbet.Game at the intersection of combat sports and crypto gaming entertainment."
       },
     ],
   },
@@ -126,32 +126,32 @@ const sponsorships: Record<string, { title: string; subtitle: string; partner: s
     officialWebsite: "https://mpc.com",
     sections: [
       {
-        heading: "BC.GAME Teams Up with Miami Pickleball Club in an Exciting New Brand Collaboration",
-        content: "We are pumped to announce our latest collaboration with Miami Pickleball Club (MPC) — a game-changing partnership that brings together Pickleball and BC.GAME's unfiltered energy.\n\nPickleball is a fast-paced, high-energy game that combines tennis, badminton, and ping pong, and it's rapidly gaining momentum across the globe."
+        heading: "Rellbet.Game Teams Up with Miami Pickleball Club in an Exciting New Brand Collaboration",
+        content: "We are pumped to announce our latest collaboration with Miami Pickleball Club (MPC) — a game-changing partnership that brings together Pickleball and Rellbet.Game's unfiltered energy.\n\nPickleball is a fast-paced, high-energy game that combines tennis, badminton, and ping pong, and it's rapidly gaining momentum across the globe."
       },
       {
-        heading: "MPC x BC.GAME: A Fresh Collaboration with a Bold Edge",
-        content: "MPC is not your average sports team—it's part of the new wave of sports that's redefining what it means to compete. Hot off winning this year's Challenger title in the Major League of Pickleball, MPC is going to take the world by storm in 2025, and BC.Game will be along for the ride, featuring on the front of the jersey's.\n\nThis partnership is all about bringing innovation, excitement, and a little chaos to the table. Including exclusive pickleball events featuring variety of talent. Get ready for an entirely new way to experience sports and entertainment."
+        heading: "MPC x Rellbet.Game: A Fresh Collaboration with a Bold Edge",
+        content: "MPC is not your average sports team—it's part of the new wave of sports that's redefining what it means to compete. Hot off winning this year's Challenger title in the Major League of Pickleball, MPC is going to take the world by storm in 2025, and Rellbet.Game will be along for the ride, featuring on the front of the jersey's.\n\nThis partnership is all about bringing innovation, excitement, and a little chaos to the table. Including exclusive pickleball events featuring variety of talent. Get ready for an entirely new way to experience sports and entertainment."
       },
       {
         heading: "The Future is Untamed",
-        content: "At BC.GAME, we don't just play by the rules—we create new ones. Our partnership with MPC is all about embracing innovation, pushing limits, and offering our community fresh experiences that break free from the ordinary.\n\nMPC competes in the Major League of Pickleball and counts Nick Kyrgios, Naomi Osaka, Patrick Mahomes, Kygo, Rich Paul and more as investors."
+        content: "At Rellbet.Game, we don't just play by the rules—we create new ones. Our partnership with MPC is all about embracing innovation, pushing limits, and offering our community fresh experiences that break free from the ordinary.\n\nMPC competes in the Major League of Pickleball and counts Nick Kyrgios, Naomi Osaka, Patrick Mahomes, Kygo, Rich Paul and more as investors."
       },
     ],
   },
   "bc-esports": {
-    title: "BC Game Esports",
+    title: "Rellbet Game Esports",
     subtitle: "Esports Division",
-    partner: "BC Game Esports Team",
+    partner: "Rellbet Game Esports Team",
     period: "2023 – Present",
     sections: [
       {
-        heading: "BC Game Esports: Our Competitive Gaming Division",
-        content: "BC Game Esports represents our direct involvement in competitive gaming. Our esports division competes across multiple titles including CS2, Dota 2, and League of Legends, bringing the BC.GAME brand to the forefront of competitive gaming."
+        heading: "Rellbet Game Esports: Our Competitive Gaming Division",
+        content: "Rellbet Game Esports represents our direct involvement in competitive gaming. Our esports division competes across multiple titles including CS2, Dota 2, and League of Legends, bringing the Rellbet.Game brand to the forefront of competitive gaming."
       },
       {
         heading: "Tournament Achievements",
-        content: "Our esports teams have competed in major tournaments worldwide, building a reputation for competitive excellence. From regional qualifiers to international championships, BC Game Esports continues to grow and achieve new milestones."
+        content: "Our esports teams have competed in major tournaments worldwide, building a reputation for competitive excellence. From regional qualifiers to international championships, Rellbet Game Esports continues to grow and achieve new milestones."
       },
       {
         heading: "Community Engagement",
@@ -166,7 +166,7 @@ const sponsorships: Record<string, { title: string; subtitle: string; partner: s
     period: "2024 – Present",
     sections: [
       {
-        heading: "BC.GAME Partners with Kwara United FC",
+        heading: "Rellbet.Game Partners with Kwara United FC",
         content: "Our partnership with Kwara United FC marks our expansion into African football. Kwara United, based in Ilorin, Nigeria, competes in the Nigerian Professional Football League and has a passionate, growing fanbase."
       },
       {
@@ -186,7 +186,7 @@ const sponsorships: Record<string, { title: string; subtitle: string; partner: s
     period: "2024 – Present",
     sections: [
       {
-        heading: "BC.GAME x Sashimi Poker",
+        heading: "Rellbet.Game x Sashimi Poker",
         content: "Our partnership with Sashimi Poker brings together two innovative forces in the gaming world. Sashimi Poker's unique approach to online poker aligns with our vision of creating exciting, fair, and transparent gaming experiences."
       },
       {
@@ -203,7 +203,7 @@ const sponsorships: Record<string, { title: string; subtitle: string; partner: s
     officialWebsite: "https://lcfc.com",
     sections: [
       {
-        heading: "BC.GAME x Leicester City FC",
+        heading: "Rellbet.Game x Leicester City FC",
         content: "Our partnership with Leicester City FC represents a landmark moment in our sponsorship journey. Leicester City, the miraculous 2015-16 Premier League champions, bring a global fanbase and a story of defying the odds — values that resonate deeply with our brand."
       },
       {
@@ -212,7 +212,7 @@ const sponsorships: Record<string, { title: string; subtitle: string; partner: s
       },
       {
         heading: "Shared Values",
-        content: "Like Leicester City's famous title run, BC.GAME believes in breaking barriers and achieving the unexpected. This partnership celebrates innovation, community, and the thrill of competition that unites sports fans and gamers alike."
+        content: "Like Leicester City's famous title run, Rellbet.Game believes in breaking barriers and achieving the unexpected. This partnership celebrates innovation, community, and the thrill of competition that unites sports fans and gamers alike."
       },
     ],
   },
@@ -238,7 +238,7 @@ const SponsorshipPage = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <div className="max-w-5xl mx-auto px-3 sm:px-4 py-6 space-y-6">
+      <div className="max-w-5xl mx-auto px-1 sm:px-2 py-6 space-y-6">
         {/* Tab Navigation */}
         <div className="flex gap-1 overflow-x-auto scrollbar-hide pb-1">
           {tabs.map((t) => (

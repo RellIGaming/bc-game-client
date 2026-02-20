@@ -67,7 +67,7 @@ const LiveStats = () => {
       <main>
         <div className="p-4 lg:p-6 space-y-6">
           {/* Token Header Card */}
-          <div className="bg-card border border-border rounded-xl p-4 lg:p-6">
+          <div className="bg-card border border-border rounded-lg p-4 lg:p-6">
             <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
               <div className="flex items-center gap-4">
                   <img src={Blogo} alt="logo" className="w-12 h-12 lg:w-16 lg:h-16"/>
@@ -123,7 +123,7 @@ const LiveStats = () => {
 
             <TabsContent value="overview" className="space-y-6 mt-6">
               {/* Price Chart */}
-              <div className="bg-card border border-border rounded-xl p-4 lg:p-6">
+              <div className="bg-card border border-border rounded-lg p-4 lg:p-6">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
                   <div>
                     <div className="flex items-center gap-2">
@@ -196,7 +196,7 @@ const LiveStats = () => {
               {/* Token Stats Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 {/* Token Supply Card */}
-                <div className="bg-card border border-border rounded-xl p-4 col-span-1 md:col-span-2 lg:col-span-1">
+                <div className="bg-card border border-border rounded-lg p-4 col-span-1 md:col-span-2 lg:col-span-1">
                   <div className="flex items-center gap-4">
                     <div className="relative w-20 h-20">
                       <svg className="w-full h-full -rotate-90" viewBox="0 0 36 36">
@@ -249,7 +249,7 @@ const LiveStats = () => {
                 </div>
 
                 {/* Platform Stats Cards */}
-                <div className="bg-card border border-border rounded-xl p-4">
+                <div className="bg-card border border-border rounded-lg p-4">
                   <div className="flex items-center gap-2 text-xs text-muted-foreground mb-1">
                     <span className="w-2 h-2 rounded-full bg-primary" />
                     Total Wager
@@ -258,7 +258,7 @@ const LiveStats = () => {
                   <div className="text-xs text-muted-foreground">{platformStats.totalWagerLast24h}</div>
                 </div>
 
-                <div className="bg-card border border-border rounded-xl p-4">
+                <div className="bg-card border border-border rounded-lg p-4">
                   <div className="flex items-center gap-2 text-xs text-muted-foreground mb-1">
                     <span className="w-2 h-2 rounded-full bg-primary" />
                     Online
@@ -267,7 +267,7 @@ const LiveStats = () => {
                   <div className="text-xs text-muted-foreground">{platformStats.onlineLast24h}</div>
                 </div>
 
-                <div className="bg-card border border-border rounded-xl p-4">
+                <div className="bg-card border border-border rounded-lg p-4">
                   <div className="flex items-center gap-2 text-xs text-muted-foreground mb-1">
                     <span className="w-2 h-2 rounded-full bg-yellow-500" />
                     Bets
@@ -278,7 +278,7 @@ const LiveStats = () => {
               </div>
 
               {/* Win Amount Card */}
-              <div className="bg-card border border-border rounded-xl p-4">
+              <div className="bg-card border border-border rounded-l p-4">
                 <div className="flex items-center gap-2 text-xs text-muted-foreground mb-1">
                   <span className="w-2 h-2 rounded-full bg-primary" />
                   Win Amount
@@ -288,7 +288,7 @@ const LiveStats = () => {
               </div>
 
               {/* Partner Logos */}
-              <div className="bg-card border border-border rounded-xl p-4">
+              <div className="bg-card border border-border rounded-lg p-4">
                 <div className="flex flex-wrap items-center justify-center gap-6 lg:gap-12 text-muted-foreground">
                   {["SOLSCAN", "CoinMarketCap", "OKX", "CoinGecko", "GMGN"].map((partner) => (
                     <div key={partner} className="text-sm font-medium hover:text-foreground transition-colors cursor-pointer">
@@ -299,7 +299,7 @@ const LiveStats = () => {
               </div>
 
               {/* All Bets Table */}
-              <div className="bg-card border border-border rounded-xl overflow-hidden">
+              <div className="bg-card border border-border rounded-lg overflow-hidden">
                 <div className="p-4 border-b border-border flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <h3 className="font-semibold text-foreground">All Bets</h3>

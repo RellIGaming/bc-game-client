@@ -58,7 +58,6 @@ import language from "../../assets/images/language-icon.png";
 import currency from "../../assets/images/currency-icon.png";
 import support from "../../assets/images/support-icon.png";
 import about from "../../assets/images/about-icon.png";
-import liveStats from "../../assets/images/live-stats-icon.png";
 import achivement from "../../assets/images/achivement-icon.png";
 import help from "../../assets/images/help-desk.png";
 import legal from "../../assets/images/legal-icon.png";
@@ -131,7 +130,7 @@ const menuItems = [
       { id: "esoccer", label: "eSoccer", iconImg: fifa, path: "/sports/esoccer" },
       { id: "counter-strike", label: "Counter-Strike", iconImg: fifa, path: "/sports/counter-strike" },
       { id: "american-football", label: "American Football", iconImg: aFootball, path: "/sports/american-football" },
-      { id: "ice-hockey", label: "Ice Hockey", iconImg: iceHockey, path: "/sports/ice-hockey" },
+      { id: "ice-hockey", label: "Ice Hockey", iconImg: handball, path: "/sports/ice-hockey" },
       { id: "dota2", label: "Dota 2", iconImg: basket, path: "/sports/dota2" },
       { id: "handball", label: "Handball", iconImg: handball, path: "/sports/handball" },
       { id: "mma", label: "MMA", iconImg: racing, path: "/sports/mma" },
@@ -219,7 +218,7 @@ const extremBottom = [
       { id: "sponsorship-journey", label: "Sponsorship Journey", iconImg: bharat, path: "/sponsorships/journey" },
       { id: "colby-covington", label: "Colby Covington", iconImg: legend, path: "/sponsorships/colby-covington" },
       { id: "ohiggins", label: "O'Higgins", iconImg: nova, path: "/sponsorships/ohiggins" },
-      { id: "bc-esports", label: "BC Game Esports", iconImg: frost, path: "/sponsorships/bc-esports" },
+      { id: "bc-esports", label: "Rellbet Game Esports", iconImg: frost, path: "/sponsorships/bc-esports" },
       { id: "kwara-united", label: "Kwara United", iconImg: bharat, path: "/sponsorships/kwara-united" },
       { id: "leicester", label: "Leicester City", iconImg: legend, path: "/sponsorships/leicester" },
     ],

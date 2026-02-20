@@ -160,7 +160,7 @@ const VipClubPage = ({ isLoggedIn }) => {
         <div className="bg-card rounded-lg aspect-video flex items-center justify-center">
           <div className="text-center text-muted-foreground">
             <div className="text-5xl mb-3">
-              <video className="w-full rounded-md h-[95%] -mt-3" controls poster="https://bc.game/modules/bonus2/assets/poster-D0tNvOgo.png">
+              <video className="w-full rounded-md h-[95%] -mt-3" controls poster="https://Rellbet.Game/modules/bonus2/assets/poster-D0tNvOgo.png">
                 <source src="https://img2.distributedresourcestorage.com/video/OP177_Kelly_Promo_EN_H_20251218_B.mp4" type="video/mp4"></source>
               </video>
             </div>

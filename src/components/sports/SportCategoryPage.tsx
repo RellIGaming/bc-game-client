@@ -43,7 +43,7 @@ export default function SportCategoryPage({ category, onAddBet, selectedBets }: 
 
       {/* League Filter Tags */}
       <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-2">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 p-2 rounded-lg bg-muted">
           <span className="text-sm text-muted-foreground whitespace-nowrap">All</span>
           <span className="bg-secondary px-2 py-0.5 rounded text-xs text-muted-foreground">
             {data.live.length + data.upcoming.length}
@@ -55,7 +55,7 @@ export default function SportCategoryPage({ category, onAddBet, selectedBets }: 
             key={league}
             onClick={() => setActiveLeague(league)}
             className={cn(
-              "px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all",
+              "px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all",
               activeLeague === league
                 ? "bg-primary text-primary-foreground"
                 : "bg-secondary text-foreground hover:bg-muted"

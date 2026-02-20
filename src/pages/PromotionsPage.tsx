@@ -11,7 +11,7 @@ const depositTiers = [
   { pct: "360%", label: "4th Deposit Bonus", min: "₹800.00" },
 ];
 
-const promotionTabs = ["All", "Casino", "Sports", "BC Exclusive"];
+const promotionTabs = ["All", "Casino", "Sports", "Rellbet Exclusive"];
 
 const promotionCards = [
   { title: "0 House Edge + Instant Rakeback", sub: "1,000,000,000 TOKENS UP FOR GRABS", ends: "Ends 3/1/2026, 5:29:59 AM", category: ["All", "Casino"], badge: "EXCLUSIVE" },
@@ -20,7 +20,7 @@ const promotionCards = [
   { title: "IEM Kraków 2026", sub: "WAGER LEADERBOARD HONORS", ends: "Ends 2/9/2026, 5:29:59 AM", category: ["All", "Sports"], badge: null },
   { title: "IEM Kraków 2026 Cashdrop", sub: "CS DAILY CASH", ends: "Ends 2/9/2026, 5:29:59 AM", category: ["All", "Sports"], badge: null },
   { title: "Bet & Win", sub: "₹6,000,000", ends: "Ends 2/9/2026, 5:29:59 AM", category: ["All", "Casino"], badge: null },
-  { title: "Platipus Network Tournament", sub: "SHARE €25000 PRIZE POOL", ends: "Ends 2/8/2026, 5:29:59 AM", category: ["All", "BC Exclusive"], badge: null },
+  { title: "Platipus Network Tournament", sub: "SHARE €25000 PRIZE POOL", ends: "Ends 2/8/2026, 5:29:59 AM", category: ["All", "Rellbet Exclusive"], badge: null },
   { title: "BNG Prize Drop", sub: "$260,000 PRIZE POOL", ends: "Ends 4/2/2026, 9:29:59 AM", category: ["All", "Casino"], badge: null },
   { title: "Lucky Horse Cash Rain", sub: "€500,000", ends: "Ends 3/2/2026, 5:29:59 AM", category: ["All", "Casino"], badge: null },
   { title: "Sport Weekly Bonus", sub: "BET $500 AND GET UP TO $1000!", ends: "Ends 4/1/2026, 5:29:59 AM", category: ["All", "Sports"], badge: null },
@@ -36,7 +36,7 @@ const PromotionsPage = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <div className="max-w-5xl mx-auto px-3 sm:px-4 py-6 space-y-6">
+      <div className="max-w-5xl mx-auto px-1 sm:px-2 py-6 space-y-6">
         {/* Header Banner */}
         <div className="bg-card b-radius p-5 sm:p-6">
           <p className="text-sm text-muted-foreground">Promotion</p>

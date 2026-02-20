@@ -117,7 +117,7 @@ const BonusPage = () => {
  
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <div className="max-w-5xl mx-auto px-1 py-8 space-y-8">
+      <div className="max-w-5xl mx-auto px-1 py-8 space-y-8 sm:px-2">
         {/* Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <h1 className="text-2xl font-bold">Bonus</h1>

@@ -30,7 +30,7 @@ const ReferralPage = () => {
   };
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <div className="max-w-5xl mx-auto px-1 py-8 space-y-8">
+      <div className="max-w-5xl mx-auto px-1 py-8 space-y-8 sm:px-2">
         <h1 className="text-2xl font-bold">Referral</h1>
         {/* Tabs */}
         <div className="flex flex-wrap gap-2">

@@ -43,7 +43,7 @@ export default function VipBonusTable({ isLoggedIn }: Props) {
 
   return (
     <div className="mt-6">
-      <div className="bg-[#1f2324] rounded-xl p-4">
+      <div className="bg-secondary rounded-lg p-4">
         <h2 className="text-lg font-semibold text-white">
           Exclusive VIP Bonus
         </h2>
