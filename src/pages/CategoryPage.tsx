@@ -79,7 +79,7 @@ const allGames: Game[] = [
   { id: 35, name: "DRAGON HATCH", provider: "PG", color: "bg-red-600", icon:card7, players: 234, category: "new-releases" },
   { id: 36, name: "FORTUNE OX", provider: "PG", color: "bg-amber-600", icon: card7, players: 456, category: "new-releases" },
   
-  // Blackjack
+  // game-shows
   { id: 37, name: "CLASSIC BLACKJACK", provider: "Evolution", color: "bg-green-700", icon: card8, players: 345, category: "blackjack" },
   { id: 38, name: "VIP BLACKJACK", provider: "Evolution", color: "bg-gold", icon:card8, players: 123, category: "blackjack" },
   
@@ -113,7 +113,7 @@ const categoryTitles: Record<string, string> = {
   "lottery": "Lottery",
   "hot-games": "Hot Games",
   "new-releases": "New Releases",
-  "blackjack": "Blackjack",
+  "game-shows": "Game-Shows",
   "themes": "Themes",
   "baccarat": "Baccarat",
   "poker": "Poker",

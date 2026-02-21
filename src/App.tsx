@@ -53,13 +53,13 @@ const App = () => {
               <Route path="/wallet" element={<WalletPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
               <Route path="/game/:gameId" element={<GameDetailPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
               <Route path="/wallet/:section" element={<WalletPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
-              <Route path="/category/:category" element={<CategoryPage />} />
+              <Route path="/casino/:category" element={<CategoryPage />} />
               <Route path="/live-stats" element={<LiveStats />} />
-              <Route path="/category/vip-club" element={<VipClubPage isLoggedIn={isLoggedIn} />} />
-              <Route path="/category/bonus" element={<BonusPage />} />
-              <Route path="/category/referal" element={<ReferralPage />} />
-              <Route path="/category/fair" element={<ProvablyFairPage />} />
-              <Route path="/category/gambling" element={<ResponsibleGamblingPage />} />
+              <Route path="/vip-club" element={<VipClubPage isLoggedIn={isLoggedIn} />} />
+              <Route path="/bonus" element={<BonusPage />} />
+              <Route path="/referal" element={<ReferralPage />} />
+              <Route path="/fair" element={<ProvablyFairPage />} />
+              <Route path="/gambling" element={<ResponsibleGamblingPage />} />
               <Route path="/sponsorships" element={<SponsorshipPage />} />
               <Route path="/sponsorships/:tab" element={<SponsorshipPage />} />
               <Route path="/promotions" element={<PromotionsPage />} />

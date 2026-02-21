@@ -101,18 +101,18 @@ const menuItems = [
     // color: "text-primary",
     path: "/casino",
     submenu: [
-      { id: "hot-games", label: "Hot Games", iconImg: hotGame, path: "/casino", },
-      { id: "slots", label: "Slots", iconImg: slot, path: "/casino", },
-      { id: "game Shows", label: "Game Shows", iconImg: gameShow, path: "/casino", },
-      { id: "live-casino", label: "Live Casino", iconImg: liveCasino, path: "/casino", },
-      { id: "bonus Buy", label: "Bonus Buy", iconImg: bonus, path: "/casino", },
-      { id: "burst Games", label: "Burst Games", iconImg: frost, path: "/casino", },
-      { id: "new-releases", label: "New Releases", iconImg: newR, path: "/casino", },
-      { id: "poker", label: "Poker", iconImg: casino, path: "/casino", },
-      { id: "bingo", label: "Bingo", iconImg: bingo, path: "/casino", },
-      { id: "table-games", label: "Table Games", iconImg: tableGame, path: "/casino", },
-      { id: "providers", label: "Providers", iconImg: provide, path: "/casino", },
-      { id: "themes", label: "Themes", iconImg: theme, path: "/casino", },
+      { id: "hot-games", label: "Hot Games", iconImg: hotGame, path: "/casino/hot-games", },
+      { id: "slots", label: "Slots", iconImg: slot, path: "/casino/slots", },
+      { id: "game-shows", label: "Game Shows", iconImg: gameShow, path: "/casino/game-shows", },
+      { id: "live-casino", label: "Live Casino", iconImg: liveCasino, path: "/casino/live-casino", },
+      { id: "bonus-buy", label: "Bonus Buy", iconImg: bonus, path: "/casino/bonus-buy", },
+      { id: "burst-games", label: "Burst Games", iconImg: frost, path: "/casino/burst-games", },
+      { id: "new-releases", label: "New Releases", iconImg: newR, path: "/casino/new-releases", },
+      { id: "poker", label: "Poker", iconImg: casino, path: "/casino/poker", },
+      { id: "bingo", label: "Bingo", iconImg: bingo, path: "/casino/bingo", },
+      { id: "table-games", label: "Table Games", iconImg: tableGame, path: "/casino/table-games", },
+      { id: "providers", label: "Providers", iconImg: provide, path: "/casino/providers", },
+      { id: "themes", label: "Themes", iconImg: theme, path: "/casino/themes", },
 
     ],
   },
@@ -137,26 +137,7 @@ const menuItems = [
       { id: "racing", label: "Racing", iconImg: racing, path: "/sports/racing" },
     ],
   },
-  // {
-  //   id: "lottery",
-  //   label: "Lottery",
-  //   iconImg: Ticket,
-  //   hasSubmenu: true,
-  //   path:"/",
-  //   submenu: [
-  //     { id: "lottery", label: "All Lottery", iconImg: Ticket },
-  //   ],
-  // },
-  // {
-  //   id: "crypto-futures",
-  //   label: "Crypto Futures",
-  //   iconImg: TrendingUp,
-  //   hasSubmenu: true,
-  //   color: "text-gold",
-  //   submenu: [
-  //     { id: "crypto-futures", label: "Crypto Futures", iconImg: TrendingUp },
-  //   ],
-  // },
+
 
 ];
 
@@ -306,27 +287,33 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
       prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
     );
   };
-  const handleNavigate = (path: string, isDirectPath: boolean = false) => {
-    if (isDirectPath) {
-      navigate(path);
-    } else if (path === "casino" || path === "lobby") {
-      navigate("/casino");
-    } else if (path === "promotions") {
-      navigate("/promotions");
-    } else if (path === "daily") {
-      navigate("/daily");
-    } else if (path === "lucky") {
-      navigate("/lucky");
-    } else if (path === "sponsorships") {
-      navigate("/sponsorships");
-    } else {
-      navigate(`/category/${path}`);
-    }
+  const handleNavigate = (path: string) => {
+    navigate(path);
+
     if (window.innerWidth < 1024) {
       onClose();
     }
   };
-
+  // const handleNavigate = (path: string, isDirectPath: boolean = false) => {
+  //     if (isDirectPath) {
+  //       navigate(path);
+  //     } else if (path === "casino" || path === "lobby") {
+  //       navigate("/casino");
+  //     } else if (path === "promotions") {
+  //       navigate("/promotions");
+  //     } else if (path === "daily") {
+  //       navigate("/daily");
+  //     } else if (path === "lucky") {
+  //       navigate("/lucky");
+  //     } else if (path === "sponsorships") {
+  //       navigate("/sponsorships");
+  //     } else {
+  //       navigate(`/category/${path}`);
+  //     }
+  //     if (window.innerWidth < 1024) {
+  //       onClose();
+  //     }
+  //   };
   // For submenu items that have their own path, navigate directly
   const handleSubNavigate = (sub: any) => {
     if (sub.path) {
@@ -425,7 +412,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
     else if (item.id === "promotions") navigate("/promotions");
     else if (item.id === "daily") navigate("/daily");
     else if (item.id === "lucky") navigate("/lucky");
-    else if (item.path) handleNavigate(item.path, true);
+    else if (item.path) handleNavigate(item.path);
   };
 
   return (
@@ -479,7 +466,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                             className="w-5 h-5 object-contain"
                           /> */}
                   <p className="text-xs text-muted-foreground">$0.00777</p>
-                   <button
+                  <button
                     onClick={(e) => {
                       e.stopPropagation();
                     }}
@@ -565,7 +552,8 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                           <Tooltip key={sub.id}>
                             <TooltipTrigger asChild>
                               <button
-                                onClick={() => handleSubNavigate(sub)}
+                                // onClick={() => handleNavigate(sub.id)}
+                                onClick={() => handleNavigate(sub.path)}
                                 className="bg-sidebar-accent transition-colors w-full flex items-center justify-center p-2 b-radius hover: hvr-btn"
                               >
                                 <img
@@ -624,7 +612,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                           {item.submenu?.map((sub) => (
                             <button
                               key={sub.id}
-                              onClick={() => handleSubNavigate(sub)}
+                              onClick={() => handleNavigate(sub.path)}
                               className="w-full flex items-center gap-3 px-3 py-2.5 b-radius bg-sidebar-accent hover:hvr-btn"
                             >
                               <img
@@ -694,7 +682,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                   <Tooltip key={item.id}>
                     <TooltipTrigger asChild>
                       <button
-                        onClick={() => handleNavigate(item.id)}
+                        onClick={() => openParentRoute(item)}
                         className={cn(
                           "w-full flex items-center justify-center p-2.5 b-radius",
                           "hover: hvr-btn"
@@ -714,7 +702,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                 ) : (
                   <button
                     key={item.id}
-                    onClick={() => handleNavigate(item.id)}
+                    onClick={() => openParentRoute(item)}
                     className={cn(
                       "w-full flex items-center gap-3 px-3 py-2.5 b-radius ",
                       "hover: hvr-btn"
@@ -780,7 +768,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                           <Tooltip key={sub.id}>
                             <TooltipTrigger asChild>
                               <button
-                                onClick={() => handleSubNavigate(sub)}
+                                onClick={() => handleNavigate(sub.path)}
                                 className="w-full flex items-center justify-center p-2 bg-sidebar-accent hover:hvr-btn transition-colors"
                               >
                                 <img
@@ -841,7 +829,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                           {item.submenu?.map((sub) => (
                             <button
                               key={sub.id}
-                              onClick={() => handleSubNavigate(sub)}
+                              onClick={() => handleNavigate(sub.path)}
                               className="w-full flex items-center gap-3 px-3 py-2.5 bg-sidebar-accent b-radius hover:hvr-btn transition-colors"
                             >
                               <img
