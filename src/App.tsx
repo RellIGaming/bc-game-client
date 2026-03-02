@@ -8,7 +8,7 @@ import CategoryPage from "./pages/CategoryPage";
 import NotFound from "./pages/NotFound";
 import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
-import { useState } from "react";
+import { SetStateAction, useState } from "react";
 import LiveStats from "./components/home/LiveStats";
 import CasinoPage from "./pages/CasinoPage";
 import GameDetailPage from "./pages/GameDetailPage";
@@ -28,6 +28,7 @@ import DailyContestPage from "./pages/DailyContestPage";
 import WeeklyRafflePage from "./pages/WeeklyRafflePage";
 import QuestHubPage from "./pages/QuestHubPage";
 import ChallengePage from "./pages/ChallengePage";
+import GlobalSettingsPage from "./pages/GlobalSettingsPage";
 
 const queryClient = new QueryClient();
 
@@ -67,6 +68,9 @@ const App = () => {
               <Route path="/lucky" element={<WeeklyRafflePage />} />
               <Route path="/quest-hub" element={<QuestHubPage />} />
               <Route path="/challenge" element={<ChallengePage />} />
+              <Route path="/globalSettings" element={<GlobalSettingsPage username={""} selectedFrame={0} setUsername={function (value: SetStateAction<string>): void {
+                throw new Error("Function not implemented.");
+              } }  />} />
             </Route>
             <Route path="/admin-login" element={<AdminLogin />} />
             <Route path="/admin" element={<AdminDashboard />} />

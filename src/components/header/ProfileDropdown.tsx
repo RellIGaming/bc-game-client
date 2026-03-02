@@ -49,6 +49,7 @@ import instagram from "../../assets/images/instagram-icon.png"
 
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import MyProfileModal from '../auth/MyProfileModal';
 
 interface MobileProfileProps {
   isOpen: boolean;
@@ -81,9 +82,9 @@ const menuItems: MenuItem[] = [
   { icon: <BarChart3 className="w-5 h-5" />, label: "Rollover Overview", path: "/wallet/rollover" },
   { icon: <Crown className="w-5 h-5" />, label: "VIP Club", path: "/" },
   { icon: <Lock className="w-5 h-5" />, label: "Vault Pro", path: "/wallet/vault-pro" },
-  { icon: <Users className="w-5 h-5" />, label: "Referral", path: "/" },
-  { icon: <User className="w-5 h-5" />, label: "My Profile", path: "/" },
-  { icon: <Settings className="w-5 h-5" />, label: "Global Settings", path: "/" },
+  { icon: <Users className="w-5 h-5" />, label: "Referral", path: "/referal" },
+  { icon: <User className="w-5 h-5" />, label: "My Profile", path: "my-profile" },
+  { icon: <Settings className="w-5 h-5" />, label: "Global Settings", path: "/globalSettings" },
 ];
 const actions = [
   { icon: buyIcon, label: "Buy", row: 1 },
@@ -100,6 +101,7 @@ const actions = [
 
 const ProfileDropdown = ({ isOpen, onClose, onLogout }: ProfileDropdownProps) => {
   const [isDark, setIsDark] = useState(true);
+  const [profileOpen, setProfileOpen] = useState(false);
   const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
   const toggleTheme = () => setIsDark(!isDark);
   const navigate = useNavigate();
@@ -123,8 +125,13 @@ const ProfileDropdown = ({ isOpen, onClose, onLogout }: ProfileDropdownProps) =>
                   <button
                     key={index}
                     onClick={() => {
-                      navigate(item.path);
-                      onClose?.();
+                      if (item.path === "my-profile") {
+                        setProfileOpen(true);
+                        onClose?.();
+                      } else {
+                        navigate(item.path);
+                        onClose?.();
+                      }
                     }}
                     className="w-full flex items-center gap-3 px-4 py-3 text-muted-foreground hover:text-foreground hover:bg-secondary/50 transition-colors"
                   >
@@ -149,6 +156,7 @@ const ProfileDropdown = ({ isOpen, onClose, onLogout }: ProfileDropdownProps) =>
           )}
         </>
       )}
+      <MyProfileModal open={profileOpen} onClose={() => setProfileOpen(false)} />
     </AnimatePresence>
   );
 };
@@ -193,7 +201,8 @@ export const MobileProfile = ({
     {
       label: "Global Settings",
       icon: notifyIcon,
-      right: <span className="w-2 h-2 bg-red-500 rounded-full" />,
+      right: <span className="w-2 h-2 bg-destructive rounded-full" />,
+      path: "/globalSettings",
     },
     {
       label: "Language",
@@ -389,18 +398,19 @@ export const MobileProfile = ({
           {moileMenuItems.map((item, index) => (
             <button
               key={item.label}
+              onClick={() => {
+                if ((item as any).path) {
+                  navigate((item as any).path);
+                  onClose();
+                }
+              }}
               className="w-full flex justify-between items-center px-4 py-2 hover:bg-white/5 transition-colors"
             >
               {/* Left */}
               <div className="flex items-center gap-3">
-                <img
-                  src={item.icon}
-                  alt={item.label}
-                  className="w-6 h-6 "
-                />
+                <img src={item.icon} alt={item.label} className="w-6 h-6" />
                 <span>{item.label}</span>
               </div>
-
               {/* Right */}
               <div className="flex items-center gap-2">
                 {item.right}
