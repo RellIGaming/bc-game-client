@@ -1,0 +1,100 @@
+// stores/authStore.ts
+import { create } from "zustand";
+import * as api from "../services/api"; // import your api.ts functions
+
+// ------------------ Types ------------------
+export interface User {
+  id: number;
+  username: string;
+  email?: string;
+  phone?: string;
+  role: string;
+  balance?: number;
+  profileImage?:string;
+}
+
+export interface AuthState {
+  user: User | null;
+  token: string | null;
+  loading: boolean;
+  error: string | null;
+
+  signup: (data: { username: string; email: string; password: string; promoCode?: string; role?: string }) => Promise<void>;
+  signin: (data: { identifier: string; password: string }) => Promise<void>;
+  otpLogin: (data: { identifier: string; otp: string }) => Promise<void>;
+  logout: () => void;
+  fetchProfile: () => Promise<void>;
+  updateProfile: (data: { username?: string; email?: string; phone?: string }) => Promise<void>;
+}
+
+// ------------------ Zustand Store ------------------
+const useAuthStore = create<AuthState>((set, get) => ({
+  user: null,
+  token: localStorage.getItem("token") || null,
+  loading: false,
+  error: null,
+
+  signup: async (data) => {
+    set({ loading: true, error: null });
+    try {
+      const res = await api.signup(data);
+      set({ user: res.user, token: res.token, loading: false });
+      localStorage.setItem("token", res.token);
+    } catch (err: any) {
+      set({ error: err.message, loading: false });
+    }
+  },
+
+  signin: async (data) => {
+    set({ loading: true, error: null });
+    try {
+      const res = await api.signin(data);
+      set({ user: res.user, token: res.token, loading: false });
+      localStorage.setItem("token", res.token);
+    } catch (err: any) {
+      set({ error: err.message, loading: false });
+    }
+  },
+
+  otpLogin: async (data) => {
+    set({ loading: true, error: null });
+    try {
+      const res = await api.otpLogin(data);
+      set({ user: res.user, token: res.token, loading: false });
+      localStorage.setItem("token", res.token);
+    } catch (err: any) {
+      set({ error: err.message, loading: false });
+    }
+  },
+
+  logout: () => {
+    set({ user: null, token: null });
+    localStorage.removeItem("token");
+  },
+
+  fetchProfile: async () => {
+    const token = get().token;
+    if (!token) return;
+    set({ loading: true });
+    try {
+      const user = await api.getProfile();
+      set({ user, loading: false });
+    } catch (err: any) {
+      set({ error: err.message, loading: false });
+    }
+  },
+
+  updateProfile: async (data) => {
+    const token = get().token;
+    if (!token) return;
+    set({ loading: true });
+    try {
+      const updatedUser = await api.updateProfile(data);
+    set({ user: updatedUser, loading: false });
+    } catch (err: any) {
+      set({ error: err.message, loading: false });
+    }
+  },
+}));
+
+export default useAuthStore;

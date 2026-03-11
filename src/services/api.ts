@@ -1,6 +1,6 @@
 // API service without axios dependency
-const BASE_URL = "https://bc-game-server.onrender.com";
-// const BASE_URL = "http://localhost:5000";
+// const BASE_URL = "https://bc-game-server.onrender.com";
+const BASE_URL = "http://localhost:5000";
 
 interface RequestConfig {
   method?: string;
@@ -8,7 +8,7 @@ interface RequestConfig {
   body?: string;
 }
 
-const fetchWithAuth = async (endpoint: string, config: RequestConfig = {}) => {
+const fetchWithAuth = async (endpoint: string, config: RequestConfig = {}): Promise<any> => {
   const token = localStorage.getItem("token");
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
@@ -38,11 +38,17 @@ export const signup = (data: {
   username: string;
   email: string;
   password: string;
-  promocode: string;
+  promocode?: string;
+  role?: string;
 }) =>
   fetchWithAuth("/api/auth/signup", {
     method: "POST",
-    body: JSON.stringify(data),
+    body: JSON.stringify({
+      username: data.username,
+      email: data.email,
+      password: data.password,
+      promocode: data.promocode || "",
+    }),
   });
 
 
@@ -70,6 +76,22 @@ export const resetPassword = (token: string, password: string) =>
   });
 
 export const getProfile = () => fetchWithAuth("/auth/profile");
+export const updateProfile = (data: {
+   username?: string;
+  email?: string;
+  phone?: string;
+  profileImage?: string;
+}) =>
+  fetchWithAuth("/api/auth/update-profile", {
+    method: "PUT",
+    body: JSON.stringify(data),
+  });
+  export const otpLogin = (data: { identifier: string; otp: string }) =>
+  fetchWithAuth("/api/auth/otp-login", {
+    method: "POST",
+    body: JSON.stringify(data),
+  });
+
 
 /* =====================
    ADMIN APIS
@@ -82,10 +104,14 @@ export const changeUserRole = (data: {
   body: JSON.stringify(data),
 });
 
+// wallet api
+export const getBalance = () => fetchWithAuth("/api/wallet/balance");
+export const deposit = (amount: number) => fetchWithAuth("/api/wallet/deposit", { method: "POST", body: JSON.stringify({ amount }) });
+export const withdraw = (amount: number) => fetchWithAuth("/api/wallet/withdraw", { method: "POST", body: JSON.stringify({ amount }) });
+ 
 
-/* =====================
-   GAMES APIS
-===================== */
+//  GAMES APIS
+
 
 // get games by category
 export const getGames = (category?: string) => {
@@ -125,9 +151,13 @@ export const deleteGame = (id: string) =>
 
 
 export default {
-  signup, signin, forgotPassword,
+  signup,
+  signin,
+  otpLogin,
+  forgotPassword,
   resetPassword,
   getProfile,
+  updateProfile,
   changeUserRole,
   getGames, updateGame,
   createGame, deleteGame

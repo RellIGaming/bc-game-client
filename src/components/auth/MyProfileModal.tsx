@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { X, Edit2, ArrowLeft, ChevronRight, Heart, Lock } from "lucide-react";
+import useAuthStore from "@/store/authStore";
 
 interface MyProfileModalProps {
     open: boolean;
@@ -12,7 +13,6 @@ interface MyProfileModalProps {
 const EditProfileModal = ({
     open,
     onClose,
-    username,
     selectedFrame,
     onSave,
 }: {
@@ -23,11 +23,45 @@ const EditProfileModal = ({
     onSave: (username: string, frame: number) => void;
 }) => {
     const isMobile = useIsMobile();
+    const { user, fetchProfile, updateProfile } = useAuthStore();
+    const [username, setUsername] = useState(user?.username || "");
     const [localUsername, setLocalUsername] = useState(username);
     const [localFrame, setLocalFrame] = useState(selectedFrame);
-    const handleSave = () => {
-        onSave(localUsername, localFrame);
-        onClose();
+    const [loading, setLoading] = useState(false);
+    // Fetch profile on open
+    useEffect(() => {
+        if (!open) return;
+        const loadProfile = async () => {
+            setLoading(true);
+            try {
+                await fetchProfile();
+            } catch (err) {
+                console.error(err);
+            } finally {
+                setLoading(false);
+            }
+        };
+        loadProfile();
+    }, [open, fetchProfile]);
+    // Sync local state when user changes
+    useEffect(() => {
+        if (user) {
+            setUsername(user.username);
+            // optionally, you can store avatar frame in user object
+        }
+    }, [user]);
+
+    const handleSave = async () => {
+        setLoading(true);
+        try {
+            await updateProfile({ username: localUsername });
+            onSave(localUsername, localFrame); // use callback to update parent
+            onClose();
+        } catch (err) {
+            console.error(err);
+        } finally {
+            setLoading(false);
+        }
     };
 
     const content = (
@@ -45,8 +79,15 @@ const EditProfileModal = ({
                                     : ""
                         }
     bg-gradient-to-br from-yellow-400 to-orange-500`}
-                >
-                    🦖
+                >{user?.profileImage ? (
+                    <img
+                        src={user.profileImage}
+                        alt="Profile"
+                        className="w-20 h-20 rounded-full object-cover"
+                    />
+                ) : (
+                    "🦖"
+                )}
                 </div>
             </div>
 
@@ -103,7 +144,10 @@ const EditProfileModal = ({
                     ))}
                 </div>
             </div>
-
+            <div className="bg-background rounded-lg p-3 text-center">
+                <p className="text-xs text-muted-foreground flex items-center justify-center gap-1">💰 Balance</p>
+                <p className="text-lg font-bold text-foreground">₹{user?.balance ? Number(user.balance).toFixed(2) : "0.00"}</p>
+            </div>
             {/* Save */}
             <button
                 onClick={handleSave}
@@ -140,7 +184,7 @@ const MyProfileModal = ({ open, onClose }: MyProfileModalProps) => {
     const [editOpen, setEditOpen] = useState(false);
     const [username, setUsername] = useState("jkhatun258");
     const [selectedFrame, setSelectedFrame] = useState<number>(0);
-
+    const { user } = useAuthStore();
     const content = (
         <div className="space-y-4">
             {/* Header */}
@@ -164,7 +208,7 @@ const MyProfileModal = ({ open, onClose }: MyProfileModalProps) => {
                     🦖
                 </div>
                 <h3 className="font-bold text-foreground mt-3">{username}</h3>
-                <p className="text-xs text-muted-foreground">User ID:101018386</p>
+                <p className="text-xs text-muted-foreground">User ID: {user?.id || "N/A"}</p>
             </div>
 
             {/* Medals */}
@@ -199,6 +243,12 @@ const MyProfileModal = ({ open, onClose }: MyProfileModalProps) => {
                 <div className="bg-background rounded-lg p-3 text-center">
                     <p className="text-xs text-muted-foreground flex items-center justify-center gap-1">💰 Total Wagered</p>
                     <p className="text-lg font-bold text-foreground">₹0.00</p>
+                </div>
+                <div className="bg-background rounded-lg p-3 mt-2">
+                    <p className="text-md text-left">Top 3 Favorite Games</p>
+                    <div className="pt-4">
+
+                    </div>
                 </div>
             </div>
 
