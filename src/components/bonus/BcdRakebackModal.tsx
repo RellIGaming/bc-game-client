@@ -8,7 +8,7 @@ import {
 import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-interface BcdRakebackModalProps {
+interface USDRakebackModalProps {
     open: boolean;
     onOpenChange: (open: boolean) => void;
     onOpenWager: () => void;
@@ -18,7 +18,7 @@ export function BcdRakebackModal({
     open,
     onOpenChange,
     onOpenWager,
-}: BcdRakebackModalProps) {
+}: USDRakebackModalProps) {
     const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
     const toggleAccordion = (index: number) => {
@@ -27,29 +27,29 @@ export function BcdRakebackModal({
 
     const accordionItems = [
         {
-            title: "How to unlock BCD?",
+            title: "How to unlock USD?",
             content:
-                "Locked BCD is earned through specific bonuses, such as deposit bonuses and lucky spins Unlocking BCD is simple! It works like rakeback and is gradually unlocked as you place wagersbets. For every bet you place, a portion of your Locked BCD will be released based on this formula",
+                "Locked USD is earned through specific bonuses, such as deposit bonuses and lucky spins Unlocking USD is simple! It works like rakeback and is gradually unlocked as you place wagersbets. For every bet you place, a portion of your Locked USD will be released based on this formula",
         },
         {
             title: "What is unlock rate%?",
             content:
-                "Unlock rate is determined by your VIP level or promotion. Higher rate means faster BCD unlocking.",
+                "Unlock rate is determined by your VIP level or promotion. Higher rate means faster USD unlocking.",
         },
         {
-            title: "How to claim BCD?",
+            title: "How to claim USD?",
             content:
-                "Unlocked BCD will automatically move to your available balance. No manual claim required.",
+                "Unlocked USD will automatically move to your available balance. No manual claim required.",
         },
         {
-            title: "Can BCD be exchanged to any other currency?",
+            title: "Can USD be exchanged to any other currency?",
             content:
-                "BCD is equivalent to USD and can be used for betting or withdrawn based on platform rules.",
+                "USD is equivalent to USD and can be used for betting or withdrawn based on platform rules.",
         },
         {
-            title: "What is special about BCD?",
+            title: "What is special about USD?",
             content:
-                "BCD acts like instant rakeback. The more you wager, the more value you unlock over time.",
+                "USD acts like instant rakeback. The more you wager, the more value you unlock over time.",
         },
     ];
 
@@ -64,7 +64,7 @@ export function BcdRakebackModal({
 
                 {/* Banner */}
                 <div className="bg-[#213744] text-white text-center p-3 rounded-lg text-sm font-medium">
-                    1 BCD = 1 USD ($)
+                    1 USD = 1 USD ($)
                 </div>
 
                 {/* Accordion Section */}

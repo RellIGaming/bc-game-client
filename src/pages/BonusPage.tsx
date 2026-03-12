@@ -13,13 +13,13 @@ import challenge from "../assets/images/challenge.png";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { DailyBonusModal } from "@/components/bonus/DailyBonusModal";
 import { WagerContributionModal } from "@/components/bonus/WagerContributionModal";
-import { BcdRakebackModal } from "@/components/bonus/BcdRakebackModal";
 import { LuckySpinModal } from "@/components/bonus/LuckySpinModal";
 import { VaultProModal } from "@/components/bonus/VaultProModal";
 import { TelegramModal } from "@/components/bonus/TelegramModal";
 import { LuckySpinGameModal } from "@/components/bonus/LuckySpinGameModal";
 import { VaultTransferModal } from "@/components/bonus/VaultTransferModal";
 import { useNavigate } from "react-router-dom";
+import { BcdRakebackModal } from "@/components/bonus/BcdRakebackModal";
 
 const monthlyTiers = [
   { pct: "180%", active: true },
@@ -44,11 +44,11 @@ const generalBonuses = [
   },
   {
     icon: rockBack,
-    title: "BCD Rakeback",
+    title: "USD Rakeback",
     stats: [
-      { label: "Locked BCD:", value: "1 BCD" },
+      { label: "Locked USD:", value: "1 USD" },
       { label: "Unlock Rate:", value: "20%" },
-      { label: "Ready to claim:", value: "0 BCD" },
+      { label: "Ready to claim:", value: "0 USD" },
     ],
     countdown: "Claim in 17h 33m 45s",
     action: "Claim",
@@ -56,7 +56,7 @@ const generalBonuses = [
   {
     icon: telegram,
     title: "Telegram Subscription",
-    badge: "Earn 2 BCD Bonus",
+    badge: "Earn 2 USD Bonus",
     description:
       "Connect your TG account, join our TG channel to claim more daily bonuses!",
     action: "Go Verify",
@@ -75,7 +75,7 @@ const generalBonuses = [
     title: "Challenge",
     stats: [
       { label: "Challenges completed:", value: "0/6" },
-      { label: "My rewards:", value: "0 BCD" },
+      { label: "My rewards:", value: "0 USD" },
     ],
     action: "View",
   },
@@ -100,7 +100,7 @@ const generalBonuses = [
 ];
 type ModalType =
   | "daily"
-  | "bcd"
+  | "USD"
   | "lucky"
   | "vault"
   | "wager"
@@ -246,8 +246,8 @@ const BonusPage = () => {
                       onClick={() => {
                         if (bonus.title === "Daily Bonus") {
                           setActiveModal("daily");
-                        } else if (bonus.title === "BCD Rakeback") {
-                          setActiveModal("bcd");
+                        } else if (bonus.title === "USD Rakeback") {
+                          setActiveModal("USD");
                         } else if (bonus.title === "Lucky Spin") {
                           setActiveModal("lucky");
                         } else if (bonus.title === "Vault Pro") {
@@ -334,8 +334,8 @@ const BonusPage = () => {
                       onClick={() => {
                         if (bonus.title === "Daily Bonus") {
                           setActiveModal("daily");
-                        } else if (bonus.title === "BCD Rakeback") {
-                          setActiveModal("bcd");
+                        } else if (bonus.title === "USD Rakeback") {
+                          setActiveModal("USD");
                         } else if (bonus.title === "Lucky Spin") {
                           setActiveModal("lucky");
                         } else if (bonus.title === "Vault Pro") {
@@ -432,7 +432,7 @@ const BonusPage = () => {
           onOpenChange={() => setActiveModal(null)}
         />
         <BcdRakebackModal
-          open={activeModal === "bcd"}
+          open={activeModal === "USD"}
           onOpenChange={() => setActiveModal(null)}
           onOpenWager={() => setActiveModal("wager")}
         />

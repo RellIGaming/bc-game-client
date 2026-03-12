@@ -29,6 +29,7 @@ import WeeklyRafflePage from "./pages/WeeklyRafflePage";
 import QuestHubPage from "./pages/QuestHubPage";
 import ChallengePage from "./pages/ChallengePage";
 import GlobalSettingsPage from "./pages/GlobalSettingsPage";
+import CrashGamePage from "./pages/CrashGamePage";
 
 const queryClient = new QueryClient();
 
@@ -55,6 +56,7 @@ const App = () => {
               <Route path="/game/:gameId" element={<GameDetailPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
               <Route path="/wallet/:section" element={<WalletPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
               <Route path="/casino/:category" element={<CategoryPage />} />
+              <Route path="/game/crash" element={<CrashGamePage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
               <Route path="/live-stats" element={<LiveStats />} />
               <Route path="/vip-club" element={<VipClubPage isLoggedIn={isLoggedIn} />} />
               <Route path="/bonus" element={<BonusPage />} />

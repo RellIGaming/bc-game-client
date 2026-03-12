@@ -95,7 +95,7 @@ const GameDetailModal = ({ isOpen, onClose, game, onSignIn }: GameDetailModalPro
               {/* Sign In Overlay */}
               <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/50">
                 <p className="text-white/80 text-sm text-center mb-2 px-4">
-                  The selected currency will be displayed in <span className="text-primary">BCD</span>, and if you change currency while playing, the game will refresh and restart.
+                  The selected currency will be displayed in <span className="text-primary">USD</span>, and if you change currency while playing, the game will refresh and restart.
                 </p>
                 <Button
                   onClick={onSignIn}

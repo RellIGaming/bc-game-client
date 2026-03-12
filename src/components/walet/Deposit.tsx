@@ -1,17 +1,21 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import {
-
     Copy,
     AlertTriangle,
     Info,
     Gift,
     ChevronDown,
+    ChevronRight,
+    Wallet,
+    Search,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { toast } from 'sonner';
 import { useNavigate, useParams } from 'react-router-dom';
-import qrCode from "../../assets/images/qr-code.png"
+import qrCode from "../../assets/images/qr-code.png";
+import CWalletModal from "./CWalletModal";
+import { allBalances } from './Withdraw';
 // Crypto currencies
 const cryptoCurrencies = [
     { id: "eth", name: "ETH", icon: "🔵", network: "Ethereum" },
@@ -39,6 +43,11 @@ const fiatMethods = [
     { id: "upi3", name: "UPI", range: "300 ~ 50,000", badge: null },
     { id: "upi4", name: "UPI", range: "200 ~ 10,000", badge: null },
 ];
+const localCurrency = [
+    { id: "bdt", name: "BDT", icon: "🔵", },
+    { id: "inr", name: "INR", icon: "🟢" },
+    { id: "pkr", name: "PKR", icon: "🟡", }
+]
 type DepositProps = {
     variant?: "page" | "modal" | "drawer";
 };
@@ -49,12 +58,25 @@ const Deposit = ({ variant = "page" }: DepositProps) => {
     const navigate = useNavigate();
     const [activeSection, setActiveSection] = useState(section || "deposit");
     const [depositTab, setDepositTab] = useState<"crypto" | "fiat">("crypto");
+    const [open, setOpen] = useState(false);
     const [selectedCrypto, setSelectedCrypto] = useState("bc");
     const [selectedNetwork, setSelectedNetwork] = useState("solana");
+    const [cwalletOpen, setCwalletOpen] = useState(false);
+    const [search, setSearch] = useState("");
+    const [selected, setSelected] = useState(allBalances[2]);
     const handleCopyAddress = () => {
         navigator.clipboard.writeText("GkNqpF2P9xi5yYWtF3snCSnNrJnSvZ9qvGSpMhG764c");
         toast.success("Address copied to clipboard!");
     };
+    const filtered = useMemo(() => {
+        return allBalances.filter((item) =>
+            item.name.toLowerCase().includes(search.toLowerCase())
+        );
+    }, [search]);
+    const cashList = filtered.filter((i) => i.type === "cash");
+    const cryptoList = filtered.filter((i) => i.type === "crypto");
+
+
     return (
         <div
             className={cn(
@@ -129,6 +151,19 @@ const Deposit = ({ variant = "page" }: DepositProps) => {
             )}
 
             <div className='bg-card rounded-lg flex-1 overflow-y-auto space-y-6 p-4'>
+                {/* CWallet Connect Banner */}
+                <button
+                    onClick={() => setCwalletOpen(true)}
+                    className="w-full flex items-center justify-between bg-secondary rounded-xl p-3 hover:bg-secondary/80 transition-colors"
+                >
+                    <div className="flex items-center gap-2">
+                        <Wallet className="w-5 h-5 text-primary" />
+                        <span className="text-sm font-medium text-foreground">Cwallet</span>
+                        <span className="text-sm text-muted-foreground">Connect Cwallet to earn bonus</span>
+                    </div>
+                    <ChevronRight className="w-5 h-5 text-muted-foreground" />
+                </button>
+
                 {depositTab === "crypto" ? (
                     <div className="space-y-6">
                         {/* Crypto Selection */}
@@ -163,12 +198,86 @@ const Deposit = ({ variant = "page" }: DepositProps) => {
                             )}
                         >
 
-                            <div>
+                            <div className="relative">
                                 <label className="text-sm text-muted-foreground mb-2 block">Deposit Currency</label>
-                                <div className="flex items-center gap-2 px-4 py-3 bg-secondary rounded-lg">
-                                    <span>🟡</span>
-                                    <span>BC</span>
-                                </div>
+                                <button
+                                    onClick={() => setOpen(!open)}
+                                    className="w-full flex items-center gap-2 px-4 py-2 bg-secondary rounded-lg border border-[#3a3f3f]"
+                                >
+                                    <span className="text-lg">{selected.icon}</span>
+                                    <span className="font-medium text-white">{selected.name}</span>
+                                    <ChevronDown className={`w-4 h-4 ml-auto text-gray-400 transition ${open ? "rotate-180" : ""}`} />
+                                </button>
+
+                                {/* Dropdown */}
+                                {open && (
+                                    <div className="absolute left-0 top-full mt-2 w-full bg-secondary border border-[#3a3f3f] rounded-lg shadow-lg z-50">
+
+                                        {/* Search */}
+                                        <div className="p-3">
+                                            <div className="flex items-center gap-2 px-3 py-2 bg-[#2a2f2f] rounded-lg">
+                                                <Search className="w-4 h-4 text-gray-400" />
+                                                <input
+                                                    value={search}
+                                                    onChange={(e) => setSearch(e.target.value)}
+                                                    placeholder="Search"
+                                                    className="w-full bg-transparent outline-none text-sm text-white"
+                                                />
+                                            </div>
+                                        </div>
+
+                                        <div className="max-h-64 overflow-y-auto px-2 pb-2">
+
+                                            {/* Cash */}
+                                            {cashList.length > 0 && (
+                                                <>
+                                                    <p className="text-xs text-gray-400 px-2 mb-1">Cash</p>
+                                                    {cashList.map((item) => (
+                                                        <div
+                                                            key={item.id}
+                                                            onClick={() => {
+                                                                setSelected(item);
+                                                                setOpen(false);
+                                                            }}
+                                                            className="flex items-center justify-between px-3 py-2 rounded-lg hover:bg-[#2f3434] cursor-pointer"
+                                                        >
+                                                            <div className="flex items-center gap-2">
+                                                                <span>{item.icon}</span>
+                                                                <span className="text-white font-medium">{item.name}</span>
+                                                            </div>
+                                                            <span className="text-gray-300 text-sm">{item.balance}</span>
+                                                        </div>
+                                                    ))}
+                                                </>
+                                            )}
+
+                                            {/* Crypto */}
+                                            {cryptoList.length > 0 && (
+                                                <>
+                                                    <p className="text-xs text-gray-400 px-2 mt-3 mb-1">
+                                                        Crypto currency
+                                                    </p>
+                                                    {cryptoList.map((item) => (
+                                                        <div
+                                                            key={item.id}
+                                                            onClick={() => {
+                                                                setSelected(item);
+                                                                setOpen(false);
+                                                            }}
+                                                            className="flex items-center justify-between px-3 py-2 rounded-lg hover:bg-[#2f3434] cursor-pointer"
+                                                        >
+                                                            <div className="flex items-center gap-2">
+                                                                <span>{item.icon}</span>
+                                                                <span className="text-white font-medium">{item.name}</span>
+                                                            </div>
+                                                            <span className="text-gray-300 text-sm">{item.balance}</span>
+                                                        </div>
+                                                    ))}
+                                                </>
+                                            )}
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                             <div>
                                 <label className="text-sm text-muted-foreground mb-2 block">Choose CoinNetwork</label>
@@ -238,14 +347,87 @@ const Deposit = ({ variant = "page" }: DepositProps) => {
                             </span>
                         </div>
                         {/* Currency Selection */}
-                        <div>
-                            <label className="text-sm text-muted-foreground mb-2 block">Deposit Currency</label>
-                            <div className="flex items-center gap-2 px-4 py-3 bg-secondary rounded-lg">
-                                <span>🇮🇳</span>
-                                <span>INR</span>
-                                <ChevronDown className="w-4 h-4 ml-auto" />
+                        <div className="relative">
+                                <label className="text-sm text-muted-foreground mb-2 block">Deposit Currency</label>
+                                <button
+                                    onClick={() => setOpen(!open)}
+                                    className="w-full flex items-center gap-2 px-4 py-2 bg-secondary rounded-lg border border-[#3a3f3f]"
+                                >
+                                    <span className="text-lg">{selected.icon}</span>
+                                    <span className="font-medium text-white">{selected.name}</span>
+                                    <ChevronDown className={`w-4 h-4 ml-auto text-gray-400 transition ${open ? "rotate-180" : ""}`} />
+                                </button>
+
+                                {/* Dropdown */}
+                                {open && (
+                                    <div className="absolute left-0 top-full mt-2 w-full bg-secondary border border-[#3a3f3f] rounded-lg shadow-lg z-50">
+
+                                        {/* Search */}
+                                        <div className="p-3">
+                                            <div className="flex items-center gap-2 px-3 py-2 bg-[#2a2f2f] rounded-lg">
+                                                <Search className="w-4 h-4 text-gray-400" />
+                                                <input
+                                                    value={search}
+                                                    onChange={(e) => setSearch(e.target.value)}
+                                                    placeholder="Search"
+                                                    className="w-full bg-transparent outline-none text-sm text-white"
+                                                />
+                                            </div>
+                                        </div>
+
+                                        <div className="max-h-64 overflow-y-auto px-2 pb-2">
+
+                                            {/* Cash */}
+                                            {cashList.length > 0 && (
+                                                <>
+                                                    <p className="text-xs text-gray-400 px-2 mb-1">Cash</p>
+                                                    {cashList.map((item) => (
+                                                        <div
+                                                            key={item.id}
+                                                            onClick={() => {
+                                                                setSelected(item);
+                                                                setOpen(false);
+                                                            }}
+                                                            className="flex items-center justify-between px-3 py-2 rounded-lg hover:bg-[#2f3434] cursor-pointer"
+                                                        >
+                                                            <div className="flex items-center gap-2">
+                                                                <span>{item.icon}</span>
+                                                                <span className="text-white font-medium">{item.name}</span>
+                                                            </div>
+                                                            <span className="text-gray-300 text-sm">{item.balance}</span>
+                                                        </div>
+                                                    ))}
+                                                </>
+                                            )}
+
+                                            {/* Crypto */}
+                                            {cryptoList.length > 0 && (
+                                                <>
+                                                    <p className="text-xs text-gray-400 px-2 mt-3 mb-1">
+                                                        Crypto currency
+                                                    </p>
+                                                    {cryptoList.map((item) => (
+                                                        <div
+                                                            key={item.id}
+                                                            onClick={() => {
+                                                                setSelected(item);
+                                                                setOpen(false);
+                                                            }}
+                                                            className="flex items-center justify-between px-3 py-2 rounded-lg hover:bg-[#2f3434] cursor-pointer"
+                                                        >
+                                                            <div className="flex items-center gap-2">
+                                                                <span>{item.icon}</span>
+                                                                <span className="text-white font-medium">{item.name}</span>
+                                                            </div>
+                                                            <span className="text-gray-300 text-sm">{item.balance}</span>
+                                                        </div>
+                                                    ))}
+                                                </>
+                                            )}
+                                        </div>
+                                    </div>
+                                )}
                             </div>
-                        </div>
                         {/* Bonus Banner */}
                         <div className="flex items-center gap-3 bg-card rounded-xl p-4 border border-primary/20">
                             <Gift className="w-6 h-6 text-primary" />
@@ -288,6 +470,7 @@ const Deposit = ({ variant = "page" }: DepositProps) => {
                     </div>
                 )}
             </div>
+            <CWalletModal open={cwalletOpen} onClose={() => setCwalletOpen(false)} />
         </div>
     );
 };

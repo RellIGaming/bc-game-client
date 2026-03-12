@@ -57,8 +57,7 @@ const cryptoCurrencies = [
 // All balances for Balance page
 const allBalances = [
   { id: "inr", name: "INR", icon: "🇮🇳", balance: 0, type: "cash" },
-  { id: "bcd", name: "BCD", icon: "🟣", balance: 0, type: "crypto", isLocked: true },
-  { id: "bc", name: "BC", icon: "🟡", balance: 0, type: "crypto", isLocked: true },
+  { id: "bdt", name: "BDT", icon: "🟣", balance: 0, type: "crypto", isLocked: true },
   { id: "usdt", name: "USDT", icon: "🟢", balance: 0, type: "crypto" },
   { id: "eth", name: "ETH", icon: "🔵", balance: 0, type: "crypto" },
   { id: "btc", name: "BTC", icon: "🟠", balance: 0, type: "crypto" },

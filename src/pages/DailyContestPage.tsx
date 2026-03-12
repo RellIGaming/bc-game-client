@@ -36,9 +36,9 @@ const rulesContent = [
 ];
 
 const rulesCurrencies = [
-  "MATIC, COP, APT, UAH, IOTX, SHIB, KES, RAY, NEAR, WLD, HNT, FDUSD, FLOOR, GNF, DGB, BCD",
+  "MATIC, COP, APT, UAH, IOTX, SHIB, KES, RAY, NEAR, WLD, HNT, FDUSD, FLOOR, GNF, DGB,",
   "BSV, BCH, SUI, CAKE, POL, PYUSD, BTCB, TRY, GMT, BTC, TWT, ARB, GMX, TWD, XAF, A",
-  "BC, ZAR, JTO, ONE, NPR, RLUSD, SUSHI, ALGO, KRW, PUMP, SC, BIGTIME, WBTC, S, CFX, XPL",
+  "ZAR, JTO, ONE, NPR, RLUSD, SUSHI, ALGO, KRW, PUMP, SC, BIGTIME, WBTC, S, CFX, XPL",
   "SAMO, KUMA, KGS, JUP, MANA, ARS, VTHO, WLFI, ICP, BLUR, RWF, ZEC, STRK, ADA, ICX, PAR",
   "DOGE, HBAR, RVN, NANO, WAVES, VND, CHZ, XRP, FLOKI, EGP, LINEA, AZN, JPY, MYR, KAVA, SAND",
   "AVC, BBTC, PEN, TUSD, ENA, BOME, cbBTC, KHR, THETA, VSYS, ENJ, AED, TND, JMD, NEXO, TFUEL",
@@ -80,7 +80,7 @@ const DailyContestPage = () => {
                   <span className="text-yellow-400">🎉</span> Daily Contest <span className="text-yellow-400">🎉</span>
                 </p>
                 <p className="text-xs text-muted-foreground">Contest prize pool</p>
-                <p className="text-xl sm:text-2xl font-bold text-accent">4,938.73 BCD</p>
+                <p className="text-xl sm:text-2xl font-bold text-accent">4,938.73 USD</p>
               </div>
             </div>
             {/* Timer */}

@@ -11,19 +11,19 @@ const dailyQuests = [
   {
     title: "Baccarat Multiplayer Master",
     desc: "Winning streak of 3 rounds in Baccarat Multiplayer with bets greater than $0.4.",
-    reward: "0.1 BCD",
+    reward: "0.1 USD",
     gameUrl: "/game/baccarat",
   },
   {
     title: "Roulette Multiplayer Master",
     desc: "Winning streak of 3 rounds in Roulette Multiplayer with bets greater than $0.4.",
-    reward: "0.1 BCD",
+    reward: "0.1 USD",
     gameUrl: "/game/roulette",
   },
   {
     title: "Just wager on",
     desc: "Daily wager reaches $100.",
-    reward: "0.2 BCD",
+    reward: "0.2 USD",
     gameUrl: null,
   },
 ];
@@ -32,7 +32,7 @@ const weeklyQuests = [
   {
     title: "Activate Rakeback Bonus Boost!",
     desc: "Place total bets of at least 700 this week to activate a Rakeback Boost. For the next 60 minutes, all your Rakeback rewards will be increased by 10%!",
-    reward: "BCD0 / BCD700",
+    reward: "USD0 / USD700",
     status: "In progress",
     gameUrl: null,
   },
@@ -76,7 +76,7 @@ const QuestHubPage = () => {
               {new Date().toLocaleDateString("en-US", { weekday: "long", month: "short", day: "numeric" })}
             </p>
             <p className="text-sm text-muted-foreground mt-1">Accumulated rewards</p>
-            <p className="text-2xl font-bold mt-1">🟣 0 BCD</p>
+            <p className="text-2xl font-bold mt-1">🟣 0 USD</p>
           </div>
           <img src={questBanner} alt="" className="absolute right-4 top-2 w-32 h-28 object-contain hidden sm:block" />
         </div>

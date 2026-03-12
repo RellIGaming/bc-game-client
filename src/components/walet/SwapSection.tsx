@@ -14,7 +14,7 @@ const SwapSection = () => {
   const [fromAmount, setFromAmount] = useState("");
   const [toAmount, setToAmount] = useState("");
   const [fromCurrency, setFromCurrency] = useState("USDT");
-  const [toCurrency, setToCurrency] = useState("BCD");
+  const [toCurrency, setToCurrency] = useState("BDT");
 
   const percentages = [25, 50, 75, 100];
   return (
@@ -94,7 +94,7 @@ const SwapSection = () => {
 
           <div className="flex justify-between text-gray-400">
             <span>Rate</span>
-            <span className="text-primary">1 USDT ≈ 1 BCD</span>
+            <span className="text-primary">1 USDT ≈ 1 USD</span>
           </div>
 
           <div className="flex justify-between text-gray-400">

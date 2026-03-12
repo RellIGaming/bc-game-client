@@ -8,12 +8,12 @@ interface BonusDashboardModalProps {
 
 const bonusCards = [
   { id: 1, title: "Daily Bonus", description: "Available at VIP 2", icon: "🎁", status: "locked" },
-  { id: 2, title: "BCD Rollback", description: "Locked BCD: 0 BCD\nReady to claim: 0 BCD", icon: "💰", action: "Claim" },
+  { id: 2, title: "USD Rollback", description: "Locked USD: 0 USD\nReady to claim: 0 USD", icon: "💰", action: "Claim" },
   { id: 3, title: "Phone Verification", description: "Verify your phone now to protect your account.", icon: "📱", action: "Go Verify" },
   { id: 4, title: "Telegram Subscription", description: "Connect your TG account, join our TG channel to claim more daily bonuses!", icon: "✈️", action: "Go Verify" },
   { id: 5, title: "Email Verification", description: "Verify your email now to protect your account.", icon: "📧", action: "Claim", highlight: true },
   { id: 6, title: "Quests", description: "Daily Quests: 0/1\nWeekly Quests: —", icon: "⚔️", action: "Claim" },
-  { id: 7, title: "Challenge", description: "Challenges com...\nPri rewards: 0/4 0 BCD", icon: "🏆", action: "View" },
+  { id: 7, title: "Challenge", description: "Challenges com...\nPri rewards: 0/4 0 USD", icon: "🏆", action: "View" },
   { id: 8, title: "Lucky Spin", description: "VIP Spin: Reach VIP 6\nDaily Spin: 00:12:55:55", icon: "🎰", action: "Claim" },
   { id: 9, title: "Vault Pro", description: "My Holdings\nTotal Return: +0.60 +0.60", icon: "🔐", action: "Transfer In" },
 ];

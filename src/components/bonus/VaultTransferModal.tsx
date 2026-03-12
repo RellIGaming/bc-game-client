@@ -13,8 +13,7 @@ interface VaultTransferModalProps {
 
 const currencies = [
   { id: "inr", name: "INR", icon: "🇮🇳", balance: 0 },
-  { id: "bcd", name: "BCD", icon: "🟣", balance: 0 },
-  { id: "bc", name: "BC", icon: "🟡", balance: 0 },
+  { id: "bdt", name: "BDT", icon: "🟣", balance: 0 },
   { id: "usdt", name: "USDT", icon: "🟢", balance: 0 },
   { id: "eth", name: "ETH", icon: "🔵", balance: 0 },
   { id: "btc", name: "BTC", icon: "🟠", balance: 0 },

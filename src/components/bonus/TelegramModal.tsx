@@ -38,7 +38,7 @@ export function TelegramModal({ open, onOpenChange }: TelegramModalProps) {
         </div>
 
         <div className="text-center space-y-2">
-          <h3 className="text-xl font-bold">Earn 2 BCD Bonus</h3>
+          <h3 className="text-xl font-bold">Earn 2 USD Bonus</h3>
           <p className="text-sm text-muted-foreground">
             Connect your Telegram account and join our official channel to claim daily bonuses!
           </p>
@@ -64,7 +64,7 @@ export function TelegramModal({ open, onOpenChange }: TelegramModalProps) {
             <div className="w-6 h-6 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-xs font-bold shrink-0">3</div>
             <div>
               <p className="text-sm font-medium">Claim Bonus</p>
-              <p className="text-xs text-muted-foreground">Receive 2 BCD directly to your wallet</p>
+              <p className="text-xs text-muted-foreground">Receive 2 USD directly to your wallet</p>
             </div>
           </div>
         </div>
