@@ -1,7 +1,28 @@
 import { X } from "lucide-react";
 import { motion } from 'framer-motion';
+import { useState } from "react";
 
-const AddAddressModal=({ onClose })=> {
+const AddAddressModal = ({ onClose, onSave }) => {
+  const [name, setName] = useState("");
+  const [currency, setCurrency] = useState("USDT");
+  const [network, setNetwork] = useState("Solana");
+  const [address, setAddress] = useState("");
+
+  const handleSave = () => {
+    if (!address.trim()) {
+      return alert("Enter address");
+    }
+
+    const data = {
+      name,
+      currency,
+      network,
+      address,
+    };
+
+    onSave(data); // ✅ send to parent
+    onClose();
+  };
   return (
     <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center">
 
@@ -23,21 +44,25 @@ const AddAddressModal=({ onClose })=> {
         {/* Body */}
         <div className="p-4 space-y-3 text-sm text-gray-300">
           <input
+            value={name}
+            onChange={(e) => setName(e.target.value)}
             placeholder="Address Name"
             className="w-full px-3 py-2 bg-secondary rounded-md border border-border outline-none"
           />
 
-          <select className="w-full px-3 py-2 bg-secondary rounded-md border border-border">
+          <select value={currency} onChange={(e) => setCurrency(e.target.value)} className="w-full px-3 py-2 bg-secondary rounded-md border border-border">
             <option>BC</option>
             <option>USDT</option>
           </select>
 
-          <select className="w-full px-3 py-2 bg-secondary rounded-md border border-border">
+          <select value={network} onChange={(e) => setNetwork(e.target.value)} className="w-full px-3 py-2 bg-secondary rounded-md border border-border">
             <option>Solana</option>
             <option>ERC20</option>
           </select>
 
           <input
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
             placeholder="Enter Address"
             className="w-full px-3 py-2 bg-secondary rounded-md border border-border outline-none"
           />
@@ -45,7 +70,7 @@ const AddAddressModal=({ onClose })=> {
 
         {/* Footer */}
         <div className="p-4">
-          <button className="w-full py-2 bg-green-500 text-black rounded-md font-medium hover:bg-green-400">
+          <button onClick={handleSave} className="w-full py-2 bg-green-500 text-black rounded-md font-medium hover:bg-green-400">
             Save
           </button>
         </div>

@@ -8,7 +8,7 @@ import CategoryPage from "./pages/CategoryPage";
 import NotFound from "./pages/NotFound";
 import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
-import { SetStateAction, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import LiveStats from "./components/home/LiveStats";
 import CasinoPage from "./pages/CasinoPage";
 import GameDetailPage from "./pages/GameDetailPage";
@@ -30,6 +30,9 @@ import QuestHubPage from "./pages/QuestHubPage";
 import ChallengePage from "./pages/ChallengePage";
 import GlobalSettingsPage from "./pages/GlobalSettingsPage";
 import CrashGamePage from "./pages/CrashGamePage";
+import useWalletStore from "./store/walletStore";
+import useNotificationStore from "./store/notificationStore";
+import socket from "./lib/socket";
 
 const queryClient = new QueryClient();
 
@@ -37,6 +40,34 @@ const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(
     !!localStorage.getItem("token")
   );
+const userId = localStorage.getItem("userId");
+
+  const { fetchBalance } = useWalletStore();
+  const { fetchNotifications } = useNotificationStore();
+
+  useEffect(() => {
+    if (!userId) return;
+
+    // connect socket
+    socket.connect();
+
+    // join room
+    socket.emit("join-user", userId);
+
+    // listen
+    socket.on("notification", (data) => {
+      console.log("🔔", data);
+
+      // ✅ update UI globally
+      fetchBalance();
+      fetchNotifications();
+    });
+
+    return () => {
+      socket.off("notification");
+      socket.disconnect();
+    };
+  }, [userId]);
 
   return (
     <QueryClientProvider client={queryClient}>

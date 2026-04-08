@@ -1,6 +1,5 @@
-// API service without axios dependency
-// const BASE_URL = "https://bc-game-server.onrender.com";
-const BASE_URL = "http://localhost:5000";
+const BASE_URL = "https://bc-game-server.onrender.com";
+// const BASE_URL = "http://localhost:5000";
 
 interface RequestConfig {
   method?: string;
@@ -8,8 +7,12 @@ interface RequestConfig {
   body?: string;
 }
 
-const fetchWithAuth = async (endpoint: string, config: RequestConfig = {}): Promise<any> => {
+const fetchWithAuth = async (
+  endpoint: string,
+  config: RequestConfig = {}
+): Promise<any> => {
   const token = localStorage.getItem("token");
+
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
     ...config.headers,
@@ -25,7 +28,8 @@ const fetchWithAuth = async (endpoint: string, config: RequestConfig = {}): Prom
   });
 
   if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
+    const err = await response.json().catch(() => ({}));
+    throw new Error(err.message || `HTTP error ${response.status}`);
   }
 
   return response.json();
@@ -34,24 +38,17 @@ const fetchWithAuth = async (endpoint: string, config: RequestConfig = {}): Prom
 /* =====================
    AUTH APIS
 ===================== */
+
 export const signup = (data: {
   username: string;
   email: string;
   password: string;
   promocode?: string;
-  role?: string;
 }) =>
   fetchWithAuth("/api/auth/signup", {
     method: "POST",
-    body: JSON.stringify({
-      username: data.username,
-      email: data.email,
-      password: data.password,
-      promocode: data.promocode || "",
-    }),
+    body: JSON.stringify(data),
   });
-
-
 
 export const signin = (data: {
   identifier: string;
@@ -62,6 +59,14 @@ export const signin = (data: {
     body: JSON.stringify(data),
   });
 
+export const otpLogin = (data: {
+  identifier: string;
+  otp: string;
+}) =>
+  fetchWithAuth("/api/auth/otp-login", {
+    method: "POST",
+    body: JSON.stringify(data),
+  });
 
 export const forgotPassword = (email: string) =>
   fetchWithAuth("/api/auth/forgot-password", {
@@ -70,85 +75,109 @@ export const forgotPassword = (email: string) =>
   });
 
 export const resetPassword = (token: string, password: string) =>
-  fetchWithAuth(`api/auth/reset-password/${token}`, {
+  fetchWithAuth(`/api/auth/reset-password/${token}`, {
     method: "POST",
     body: JSON.stringify({ password }),
   });
 
-export const getProfile = () => fetchWithAuth("/auth/profile");
+export const getProfile = () =>
+  fetchWithAuth("/api/auth/profile"); // ✅ FIXED
+
 export const updateProfile = (data: {
-   username?: string;
+  username?: string;
   email?: string;
   phone?: string;
-  profileImage?: string;
-}) =>
-  fetchWithAuth("/api/auth/update-profile", {
+  file?: File;
+}) => {
+  const formData = new FormData();
+
+  if (data.username) formData.append("username", data.username);
+  if (data.email) formData.append("email", data.email);
+  if (data.phone) formData.append("phone", data.phone);
+  if (data.file) formData.append("file", data.file);
+
+  const token = localStorage.getItem("token");
+
+  return fetch(`${BASE_URL}/api/auth/update-profile`, {
     method: "PUT",
-    body: JSON.stringify(data),
-  });
-  export const otpLogin = (data: { identifier: string; otp: string }) =>
-  fetchWithAuth("/api/auth/otp-login", {
+    headers: {
+      Authorization: `Bearer ${token}`, // ❗ NO Content-Type here
+    },
+    body: formData,
+  }).then(res => res.json());
+};
+/* =====================
+   WALLET APIS
+===================== */
+
+// ✅ get wallets
+export const getBalance = () => {
+  return fetchWithAuth("/api/wallet/balance");
+};
+
+export const requestDeposit = (data: {
+  currency: string;
+  amount: number;
+  method: string;
+  network?: string;
+}) => {
+  return fetchWithAuth("/api/deposit/request", {
     method: "POST",
     body: JSON.stringify(data),
   });
+};
 
+export const requestWithdraw = (data: {
+  currency: string;
+  amount: number;
+  method: string;
+  account: string;
+}) => {
+  return fetchWithAuth("/api/withdraw/request", {
+    method: "POST",
+    body: JSON.stringify(data),
+  });
+};
 
+// ✅ bet debit
+export const betDebit = (amount: number, betId: number) => {
+  return fetchWithAuth("/api/wallet/bet-debit", {
+    method: "POST",
+    body: JSON.stringify({ amount, betId }),
+  });
+};
+
+// ✅ bet credit
+export const betCredit = (amount: number, betId: number) => {
+  return fetchWithAuth("/api/wallet/bet-credit", {
+    method: "POST",
+    body: JSON.stringify({ amount, betId }),
+  });
+};
+
+// ✅ transactions
+export const getTransactions = () => {
+  return fetchWithAuth("/api/wallet/transactions");
+};
+
+// ✅ summary (optional but useful)
+export const getWalletSummary = () => {
+  return fetchWithAuth("/api/wallet/summary");
+};
+export const getUserNotifications = () =>
+  fetchWithAuth("/api/notifications");
 /* =====================
-   ADMIN APIS
+   GAMES APIS
 ===================== */
-export const changeUserRole = (data: {
-  userId: string;
-  role: "user" | "affiliate" | "agent" | "admin";
-}) => fetchWithAuth("/admin/change-role", {
-  method: "POST",
-  body: JSON.stringify(data),
-});
 
-// wallet api
-export const getBalance = () => fetchWithAuth("/api/wallet/balance");
-export const deposit = (amount: number) => fetchWithAuth("/api/wallet/deposit", { method: "POST", body: JSON.stringify({ amount }) });
-export const withdraw = (amount: number) => fetchWithAuth("/api/wallet/withdraw", { method: "POST", body: JSON.stringify({ amount }) });
- 
-
-//  GAMES APIS
-
-
-// get games by category
 export const getGames = (category?: string) => {
   const query = category ? `?category=${category}` : "";
   return fetchWithAuth(`/api/games${query}`);
 };
 
-// admin create game
-export const createGame = (data: {
-  name: string;
-  slug: string;
-  image: string;
-  multiplier?: string | null;
-  players?: number;
-  category?: string;
-}) =>
-  fetchWithAuth("/api/admin/games", {
-    method: "POST",
-    body: JSON.stringify(data),
-  });
-
-// admin update game
-export const updateGame = (id: string, data: any) =>
-  fetchWithAuth(`/api/admin/games/${id}`, {
-    method: "PUT",
-    body: JSON.stringify(data),
-  });
-
-// admin delete game
-export const deleteGame = (id: string) =>
-  fetchWithAuth(`/api/admin/games/${id}`, {
-    method: "DELETE",
-  });
-
-
-
-
+/* =====================
+   EXPORT
+===================== */
 
 export default {
   signup,
@@ -158,7 +187,14 @@ export default {
   resetPassword,
   getProfile,
   updateProfile,
-  changeUserRole,
-  getGames, updateGame,
-  createGame, deleteGame
+
+  getBalance,
+  requestDeposit,
+  requestWithdraw,
+  betDebit,
+  betCredit,
+  getTransactions,
+  getWalletSummary,
+
+  getGames,
 };

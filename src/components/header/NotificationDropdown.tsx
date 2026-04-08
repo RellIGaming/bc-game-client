@@ -1,59 +1,13 @@
 import { useState } from "react";
 import { X, ChevronDown, Trash2, ChevronLeft } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import useNotificationStore from "@/store/notificationStore";
 
 type TabType = "promotions" | "transactions" | "system";
 
-interface Notification {
-  id: string;
-  type: TabType;
-  title: string;
-  date: string;
-  time: string;
-  image?: string;
-  description?: string;
-  isRead: boolean;
-}
 
-const notifications: Notification[] = [
-  {
-    id: "1",
-    type: "promotions",
-    title: "🏀 Its Weekly Sports Bonus Time! ⚙️",
-    date: "1/17/2026",
-    time: "10:58:10 AM",
-    image: "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=300&h=200&fit=crop",
-    description: "WEEKLY SPORTS BONUS UNLOCKED! BET $500 AND GET UP TO $1000!",
-    isRead: false,
-  },
-  {
-    id: "2",
-    type: "promotions",
-    title: "🎰 New Slot Tournament Started!",
-    date: "1/16/2026",
-    time: "3:30:00 PM",
-    description: "Join our exclusive slot tournament and win big prizes!",
-    isRead: false,
-  },
-  {
-    id: "3",
-    type: "transactions",
-    title: "Deposit Confirmed",
-    date: "1/15/2026",
-    time: "11:20:00 AM",
-    description: "Your deposit of ₹1,000 has been confirmed.",
-    isRead: true,
-  },
-  {
-    id: "4",
-    type: "system",
-    title: "Security Update",
-    date: "1/14/2026",
-    time: "9:00:00 AM",
-    description: "We've updated our security protocols for your protection.",
-    isRead: true,
-  },
-];
+
+
 
 interface NotificationDropdownProps {
   isOpen: boolean;
@@ -63,14 +17,24 @@ interface NotificationDropdownProps {
 const NotificationDropdown = ({ isOpen, onClose }: NotificationDropdownProps) => {
   const [activeTab, setActiveTab] = useState<TabType>("promotions");
   const [showUnread, setShowUnread] = useState(false);
+  const { notifications } = useNotificationStore();
+  const mapType = (type: string) => {
+    if (type.includes("deposit") || type.includes("withdraw")) return "transactions";
+    return "system";
+  };
+  const filteredNotifications = notifications.filter((n) => {
+    const matchesTab =
+      activeTab === "transactions"
+        ? n.type.includes("deposit") || n.type.includes("withdraw")
+        : activeTab === "system"
+          ? true
+          : false;
 
-  const filteredNotifications = notifications.filter(n => {
-    const matchesTab = n.type === activeTab;
-    const matchesUnread = showUnread ? !n.isRead : true;
+    const matchesUnread = showUnread ? !n.read : true;
+
     return matchesTab && matchesUnread;
   });
-
-  const unreadCount = notifications.filter(n => n.type === activeTab && !n.isRead).length;
+  const unreadCount = notifications.filter(n => n.type === activeTab && !n.read).length;
 
   const tabs: { id: TabType; label: string; count?: number }[] = [
     { id: "promotions", label: "Promotions", count: 11 },
@@ -160,54 +124,44 @@ const NotificationDropdown = ({ isOpen, onClose }: NotificationDropdownProps) =>
             {/* Notifications List */}
             <div className="max-h-96 overflow-y-auto scrollbar-hide">
               {filteredNotifications.length > 0 ? (
-                filteredNotifications.map((notification) => (
-                  <div
-                    key={notification.id}
-                    className="p-4 border-b border-border hover:bg-secondary/30 transition-colors"
-                  >
-                    <div className="flex items-start justify-between mb-2">
-                      <span className="text-xs text-muted-foreground">
-                        {notification.date}, {notification.time}
-                      </span>
-                      {!notification.isRead && (
-                        <span className="w-2 h-2 bg-primary rounded-full" />
-                      )}
-                    </div>
-                    <h4 className="text-foreground font-medium mb-2">{notification.title}</h4>
-                    {notification.image && (
-                      <div className="relative rounded-lg overflow-hidden mb-2">
-                        <img
-                          src={notification.image}
-                          alt="Notification"
-                          className="w-full h-32 object-cover"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                        <div className="absolute bottom-2 left-2 right-2">
-                          <span className="text-xs bg-secondary/80 px-2 py-1 rounded text-foreground">
-                            Sports
-                          </span>
-                          <p className="text-white font-bold mt-1 text-sm">
-                            {notification.description}
-                          </p>
-                        </div>
-                        <button className="absolute bottom-2 right-2 flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground">
-                          Show all <ChevronDown className="w-3 h-3" />
+                filteredNotifications.map((notification) => {
+                  const dateObj = new Date(notification.createdAt);
+
+                  return (
+                    <div
+                      key={notification.id}
+                      className="p-4 border-b border-border hover:bg-secondary/30 transition-colors"
+                    >
+                      <div className="flex items-start justify-between mb-2">
+                        <span className="text-xs text-muted-foreground">
+                          {dateObj.toLocaleDateString()} , {dateObj.toLocaleTimeString()}
+                        </span>
+
+                        {!notification.read && (
+                          <span className="w-2 h-2 bg-primary rounded-full" />
+                        )}
+                      </div>
+
+                      <h4 className="text-foreground font-medium mb-2 capitalize">
+                        {notification.type.replace("-", " ")}
+                      </h4>
+
+                      <p className="text-sm text-muted-foreground">
+                        {notification.message}
+                      </p>
+
+                      <div className="flex items-center justify-between mt-2">
+                        <button className="text-primary text-sm hover:underline">
+                          View details
+                        </button>
+
+                        <button className="p-1 hover:bg-secondary rounded-lg transition-colors">
+                          <Trash2 className="w-4 h-4 text-muted-foreground" />
                         </button>
                       </div>
-                    )}
-                    {!notification.image && notification.description && (
-                      <p className="text-sm text-muted-foreground">{notification.description}</p>
-                    )}
-                    <div className="flex items-center justify-between mt-2">
-                      <button className="text-primary text-sm hover:underline">
-                        Click to know more.
-                      </button>
-                      <button className="p-1 hover:bg-secondary rounded-lg transition-colors">
-                        <Trash2 className="w-4 h-4 text-muted-foreground" />
-                      </button>
                     </div>
-                  </div>
-                ))
+                  );
+                })
               ) : (
                 <div className="p-8 text-center text-muted-foreground">
                   No notifications

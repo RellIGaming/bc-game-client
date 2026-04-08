@@ -28,6 +28,7 @@ const EditProfileModal = ({
     const [localUsername, setLocalUsername] = useState(username);
     const [localFrame, setLocalFrame] = useState(selectedFrame);
     const [loading, setLoading] = useState(false);
+    const [file, setFile] = useState<File | null>(null);
     // Fetch profile on open
     useEffect(() => {
         if (!open) return;
@@ -54,8 +55,13 @@ const EditProfileModal = ({
     const handleSave = async () => {
         setLoading(true);
         try {
-            await updateProfile({ username: localUsername });
-            onSave(localUsername, localFrame); // use callback to update parent
+            await updateProfile({
+                username: localUsername,
+                file: file || undefined,
+            });
+
+            await fetchProfile(); // ✅ ADD THIS
+
             onClose();
         } catch (err) {
             console.error(err);
@@ -81,7 +87,7 @@ const EditProfileModal = ({
     bg-gradient-to-br from-yellow-400 to-orange-500`}
                 >{user?.profileImage ? (
                     <img
-                        src={user.profileImage}
+                        src={`http://localhost:5000${user.profileImage}`}
                         alt="Profile"
                         className="w-20 h-20 rounded-full object-cover"
                     />
@@ -103,6 +109,15 @@ const EditProfileModal = ({
                     onChange={(e) => setLocalUsername(e.target.value)}
                     className="w-full mt-1 bg-background border border-border rounded-lg px-3 py-2.5 text-foreground"
                 />
+                <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => {
+                        if (e.target.files?.[0]) {
+                            setFile(e.target.files[0]);
+                        }
+                    }}
+                />
                 <p className="text-xs text-muted-foreground mt-1">
                     Do not use special symbols.
                 </p>
@@ -117,7 +132,7 @@ const EditProfileModal = ({
                             key={i}
                             onClick={() => setLocalFrame(i)}
                             className={`w-12 h-12 rounded-full border-2 flex items-center justify-center cursor-pointer transition
-              ${selectedFrame === 1
+              ${localFrame === 1
                                     ? "border-accent scale-110"
                                     : "border-border"
                                 }`}
@@ -182,9 +197,8 @@ const medals = ["🏆", "🥇", "🎖️", "🏅", "🎗️", "⭐", "🌟", "�
 const MyProfileModal = ({ open, onClose }: MyProfileModalProps) => {
     const isMobile = useIsMobile();
     const [editOpen, setEditOpen] = useState(false);
-    const [username, setUsername] = useState("jkhatun258");
-    const [selectedFrame, setSelectedFrame] = useState<number>(0);
     const { user } = useAuthStore();
+    const [selectedFrame, setSelectedFrame] = useState<number>(0);
     const content = (
         <div className="space-y-4">
             {/* Header */}
@@ -207,7 +221,7 @@ const MyProfileModal = ({ open, onClose }: MyProfileModalProps) => {
                 >
                     🦖
                 </div>
-                <h3 className="font-bold text-foreground mt-3">{username}</h3>
+                <h3 className="font-bold text-foreground mt-3">{user?.username}</h3>
                 <p className="text-xs text-muted-foreground">User ID: {user?.id || "N/A"}</p>
             </div>
 
@@ -255,10 +269,9 @@ const MyProfileModal = ({ open, onClose }: MyProfileModalProps) => {
             <EditProfileModal
                 open={editOpen}
                 onClose={() => setEditOpen(false)}
-                username={username}
+                username={user?.username}
                 selectedFrame={selectedFrame}
-                onSave={(newUsername, newFrame) => {
-                    setUsername(newUsername);
+                onSave={(_, newFrame) => {
                     setSelectedFrame(newFrame);
                 }}
             />

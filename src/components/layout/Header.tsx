@@ -10,6 +10,7 @@ import ProfileDropdown from "@/components/header/ProfileDropdown";
 import BonusDashboardModal from "@/components/header/BonusDashboardModal";
 import DepositDropdown from "../header/DepositDropdown";
 import DepositPopover from "../header/DepositPopover";
+import useNotificationStore from "@/store/notificationStore";
 
 interface HeaderProps {
   onMenuClick: () => void;
@@ -49,6 +50,7 @@ const Header = ({
   const [profileOpen, setProfileOpen] = useState(false);
   const [bonusDashboardOpen, setBonusDashboardOpen] = useState(false);
   const [openDepositPopover, setOpenDepositPopover] = useState(false);
+   const { notifications } = useNotificationStore();
   const handleBonusDashboard = () => {
     setBonusOpen(false);
     setBonusDashboardOpen(true);
@@ -58,7 +60,7 @@ const Header = ({
     navigate("/");
     // window.location.reload();
   };
-
+const unreadCount = notifications.filter(n => !n.read).length;
   return (
     <>
       <header
@@ -191,9 +193,11 @@ const Header = ({
                   className="flex py-2 px-2 lg:px-2 lg:py-2 b-radius bg-secondary transition-all hvr-btn btn-press relative"
                 >
                   <Bell className="w-5 h-5 text-muted-foreground" />
+                   {unreadCount > 0 && (
                   <span className="absolute -top-1 -right-1 w-4 h-4 bg-primary text-primary-foreground text-xs rounded-full flex items-center justify-center">
-                    11
+                 {unreadCount}
                   </span>
+                   )}
                 </button>
                 <NotificationDropdown
                   isOpen={notificationOpen}
