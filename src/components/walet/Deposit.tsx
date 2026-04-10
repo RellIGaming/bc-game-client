@@ -119,7 +119,7 @@ type DepositProps = { variant?: "page" | "modal" | "drawer" };
 
 const Deposit = ({ variant = "page" }: DepositProps) => {
     const navigate = useNavigate();
-    const { requestDeposit } = useWalletStore();
+    const { requestDeposit, wallets } = useWalletStore();
     const { section } = useParams();
     const [depositTab, setDepositTab] = useState<"crypto" | "fiat">("crypto");
     const [open, setOpen] = useState(false);

@@ -1,5 +1,5 @@
-const BASE_URL = "https://bc-game-server.onrender.com";
-// const BASE_URL = "http://localhost:5000";
+//const BASE_URL = "https://bc-game-server.onrender.com";
+const BASE_URL = "http://localhost:5000";
 
 interface RequestConfig {
   method?: string;
@@ -166,6 +166,58 @@ export const getWalletSummary = () => {
 };
 export const getUserNotifications = () =>
   fetchWithAuth("/api/notifications");
+// 🔹 Get swap balances
+export const getSwapBalances = () => {
+  return fetchWithAuth("/api/swap/balance");
+};
+export const getSwapRate = (from: string, to: string) => {
+  return fetchWithAuth(`/api/swap/rate?from=${from}&to=${to}`);
+};
+// 🔹 Execute swap
+export const swapCrypto = (data: {
+  from: string;
+  to: string;
+  amount: number;
+  rate: number;
+}) => {
+  return fetchWithAuth("/api/swap/crypto", {
+    method: "POST",
+    body: JSON.stringify(data),
+  });
+};
+
+export const getVault = () => {
+  return fetchWithAuth("/api/vault");
+};
+export const getVaultInterest = (filter: string) => {
+  return fetchWithAuth(`/api/vault/transactions?filter=${filter}`);
+};
+export const depositVault = (data: any) => {
+  return fetchWithAuth("/api/vault/deposit", {
+    method: "POST",
+    body: JSON.stringify(data),
+  });
+};
+
+export const withdrawVault = (data: any) => {
+  return fetchWithAuth("/api/vault/withdraw", {
+    method: "POST",
+    body: JSON.stringify(data),
+  });
+};
+
+/* =====================
+   REFERRAL APIS
+===================== */
+
+export const getReferralFriends = () =>
+  fetchWithAuth("/api/referral/friends");
+
+export const getReferralEarnings = () =>
+  fetchWithAuth("/api/referral/earnings");
+
+export const getReferralDashboard = () =>
+  fetchWithAuth("/api/referral/dashboard");
 /* =====================
    GAMES APIS
 ===================== */
@@ -195,6 +247,8 @@ export default {
   betCredit,
   getTransactions,
   getWalletSummary,
-
+ getReferralFriends,
+  getReferralEarnings,
+  getReferralDashboard,
   getGames,
 };

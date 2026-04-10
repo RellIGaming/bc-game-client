@@ -1,11 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ChevronRight, ChevronDown, Search, Info, Clock } from "lucide-react";
 import { cn } from "@/lib/utils";
+import useWalletStore from "@/store/walletStore";
+import { useNavigate } from "react-router-dom";
 const cryptoCurrencies = [
     { id: "bc", name: "BC", icon: "🟡", balance: 0 },
     { id: "usdt", name: "USDT", icon: "🟢", balance: 0 },
     { id: "eth", name: "ETH", icon: "🔵", balance: 0 },
     { id: "btc", name: "BTC", icon: "🟠", balance: 0 },
+];
+const fiatCurrencies = [
+    { code: "INR", symbol: "₹" },
+    { code: "BDT", symbol: "৳" },
+    { code: "PKR", symbol: "₨" },
+    { code: "USD", symbol: "$" },
 ];
 const faqs = [
     {
@@ -30,10 +38,40 @@ const VaultProSection = () => {
     const [selectedCrypto, setSelectedCrypto] = useState(cryptoCurrencies[0]);
     const [showDropdown, setShowDropdown] = useState(false);
     const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
+    const [showInterestModal, setShowInterestModal] = useState(false);
+    const [filter, setFilter] = useState("today");
     const [search, setSearch] = useState("");
+    const navigate = useNavigate();
+    const {
+        balances,
+        fetchSwapBalances,
+        vaults,
+        fetchVault,
+        vaultDeposit,
+        vaultWithdraw,
+        interestHistory,
+        fetchInterestHistory,
+        loading
+    } = useWalletStore();
+
+    useEffect(() => {
+        fetchSwapBalances();
+        fetchVault();
+    }, []);
+    useEffect(() => {
+    if (!showInterestModal) return;
+
+    fetchInterestHistory(filter);
+
+}, [filter, showInterestModal]);
     const filteredCrypto = cryptoCurrencies.filter((c) =>
         c.name.toLowerCase().includes(search.toLowerCase())
     );
+    const totalVaultValue = vaults.reduce((sum, v) => sum + v.balance, 0);
+    const selectedVaultBalance =
+        vaults.find(v => v.currency === selectedCrypto.name)?.balance || 0;
+
+
     return (
         <div className="space-y-6">
             {/* Top Section */}
@@ -41,11 +79,11 @@ const VaultProSection = () => {
                 {/* Left - Stats */}
                 <div className="bg-secondary rounded-lg p-4">
                     <div className="flex items-center justify-end gap-2 mb-6">
-                        <button className="flex items-center gap-1 px-3 py-1 bg-card rounded-lg text-xs">
+                        <button onClick={() => setShowInterestModal(true)} className="flex items-center gap-1 px-3 py-1 bg-card rounded-lg text-xs">
                             <Info className="w-4 h-4" />
                             Interests
                         </button>
-                        <button className="flex items-center gap-1 px-3 py-1 bg-card rounded-lg text-xs">
+                        <button onClick={() => navigate('/wallet/transaction')} className="flex items-center gap-1 px-3 py-1 bg-card rounded-lg text-xs">
                             <Clock className="w-4 h-4" />
                             History
                         </button>
@@ -55,7 +93,7 @@ const VaultProSection = () => {
                     </div>
                     <div className="mb-6">
                         <h3 className="text-muted-foreground text-sm mb-2">Total Value</h3>
-                        <p className="text-lg font-bold">₹0.00</p>
+                        <p className="text-lg font-bold">₹{totalVaultValue.toFixed(2)}</p>
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                         <div>
@@ -167,7 +205,7 @@ const VaultProSection = () => {
                     </div>
 
                     <p className="text-sm text-muted-foreground mb-2">
-                        Available: <span className="text-primary">0</span>
+                        Available: <span className="text-primary">{balances.find(b => b.currency.toUpperCase() === selectedCrypto.name)?.balance || 0}</span>
                     </p>
                     <div className="flex items-center justify-between text-xs mb-2">
                         <span className="text-muted-foreground text-xs">Daily real-time return</span>
@@ -176,8 +214,24 @@ const VaultProSection = () => {
                             <span className="text-primary ml-2">APR 10%</span>
                         </div>
                     </div>
-                    <button className="w-full text-xs py-2 bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition-colors">
-                        Transfer to Vault Pro
+                    <button onClick={async () => {
+                        if (!amount) return;
+
+                        if (activeTab === "in") {
+                            await vaultDeposit({
+                                currency: selectedCrypto.name,
+                                amount: Number(amount)
+                            });
+                        } else {
+                            await vaultWithdraw({
+                                currency: selectedCrypto.name,
+                                amount: Number(amount)
+                            });
+                        }
+
+                        setAmount("");
+                    }} className="w-full text-xs py-2 bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition-colors">
+                        {activeTab === "in" ? "Transfer to Vault Pro" : "Withdraw to Vault"}
                     </button>
                 </div>
             </div>
@@ -216,6 +270,82 @@ const VaultProSection = () => {
                     ))}
                 </div>
             </div>
+            {showInterestModal && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+
+                    <div className="bg-secondary w-full max-w-md rounded-xl p-4">
+
+                        {/* HEADER */}
+                        <div className="flex items-center justify-between mb-4">
+                            <h2 className="text-sm font-semibold">Interest History</h2>
+                            <button
+                                onClick={() => setShowInterestModal(false)}
+                                className="text-xs text-muted-foreground"
+                            >
+                                Close
+                            </button>
+                        </div>
+
+                        {/* FILTERS */}
+                        <div className="flex gap-2 mb-4">
+                            {["today", "yesterday", "last7"].map((f) => (
+                                <button
+                                    key={f}
+                                    onClick={() => setFilter(f)}
+                                    className={`px-3 py-1 rounded-lg text-xs ${filter === f
+                                        ? "bg-primary text-primary-foreground"
+                                        : "bg-card text-muted-foreground"
+                                        }`}
+                                >
+                                    {f === "today"
+                                        ? "Today"
+                                        : f === "yesterday"
+                                            ? "Yesterday"
+                                            : "Last 7 Days"}
+                                </button>
+                            ))}
+                        </div>
+
+                        {/* CONTENT */}
+                        <div className="max-h-64 overflow-y-auto space-y-2">
+
+                            {loading ? (
+                                <p className="text-center text-xs text-muted-foreground">
+                                    Loading...
+                                </p>
+                            ) : interestHistory.length === 0 ? (
+                                <p className="text-center text-xs text-muted-foreground">
+                                    No interest yet
+                                </p>
+                            ) : (
+                                interestHistory.map((tx: any) => (
+                                    <div
+                                        key={tx.id}
+                                        className="flex items-center justify-between bg-card px-3 py-2 rounded-lg"
+                                    >
+                                        <div>
+                                            <p className="text-xs font-medium">
+                                                {tx.currency}
+                                            </p>
+                                            <p className="text-[10px] text-muted-foreground">
+                                                {new Date(tx.createdAt).toLocaleString()}
+                                            </p>
+                                        </div>
+                                        <div className="text-right">
+                                            <p className="text-xs text-green-500">
+                                                +{Number(tx.amount).toFixed(4)}
+                                            </p>
+                                            <p className="text-[10px] text-muted-foreground">
+                                                Interest
+                                            </p>
+                                        </div>
+                                    </div>
+                                ))
+                            )}
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

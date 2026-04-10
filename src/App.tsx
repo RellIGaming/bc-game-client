@@ -33,6 +33,7 @@ import CrashGamePage from "./pages/CrashGamePage";
 import useWalletStore from "./store/walletStore";
 import useNotificationStore from "./store/notificationStore";
 import socket from "./lib/socket";
+import ReferralRedirect from "./pages/ReferralRedirect";
 
 const queryClient = new QueryClient();
 
@@ -78,6 +79,7 @@ const userId = localStorage.getItem("userId");
           <Routes>
             <Route element={<AppLayout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />}>
               <Route path="/" element={<Home isLoggedIn={isLoggedIn} />} />
+              <Route path="/i-:code" element={<ReferralRedirect />} />
               {/* <Route path="/" element={<Index isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} /> */}
               <Route path="/casino" element={<CasinoPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
               <Route path="/sports" element={<SportsPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />

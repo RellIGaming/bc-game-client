@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Copy, ChevronRight, Users, DollarSign, Gift } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import { useReferralStore } from "@/store/walletStore";
+import useAuthStore from "@/store/authStore";
 const tabs = ["Dashboard", "My Rewards", "Referral Codes & Friends", "Rate & Rules", "Download Banners"];
 const socialIcons = ["🔵", "✖️", "📱", "💬", "💚", "🔴", "📸", "🟢", "💼", "📞"];
 const liveRewards = [
@@ -22,12 +24,31 @@ const faqs = [
   "Can I send tip or reward to my referrals?",
 ];
 const ReferralPage = () => {
+  const {
+    referralDashboard,
+    referralFriends,
+    referralEarnings,
+    referralLoading,
+    fetchReferralDashboard,
+    fetchReferralFriends,
+    fetchReferralEarnings
+  } = useReferralStore();
+
+  const { user } = useAuthStore();
   const [activeTab, setActiveTab] = useState("Dashboard");
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const handleCopy = (text: string) => {
     navigator.clipboard.writeText(text);
     toast.success("Copied to clipboard!");
   };
+  useEffect(() => {
+    fetchReferralDashboard();
+    fetchReferralFriends();
+    fetchReferralEarnings();
+  }, []);
+  if (referralLoading) {
+  return <div className="p-10 text-center">Loading referral data...</div>;
+}
   return (
     <div className="min-h-screen bg-background text-foreground">
       <div className="max-w-5xl mx-auto px-1 py-8 space-y-8 sm:px-2">
@@ -65,15 +86,15 @@ const ReferralPage = () => {
               <div>
                 <label className="text-xs text-muted-foreground">Referral Link</label>
                 <div className="flex items-center gap-2 mt-1">
-                  <input readOnly value="https://rellbet.game/i-47fxv73u0-n/" className="flex-1 bg-secondary rounded-lg px-3 py-2 text-xs border border-border" />
-                  <Button size="sm" variant="outline" onClick={() => handleCopy("https://rellbet.game/i-47fxv73u0-n/")}>Copy</Button>
+                  <input readOnly value={referralDashboard?.referralLink || ""} className="flex-1 bg-secondary rounded-lg px-3 py-2 text-xs border border-border" />
+                  <Button size="sm" variant="outline" onClick={() => handleCopy(referralDashboard?.referralLink)}>Copy</Button>
                 </div>
               </div>
               <div>
                 <label className="text-xs text-muted-foreground">Referral Code</label>
                 <div className="flex items-center gap-2 mt-1">
-                  <input readOnly value="47fxv73u0" className="flex-1 bg-secondary rounded-lg px-3 py-2 text-xs border border-border" />
-                  <Button size="sm" variant="outline" onClick={() => handleCopy("47fxv73u0")}>Copy</Button>
+                  <input readOnly value={referralDashboard?.referralCode || ""} className="flex-1 bg-secondary rounded-lg px-3 py-2 text-xs border border-border" />
+                  <Button size="sm" variant="outline" onClick={() => handleCopy(referralDashboard?.referralCode)}>Copy</Button>
                 </div>
               </div>
             </div>
@@ -102,24 +123,24 @@ const ReferralPage = () => {
               <div>
                 <Users className="w-8 h-8 mx-auto text-muted-foreground mb-1" />
                 <p className="text-xs text-muted-foreground">Total Reward</p>
-                <p className="font-bold">₹0.00</p>
+                <p className="font-bold">₹{referralDashboard?.totalReward || 0}</p>
               </div>
               <div>
                 <Users className="w-8 h-8 mx-auto text-muted-foreground mb-1" />
                 <p className="text-xs text-muted-foreground">Total Friends</p>
-                <p className="font-bold">0</p>
+                <p className="font-bold">{referralDashboard?.totalFriends || 0}</p>
               </div>
             </div>
             <div className="border-t border-border pt-4 grid grid-cols-2 gap-4 text-center">
               <div>
                 <DollarSign className="w-5 h-5 mx-auto text-primary mb-1" />
                 <p className="text-xs text-muted-foreground">Referral Rewards</p>
-                <p className="font-bold">₹0.00</p>
+                <p className="font-bold">₹{referralDashboard?.referralReward || 0}</p>
               </div>
               <div>
                 <Gift className="w-5 h-5 mx-auto text-muted-foreground mb-1" />
                 <p className="text-xs text-muted-foreground">Commission Rewards</p>
-                <p className="font-bold">₹0.00</p>
+                <p className="font-bold">₹{referralDashboard?.commissionReward || 0}</p>
               </div>
             </div>
           </div>
@@ -128,7 +149,21 @@ const ReferralPage = () => {
         <div className="bg-card rounded-lg p-8 text-center">
           <h3 className="font-bold text-lg mb-6">Rewards Activities</h3>
           <div className="text-5xl mb-3">👻</div>
-          <p className="text-muted-foreground text-sm">No info yet</p>
+          {referralFriends?.length === 0 ? (
+            <>
+              <p className="text-muted-foreground text-sm">No info yet</p>
+              <p className="text-muted-foreground text-sm">Invite friends to join you now!</p>
+            </>
+          ) : (
+            <div className="space-y-2 text-left">
+              {referralFriends.map((f: any) => (
+                <div key={f.id} className="flex justify-between text-sm">
+                  <span>{f.username}</span>
+                  <span className="text-primary">₹{f.totalEarning}</span>
+                </div>
+              ))}
+            </div>
+          )}
           <p className="text-muted-foreground text-sm">Invite friends to join you now!</p>
         </div>
         {/* Live Rewards */}
@@ -138,12 +173,12 @@ const ReferralPage = () => {
               <span className="w-2 h-2 rounded-full bg-primary animate-pulse" /> Live Rewards
             </span>
             <span className="text-xs text-muted-foreground ml-auto">Total Rewards Sent To-Date</span>
-            <span className="text-primary font-bold text-sm">₹2,282,770.85K</span>
+            <span className="text-primary font-bold text-sm">₹{referralEarnings?.totalRewards || 0}</span>
           </div>
           <div className="flex gap-4 overflow-x-auto">
-            {liveRewards.map((r, i) => (
+            {referralEarnings?.liveRewards?.map((r: any, i: number) => (
               <div key={i} className="flex items-center gap-2 text-xs whitespace-nowrap">
-                <span className="font-medium">{r.user}</span>
+                <span className="font-medium">{r.username}</span>
                 <span className="text-primary">{r.amount}</span>
                 <span>{r.icon}</span>
               </div>

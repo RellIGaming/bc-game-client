@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
     Copy, AlertTriangle, Info, Gift, ChevronDown, ChevronRight, Wallet, Search, CreditCard, ArrowDownToLine,
 } from "lucide-react";
@@ -21,7 +21,6 @@ import jazzcash from "../../assets/images/jazzcash-logo.png";
 import jazzcashHalf from "../../assets/images/jazzcash-half.png";
 import easypaisa from "../../assets/images/easypaisa-logo.png";
 import useWalletStore from '@/store/walletStore';
-import { allBalances } from './new';
 
 // Crypto currencies
 const cryptoCurrencies = [
@@ -104,7 +103,7 @@ type DepositProps = { variant?: "page" | "modal" | "drawer" };
 
 const Withdraw = ({ variant = "page" }: DepositProps) => {
     const navigate = useNavigate();
-    const { requestWithdraw, wallets } = useWalletStore();
+    const { requestWithdraw, wallets, transactions, fetchTransactions } = useWalletStore();
     const { section } = useParams();
     const [depositTab, setDepositTab] = useState<"crypto" | "fiat">("crypto");
     const [open, setOpen] = useState(false);
@@ -114,9 +113,9 @@ const Withdraw = ({ variant = "page" }: DepositProps) => {
     const [guaranteeOpen, setGuaranteeOpen] = useState(false);
     const [howToOpen, setHowToOpen] = useState(false);
     const [addCurrencyOpen, setAddCurrencyOpen] = useState(false);
-    const [selectedFiat, setSelectedFiat] = useState("inr");
+    const [selectedFiat, setSelectedFiat] = useState("bdt");
     const [search, setSearch] = useState("");
-    const [selected, setSelected] = useState(allBalances[2]);
+    const [selectedWallet, setSelectedWallet] = useState<any>(null);
     const [account, setAccount] = useState("");
     // Fiat state
     const [fiatCurrencyOpen, setFiatCurrencyOpen] = useState(false);
@@ -128,10 +127,10 @@ const Withdraw = ({ variant = "page" }: DepositProps) => {
     const isINR = selectedFiat === "inr";
     const cfg = currencyConfig[selectedFiat];
     const filtered = useMemo(() => {
-        return allBalances.filter((item) =>
-            item.name.toLowerCase().includes(search.toLowerCase())
+        return wallets.filter((w: any) =>
+            w.name.toLowerCase().includes(search.toLowerCase())
         );
-    }, [search]);
+    }, [wallets, search]);
     const cashList = filtered.filter((i) => i.type === "cash");
     const cryptoList = filtered.filter((i) => i.type === "crypto");
 
@@ -144,12 +143,28 @@ const Withdraw = ({ variant = "page" }: DepositProps) => {
         navigator.clipboard.writeText("0x2440265f2CCE3e961a003870090C3d2eBf0");
         toast.success("Address copied to clipboard!");
     };
+    // const realWallet = wallets.find(
+    //     (w: any) => w.id.toLowerCase() === selected.id.toLowerCase()
+    // );
     const realWallet = wallets.find(
-        (w: any) => w.id.toLowerCase() === selected.id.toLowerCase()
+        (w: any) => w.id === selectedWallet?.id
     );
 
     const balance = Number(realWallet?.balance || 0);
-
+    useEffect(() => {
+        fetchTransactions();
+        if (wallets.length && !selectedWallet) {
+            setSelectedWallet(wallets[0]); // default first wallet
+        }
+    }, [wallets]);
+    const recentWithdraws = useMemo(() => {
+        return (transactions || [])
+            .filter((t: any) => t.type === "WITHDRAW") // only withdraw
+            .sort((a: any, b: any) =>
+                new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+            ) // latest first
+            .slice(0, 2); // only 2
+    }, [transactions]);
     const currentMethods = depositMethodsByFiat[selectedFiatCurrency.id] || [];
     const categories = [...new Set(currentMethods.map(m => m.category))];
     const isUSD = selectedFiatCurrency.id === "usd";
@@ -167,6 +182,11 @@ const Withdraw = ({ variant = "page" }: DepositProps) => {
         pkr: "PKR 600.00",
         usd: "$0",
     };
+    const statusColor = {
+    COMPLETED: "text-green-500",
+    PENDING: "text-yellow-500",
+    FAILED: "text-red-500",
+};
     const InrMethodCard = ({ method }) => (
         <button
             onClick={() => setSelectedMethod(method.id)}
@@ -341,8 +361,8 @@ const Withdraw = ({ variant = "page" }: DepositProps) => {
                             <div className="relative">
                                 <label className="text-sm text-muted-foreground mb-2 block">Withdraw Currency</label>
                                 <button onClick={() => setOpen(!open)} className="w-full flex items-center gap-2 px-4 py-2 bg-secondary rounded-lg border border-border">
-                                    <span className="text-lg">{selected.icon}</span>
-                                    <span className="font-medium text-foreground">{selected.name}</span>
+                                    <span className="text-lg">{selectedWallet?.icon}</span>
+                                    <span className="font-medium text-foreground">{selectedWallet?.name}</span>
                                     <ChevronDown className={cn("w-4 h-4 ml-auto text-muted-foreground transition", open && "rotate-180")} />
                                 </button>
                                 {open && (
@@ -358,7 +378,7 @@ const Withdraw = ({ variant = "page" }: DepositProps) => {
                                                 <>
                                                     <p className="text-xs text-muted-foreground px-2 mb-1">Cash</p>
                                                     {cashList.map((item) => (
-                                                        <div key={item.id} onClick={() => { setSelected(item); setOpen(false); }} className="flex items-center justify-between px-3 py-2 rounded-lg hover:bg-card cursor-pointer">
+                                                        <div key={item.id} onClick={() => { setSelectedWallet(item); setOpen(false); }} className="flex items-center justify-between px-3 py-2 rounded-lg hover:bg-card cursor-pointer">
                                                             <div className="flex items-center gap-2">
                                                                 <span>{item.icon}</span>
                                                                 <span className="text-foreground font-medium">{item.name}</span>
@@ -372,7 +392,7 @@ const Withdraw = ({ variant = "page" }: DepositProps) => {
                                                 <>
                                                     <p className="text-xs text-muted-foreground px-2 mt-3 mb-1">Crypto currency</p>
                                                     {cryptoList.map((item) => (
-                                                        <div key={item.id} onClick={() => { setSelected(item); setOpen(false); }} className="flex items-center justify-between px-3 py-2 rounded-lg hover:bg-card cursor-pointer">
+                                                        <div key={item.id} onClick={() => { setSelectedWallet(item); setOpen(false); }} className="flex items-center justify-between px-3 py-2 rounded-lg hover:bg-card cursor-pointer">
                                                             <div className="flex items-center gap-2">
                                                                 <span>{item.icon}</span>
                                                                 <span className="text-foreground font-medium">{item.name}</span>
@@ -461,16 +481,20 @@ const Withdraw = ({ variant = "page" }: DepositProps) => {
                                     <button onClick={() => navigate('/wallet/transaction')} className="text-primary text-sm hover:underline">More &gt;</button>
                                 </div>
                                 <div className="space-y-2">
-                                    <div className="flex items-center justify-between py-2 text-sm">
-                                        <span className="text-primary">+₹112.68 🟠</span>
-                                        <span className="text-muted-foreground">3/12/2026, 3:53:00 PM</span>
-                                        <span className="flex items-center gap-1 text-yellow-500">● Processing &gt;</span>
+                                    {recentWithdraws.map((tx: any) => (
+                                    <div key={tx.id} className="flex items-center justify-between py-2 text-sm">
+                                        <span className="text-primary"> -{tx.currency} {Number(tx.amount).toLocaleString()}🟠</span>
+                                        <span className="text-muted-foreground">{new Date(tx.createdAt).toLocaleString()}</span>
+                                        <span className={cn("flex items-center gap-1", statusColor[tx.status])}> ● {tx.status}</span>
                                     </div>
-                                    <div className="flex items-center justify-between py-2 text-sm">
-                                        <span className="text-primary">+₹500.00 🟠</span>
-                                        <span className="text-muted-foreground">3/7/2026, 4:20:03 PM</span>
-                                        <span className="flex items-center gap-1 text-yellow-500">● Processing &gt;</span>
-                                    </div>
+                                    
+                                    ))}
+
+                                    {recentWithdraws.length === 0 && (
+                                        <p className="text-center text-xs text-muted-foreground">
+                                            No recent withdraws
+                                        </p>
+                                    )}
                                 </div>
                                 <p className="text-center text-xs text-muted-foreground mt-3">Only showing recent 30 days</p>
                             </div>
@@ -696,19 +720,19 @@ const Withdraw = ({ variant = "page" }: DepositProps) => {
                                                     return;
                                                 }
 
-                                                if (Number(withdrawAmount) > balance) {
-                                                    toast.error("Insufficient balance");
-                                                    return;
-                                                }
+                                                // if (Number(withdrawAmount) > balance) {
+                                                //     toast.error("Insufficient balance");
+                                                //     return;
+                                                // }
 
                                                 try {
                                                     await requestWithdraw({
-                                                        currency: selectedFiatCurrency.name,
+                                                        currency: selectedWallet?.name || "BDT",
                                                         amount: Number(withdrawAmount),
                                                         method: selectedMethod,
                                                         account: account, // ✅ REQUIRED
                                                     });
-                                                    console.log("SELECTED:", selected);
+                                                    console.log("SELECTED:", selectedWallet);
                                                     console.log("REAL WALLET:", realWallet);
                                                     console.log("BALANCE:", balance);
                                                     toast.success("Withdraw request sent 🚀");
