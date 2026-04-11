@@ -45,7 +45,13 @@ const userId = localStorage.getItem("userId");
 
   const { fetchBalance } = useWalletStore();
   const { fetchNotifications } = useNotificationStore();
+useEffect(() => {
+  const token = localStorage.getItem("token");
 
+  if (token) {
+    setIsLoggedIn(true);
+  }
+}, []);
   useEffect(() => {
     if (!userId) return;
 
