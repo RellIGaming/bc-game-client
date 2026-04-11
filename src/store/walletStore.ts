@@ -17,7 +17,7 @@ interface Transaction {
 interface WalletState {
   balance: number;
   balances: any[];
-  wallets: any[]; 
+  wallets: any[];
   transactions: Transaction[];
   loading: boolean;
   error: string | null;
@@ -51,10 +51,20 @@ interface ReferralState {
   referralEarnings: any;
   referralDashboard: any;
   referralLoading: boolean;
+  rewardsSummary: any;
+  commissionByFriends: any[];
+  commissionByCurrency: any[];
+  levelRewards: any[];
+  rewardHistory: any[];
 
   fetchReferralFriends: () => Promise<void>;
   fetchReferralEarnings: () => Promise<void>;
   fetchReferralDashboard: () => Promise<void>;
+  fetchRewardsSummary: () => Promise<void>;
+  fetchCommissionByFriends: (params?: any) => Promise<void>;
+  fetchCommissionByCurrency: () => Promise<void>;
+  fetchLevelRewards: () => Promise<void>;
+  fetchRewardHistory: (type?: string) => Promise<void>;
 }
 
 const useWalletStore = create<WalletState>((set) => ({
@@ -259,6 +269,12 @@ export const useReferralStore = create<ReferralState>((set) => ({
   referralDashboard: null,
   referralLoading: false,
 
+
+  rewardsSummary: null,
+  commissionByFriends: [],
+  commissionByCurrency: [],
+  levelRewards: [],
+  rewardHistory: [],
   fetchReferralFriends: async () => {
     try {
       set({ referralLoading: true });
@@ -285,7 +301,7 @@ export const useReferralStore = create<ReferralState>((set) => ({
         referralEarnings: res
       });
 
-    } catch (err) {}
+    } catch (err) { }
   },
 
   fetchReferralDashboard: async () => {
@@ -296,6 +312,40 @@ export const useReferralStore = create<ReferralState>((set) => ({
         referralDashboard: res
       });
 
-    } catch (err) {}
+    } catch (err) { }
+  },
+  fetchRewardsSummary: async () => {
+    try {
+      const res = await api.getRewardsSummary();
+      set({ rewardsSummary: res });
+    } catch { }
+  },
+
+  fetchCommissionByFriends: async (params) => {
+    try {
+      const res = await api.getCommissionByFriends(params);
+      set({ commissionByFriends: res || [] });
+    } catch { }
+  },
+
+  fetchCommissionByCurrency: async () => {
+    try {
+      const res = await api.getCommissionByCurrency();
+      set({ commissionByCurrency: res || [] });
+    } catch { }
+  },
+
+  fetchLevelRewards: async () => {
+    try {
+      const res = await api.getLevelUpRewards();
+      set({ levelRewards: res || [] });
+    } catch { }
+  },
+
+  fetchRewardHistory: async (type) => {
+    try {
+      const res = await api.getRewardHistory(type);
+      set({ rewardHistory: res || [] });
+    } catch { }
   }
 }));

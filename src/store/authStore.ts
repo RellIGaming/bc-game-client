@@ -10,7 +10,11 @@ export interface User {
   phone?: string;
   role: string;
   balance?: number;
-   profileImage?: string;
+  profileImage?: string;
+  referred_by?: string;
+  referral_code?: string;
+  referralLink?: string;
+
 }
 
 export interface AuthState {
@@ -24,7 +28,7 @@ export interface AuthState {
   otpLogin: (data: { identifier: string; otp: string }) => Promise<void>;
   logout: () => void;
   fetchProfile: () => Promise<void>;
-  updateProfile: (data: { username?: string; email?: string; phone?: string,file?: File }) => Promise<void>;
+  updateProfile: (data: { username?: string; email?: string; phone?: string, file?: File }) => Promise<void>;
 }
 
 // ------------------ Zustand Store ------------------
@@ -72,41 +76,41 @@ const useAuthStore = create<AuthState>((set, get) => ({
     localStorage.removeItem("token");
   },
 
-fetchProfile: async () => {
-  const token = get().token;
-  if (!token) return;
+  fetchProfile: async () => {
+    const token = get().token;
+    if (!token) return;
 
-  set({ loading: true });
+    set({ loading: true });
 
-  try {
-    const res = await api.getProfile();
+    try {
+      const res = await api.getProfile();
 
-    set({
-      user: res, // ✅ backend already returns correct shape
-      loading: false,
-    });
-  } catch (err: any) {
-    set({ error: err.message, loading: false });
-  }
-},
+      set({
+        user: res, // ✅ backend already returns correct shape
+        loading: false,
+      });
+    } catch (err: any) {
+      set({ error: err.message, loading: false });
+    }
+  },
 
-updateProfile: async (data) => {
-  const token = get().token;
-  if (!token) return;
+  updateProfile: async (data) => {
+    const token = get().token;
+    if (!token) return;
 
-  set({ loading: true });
+    set({ loading: true });
 
-  try {
-    const res = await api.updateProfile(data);
+    try {
+      const res = await api.updateProfile(data);
 
-    set({
-      user: res, // ✅ FIX (not res.user)
-      loading: false,
-    });
-  } catch (err: any) {
-    set({ error: err.message, loading: false });
-  }
-},
+      set({
+        user: res, // ✅ FIX (not res.user)
+        loading: false,
+      });
+    } catch (err: any) {
+      set({ error: err.message, loading: false });
+    }
+  },
 }));
 
 export default useAuthStore;

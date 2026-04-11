@@ -218,6 +218,30 @@ export const getReferralEarnings = () =>
 
 export const getReferralDashboard = () =>
   fetchWithAuth("/api/referral/dashboard");
+// Summary (top cards)
+export const getRewardsSummary = () =>
+  fetchWithAuth("/api/referral/rewards/summary");
+
+// Commission by Friends
+export const getCommissionByFriends = (params?: any) => {
+  const query = params
+    ? "?" + new URLSearchParams(params).toString()
+    : "";
+
+  return fetchWithAuth(`/api/referral/rewards/friends${query}`);
+};
+
+// Commission by Currency
+export const getCommissionByCurrency = () =>
+  fetchWithAuth("/api/referral/rewards/currency");
+
+// Level Rewards
+export const getLevelUpRewards = () =>
+  fetchWithAuth("/api/referral/rewards/level");
+
+// Reward History
+export const getRewardHistory = (type?: string) =>
+  fetchWithAuth(`/api/referral/rewards/history?type=${type || ""}`);
 /* =====================
    GAMES APIS
 ===================== */
@@ -239,7 +263,7 @@ export default {
   resetPassword,
   getProfile,
   updateProfile,
-
+getVault,
   getBalance,
   requestDeposit,
   requestWithdraw,

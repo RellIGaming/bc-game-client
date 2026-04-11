@@ -1,13 +1,9 @@
-import { Copy, Users, DollarSign, Gift } from "lucide-react";
+import { Copy, Users, DollarSign, Gift, Facebook, Twitter, MessageCircle, Linkedin, Instagram, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-const socialIcons = ["🔵", "✖️", "📱", "💬", "💚", "🔴", "📸", "🟢", "💼", "📞"];
-const liveRewards = [
-  { user: "Rikkkkkkkkkk", amount: "+0.5", icon: "🟡" },
-  { user: "Ayyshortyyyy", amount: "+130", icon: "🟠" },
-  { user: "Tipatopa", amount: "+0.43", icon: "🔵" },
-  { user: "Weudolulfucc", amount: "+12.47", icon: "🟢" },
-];
+
+
+
 const faqs = [
   "How does the referral system work?",
   "How much can I earn from my referral?",
@@ -49,7 +45,37 @@ export default function ReferralDashboard() {
     fetchReferralFriends();
     fetchReferralEarnings();
   }, []);
-
+  const referralLink =
+    referralDashboard?.referralLink ||
+    (user?.referral_code
+      ? `https://bc-game-client.onrender.com/i-${user.referral_code}`
+      : "");
+  const socialIcons = [
+    {
+      icon: Facebook,
+      url: `https://www.facebook.com/sharer/sharer.php?u=${referralLink}`,
+    },
+    {
+      icon: Twitter,
+      url: `https://twitter.com/intent/tweet?url=${referralLink}`,
+    },
+    {
+      icon: MessageCircle,
+      url: `https://wa.me/?text=${referralLink}`,
+    },
+    {
+      icon: Linkedin,
+      url: `https://www.linkedin.com/sharing/share-offsite/?url=${referralLink}`,
+    },
+    {
+      icon: Instagram,
+      url: `https://instagram.com`, // no direct share API
+    },
+    {
+      icon: Send,
+      url: `https://t.me/share/url?url=${referralLink}`,
+    },
+  ];
   return (
     <div className="space-y-6">
       {/* Invite Section */}
@@ -88,14 +114,21 @@ export default function ReferralDashboard() {
             </span>
 
             <div className="flex gap-2 flex-wrap">
-              {socialIcons.map((icon, i) => (
+              {socialIcons.map(({ icon: Icon, url }, i) => (
                 <button
                   key={i}
+                  onClick={() => {
+                    if (!referralLink) {
+                      toast.error("Referral link not ready");
+                      return;
+                    }
+                    window.open(url, "_blank");
+                  }}
                   className="w-8 h-8 rounded-full bg-secondary 
-                       flex items-center justify-center text-sm
-                       hover:bg-primary/20 transition-colors"
+               flex items-center justify-center text-sm
+               hover:bg-primary/20 transition-colors"
                 >
-                  {icon}
+                  <Icon className="w-4 h-4" />
                 </button>
               ))}
             </div>
