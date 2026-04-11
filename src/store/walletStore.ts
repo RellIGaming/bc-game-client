@@ -251,6 +251,8 @@ const useWalletStore = create<WalletState>((set) => ({
     }
   },
 }));
+export default useWalletStore;
+
 export const useReferralStore = create<ReferralState>((set) => ({
   referralFriends: [],
   referralEarnings: null,
@@ -297,4 +299,3 @@ export const useReferralStore = create<ReferralState>((set) => ({
     } catch (err) {}
   }
 }));
-export default useWalletStore;
