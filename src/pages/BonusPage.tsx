@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ChevronRight, Info, Lock, Gift, Clock, X, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -20,6 +20,7 @@ import { LuckySpinGameModal } from "@/components/bonus/LuckySpinGameModal";
 import { VaultTransferModal } from "@/components/bonus/VaultTransferModal";
 import { useNavigate } from "react-router-dom";
 import { BcdRakebackModal } from "@/components/bonus/BcdRakebackModal";
+import { useBonusStore } from "@/store/walletStore";
 
 const monthlyTiers = [
   { pct: "180%", active: true },
@@ -114,7 +115,22 @@ const BonusPage = () => {
   const [redeemCode, setRedeemCode] = useState("");
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
- 
+  const {
+    bonusData,
+    fetchBonusFull,
+    bonusSummary,
+    monthlyBonus,
+    fetchBonusSummary,
+    fetchMonthlyBonus,
+    claimDailyBonus,
+    claimRakebackBonus,
+    redeemBonusCode
+  } = useBonusStore();
+  useEffect(() => {
+    fetchBonusFull();
+    fetchBonusSummary();
+    fetchMonthlyBonus();
+  }, []);
   return (
     <div className="min-h-screen bg-background text-foreground">
       <div className="max-w-5xl mx-auto px-1 py-8 space-y-8 sm:px-2">
@@ -128,7 +144,7 @@ const BonusPage = () => {
               placeholder="Redeem your bonus here."
               className="flex-1 sm:w-64 bg-secondary rounded-lg px-4 py-2 text-sm border border-border focus:outline-none focus:ring-1 focus:ring-primary"
             />
-            <Button className="bg-card hover:bg-card-hover text-foreground text-sm px-4">Redeem Code</Button>
+            <Button onClick={() => redeemBonusCode(redeemCode)} className="bg-card hover:bg-card-hover text-foreground text-sm px-4">Redeem Code</Button>
           </div>
         </div>
         <div
@@ -163,21 +179,23 @@ const BonusPage = () => {
           {/* CENTER CONTENT */}
           <div className="flex-1 w-full">
             <h2 className="text-xl sm:text-3xl font-extrabold text-primary">
-              VIP 0
+              VIP {bonusData?.vip?.level || 0}
             </h2>
 
             {/* PROGRESS BAR */}
             <div className="mt-3 sm:mt-4 bg-black/30 rounded-full h-2 sm:h-3 overflow-hidden">
-              <div className="h-full w-[5%] bg-primary" />
+              <div
+                className="h-full bg-primary"
+                style={{ width: `${bonusData?.vip?.progress || 0}%` }}
+              />
             </div>
-
             <div className="flex justify-between text-[10px] sm:text-xs text-muted-foreground mt-2">
-              <span>0 XP</span>
-              <span>1 XP</span>
+              <span>{bonusData?.vip?.xp || 0} XP</span>
+              <span>{bonusData?.vip?.nextXp || 0} XP</span>
             </div>
 
             <p className="text-[10px] sm:text-xs text-muted-foreground mt-1">
-              1 XP until VIP 1
+              {bonusData?.vip?.nextXp - bonusData?.vip?.xp} XP until next VIP
             </p>
           </div>
 
@@ -203,13 +221,13 @@ const BonusPage = () => {
         {/* Total Bonus & Monthly Deposit */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <div className="bg-gradient-to-br from-secondary to-card rounded-lg p-6">
-            <p className="text-sm text-muted-foreground mb-1">Total Bonus Claimed (INR)</p>
-            <p className="text-3xl font-bold mb-3">₹0.00</p>
+            <p className="text-sm text-muted-foreground mb-1">Total Bonus Claimed (BDT)</p>
+            <p className="text-3xl font-bold mb-3">₹{bonusData?.summary?.totalBonus || 0}</p>
             <div className="grid grid-cols-2 gap-2 text-xs text-muted-foreground">
-              <div>Total VIP Bonus: <span className="text-foreground">₹0.00</span></div>
-              <div>Total Special Bonus: <span className="text-foreground">₹0.00</span></div>
-              <div>Total General Bonus: <span className="text-foreground">₹0.00</span></div>
-              <div>Total Locked Bonus: <span className="text-foreground">₹90.52</span></div>
+              <div>Total VIP Bonus: <span className="text-foreground">₹{bonusData?.summary?.vip || 0}</span></div>
+              <div>Total Special Bonus: <span className="text-foreground">₹{bonusData?.summary?.referral || 0}</span></div>
+              <div>Total General Bonus: <span className="text-foreground">₹{bonusData?.summary?.general || 0}</span></div>
+              <div>Total Locked Bonus: <span className="text-foreground">₹{bonusData?.summary?.locked || 0}</span></div>
             </div>
             <button className="text-primary text-xs mt-3 flex items-center gap-1">Details <ChevronRight className="w-3 h-3" /></button>
           </div>
@@ -218,16 +236,21 @@ const BonusPage = () => {
               <p className="font-semibold text-sm">Monthly Deposit Bonus <span className="text-xs text-muted-foreground">Get up to: ₹9,052,448.03</span></p>
             </div>
             <div className="flex gap-3 mb-4">
-              {monthlyTiers.map((tier, i) => (
-                <div key={i} className={cn(
-                  "flex-1 text-center py-2 rounded-lg text-sm font-bold",
-                  tier.active ? "bg-primary/20 text-primary border border-primary" : "bg-secondary text-muted-foreground"
-                )}>
-                  {tier.pct}
+              {bonusData?.monthlyBonus?.tiers?.map((tier, i) => (
+                <div
+                  key={i}
+                  className={cn(
+                    "flex-1 text-center py-2 rounded-lg text-sm font-bold",
+                    tier.active
+                      ? "bg-primary/20 text-primary border border-primary"
+                      : "bg-secondary text-muted-foreground"
+                  )}
+                >
+                  {tier.pct}%
                 </div>
               ))}
             </div>
-            <p className="text-xs text-muted-foreground mb-3">🔄 Monthly Reset: 22days remaining</p>
+            <p className="text-xs text-muted-foreground mb-3">🔄 Monthly Reset:{bonusData?.monthlyBonus?.resetInDays || 0} days</p>
             <Button className="w-full bg-primary text-primary-foreground">Deposit Now</Button>
             <p className="text-xs text-muted-foreground text-center mt-2">💎 Deposit bonus will be added to your 🪙 Rakeback</p>
           </div>
@@ -237,87 +260,82 @@ const BonusPage = () => {
         <div>
           <h2 className="text-xl font-bold mb-4">General Bonus</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {generalBonuses.map((bonus, i) => (
+            {bonusData?.bonuses?.map((bonus:any, i:any) => (
               <div key={i} className="bg-card rounded-lg p-2 flex flex-col h-full">
-                {bonus.title !== "Telegram Subscription" &&
-                  bonus.title !== "Quests" &&
-                  bonus.title !== "Challenge" && (
-                    <button
-                      onClick={() => {
-                        if (bonus.title === "Daily Bonus") {
-                          setActiveModal("daily");
-                        } else if (bonus.title === "USD Rakeback") {
-                          setActiveModal("USD");
-                        } else if (bonus.title === "Lucky Spin") {
-                          setActiveModal("lucky");
-                        } else if (bonus.title === "Vault Pro") {
-                          setActiveModal("vault");
-                        }
-                      }}
-                    >
-                      <Info className="w-4 h-4 text-muted-foreground ml-auto" />
-                    </button>
-                  )}
+
+                {/* ICON */}
                 <div className="flex items-center justify-center mb-2">
-                  <img src={bonus.icon} alt="icon" className="w-24 h-24" />
+                  <img
+                    src={
+                      bonus.type === "DAILY"
+                        ? bonusDaily
+                        : bonus.type === "RAKEBACK"
+                          ? rockBack
+                          : bonus.type === "SPIN"
+                            ? luckySpin
+                            : bonus.type === "VAULT"
+                              ? luckySpin
+                              : telegram
+                    }
+                    className="w-24 h-24"
+                  />
                 </div>
-                <h4 className="font-bold text-sm mb-2 flex items-center justify-center">{bonus.title}</h4>
+
+                <h4 className="font-bold text-sm text-center mb-2">
+                  {bonus.title}
+                </h4>
+
                 <div className="bg-background rounded-lg p-2 flex flex-col flex-1">
 
-                  {/* Badge */}
-                  {bonus.badge && (
-                    <span className="text-xs text-primary bg-primary/10 px-2 py-0.5 rounded w-fit mb-2">
-                      {bonus.badge}
-                    </span>
-                  )}
-
-                  {/* Locked Text */}
-                  {bonus.lockedText && (
-                    <p className="text-xs text-muted-foreground mb-2">
-                      🔒 {bonus.lockedText}
+                  {/* DAILY */}
+                  {bonus.type === "DAILY" && (
+                    <p className="text-xs text-muted-foreground">
+                      🔒 Unlock at VIP {bonus.unlockLevel}
                     </p>
                   )}
 
-                  {/* Description */}
-                  {bonus.description && (
-                    <p className="text-xs text-muted-foreground mb-2">
-                      {bonus.description}
-                    </p>
-                  )}
-
-                  {/* Stats (Label + Value aligned like image) */}
-                  {bonus.stats &&
-                    bonus.stats.map((stat, index) => (
-                      <div key={index} className="flex justify-between text-xs text-muted-foreground mb-2">
-                        <span>{stat.label}</span>
-                        <span className="font-medium text-foreground">{stat.value}</span>
+                  {/* RAKEBACK */}
+                  {bonus.type === "RAKEBACK" && (
+                    <>
+                      <div className="flex justify-between text-xs">
+                        <span>Locked:</span>
+                        <span>{bonus.lockedAmount}</span>
                       </div>
-                    ))}
+                      <div className="flex justify-between text-xs">
+                        <span>Rate:</span>
+                        <span>{bonus.unlockRate}%</span>
+                      </div>
+                      <div className="flex justify-between text-xs">
+                        <span>Ready:</span>
+                        <span>{bonus.ready}</span>
+                      </div>
 
-                  {/* Countdown */}
-                  {bonus.countdown && (
-                    <p className="text-xs text-muted-foreground mt-2 flex items-center mb-2">
-                      <Clock className="w-3 h-3 mr-1" />
-                      {bonus.countdown}
+                      <Button
+                        size="sm"
+                        className="mt-auto"
+                        onClick={claimRakebackBonus}
+                        disabled={!bonus.canClaim}
+                      >
+                        Claim
+                      </Button>
+                    </>
+                  )}
+
+                  {/* SPIN */}
+                  {bonus.type === "SPIN" && (
+                    <p className="text-xs text-muted-foreground">
+                      {bonus.dailyProgress}
                     </p>
                   )}
-                  {bonus.action && (
-                    <Button
-                      size="sm"
-                      className="mt-auto w-full bg-primary text-primary-foreground text-xs"
-                      onClick={() => {
-                        if (bonus.title === "Telegram Subscription") setActiveModal("telegram");
-                        else if (bonus.title === "Quests") navigate("/quest-hub");
-                        else if (bonus.title === "Challenge") navigate("/challenge");
-                        else if (bonus.title === "Lucky Spin") setActiveModal("luckySpin");
-                        else if (bonus.title === "Vault Pro") setActiveModal("vaultTransfer");
-                      }}
-                    >
-                      {bonus.action}
-                    </Button>
+
+                  {/* VAULT */}
+                  {bonus.type === "VAULT" && (
+                    <>
+                      <p className="text-xs">Holdings: ₹{bonus.holdings}</p>
+                      <p className="text-xs">Return: ₹{bonus.returns}</p>
+                    </>
                   )}
                 </div>
-
               </div>
             ))}
           </div>
@@ -465,39 +483,14 @@ export default BonusPage;
 
 export const VipModal = ({ onClose }: { onClose: () => void }) => {
   const [openTier, setOpenTier] = useState<string | null>("Bronze");
-
+const { vipLevels, fetchVipLevels } = useBonusStore();
   const toggleTier = (tier: string) => {
     setOpenTier((prev) => (prev === tier ? null : tier));
   };
+useEffect(() => {
+  fetchVipLevels();
+}, []);
 
-  const tiers = [
-    {
-      name: "Bronze  VIP 2–7",
-      key: "Bronze",
-      levels: [
-        { level: "VIP 02", xp: 100 },
-        { level: "VIP 03", xp: 200 },
-        { level: "VIP 04", xp: 1000 },
-        { level: "VIP 05", xp: 2000 },
-        { level: "VIP 06", xp: 3000 },
-        { level: "VIP 07", xp: 4000 },
-      ],
-    },
-    {
-      name: "Silver   VIP 8–21", key: "Silver",
-      levels: [
-        { level: "VIP 02", xp: 100 },
-        { level: "VIP 03", xp: 200 },
-        { level: "VIP 04", xp: 1000 },
-        { level: "VIP 05", xp: 2000 },
-        { level: "VIP 06", xp: 3000 },
-        { level: "VIP 07", xp: 4000 },
-      ],
-    },
-    { name: "Gold     VIP 22–37", key: "Gold" },
-    { name: "Platinum I   VIP 38–55", key: "Platinum1" },
-    { name: "Platinum II  VIP 56–69", key: "Platinum2" },
-  ];
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
@@ -525,7 +518,7 @@ export const VipModal = ({ onClose }: { onClose: () => void }) => {
 
         {/* ACCORDION */}
         <div className="space-y-3">
-          {tiers.map((tier) => {
+          {vipLevels.map((tier: any) => {
             const isOpen = openTier === tier.key;
 
             return (

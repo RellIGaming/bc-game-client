@@ -30,7 +30,7 @@ import QuestHubPage from "./pages/QuestHubPage";
 import ChallengePage from "./pages/ChallengePage";
 import GlobalSettingsPage from "./pages/GlobalSettingsPage";
 import CrashGamePage from "./pages/CrashGamePage";
-import useWalletStore from "./store/walletStore";
+import {useWalletStore} from "./store/walletStore";
 import useNotificationStore from "./store/notificationStore";
 import socket from "./lib/socket";
 import ReferralRedirect from "./pages/ReferralRedirect";

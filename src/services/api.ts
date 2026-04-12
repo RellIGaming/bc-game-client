@@ -242,6 +242,55 @@ export const getLevelUpRewards = () =>
 // Reward History
 export const getRewardHistory = (type?: string) =>
   fetchWithAuth(`/api/referral/rewards/history?type=${type || ""}`);
+
+/* =====================
+   BONUS APIS
+===================== */
+
+// 🔹 Bonus summary (main dashboard)
+export const getBonusSummary = () =>
+  fetchWithAuth("/api/bonus/summary");
+
+// 🔹 Monthly bonus
+export const getMonthlyBonus = () =>
+  fetchWithAuth("/api/bonus/monthly");
+
+// 🔹 Claim daily bonus
+export const claimDailyBonus = () =>
+  fetchWithAuth("/api/bonus/daily/claim", {
+    method: "POST",
+  });
+
+// 🔹 Claim rakeback
+export const claimRakebackBonus = () =>
+  fetchWithAuth("/api/bonus/rakeback/claim", {
+    method: "POST",
+  });
+
+// 🔹 Redeem code
+export const redeemBonusCode = (code: string) =>
+  fetchWithAuth("/api/bonus/redeem", {
+    method: "POST",
+    body: JSON.stringify({ code }),
+  });
+export const getBonusFull = () => {
+  return fetchWithAuth("/api/bonus/full");
+};
+
+// 🔹 Monthly bonus only (optional separate call)
+export const getTestBonusData = () => {
+  return fetchWithAuth("/api/bonus/test-seed");
+};
+export const getVipLevels = () => {
+  return fetchWithAuth("/api/bonus/vip-levels");
+};
+export const getVipClub = () => {
+  return fetchWithAuth("/api/bonus/vip-club");
+};
+
+export const getVipBonusTable= () => {
+  return fetchWithAuth("/api/bonus/vip-table");
+}
 /* =====================
    GAMES APIS
 ===================== */
@@ -275,4 +324,10 @@ getVault,
   getReferralEarnings,
   getReferralDashboard,
   getGames,
+  getBonusSummary,
+  getMonthlyBonus,
+  claimDailyBonus,
+  claimRakebackBonus,
+  redeemBonusCode,
+  getVipBonusTable,
 };

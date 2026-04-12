@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { ChevronRight, ChevronDown, Search, Info, Clock } from "lucide-react";
 import { cn } from "@/lib/utils";
-import useWalletStore from "@/store/walletStore";
+import {useWalletStore} from "@/store/walletStore";
 import { useNavigate } from "react-router-dom";
 const cryptoCurrencies = [
     { id: "bc", name: "BC", icon: "🟡", balance: 0 },

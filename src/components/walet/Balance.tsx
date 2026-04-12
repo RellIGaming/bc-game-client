@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { useNavigate } from "react-router-dom";
-import useWalletStore from "@/store/walletStore";
+import {useWalletStore} from "@/store/walletStore";
 
 /* ---------------- ALL CURRENCIES ---------------- */
 const allBalances = [

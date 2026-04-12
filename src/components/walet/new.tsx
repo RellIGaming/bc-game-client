@@ -6,7 +6,7 @@ import { AnimatePresence } from 'framer-motion';
 import { motion } from 'framer-motion';
 import AddAddressModal from '../game/AddAddressModal';
 import WithdrawGuideModal from '../game/WithdrawGuideModal';
-import useWalletStore from '@/store/walletStore';
+import {useWalletStore} from '@/store/walletStore';
 const cryptoCurrencies = [
   { id: "eth", name: "ETH", icon: "🔵", network: "Ethereum" },
   { id: "btc", name: "BTC", icon: "🟠", network: "Bitcoin" },

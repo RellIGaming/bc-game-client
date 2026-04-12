@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { ChevronDown, Info } from "lucide-react";
 import { cn } from "@/lib/utils";
-import useWalletStore from "@/store/walletStore";
+import {useWalletStore} from "@/store/walletStore";
 const billTypes = ["Bill", "DEPOSIT", "WITHDRAW", "Swap", "Transfer"];
 const assetTypes = ["All Assets", "BTC", "ETH", "USDT", "BC", "SOL"];
 const timeFilters = ["Past 24 hours", "Past 7 days", "Past 30 days", "Past 90 days"];

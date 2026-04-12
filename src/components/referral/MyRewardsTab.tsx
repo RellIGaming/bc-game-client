@@ -9,6 +9,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { format } from "date-fns";
 import { useReferralStore } from "@/store/walletStore";
+import { useNavigate } from "react-router-dom";
 
 const subTabs = ["Commission by Friends", "Commission by Currency", "Level Up Rewards"];
 
@@ -26,7 +27,7 @@ export default function MyRewardsTab() {
     fetchLevelRewards,
     fetchRewardHistory
   } = useReferralStore();
-
+const navigate = useNavigate();
   console.log(rewardsSummary,"rewardsSummary" )
   const [subTab, setSubTab] = useState("Commission by Friends");
   const [allCodesOpen, setAllCodesOpen] = useState(false);
@@ -317,8 +318,8 @@ export default function MyRewardsTab() {
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <Button variant="ghost" className="text-muted-foreground">Swap</Button>
-            <Button className="bg-primary text-primary-foreground px-6">Withdraw to Wallet</Button>
+            <Button  onClick={() => navigate("/wallet/swap")} variant="ghost" className="text-muted-foreground">Swap</Button>
+            <Button onClick={() => navigate("/wallet/withdraw")} className="bg-primary text-primary-foreground px-6">Withdraw to Wallet</Button>
           </div>
         </div>
       </div>

@@ -20,7 +20,7 @@ import nayapay from "../../assets/images/nayapay-logo.png";
 import jazzcash from "../../assets/images/jazzcash-logo.png";
 import jazzcashHalf from "../../assets/images/jazzcash-half.png";
 import easypaisa from "../../assets/images/easypaisa-logo.png";
-import useWalletStore from '@/store/walletStore';
+import {useWalletStore} from '@/store/walletStore';
 
 // Crypto currencies
 const cryptoCurrencies = [

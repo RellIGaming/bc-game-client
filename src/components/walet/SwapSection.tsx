@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect } from "react";
 import { ArrowUpDown, Search, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
-import useWalletStore from "@/store/walletStore";
+import {useWalletStore} from "@/store/walletStore";
 const cryptoCurrencies = [
   { id: "usdt", name: "USDT", icon: "🟢", balance: 0 },
   { id: "eth", name: "ETH", icon: "🔵", balance: 0 },

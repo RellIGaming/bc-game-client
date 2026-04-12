@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import * as api from "../services/api";
+import { toast } from "sonner";
 
 interface Transaction {
   id: number;
@@ -66,8 +67,26 @@ interface ReferralState {
   fetchLevelRewards: () => Promise<void>;
   fetchRewardHistory: (type?: string) => Promise<void>;
 }
+interface BonusState {
+  bonusSummary: any;
+  monthlyBonus: any;
+  bonusLoading: boolean;
+  bonusData: any;
+  vipLevels: any[];
+  vipClub: any;
+  vipTable: any;
 
-const useWalletStore = create<WalletState>((set) => ({
+  fetchVipTable: () => Promise<void>;
+  fetchVipClub: () => Promise<void>;
+  fetchVipLevels: () => Promise<void>;
+  fetchBonusSummary: () => Promise<void>;
+  fetchMonthlyBonus: () => Promise<void>;
+  claimDailyBonus: () => Promise<void>;
+  claimRakebackBonus: () => Promise<void>;
+  redeemBonusCode: (code: string) => Promise<void>;
+  fetchBonusFull: () => Promise<void>;
+}
+export const useWalletStore = create<WalletState>((set) => ({
   balance: 0,
   balances: [],
   wallets: [],
@@ -261,7 +280,7 @@ const useWalletStore = create<WalletState>((set) => ({
     }
   },
 }));
-export default useWalletStore;
+
 
 export const useReferralStore = create<ReferralState>((set) => ({
   referralFriends: [],
@@ -348,4 +367,125 @@ export const useReferralStore = create<ReferralState>((set) => ({
       set({ rewardHistory: res || [] });
     } catch { }
   }
+}));
+
+export const useBonusStore = create<BonusState>((set) => ({
+  bonusSummary: null,
+  monthlyBonus: null,
+  bonusLoading: false,
+  bonusData: null,
+  vipLevels: [],
+  vipClub: null,
+  vipTable: null,
+
+ fetchVipTable: async () => {
+  try {
+    const res = await api.getVipBonusTable();
+
+    set({
+      vipTable: res
+    });
+  } catch (err) {
+    console.error(err);
+  }
+},
+
+  fetchVipClub: async () => {
+    try {
+      const res = await api.getVipClub();
+
+      set({
+        vipClub: res,
+      });
+    } catch (err) {
+      console.error("VIP Club Error:", err);
+    }
+  },
+  fetchVipLevels: async () => {
+    try {
+      const res = await api.getVipLevels();
+
+      set({
+        vipLevels: res.vipLevels || [],
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  },
+  fetchBonusFull: async () => {
+    try {
+      set({ bonusLoading: true });
+
+      const res = await api.getBonusFull();
+
+      set({
+        bonusData: res,
+        bonusLoading: false // ✅ FIXED (was wrong: loading)
+      });
+
+    } catch (err) {
+      console.error("Bonus Full Error:", err);
+      set({ bonusLoading: false });
+    }
+  },
+  /* ================= SUMMARY ================= */
+  fetchBonusSummary: async () => {
+    try {
+      set({ bonusLoading: true });
+
+      const res = await api.getBonusSummary();
+
+      set({
+        bonusSummary: res,
+        bonusLoading: false,
+      });
+    } catch {
+      set({ bonusLoading: false });
+    }
+  },
+
+  /* ================= MONTHLY ================= */
+  fetchMonthlyBonus: async () => {
+    try {
+      const res = await api.getMonthlyBonus();
+
+      set({
+        monthlyBonus: res,
+      });
+    } catch { }
+  },
+
+  /* ================= DAILY CLAIM ================= */
+  claimDailyBonus: async () => {
+    try {
+      await api.claimDailyBonus();
+
+      // 🔥 refresh after claim
+      const res = await api.getBonusSummary();
+
+      set({ bonusSummary: res });
+    } catch { }
+  },
+
+  /* ================= RAKEBACK ================= */
+  claimRakebackBonus: async () => {
+    try {
+      await api.claimRakebackBonus();
+
+      const res = await api.getBonusSummary();
+
+      set({ bonusSummary: res });
+    } catch { }
+  },
+
+  /* ================= REDEEM ================= */
+  redeemBonusCode: async (code: string) => {
+    try {
+      await api.redeemBonusCode(code);
+
+      const res = await api.getBonusSummary();
+
+      set({ bonusSummary: res });
+    } catch { }
+  },
 }));
