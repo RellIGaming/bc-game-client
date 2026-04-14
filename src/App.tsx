@@ -30,10 +30,12 @@ import QuestHubPage from "./pages/QuestHubPage";
 import ChallengePage from "./pages/ChallengePage";
 import GlobalSettingsPage from "./pages/GlobalSettingsPage";
 import CrashGamePage from "./pages/CrashGamePage";
-import {useWalletStore} from "./store/walletStore";
+import { useWalletStore } from "./store/walletStore";
 import useNotificationStore from "./store/notificationStore";
-import socket from "./lib/socket";
 import ReferralRedirect from "./pages/ReferralRedirect";
+import { LanguageProvider } from "./context/LanguageContext";
+import LiveChat from "./components/layout/LiveChat";
+import socket from "./lib/socket";
 
 const queryClient = new QueryClient();
 
@@ -41,17 +43,17 @@ const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(
     !!localStorage.getItem("token")
   );
-const userId = localStorage.getItem("userId");
+  const userId = localStorage.getItem("userId");
 
   const { fetchBalance } = useWalletStore();
   const { fetchNotifications } = useNotificationStore();
-useEffect(() => {
-  const token = localStorage.getItem("token");
+  useEffect(() => {
+    const token = localStorage.getItem("token");
 
-  if (token) {
-    setIsLoggedIn(true);
-  }
-}, []);
+    if (token) {
+      setIsLoggedIn(true);
+    }
+  }, []);
   useEffect(() => {
     if (!userId) return;
 
@@ -77,49 +79,54 @@ useEffect(() => {
   }, [userId]);
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
-            <Route element={<AppLayout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />}>
-              <Route path="/" element={<Home isLoggedIn={isLoggedIn} />} />
-              <Route path="/i-:code" element={<ReferralRedirect />} />
-              {/* <Route path="/" element={<Index isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} /> */}
-              <Route path="/casino" element={<CasinoPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
-              <Route path="/sports" element={<SportsPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
-              <Route path="/sports/:category" element={<SportsPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
-              <Route path="/search" element={<SearchPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
-              <Route path="/wallet" element={<WalletPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
-              <Route path="/game/:gameId" element={<GameDetailPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
-              <Route path="/wallet/:section" element={<WalletPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
-              <Route path="/casino/:category" element={<CategoryPage />} />
-              <Route path="/game/crash" element={<CrashGamePage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
-              <Route path="/live-stats" element={<LiveStats />} />
-              <Route path="/vip-club" element={<VipClubPage isLoggedIn={isLoggedIn} />} />
-              <Route path="/bonus" element={<BonusPage />} />
-              <Route path="/referal" element={<ReferralPage />} />
-              <Route path="/fair" element={<ProvablyFairPage />} />
-              <Route path="/gambling" element={<ResponsibleGamblingPage />} />
-              <Route path="/sponsorships" element={<SponsorshipPage />} />
-              <Route path="/sponsorships/:tab" element={<SponsorshipPage />} />
-              <Route path="/promotions" element={<PromotionsPage />} />
-              <Route path="/daily" element={<DailyContestPage />} />
-              <Route path="/lucky" element={<WeeklyRafflePage />} />
-              <Route path="/quest-hub" element={<QuestHubPage />} />
-              <Route path="/challenge" element={<ChallengePage />} />
-              <Route path="/globalSettings" element={<GlobalSettingsPage username={""} selectedFrame={0} setUsername={function (value: SetStateAction<string>): void {
-                throw new Error("Function not implemented.");
-              } }  />} />
-            </Route>
-            <Route path="/admin-login" element={<AdminLogin />} />
-            <Route path="/admin" element={<AdminDashboard />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </TooltipProvider>
-    </QueryClientProvider>
+    <LanguageProvider>
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <Routes>
+              <Route element={<AppLayout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />}>
+                <Route path="/" element={<Home isLoggedIn={isLoggedIn} />} />
+                <Route path="/i-:code" element={<ReferralRedirect />} />
+                {/* <Route path="/" element={<Index isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} /> */}
+                <Route path="/casino" element={<CasinoPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
+                <Route path="/sports" element={<SportsPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
+                <Route path="/sports/:category" element={<SportsPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
+                <Route path="/search" element={<SearchPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
+                <Route path="/wallet" element={<WalletPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
+                <Route path="/game/:gameId" element={<GameDetailPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
+                <Route path="/wallet/:section" element={<WalletPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
+                <Route path="/casino/:category" element={<CategoryPage />} />
+                <Route path="/game/crash" element={<CrashGamePage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
+                <Route path="/live-stats" element={<LiveStats />} />
+                <Route path="/vip-club" element={<VipClubPage isLoggedIn={isLoggedIn} />} />
+                <Route path="/bonus" element={<BonusPage />} />
+                <Route path="/referal" element={<ReferralPage />} />
+                <Route path="/fair" element={<ProvablyFairPage />} />
+                <Route path="/gambling" element={<ResponsibleGamblingPage />} />
+                <Route path="/sponsorships" element={<SponsorshipPage />} />
+                <Route path="/sponsorships/:tab" element={<SponsorshipPage />} />
+                <Route path="/promotions" element={<PromotionsPage />} />
+                <Route path="/daily" element={<DailyContestPage />} />
+                <Route path="/lucky" element={<WeeklyRafflePage />} />
+                <Route path="/quest-hub" element={<QuestHubPage />} />
+                <Route path="/challenge" element={<ChallengePage />} />
+                <Route path="/live-chat" element={<LiveChat isOpen={false} onClose={function (): void {
+                  throw new Error("Function not implemented.");
+                } } />} />
+                <Route path="/globalSettings" element={<GlobalSettingsPage username={""} selectedFrame={0} setUsername={function (value: SetStateAction<string>): void {
+                  throw new Error("Function not implemented.");
+                }} />} />
+              </Route>
+              <Route path="/admin-login" element={<AdminLogin />} />
+              <Route path="/admin" element={<AdminDashboard />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </TooltipProvider>
+      </QueryClientProvider>
+    </LanguageProvider>
   )
 };
 

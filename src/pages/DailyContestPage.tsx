@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { X, HelpCircle, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { useContestStore } from "@/store/walletStore";
 
 const leaderboardData = [
   { rank: 1, player: "Highlanderrr", wager: "₹393,085.88K", prize: "₹221,448.21 (50%)", medal: "🥇" },
@@ -46,10 +47,33 @@ const rulesCurrencies = [
 ];
 
 const DailyContestPage = () => {
+
+  const {
+    contest,
+    leaderboard,
+    history,
+    rules,
+    currencies,
+    myPosition,
+    fetchContest,
+    fetchHistory,
+    fetchRules,
+    fetchMyPosition,
+    prizePool,
+    startDate,
+    endDate,
+    userStats,
+    fetchDailyContest
+  } = useContestStore();
   const [showHistory, setShowHistory] = useState(false);
   const [showRules, setShowRules] = useState(false);
   const [timeLeft, setTimeLeft] = useState({ hours: 23, minutes: 5, seconds: 2 });
-
+  useEffect(() => {
+    fetchContest();
+    fetchHistory();
+    fetchRules();
+    fetchMyPosition();
+  }, []);
   useEffect(() => {
     const timer = setInterval(() => {
       setTimeLeft((prev) => {
@@ -80,7 +104,7 @@ const DailyContestPage = () => {
                   <span className="text-yellow-400">🎉</span> Daily Contest <span className="text-yellow-400">🎉</span>
                 </p>
                 <p className="text-xs text-muted-foreground">Contest prize pool</p>
-                <p className="text-xl sm:text-2xl font-bold text-accent">4,938.73 USD</p>
+                <p className="text-xl sm:text-2xl font-bold text-accent">{contest?.prizePool} BDT</p>
               </div>
             </div>
             {/* Timer */}
@@ -134,15 +158,15 @@ const DailyContestPage = () => {
           <div className="flex gap-8 text-center">
             <div>
               <p className="text-xs text-muted-foreground">My Position</p>
-              <p className="text-lg font-bold">50th+</p>
+              <p className="text-lg font-bold">{userStats.rank}</p>
             </div>
             <div>
               <p className="text-xs text-muted-foreground">Wager</p>
-              <p className="text-lg font-bold text-accent">₹0.00</p>
+              <p className="text-lg font-bold text-accent"> ₹{userStats.wager.toLocaleString()}</p>
             </div>
           </div>
           <p className="text-xs text-muted-foreground">
-            Wager <span className="text-foreground">₹12,424,242.13</span> To reach{" "}
+            Wager <span className="text-foreground"> ₹{userStats.wagerToTop10.toLocaleString()}</span> To reach{" "}
             <span className="bg-secondary px-2 py-0.5 b-radius text-xs font-medium">Top 10</span>
           </p>
         </div>
@@ -152,7 +176,7 @@ const DailyContestPage = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <span className="text-xs font-medium text-accent bg-accent/10 px-3 py-1 b-radius">⚙️ Active</span>
-              <span className="text-sm font-medium">2/7/2026 – 2/8/2026</span>
+              <span className="text-sm font-medium"> {new Date(startDate).toLocaleDateString()} – {new Date(endDate).toLocaleDateString()}</span>
             </div>
             <button
               onClick={() => setShowHistory(true)}
@@ -174,22 +198,45 @@ const DailyContestPage = () => {
                 </tr>
               </thead>
               <tbody>
-                {leaderboardData.map((row, i) => (
-                  <tr
-                    key={i}
-                    className={cn(
-                      "border-b border-border/50 transition-colors hover:bg-secondary/50",
-                      i % 2 === 0 ? "bg-card" : "bg-secondary/20"
-                    )}
-                  >
-                    <td className="p-3">
-                      {row.medal ? <span className="text-lg">{row.medal}</span> : <span className="text-muted-foreground">{row.rank}th</span>}
-                    </td>
-                    <td className="p-3 font-medium">{row.player}</td>
-                    <td className="p-3 text-accent">{row.wager}</td>
-                    <td className="p-3 text-right text-accent">{row.prize}</td>
-                  </tr>
-                ))}
+                <tbody>
+                  {leaderboard?.length > 0 ? (
+                    leaderboard.map((row, i) => (
+                      <tr
+                        key={i}
+                        className={cn(
+                          "border-b border-border/50 transition-colors hover:bg-secondary/50",
+                          i % 2 === 0 ? "bg-card" : "bg-secondary/20"
+                        )}
+                      >
+                        {/* Rank */}
+                        <td className="p-3">
+                          {i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : `${i + 1}th`}
+                        </td>
+
+                        {/* Player */}
+                        <td className="p-3 font-medium">
+                          {row.username || "Hidden"}
+                        </td>
+
+                        {/* Wager */}
+                        <td className="p-3 text-accent">
+                          ₹{Number(row.balance || 0).toLocaleString()}
+                        </td>
+
+                        {/* Prize (optional for now) */}
+                        <td className="p-3 text-right text-accent">
+                          -
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan={4} className="text-center p-4 text-muted-foreground">
+                        No data available
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
               </tbody>
             </table>
           </div>
@@ -200,7 +247,7 @@ const DailyContestPage = () => {
       <Dialog open={showHistory} onOpenChange={setShowHistory}>
         <DialogContent className="p-0 max-w-lg max-h-[85vh] flex flex-col">
           <div className="sticky top-0 z-10 flex items-center justify-between px-4 py-3 border-b bg-background">
-            <h3 className="font-bold">2/6/2026 – 2/7/2026</h3>
+            <h3 className="font-bold"> {new Date(startDate).toLocaleDateString()} – {new Date(endDate).toLocaleDateString()}</h3>
             <button onClick={() => setShowHistory(false)}>
               <X className="w-5 h-5 text-muted-foreground" />
             </button>
@@ -216,22 +263,45 @@ const DailyContestPage = () => {
                 </tr>
               </thead>
               <tbody>
-                {historyData.map((row, i) => (
-                  <tr
-                    key={i}
-                    className={cn(
-                      "border-b border-border/50",
-                      i % 2 === 0 ? "bg-card" : "bg-secondary/20"
-                    )}
-                  >
-                    <td className="p-3">
-                      {row.medal ? <span className="text-lg">{row.medal}</span> : <span className="text-muted-foreground">{row.rank}th</span>}
+                {history?.length > 0 ? (
+                  history.map((row, i) => (
+                    <tr
+                      key={i}
+                      className={cn(
+                        "border-b border-border/50",
+                        i % 2 === 0 ? "bg-card" : "bg-secondary/20"
+                      )}
+                    >
+                      {/* Rank */}
+                      <td className="p-3">
+                        {i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : `${i + 1}th`}
+                      </td>
+
+                      {/* Player */}
+                      <td className="p-3 font-medium">
+                        {row.username || "Hidden"}
+                      </td>
+
+                      {/* Wager */}
+                      <td className="p-3 text-accent">
+                        ₹{Number(row.balance || 0).toLocaleString()}
+                      </td>
+
+                      {/* Prize */}
+                      <td className="p-3 text-right text-accent">
+                        {row.prize
+                          ? `₹${Number(row.prize).toLocaleString()}`
+                          : "-"}
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={4} className="text-center p-4 text-muted-foreground">
+                      No history available
                     </td>
-                    <td className="p-3 font-medium">{row.player}</td>
-                    <td className="p-3 text-accent">{row.wager}</td>
-                    <td className="p-3 text-right text-accent">{row.prize}</td>
                   </tr>
-                ))}
+                )}
               </tbody>
             </table>
           </div>
@@ -250,17 +320,17 @@ const DailyContestPage = () => {
           <div className="flex-1 overflow-y-auto p-4 space-y-4">
             <div>
               <h4 className="font-bold text-sm italic">Rules-Daily Wagering Contest</h4>
-              <p className="text-xs text-muted-foreground">2/7/2026 – 2/8/2026</p>
+              <p className="text-xs text-muted-foreground"> {new Date(startDate).toLocaleDateString()} – {new Date(endDate).toLocaleDateString()}</p>
             </div>
             <ol className="space-y-3 text-sm text-muted-foreground list-decimal pl-4">
-              {rulesContent.map((rule, i) => (
-                <li key={i}>{rule}</li>
+              {rules.map((r, i) => (
+                <li key={i}>{r.content}</li>
               ))}
             </ol>
             <div className="space-y-2 pl-6">
-              {rulesCurrencies.map((group, i) => (
+              {currencies.map((c, i) => (
                 <p key={i} className="text-xs text-muted-foreground">
-                  <span className="font-medium text-foreground">{String.fromCharCode(97 + i)}.</span> {group}
+                  <span className="font-medium text-foreground">{String.fromCharCode(97 + i)}.</span> {c.groupText}
                 </p>
               ))}
             </div>

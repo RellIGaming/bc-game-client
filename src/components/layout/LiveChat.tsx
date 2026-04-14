@@ -4,6 +4,7 @@ import { X, Send, Smile, Gift, ChevronDown, Shield, Volume2, Plus, Keyboard, AtS
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useChatStore } from "@/store/chatStore";
 
 interface LiveChatProps {
   isOpen: boolean;
@@ -20,81 +21,31 @@ const chatRooms = [
   { id: "indonesian", name: "Indonesian" },
 ];
 
-const mockMessages = [
-  {
-    id: 1,
-    user: "BC_DPO1",
-    avatar: "",
-    level: 15,
-    message: "@SKY2KING good luck",
-    time: "19:32",
-    levelColor: "bg-primary",
-  },
-  {
-    id: 2,
-    user: "BALOCH_GREAT",
-    avatar: "",
-    level: 39,
-    message: "Great day for you",
-    time: "19:32",
-    levelColor: "bg-vip",
-  },
-  {
-    id: 3,
-    user: "BC_DPO1",
-    avatar: "",
-    level: 15,
-    message: "@Akusiapaya halo",
-    time: "19:32",
-    levelColor: "bg-primary",
-  },
-  {
-    id: 4,
-    user: "mazari0786",
-    avatar: "",
-    level: 19,
-    message: "Bast washes the  game is good game",
-    time: "19:32",
-    levelColor: "bg-gold",
-  },
-  {
-    id: 5,
-    user: "Bc_FLASH",
-    avatar: "",
-    level: 5,
-    message: "Trust the process.",
-    time: "19:32",
-    levelColor: "bg-primary",
-  },
-  {
-    id: 6,
-    user: "Gwendolen_01",
-    avatar: "",
-    level: 22,
-    message: "Keep rolling guys 💪 all Friends ✨",
-    time: "15:46",
-    levelColor: "bg-vip",
-  },
-  {
-    id: 7,
-    user: "BC_ZABARDAST",
-    avatar: "",
-    level: 3,
-    message: "@KEEP_PLAY to you too",
-    time: "15:47",
-    levelColor: "bg-primary",
-  },
-];
+
 
 const LiveChat = ({ isOpen, onClose }: LiveChatProps) => {
+  const {
+    messages,
+    initSocket,
+    joinRoom,
+    loadMessages,
+    sendMessage,
+  } = useChatStore();
   const [message, setMessage] = useState("");
   const [room, setRoom] = useState("Global");
   const [showRoomDropdown, setShowRoomDropdown] = useState(false);
-  const [messages, setMessages] = useState(mockMessages);
   const [newMessageCount, setNewMessageCount] = useState(21);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    if (!isOpen) return;
+
+    initSocket();
+    joinRoom(room.toLowerCase());
+    loadMessages();
+
+  }, [isOpen, room]);
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -115,19 +66,12 @@ const LiveChat = ({ isOpen, onClose }: LiveChatProps) => {
   const handleSendMessage = () => {
     if (!message.trim()) return;
 
-    const newMessage = {
-      id: messages.length + 1,
-      user: "You",
-      avatar: "",
-      level: 1,
+    sendMessage({
       message: message.trim(),
-      time: new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false }),
-      levelColor: "bg-primary",
-    };
+      room: room.toLowerCase(),
+    });
 
-    setMessages([...messages, newMessage]);
     setMessage("");
-    setTimeout(scrollToBottom, 100);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -139,9 +83,14 @@ const LiveChat = ({ isOpen, onClose }: LiveChatProps) => {
 
   const handleRoomSelect = (roomName: string) => {
     setRoom(roomName);
+
+    joinRoom(roomName.toLowerCase()); // 🔥 important
     setShowRoomDropdown(false);
   };
-
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+  const colors = ["bg-red-500", "bg-blue-500", "bg-green-500", "bg-purple-500"];
   return (
     <AnimatePresence>
       {isOpen && (
@@ -230,37 +179,61 @@ const LiveChat = ({ isOpen, onClose }: LiveChatProps) => {
 
             {/* Messages */}
             <div className="flex-1 overflow-y-auto p-3 space-y-3 scrollbar-hide">
-              {messages.map((msg) => (
-                <div key={msg.id} className="flex items-start gap-2">
-                  <div className="relative flex-shrink-0">
-                    <Avatar className="w-8 h-8">
-                      <AvatarImage src={msg.avatar} />
-                      <AvatarFallback className="bg-secondary text-xs">
-                        {msg.user[0]}
-                      </AvatarFallback>
-                    </Avatar>
-                    <span
-                      className={cn(
-                        "absolute -bottom-1 -right-1 text-[10px] font-bold px-1 rounded text-white",
-                        msg.levelColor
-                      )}
-                    >
-                      V{msg.level}
-                    </span>
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2">
-                      <span className="text-sm font-medium text-foreground truncate">
-                        {msg.user}
+              {messages.map((msg) => {
+                const color = colors[msg.username?.length % colors.length];
+
+                return (
+                  <div key={msg.id} className="flex items-start gap-2">
+
+                    {/* ✅ STATIC AVATAR */}
+                    <div className="relative flex-shrink-0">
+                      <div className="w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center text-xs text-white">
+                        {msg.username?.charAt(0).toUpperCase() || "U"}
+                      </div>
+
+                      {/* ✅ STATIC LEVEL BADGE (OPTIONAL) */}
+                      <span className="absolute -bottom-1 -right-1 text-[10px] font-bold px-1 rounded text-white bg-blue-500">
+                        U
                       </span>
-                      <span className="text-xs text-muted-foreground">{msg.time}</span>
                     </div>
-                    <p className="text-sm text-muted-foreground break-words">
-                      {msg.message}
-                    </p>
+
+                    <div className="flex-1 min-w-0">
+
+                      {/* USERNAME + TIME */}
+                      <div className="flex items-center gap-2">
+                        <span
+                          className={cn(
+                            "text-sm font-medium truncate",
+                            msg.isAdmin ? "text-red-500" : "text-foreground"
+                          )}
+                        >
+                          {msg.username}
+                        </span>
+
+                        <span className="text-xs text-muted-foreground">
+                          {new Date(msg.createdAt).toLocaleTimeString([], {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          })}
+                        </span>
+                      </div>
+
+                      {/* ✅ REPLY MESSAGE (optional) */}
+                      {msg.replyTo && (
+                        <div className="text-xs text-muted-foreground border-l-2 pl-2 mb-1">
+                          <span className="font-medium">{msg.replyTo.username}: </span>
+                          {msg.replyTo.message}
+                        </div>
+                      )}
+
+                      {/* MESSAGE */}
+                      <p className="text-sm break-words text-muted-foreground">
+                        {msg.isDeleted ? "Message deleted" : msg.message}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              ))}
+                )
+              })}
               <div ref={messagesEndRef} />
 
               {/* New Messages Indicator */}

@@ -11,6 +11,7 @@ import BonusDashboardModal from "@/components/header/BonusDashboardModal";
 import DepositDropdown from "../header/DepositDropdown";
 import DepositPopover from "../header/DepositPopover";
 import useNotificationStore from "@/store/notificationStore";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface HeaderProps {
   onMenuClick: () => void;
@@ -43,6 +44,7 @@ const Header = ({
   isLoggedIn = false,
   onLogout,
 }: HeaderProps) => {
+  const { changeLanguage } = useLanguage();
   const navigate = useNavigate();
   const [depositOpen, setDepositOpen] = useState(false);
   const [bonusOpen, setBonusOpen] = useState(false);

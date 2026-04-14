@@ -291,6 +291,146 @@ export const getVipClub = () => {
 export const getVipBonusTable= () => {
   return fetchWithAuth("/api/bonus/vip-table");
 }
+export const getReferralCodes = async () => {
+  return fetchWithAuth("/api/referral/codes");
+};
+export const createReferralCode = async (name: string) => {
+  return fetchWithAuth("/api/referral/create-codes", {
+    method: "POST",
+    body: JSON.stringify({ name }),
+  });
+};
+// ================= COMMISSION =================
+export const getCommissionRules = async () => {
+  return fetchWithAuth("/api/referral/commission-rules");
+};
+
+export const calculateCommission = async (payload: {
+  wager: number;
+  gameType: string;
+}) => {
+  return fetchWithAuth("/api/referral/commission-calc", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+};
+
+// ================= VIP =================
+export const getVipReferralLevels = async () => {
+  return fetchWithAuth("/api/referral/vip-levels");
+};
+
+export const getReferralProgress = async () => {
+  return fetchWithAuth("/api/referral/progress");
+};
+
+// ================= PROMOTIONS =================
+export const getDepositTiers = () => {
+  return fetchWithAuth("/api/promotion/deposit-tiers");
+};
+
+export const getPromotionTabs = () => {
+  return fetchWithAuth("/api/promotion/tabs");
+};
+
+export const getPromotions = (params?: {
+  category?: string;
+  type?: string;
+}) => {
+  const query = new URLSearchParams(params as any).toString();
+  return fetchWithAuth(`/api/promotion/list?${query}`);
+};
+
+export const getBonusTerms = () => {
+  return fetchWithAuth("/api/promotion/terms");
+};
+
+// ================= DAILY CONTEST =================
+
+export const getActiveContest = () => {
+  return fetchWithAuth("/api/contest/active");
+};
+
+export const getLeaderboard = (contestId: number) => {
+  return fetchWithAuth(`/api/contest/leaderboard?contestId=${contestId}`);
+};
+
+export const getContestHistory = () => {
+  return fetchWithAuth("/api/contest/history");
+};
+
+export const getContestRules = () => {
+  return fetchWithAuth("/api/contest/rules");
+};
+
+export const getMyContestPosition = () => {
+  return fetchWithAuth("/api/contest/my-position");
+};
+
+export const getDailyContest = async () => {
+  const res = await fetch("/api/contest/daily-contest");
+  return res.json();
+};
+
+//  raffle round (public)
+export const getCurrentRaffle = async () => {
+  const res = await fetch("/api/raffle/current");
+  return res.json();
+};
+
+// GET winners (public)
+export const getWinners = async (roundId: string, page = 1) => {
+  const res = await fetch(
+    `/api/raffle/winners?roundId=${roundId}&page=${page}`
+  );
+  return res.json();
+};
+
+// GET my tickets (protected)
+export const getMyTickets = async (tab: string) => {
+  return fetchWithAuth(`/api/raffle/my-tickets?tab=${tab}`);
+};
+
+// GET rules (public)
+export const getRaffleRules = async () => {
+  const res = await fetch("/api/raffle/rules");
+  return res.json();
+};
+/* =========================
+   CHAT API
+========================= */
+
+/* GET CHAT MESSAGES (protected) */
+export const fetchMessages = async (
+  room: string,
+  token?: string,
+  cursor?: string
+) => {
+  let url = `/api/notifications/chat?room=${room}`;
+
+  if (cursor) {
+    url += `&cursor=${cursor}`;
+  }
+
+  return fetchWithAuth(url, {
+    method: "GET",
+  });
+};
+
+/* SEND MESSAGE (fallback HTTP, optional) */
+export const sendChatMessage = async (data: any) => {
+  return fetchWithAuth(`/api/notifications/chat/send`, {
+    method: "POST",
+    body: JSON.stringify(data),
+  });
+};
+
+/* DELETE MESSAGE (admin) */
+export const deleteMessageAPI = async (id: string) => {
+  return fetchWithAuth(`/api/notifications/chat/${id}`, {
+    method: "DELETE",
+  });
+};
 /* =====================
    GAMES APIS
 ===================== */
@@ -330,4 +470,6 @@ getVault,
   claimRakebackBonus,
   redeemBonusCode,
   getVipBonusTable,
+  getReferralCodes ,
+  createReferralCode
 };

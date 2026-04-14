@@ -207,7 +207,8 @@ const extremBottom = [
     id: "live",
     label: "24/7 Live Support ",
     iconImg: support,
-    path: "/support",
+    // onClick:onChatClick,
+    path: "/live-chat",
   },
   {
     id: "language",
@@ -406,6 +407,10 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
   };
 
   const openParentRoute = (item: any) => {
+    if (item.id === "live") {
+    onChatClick(); 
+    return;
+  }
     if (item.id === "casino") navigate("/casino");
     else if (item.id === "sports") navigate("/sports");
     else if (item.id === "sponsorships") navigate("/sponsorships");
