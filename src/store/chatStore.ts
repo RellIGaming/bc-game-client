@@ -127,12 +127,24 @@ export const useChatStore = create<ChatState>((set, get) => ({
     }
   },
 
-  sendMessage: (data) => {
-    const socket = get().socket;
-    if (!socket) return;
+sendMessage: (data) => {
+  const socket = get().socket;
 
-    socket.emit("send-message", data);
-  },
+  console.log("👉 socket:", socket);
+  console.log("👉 sending:", data);
+
+  if (!socket) {
+    console.log("❌ Socket not initialized");
+    return;
+  }
+
+  if (!socket.connected) {
+    console.log("❌ Socket NOT connected");
+    return;
+  }
+
+  socket.emit("send-message", data);
+},
   /* ================= DELETE ================= */
   deleteMessage: async (id) => {
     try {

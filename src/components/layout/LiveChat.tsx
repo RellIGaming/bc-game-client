@@ -64,22 +64,24 @@ const LiveChat = ({ isOpen, onClose }: LiveChatProps) => {
     setNewMessageCount(0);
   };
 
-  const handleSendMessage = () => {
-    if (!message.trim()) return;
+const handleSendMessage = () => {
+  console.log("🔥 CLICK SEND");
 
-    if (!user?.id) {
-      console.log("No user logged in");
-      return;
-    }
+  if (!message.trim()) return;
 
-    sendMessage({
-      message: message.trim(),
-      room: room.toLowerCase(),
-      userId: user.id,
-    });
+  if (!user?.id) {
+    console.log("❌ No user logged in");
+    return;
+  }
 
-    setMessage("");
-  };
+  sendMessage({
+    message: message.trim(),
+    room: room.toLowerCase(),
+    userId: user.id,
+  });
+
+  setMessage("");
+};
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && !e.shiftKey) {
