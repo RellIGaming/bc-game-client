@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { signin } from "@/services/api";
 import { toast } from "sonner";
+import useAuthStore from "@/store/authStore";
 
 interface SignInModalProps {
   isOpen: boolean;
@@ -20,30 +21,28 @@ const SignInModal = ({ isOpen, onClose, onSwitchToSignUp, onForgotPassword, setI
   const [emailOrPhone, setEmailOrPhone] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loginMethod, setLoginMethod] = useState<"password" | "otp">("password");
+  const { signin } = useAuthStore();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
 
-    try {
-      if (loginMethod === "password") {
-        const res = await signin({
-          identifier: emailOrPhone || username, // ✅ KEY FIX
-          password,
-        });
+  try {
+    if (loginMethod === "password") {
+      await signin({
+        identifier: emailOrPhone || username,
+        password,
+      });
 
-        localStorage.setItem("token", res.token);
-        localStorage.setItem("userId", res.user.id);
-        localStorage.setItem("user", JSON.stringify(res.user));
-        setIsLoggedIn(true);
-        toast.success("Login successful! 🎉");
-        onClose();
-      } else {
-        alert("OTP login not implemented yet");
-      }
-    } catch (err: any) {
-      alert(err.message || "❌ Login failed");
+      setIsLoggedIn(true);
+      toast.success("Login successful! 🎉");
+      onClose();
+    } else {
+      alert("OTP login not implemented yet");
     }
-  };
+  } catch (err: any) {
+    alert(err.message || "❌ Login failed");
+  }
+};
 
   return (
     <AnimatePresence>
@@ -78,8 +77,8 @@ const SignInModal = ({ isOpen, onClose, onSwitchToSignUp, onForgotPassword, setI
                 <button
                   onClick={() => setLoginMethod("password")}
                   className={`flex-1 flex items-center justify-center gap-2 py-2.5 b-radius text-sm font-medium transition-colors ${loginMethod === "password"
-                      ? "bg-card text-foreground"
-                      : "text-muted-foreground hover:text-foreground"
+                    ? "bg-card text-foreground"
+                    : "text-muted-foreground hover:text-foreground"
                     }`}
                 >
                   <Key className="w-4 h-4" />
@@ -88,8 +87,8 @@ const SignInModal = ({ isOpen, onClose, onSwitchToSignUp, onForgotPassword, setI
                 <button
                   onClick={() => setLoginMethod("otp")}
                   className={`flex-1 flex items-center justify-center gap-2 py-2.5 b-radius text-sm font-medium transition-colors ${loginMethod === "otp"
-                      ? "bg-card text-foreground"
-                      : "text-muted-foreground hover:text-foreground"
+                    ? "bg-card text-foreground"
+                    : "text-muted-foreground hover:text-foreground"
                     }`}
                 >
                   <Smartphone className="w-4 h-4" />

@@ -38,7 +38,7 @@ const LiveChat = ({ isOpen, onClose }: LiveChatProps) => {
   const [newMessageCount, setNewMessageCount] = useState(21);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
-
+console.log("USER:", user);
   useEffect(() => {
     if (!isOpen) return;
 

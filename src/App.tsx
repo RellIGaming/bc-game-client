@@ -36,10 +36,12 @@ import ReferralRedirect from "./pages/ReferralRedirect";
 import { LanguageProvider } from "./context/LanguageContext";
 import LiveChat from "./components/layout/LiveChat";
 import socket from "./lib/socket";
+import useAuthStore from "./store/authStore";
 
 const queryClient = new QueryClient();
 
 const App = () => {
+  const { fetchProfile } = useAuthStore();
   const [isLoggedIn, setIsLoggedIn] = useState(
     !!localStorage.getItem("token")
   );
@@ -52,6 +54,7 @@ const App = () => {
 
     if (token) {
       setIsLoggedIn(true);
+      fetchProfile();
     }
   }, []);
   useEffect(() => {

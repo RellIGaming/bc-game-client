@@ -7,6 +7,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
 import { signup } from "@/services/api";
 import { toast } from "sonner";
+import useAuthStore from "@/store/authStore";
 
 interface SignUpModalProps {
   isOpen: boolean;
@@ -40,6 +41,8 @@ const SignUpModal = ({ isOpen, onClose, onSwitchToSignIn,setIsLoggedIn }: SignUp
     return { level: 4, text: "Strong", color: "bg-primary" };
   }, [password]);
 
+const { signup } = useAuthStore();
+
 const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
 
@@ -49,21 +52,19 @@ const handleSubmit = async (e: React.FormEvent) => {
   }
 
   try {
-    const res = await signup({
+    await signup({
       username,
       email,
       password,
-      promocode,
+      promoCode: promocode,
     });
 
-    localStorage.setItem("token", res.token);
+   
     setIsLoggedIn(true);
     toast.success("Registration successful 🎉");
     onClose();
   } catch (err: any) {
-    toast.error(
-      err?.response?.data?.message || "❌ Signup failed"
-    );
+    toast.error(err.message || "❌ Signup failed");
   }
 };
 
