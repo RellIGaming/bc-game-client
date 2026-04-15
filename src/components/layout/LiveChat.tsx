@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useChatStore } from "@/store/chatStore";
+import useAuthStore from "@/store/authStore";
 
 interface LiveChatProps {
   isOpen: boolean;
@@ -22,7 +23,6 @@ const chatRooms = [
 ];
 
 
-
 const LiveChat = ({ isOpen, onClose }: LiveChatProps) => {
   const {
     messages,
@@ -31,6 +31,7 @@ const LiveChat = ({ isOpen, onClose }: LiveChatProps) => {
     loadMessages,
     sendMessage,
   } = useChatStore();
+  const { user } = useAuthStore();
   const [message, setMessage] = useState("");
   const [room, setRoom] = useState("Global");
   const [showRoomDropdown, setShowRoomDropdown] = useState(false);
@@ -66,9 +67,15 @@ const LiveChat = ({ isOpen, onClose }: LiveChatProps) => {
   const handleSendMessage = () => {
     if (!message.trim()) return;
 
+    if (!user?.id) {
+      console.log("No user logged in");
+      return;
+    }
+
     sendMessage({
       message: message.trim(),
       room: room.toLowerCase(),
+      userId: user.id,
     });
 
     setMessage("");
@@ -204,10 +211,16 @@ const LiveChat = ({ isOpen, onClose }: LiveChatProps) => {
                         <span
                           className={cn(
                             "text-sm font-medium truncate",
-                            msg.isAdmin ? "text-red-500" : "text-foreground"
+                            msg.userId === "bot"
+                              ? "text-green-500 font-bold"
+                              : msg.isAdmin
+                                ? "text-red-500"
+                                : "text-foreground"
                           )}
                         >
-                          {msg.username}
+                          {msg.username}{msg.userId === "bot" && (
+  <span className="text-[10px] ml-1 text-green-400">BOT</span>
+)}
                         </span>
 
                         <span className="text-xs text-muted-foreground">
@@ -250,13 +263,28 @@ const LiveChat = ({ isOpen, onClose }: LiveChatProps) => {
             {/* Input */}
             <div className="p-3 border-t border-border">
               <div className="flex items-center gap-2 bg-secondary rounded-lg px-3 py-2">
+
                 <Input
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
-                  onKeyPress={handleKeyPress}
+                  onKeyDown={handleKeyPress}
                   placeholder="Your message..."
                   className="flex-1 bg-transparent border-none p-0 h-auto text-sm focus-visible:ring-0"
                 />
+
+                {/* SEND BUTTON 🔥 */}
+                <button
+                  onClick={handleSendMessage}
+                  disabled={!message.trim()}
+                  className={cn(
+                    "p-2 rounded-md",
+                    message.trim()
+                      ? "bg-primary text-white"
+                      : "bg-gray-500/30"
+                  )}
+                >
+                  <Send className="w-4 h-4" />
+                </button>
                 <button className="text-muted-foreground hover:text-foreground transition-colors">
                   <Keyboard className="w-5 h-5" />
                 </button>

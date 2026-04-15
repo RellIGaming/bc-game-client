@@ -5,7 +5,7 @@ import socket from "@/lib/socket";
 
 interface Message {
   id: string;
-  userId?: number;
+  userId?: string | number;
   username: string;
   message: string;
   room: string;
@@ -30,7 +30,11 @@ interface ChatState {
   joinRoom: (room: string) => void;
   loadMessages: () => Promise<void>;
   loadMore: () => Promise<void>;
-  sendMessage: (data: any) => void;
+  sendMessage: (data: {
+    message: string;
+    room: string;
+    userId: number;
+  }) => void;
   deleteMessage: (id: string) => Promise<void>;
 }
 
@@ -44,12 +48,17 @@ export const useChatStore = create<ChatState>((set, get) => ({
   /* ================= SOCKET ================= */
   initSocket: () => {
     const existing = get().socket;
-    if (existing) return; 
+    if (existing) return;
 
     socket.on("receive-message", (msg: Message) => {
-      set((state) => ({
-        messages: [...state.messages, msg],
-      }));
+      set((state) => {
+        const exists = state.messages.some((m) => m.id === msg.id);
+        if (exists) return state;
+
+        return {
+          messages: [...state.messages, msg],
+        };
+      });
     });
 
     socket.on("message-deleted", ({ id }: { id: string }) => {
@@ -118,14 +127,12 @@ export const useChatStore = create<ChatState>((set, get) => ({
     }
   },
 
-  /* ================= SEND ================= */
   sendMessage: (data) => {
     const socket = get().socket;
     if (!socket) return;
 
     socket.emit("send-message", data);
   },
-
   /* ================= DELETE ================= */
   deleteMessage: async (id) => {
     try {
