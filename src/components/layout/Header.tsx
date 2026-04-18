@@ -2,7 +2,7 @@ import { Search, Globe, MessageSquare, ChevronLeft, ChevronRight, ChevronDown, G
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import logo from "../../assets/images/logo.png";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import BonusDropdown from "@/components/header/BonusDropdown";
 import NotificationDropdown from "@/components/header/NotificationDropdown";
@@ -12,6 +12,7 @@ import DepositDropdown from "../header/DepositDropdown";
 import DepositPopover from "../header/DepositPopover";
 import useNotificationStore from "@/store/notificationStore";
 import { useLanguage } from "@/context/LanguageContext";
+import { useWalletStore } from "@/store/walletStore";
 
 interface HeaderProps {
   onMenuClick: () => void;
@@ -52,7 +53,12 @@ const Header = ({
   const [profileOpen, setProfileOpen] = useState(false);
   const [bonusDashboardOpen, setBonusDashboardOpen] = useState(false);
   const [openDepositPopover, setOpenDepositPopover] = useState(false);
-   const { notifications } = useNotificationStore();
+  const { notifications } = useNotificationStore();
+  const { balance, fetchBalance } = useWalletStore();
+
+  useEffect(() => {
+    fetchBalance();
+  }, []);
   const handleBonusDashboard = () => {
     setBonusOpen(false);
     setBonusDashboardOpen(true);
@@ -62,7 +68,7 @@ const Header = ({
     navigate("/");
     // window.location.reload();
   };
-const unreadCount = notifications.filter(n => !n.read).length;
+  const unreadCount = notifications.filter(n => !n.read).length;
   return (
     <>
       <header
@@ -102,7 +108,6 @@ const unreadCount = notifications.filter(n => !n.read).length;
           {isLoggedIn ? (
             <>
               <div className="relative flex items-center bg-secondary b-radius">
-
                 {/* LEFT → Dropdown */}
                 <button
                   onClick={() => {
@@ -113,7 +118,7 @@ const unreadCount = notifications.filter(n => !n.read).length;
                 >
                   <span className="text-primary text-sm lg:text-lg mr-1">₿</span>
                   <span className="text-foreground text-xs lg:text-sm font-medium mr-2">
-                    ₹0.003
+                    {balance?.toFixed(2) || "0.00"}
                   </span>
                   <ChevronDown className="w-5 h-5 lg:w-4 lg:h-4 text-muted-foreground ml-auto" />
                 </button>
@@ -195,11 +200,11 @@ const unreadCount = notifications.filter(n => !n.read).length;
                   className="flex py-2 px-2 lg:px-2 lg:py-2 b-radius bg-secondary transition-all hvr-btn btn-press relative"
                 >
                   <Bell className="w-5 h-5 text-muted-foreground" />
-                   {unreadCount > 0 && (
-                  <span className="absolute -top-1 -right-1 w-4 h-4 bg-primary text-primary-foreground text-xs rounded-full flex items-center justify-center">
-                 {unreadCount}
-                  </span>
-                   )}
+                  {unreadCount > 0 && (
+                    <span className="absolute -top-1 -right-1 w-4 h-4 bg-primary text-primary-foreground text-xs rounded-full flex items-center justify-center">
+                      {unreadCount}
+                    </span>
+                  )}
                 </button>
                 <NotificationDropdown
                   isOpen={notificationOpen}

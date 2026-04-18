@@ -13,12 +13,13 @@ interface Currency {
 }
 
 const currencies: Currency[] = [
+
+  { symbol: "bdt", name: "BDT", icon: "🟢", balance: "₹0.00", subBalance: "0", category: "crypto" },
   { symbol: "₹", name: "INR", icon: "🟠", balance: "₹0.00", category: "cash" },
-  { symbol: "BC", name: "BC", icon: "🟢", balance: "₹0.00", subBalance: "0", category: "crypto" },
-  { symbol: "USDT", name: "USDT", icon: "🟢", balance: "₹0.00", subBalance: "0", category: "crypto" },
-  { symbol: "ETH", name: "ETH", icon: "🔵", balance: "₹0.00", subBalance: "0", category: "crypto" },
-  { symbol: "BTC", name: "BTC", icon: "🟠", balance: "₹0.00", subBalance: "0", category: "crypto" },
-  { symbol: "TRX", name: "TRX", icon: "🔴", balance: "₹0.00", subBalance: "0", category: "crypto" },
+  // { symbol: "$", name: "USD", icon: "🟢", balance: "₹0.00", subBalance: "0", category: "crypto" },
+  // { symbol: "pkr", name: "PKR", icon: "🔵", balance: "₹0.00", subBalance: "0", category: "crypto" },
+  // { symbol: "BTC", name: "BTC", icon: "🟠", balance: "₹0.00", subBalance: "0", category: "crypto" },
+  // { symbol: "TRX", name: "TRX", icon: "🔴", balance: "₹0.00", subBalance: "0", category: "crypto" },
 ];
 
 interface DepositDropdownProps {

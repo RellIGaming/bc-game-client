@@ -20,23 +20,10 @@ import nayapay from "../../assets/images/nayapay-logo.png";
 import jazzcash from "../../assets/images/jazzcash-logo.png";
 import jazzcashHalf from "../../assets/images/jazzcash-half.png";
 import easypaisa from "../../assets/images/easypaisa-logo.png";
-import {useWalletStore} from '@/store/walletStore';
+import { useWalletStore } from '@/store/walletStore';
+import { allBalances } from './Balance';
 
 
-export const allBalances = [
-  { id: "inr", name: "INR", icon: "🇮🇳", balance: 0, type: "cash" },
-  { id: "bdt", name: "BDT", icon: "🟣", balance: 0, type: "crypto", isLocked: true },
-  { id: "usdt", name: "USDT", icon: "🟢", balance: 0, type: "crypto" },
-  { id: "eth", name: "ETH", icon: "🔵", balance: 0, type: "crypto" },
-  { id: "btc", name: "BTC", icon: "🟠", balance: 0, type: "crypto" },
-  { id: "trx", name: "TRX", icon: "🔴", balance: 0, type: "crypto" },
-  { id: "bnb", name: "BNB", icon: "🟡", balance: 0, type: "crypto" },
-  { id: "ltc", name: "LTC", icon: "⚪", balance: 0, type: "crypto" },
-  { id: "xrp", name: "XRP", icon: "⚪", balance: 0, type: "crypto" },
-  { id: "usdc", name: "USDC", icon: "🔵", balance: 0, type: "crypto" },
-  { id: "doge", name: "DOGE", icon: "🟡", balance: 0, type: "crypto" },
-  { id: "sol", name: "SOL", icon: "🟣", balance: 0, type: "crypto" },
-];
 
 // Crypto currencies
 const cryptoCurrencies = [
@@ -61,8 +48,8 @@ const networks = [
 
 // Fiat currencies
 const fiatCurrencies = [
-    { id: "inr", name: "INR", fullName: "Indian Rupee", icon: "🟠" },
     { id: "bdt", name: "BDT", fullName: "Bangladeshi Taka", icon: "🟢" },
+    { id: "inr", name: "INR", fullName: "Indian Rupee", icon: "🟠" },
     { id: "pkr", name: "PKR", fullName: "Pakistani Rupee", icon: "🟢" },
     { id: "usd", name: "USD", fullName: "US Dollar", icon: "💲" },
 ];
@@ -96,14 +83,14 @@ const depositMethodsByFiat: Record<string, { id: string; name: string; range: st
     usd: [],
 };
 const currencyConfig = {
-    inr: {
-        symbol: "₹",
+    bdt: {
+        symbol: "BDT",
         min: 150,
         range: "100 - 50,000",
         quick: [150, 500, 5000, 50000],
     },
-    bdt: {
-        symbol: "BDT",
+    inr: {
+        symbol: "₹",
         min: 150,
         range: "100 - 50,000",
         quick: [150, 500, 5000, 50000],
@@ -121,7 +108,7 @@ const Deposit = ({ variant = "page" }: DepositProps) => {
     const navigate = useNavigate();
     const { requestDeposit, wallets } = useWalletStore();
     const { section } = useParams();
-    const [depositTab, setDepositTab] = useState<"crypto" | "fiat">("crypto");
+    const [depositTab, setDepositTab] = useState<"fiat" | "crypto">("fiat");
     const [open, setOpen] = useState(false);
     const [selectedCrypto, setSelectedCrypto] = useState("eth");
     const [selectedNetwork, setSelectedNetwork] = useState("ethereum");
@@ -129,7 +116,7 @@ const Deposit = ({ variant = "page" }: DepositProps) => {
     const [guaranteeOpen, setGuaranteeOpen] = useState(false);
     const [howToOpen, setHowToOpen] = useState(false);
     const [addCurrencyOpen, setAddCurrencyOpen] = useState(false);
-    const [selectedFiat, setSelectedFiat] = useState("inr");
+    const [selectedFiat, setSelectedFiat] = useState("bdt");
     const [search, setSearch] = useState("");
     const [selected, setSelected] = useState(allBalances[2]);
 
@@ -313,177 +300,164 @@ const Deposit = ({ variant = "page" }: DepositProps) => {
 
             <div className="bg-card rounded-lg flex-1 overflow-y-auto space-y-6 p-4">
                 {/* CWallet Banner */}
-                <button onClick={() => setCwalletOpen(true)} className="w-full flex items-center justify-between bg-secondary rounded-xl p-3 hover:bg-secondary/80 transition-colors">
+                {/* <button onClick={() => setCwalletOpen(true)} className="w-full flex items-center justify-between bg-secondary rounded-xl p-3 hover:bg-secondary/80 transition-colors">
                     <div className="flex items-center gap-2">
                         <Wallet className="w-5 h-5 text-primary" />
                         <span className="text-sm font-medium text-foreground">Cwallet</span>
                         <span className="text-sm text-muted-foreground">Connect Cwallet to earn bonus</span>
                     </div>
                     <ChevronRight className="w-5 h-5 text-muted-foreground" />
-                </button>
+                </button> */}
 
                 {depositTab === "crypto" ? (
                     <div className="space-y-6">
                         {/* or divider */}
-                        <div className="text-center text-xs text-muted-foreground">or</div>
+                        <div className='text-center'>Comeing Soon</div>
+                        {/* <div>
+                            <div className="text-center text-xs text-muted-foreground">or</div>
 
-                        {/* Crypto chips */}
-                        <div className="flex flex-wrap gap-2">
-                            {cryptoCurrencies.slice(0, 7).map((crypto) => (
-                                <button key={crypto.id} onClick={() => setSelectedCrypto(crypto.id)} className={cn("flex items-center gap-2 px-3 py-2 rounded-full text-sm transition-colors border", selectedCrypto === crypto.id ? "bg-primary/20 border-primary text-foreground" : "bg-secondary border-transparent text-muted-foreground hover:bg-secondary/80")}>
-                                    {crypto.icon} {crypto.name}
+                            <div className="flex flex-wrap gap-2">
+                                {cryptoCurrencies.slice(0, 7).map((crypto) => (
+                                    <button key={crypto.id} onClick={() => setSelectedCrypto(crypto.id)} className={cn("flex items-center gap-2 px-3 py-2 rounded-full text-sm transition-colors border", selectedCrypto === crypto.id ? "bg-primary/20 border-primary text-foreground" : "bg-secondary border-transparent text-muted-foreground hover:bg-secondary/80")}>
+                                        {crypto.icon} {crypto.name}
+                                    </button>
+                                ))}
+                                <button className="flex items-center gap-1 px-3 py-2 rounded-full text-sm text-muted-foreground bg-secondary">
+                                    More <ChevronDown className="w-3 h-3" />
                                 </button>
-                            ))}
-                            <button className="flex items-center gap-1 px-3 py-2 rounded-full text-sm text-muted-foreground bg-secondary">
-                                More <ChevronDown className="w-3 h-3" />
-                            </button>
-                        </div>
-
-                        {/* Add currency link */}
-                        <p className="text-sm">
-                            Didn't see your currency?
-                            <button onClick={() => setAddCurrencyOpen(true)} className="text-primary font-semibold ml-1 hover:underline">Add here</button>
-                        </p>
-
-                        {/* Currency and Network */}
-                        <div className={cn("grid gap-4", variant === "modal" ? "grid-cols-1" : "grid-cols-1 sm:grid-cols-2")}>
-                            <div className="relative">
-                                <label className="text-sm text-muted-foreground mb-2 block">Deposit Currency</label>
-                                <button onClick={() => setOpen(!open)} className="w-full flex items-center gap-2 px-4 py-2 bg-secondary rounded-lg border border-border">
-                                    <span className="text-lg">{selected.icon}</span>
-                                    <span className="font-medium text-foreground">{selected.name}</span>
-                                    <ChevronDown className={cn("w-4 h-4 ml-auto text-muted-foreground transition", open && "rotate-180")} />
-                                </button>
-                                {open && (
-                                    <div className="absolute left-0 top-full mt-2 w-full bg-secondary border border-border rounded-lg shadow-lg z-50">
-                                        <div className="p-3">
-                                            <div className="flex items-center gap-2 px-3 py-2 bg-card rounded-lg">
-                                                <Search className="w-4 h-4 text-muted-foreground" />
-                                                <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search" className="w-full bg-transparent outline-none text-sm text-foreground" />
+                            </div>
+                            <p className="text-sm">
+                                Didn't see your currency?
+                                <button onClick={() => setAddCurrencyOpen(true)} className="text-primary font-semibold ml-1 hover:underline">Add here</button>
+                            </p>
+                            <div className={cn("grid gap-4", variant === "modal" ? "grid-cols-1" : "grid-cols-1 sm:grid-cols-2")}>
+                                <div className="relative">
+                                    <label className="text-sm text-muted-foreground mb-2 block">Deposit Currency</label>
+                                    <button onClick={() => setOpen(!open)} className="w-full flex items-center gap-2 px-4 py-2 bg-secondary rounded-lg border border-border">
+                                        <span className="text-lg">{selected.icon}</span>
+                                        <span className="font-medium text-foreground">{selected.name}</span>
+                                        <ChevronDown className={cn("w-4 h-4 ml-auto text-muted-foreground transition", open && "rotate-180")} />
+                                    </button>
+                                    {open && (
+                                        <div className="absolute left-0 top-full mt-2 w-full bg-secondary border border-border rounded-lg shadow-lg z-50">
+                                            <div className="p-3">
+                                                <div className="flex items-center gap-2 px-3 py-2 bg-card rounded-lg">
+                                                    <Search className="w-4 h-4 text-muted-foreground" />
+                                                    <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search" className="w-full bg-transparent outline-none text-sm text-foreground" />
+                                                </div>
+                                            </div>
+                                            <div className="max-h-64 overflow-y-auto px-2 pb-2">
+                                                {cashList.length > 0 && (
+                                                    <>
+                                                        <p className="text-xs text-muted-foreground px-2 mb-1">Cash</p>
+                                                        {cashList.map((item) => (
+                                                            <div key={item.id} onClick={() => { setSelected(item); setOpen(false); }} className="flex items-center justify-between px-3 py-2 rounded-lg hover:bg-card cursor-pointer">
+                                                                <div className="flex items-center gap-2">
+                                                                    <span>{item.icon}</span>
+                                                                    <span className="text-foreground font-medium">{item.name}</span>
+                                                                </div>
+                                                                <span className="text-muted-foreground text-sm">{item.balance}</span>
+                                                            </div>
+                                                        ))}
+                                                    </>
+                                                )}
+                                                {cryptoList.length > 0 && (
+                                                    <>
+                                                        <p className="text-xs text-muted-foreground px-2 mt-3 mb-1">Crypto currency</p>
+                                                        {cryptoList.map((item) => (
+                                                            <div key={item.id} onClick={() => { setSelected(item); setOpen(false); }} className="flex items-center justify-between px-3 py-2 rounded-lg hover:bg-card cursor-pointer">
+                                                                <div className="flex items-center gap-2">
+                                                                    <span>{item.icon}</span>
+                                                                    <span className="text-foreground font-medium">{item.name}</span>
+                                                                </div>
+                                                                <span className="text-muted-foreground text-sm">{item.balance}</span>
+                                                            </div>
+                                                        ))}
+                                                    </>
+                                                )}
                                             </div>
                                         </div>
-                                        <div className="max-h-64 overflow-y-auto px-2 pb-2">
-                                            {cashList.length > 0 && (
-                                                <>
-                                                    <p className="text-xs text-muted-foreground px-2 mb-1">Cash</p>
-                                                    {cashList.map((item) => (
-                                                        <div key={item.id} onClick={() => { setSelected(item); setOpen(false); }} className="flex items-center justify-between px-3 py-2 rounded-lg hover:bg-card cursor-pointer">
-                                                            <div className="flex items-center gap-2">
-                                                                <span>{item.icon}</span>
-                                                                <span className="text-foreground font-medium">{item.name}</span>
-                                                            </div>
-                                                            <span className="text-muted-foreground text-sm">{item.balance}</span>
-                                                        </div>
-                                                    ))}
-                                                </>
-                                            )}
-                                            {cryptoList.length > 0 && (
-                                                <>
-                                                    <p className="text-xs text-muted-foreground px-2 mt-3 mb-1">Crypto currency</p>
-                                                    {cryptoList.map((item) => (
-                                                        <div key={item.id} onClick={() => { setSelected(item); setOpen(false); }} className="flex items-center justify-between px-3 py-2 rounded-lg hover:bg-card cursor-pointer">
-                                                            <div className="flex items-center gap-2">
-                                                                <span>{item.icon}</span>
-                                                                <span className="text-foreground font-medium">{item.name}</span>
-                                                            </div>
-                                                            <span className="text-muted-foreground text-sm">{item.balance}</span>
-                                                        </div>
-                                                    ))}
-                                                </>
-                                            )}
-                                        </div>
-                                    </div>
-                                )}
+                                    )}
+                                </div>
+                                <div>
+                                    <label className="text-sm text-muted-foreground mb-2 block">Choose CoinNetwork</label>
+                                    <select value={selectedNetwork} onChange={(e) => setSelectedNetwork(e.target.value)} className="w-full px-4 py-3 bg-secondary rounded-lg border-none text-foreground">
+                                        {networks.map((network) => (
+                                            <option key={network.id} value={network.id}>{network.name}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                            </div>
+                            <button onClick={() => setHowToOpen(true)} className="text-primary text-sm hover:underline">
+                                📘 How to deposit crypto?
+                            </button>
+                            <div className="flex items-center gap-3 bg-[hsl(var(--primary)/0.15)] rounded-xl p-3 border border-primary/20">
+                                <Gift className="w-6 h-6 text-primary" />
+                                <p className="text-sm">
+                                    Get extra <span className="text-primary font-semibold">180%</span> Rakeback on minimum of{" "}
+                                    <span className="text-primary font-semibold">0.0024691 ETH</span> deposit
+                                </p>
                             </div>
                             <div>
-                                <label className="text-sm text-muted-foreground mb-2 block">Choose CoinNetwork</label>
-                                <select value={selectedNetwork} onChange={(e) => setSelectedNetwork(e.target.value)} className="w-full px-4 py-3 bg-secondary rounded-lg border-none text-foreground">
-                                    {networks.map((network) => (
-                                        <option key={network.id} value={network.id}>{network.name}</option>
-                                    ))}
-                                </select>
-                            </div>
-                        </div>
-
-                        {/* How to deposit */}
-                        <button onClick={() => setHowToOpen(true)} className="text-primary text-sm hover:underline">
-                            📘 How to deposit crypto?
-                        </button>
-
-                        {/* Bonus Banner */}
-                        <div className="flex items-center gap-3 bg-[hsl(var(--primary)/0.15)] rounded-xl p-3 border border-primary/20">
-                            <Gift className="w-6 h-6 text-primary" />
-                            <p className="text-sm">
-                                Get extra <span className="text-primary font-semibold">180%</span> Rakeback on minimum of{" "}
-                                <span className="text-primary font-semibold">0.0024691 ETH</span> deposit
-                            </p>
-                        </div>
-
-                        {/* Deposit Address */}
-                        <div>
-                            <div className="flex items-start gap-4 flex-nowrap">
-                                <div className="w-28 h-28 bg-white rounded-lg shrink-0 flex items-center justify-center">
-                                    <img src={qrCode} alt="QR code" className="w-full h-full object-contain p-1" />
-                                </div>
-                                <div className="flex flex-col my-auto">
-                                    <h4 className="text-sm text-muted-foreground mb-2">Deposit address</h4>
-                                    <div className="flex items-center gap-2 mb-4 bg-secondary rounded-lg pr-2">
-                                        <code className="flex-1 sm:text-sm md:text-base px-3 sm:py-2 py-3 break-all text-foreground">
-                                            <span className="text-primary">0x24</span>40265f2CCE3e96<span className="text-primary">1a003870090C3d2eBf0</span>
-                                        </code>
-                                        <button onClick={handleCopyAddress}><Copy className="w-4 h-4" /></button>
+                                <div className="flex items-start gap-4 flex-nowrap">
+                                    <div className="w-28 h-28 bg-white rounded-lg shrink-0 flex items-center justify-center">
+                                        <img src={qrCode} alt="QR code" className="w-full h-full object-contain p-1" />
+                                    </div>
+                                    <div className="flex flex-col my-auto">
+                                        <h4 className="text-sm text-muted-foreground mb-2">Deposit address</h4>
+                                        <div className="flex items-center gap-2 mb-4 bg-secondary rounded-lg pr-2">
+                                            <code className="flex-1 sm:text-sm md:text-base px-3 sm:py-2 py-3 break-all text-foreground">
+                                                <span className="text-primary">0x24</span>40265f2CCE3e96<span className="text-primary">1a003870090C3d2eBf0</span>
+                                            </code>
+                                            <button onClick={handleCopyAddress}><Copy className="w-4 h-4" /></button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div className="flex items-start gap-2 text-sm text-muted-foreground p-3 mt-2 rounded-lg bg-primary/10">
-                                <Info className="w-4 h-4 mt-0.5 shrink-0 text-primary" />
-                                Send only ETH to this deposit address. Transfers below 0.0002 ETH will not be credited.
-                            </div>
-
-                            {/* CWallet Scan */}
-                            <div className="mt-3 bg-primary/10 rounded-lg p-3 border border-primary/20">
-                                <p className="text-sm font-medium text-foreground">
-                                    <span className="text-primary">Cwallet</span> Scan to Pay · Instant Credit · 0 fee
-                                </p>
-                                <p className="text-sm text-primary">
-                                    Tap Here → Auto Open Cwallet → Auto Fill address → Confirm → Instant credit
-                                </p>
-                            </div>
-
-                            {/* Or Support Deposit With */}
-                            <div className="mt-4">
-                                <p className="text-center text-xs text-muted-foreground mb-3">Or Support Deposit With</p>
-                                <div className="grid grid-cols-2 gap-3">
-                                    <button className="flex items-center justify-center gap-2 px-4 py-3 bg-secondary rounded-lg hover:bg-secondary/80 text-sm font-medium">
-                                        🦊 MetaMask
-                                    </button>
-                                    <button className="flex items-center justify-center gap-2 px-4 py-3 bg-secondary rounded-lg hover:bg-secondary/80 text-sm font-medium">
-                                        🔗 WalletConnect
-                                    </button>
+                                <div className="flex items-start gap-2 text-sm text-muted-foreground p-3 mt-2 rounded-lg bg-primary/10">
+                                    <Info className="w-4 h-4 mt-0.5 shrink-0 text-primary" />
+                                    Send only ETH to this deposit address. Transfers below 0.0002 ETH will not be credited.
                                 </div>
-                            </div>
 
-                            {/* Recent Deposits */}
-                            <div className="mt-6">
-                                <div className="flex items-center justify-between mb-3">
-                                    <h4 className="font-medium text-foreground">Recent Deposits</h4>
-                                    <button onClick={() => navigate('/wallet/transaction')} className="text-primary text-sm hover:underline">More &gt;</button>
+                                <div className="mt-3 bg-primary/10 rounded-lg p-3 border border-primary/20">
+                                    <p className="text-sm font-medium text-foreground">
+                                        <span className="text-primary">Cwallet</span> Scan to Pay · Instant Credit · 0 fee
+                                    </p>
+                                    <p className="text-sm text-primary">
+                                        Tap Here → Auto Open Cwallet → Auto Fill address → Confirm → Instant credit
+                                    </p>
                                 </div>
-                                <div className="space-y-2">
-                                    <div className="flex items-center justify-between py-2 text-sm">
-                                        <span className="text-primary">+₹112.68 🟠</span>
-                                        <span className="text-muted-foreground">3/12/2026, 3:53:00 PM</span>
-                                        <span className="flex items-center gap-1 text-yellow-500">● Processing &gt;</span>
-                                    </div>
-                                    <div className="flex items-center justify-between py-2 text-sm">
-                                        <span className="text-primary">+₹500.00 🟠</span>
-                                        <span className="text-muted-foreground">3/7/2026, 4:20:03 PM</span>
-                                        <span className="flex items-center gap-1 text-yellow-500">● Processing &gt;</span>
+                                <div className="mt-4">
+                                    <p className="text-center text-xs text-muted-foreground mb-3">Or Support Deposit With</p>
+                                    <div className="grid grid-cols-2 gap-3">
+                                        <button className="flex items-center justify-center gap-2 px-4 py-3 bg-secondary rounded-lg hover:bg-secondary/80 text-sm font-medium">
+                                            🦊 MetaMask
+                                        </button>
+                                        <button className="flex items-center justify-center gap-2 px-4 py-3 bg-secondary rounded-lg hover:bg-secondary/80 text-sm font-medium">
+                                            🔗 WalletConnect
+                                        </button>
                                     </div>
                                 </div>
-                                <p className="text-center text-xs text-muted-foreground mt-3">Only showing recent 30 days</p>
+                                <div className="mt-6">
+                                    <div className="flex items-center justify-between mb-3">
+                                        <h4 className="font-medium text-foreground">Recent Deposits</h4>
+                                        <button onClick={() => navigate('/wallet/transaction')} className="text-primary text-sm hover:underline">More &gt;</button>
+                                    </div>
+                                    <div className="space-y-2">
+                                        <div className="flex items-center justify-between py-2 text-sm">
+                                            <span className="text-primary">+₹112.68 🟠</span>
+                                            <span className="text-muted-foreground">3/12/2026, 3:53:00 PM</span>
+                                            <span className="flex items-center gap-1 text-yellow-500">● Processing &gt;</span>
+                                        </div>
+                                        <div className="flex items-center justify-between py-2 text-sm">
+                                            <span className="text-primary">+₹500.00 🟠</span>
+                                            <span className="text-muted-foreground">3/7/2026, 4:20:03 PM</span>
+                                            <span className="flex items-center gap-1 text-yellow-500">● Processing &gt;</span>
+                                        </div>
+                                    </div>
+                                    <p className="text-center text-xs text-muted-foreground mt-3">Only showing recent 30 days</p>
+                                </div>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                 ) : (
                     /* ═══════════════ FIAT TAB ═══════════════ */

@@ -97,8 +97,10 @@ const handleSendMessage = () => {
     setShowRoomDropdown(false);
   };
   useEffect(() => {
+  setTimeout(() => {
     scrollToBottom();
-  }, [messages]);
+  }, 100);
+}, [messages]);
   const colors = ["bg-red-500", "bg-blue-500", "bg-green-500", "bg-purple-500"];
   return (
     <AnimatePresence>
@@ -213,14 +215,14 @@ const handleSendMessage = () => {
                         <span
                           className={cn(
                             "text-sm font-medium truncate",
-                            msg.userId === "bot"
+                            msg.username === "ChatBot"
                               ? "text-green-500 font-bold"
                               : msg.isAdmin
                                 ? "text-red-500"
                                 : "text-foreground"
                           )}
                         >
-                          {msg.username}{msg.userId === "bot" && (
+                          {msg.username}{msg.username === "ChatBot" && (
   <span className="text-[10px] ml-1 text-green-400">BOT</span>
 )}
                         </span>

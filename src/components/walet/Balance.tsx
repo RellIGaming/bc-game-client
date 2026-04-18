@@ -4,23 +4,24 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { useNavigate } from "react-router-dom";
-import {useWalletStore} from "@/store/walletStore";
+import { useWalletStore } from "@/store/walletStore";
 
 /* ---------------- ALL CURRENCIES ---------------- */
-const allBalances = [
-  { id: "inr", name: "INR", icon: "🇮🇳", type: "cash" },
-  { id: "bdt", name: "BDT", icon: "🟣", type: "crypto", isLocked: true },
-  { id: "bc", name: "BC", icon: "🟡", type: "crypto", isLocked: true },
-  { id: "usdt", name: "USDT", icon: "🟢", type: "crypto" },
-  { id: "eth", name: "ETH", icon: "🔵", type: "crypto" },
-  { id: "btc", name: "BTC", icon: "🟠", type: "crypto" },
-  { id: "trx", name: "TRX", icon: "🔴", type: "crypto" },
-  { id: "bnb", name: "BNB", icon: "🟡", type: "crypto" },
-  { id: "ltc", name: "LTC", icon: "⚪", type: "crypto" },
-  { id: "xrp", name: "XRP", icon: "⚪", type: "crypto" },
-  { id: "usdc", name: "USDC", icon: "🔵", type: "crypto" },
-  { id: "doge", name: "DOGE", icon: "🟡", type: "crypto" },
-  { id: "sol", name: "SOL", icon: "🟣", type: "crypto" }
+export const allBalances = [
+  { id: "inr", name: "INR", icon: "🇮🇳", balance: 0, type: "cash" },
+  { id: "bdt", name: "BDT", icon: "🟣", balance: 0, type: "cash", isLocked: true },
+  { id: "pkr", name: "PKR", icon: "🟡", balance: 0, type: "crypto", isLocked: true },
+  { id: "usd", name: "USD", icon: "🟢", balance: 0, type: "crypto", isLocked: true },
+
+  // { id: "eth", name: "ETH", icon: "🔵", type: "crypto" },
+  // { id: "btc", name: "BTC", icon: "🟠", type: "crypto" },
+  // { id: "trx", name: "TRX", icon: "🔴", type: "crypto" },
+  // { id: "bnb", name: "BNB", icon: "🟡", type: "crypto" },
+  // { id: "ltc", name: "LTC", icon: "⚪", type: "crypto" },
+  // { id: "xrp", name: "XRP", icon: "⚪", type: "crypto" },
+  // { id: "usdc", name: "USDC", icon: "🔵", type: "crypto" },
+  // { id: "doge", name: "DOGE", icon: "🟡", type: "crypto" },
+  // { id: "sol", name: "SOL", icon: "🟣", type: "crypto" }
 ];
 
 const Balance = () => {
@@ -38,7 +39,6 @@ const Balance = () => {
   const mergedBalances = useMemo(() => {
     return allBalances.map((item) => {
       const api = wallets.find((w: any) => w.id === item.id);
-
       return {
         ...item,
         balance: Number(api?.balance || 0),
@@ -74,8 +74,8 @@ const Balance = () => {
 
   /* ---------------- UI ---------------- */
   return (
-     <div className="space-y-6 bg-card rounded-lg p-4">
-      
+    <div className="space-y-6 bg-card rounded-lg p-4">
+
       {/* ===== SUMMARY ===== */}
       <div className="flex gap-4 bg-secondary rounded-lg">
         <div className="p-4 flex-1">

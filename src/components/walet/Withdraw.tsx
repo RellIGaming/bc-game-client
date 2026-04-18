@@ -45,8 +45,8 @@ const networks = [
 
 // Fiat currencies
 const fiatCurrencies = [
-    { id: "inr", name: "INR", fullName: "Indian Rupee", icon: "🟠" },
     { id: "bdt", name: "BDT", fullName: "Bangladeshi Taka", icon: "🟢" },
+    { id: "inr", name: "INR", fullName: "Indian Rupee", icon: "🟠" },
     { id: "pkr", name: "PKR", fullName: "Pakistani Rupee", icon: "🟢" },
     { id: "usd", name: "USD", fullName: "US Dollar", icon: "💲" },
 ];
@@ -80,14 +80,14 @@ const depositMethodsByFiat: Record<string, { id: string; name: string; range: st
     usd: [],
 };
 const currencyConfig = {
-    inr: {
-        symbol: "₹",
+    bdt: {
+        symbol: "BDT",
         min: 150,
         range: "100 - 50,000",
         quick: [150, 500, 5000, 50000],
     },
-    bdt: {
-        symbol: "BDT",
+    inr: {
+        symbol: "₹",
         min: 150,
         range: "100 - 50,000",
         quick: [150, 500, 5000, 50000],
@@ -105,7 +105,7 @@ const Withdraw = ({ variant = "page" }: DepositProps) => {
     const navigate = useNavigate();
     const { requestWithdraw, wallets, transactions, fetchTransactions } = useWalletStore();
     const { section } = useParams();
-    const [depositTab, setDepositTab] = useState<"crypto" | "fiat">("crypto");
+    const [depositTab, setDepositTab] = useState<"fiat" | "crypto">("fiat");
     const [open, setOpen] = useState(false);
     const [selectedCrypto, setSelectedCrypto] = useState("eth");
     const [selectedNetwork, setSelectedNetwork] = useState("ethereum");
@@ -215,8 +215,6 @@ const Withdraw = ({ variant = "page" }: DepositProps) => {
         </button>
     );
 
-
-
     const PKRMethodCard = ({ method }) => (
         <button
             onClick={() => setSelectedMethod(method.id)}
@@ -324,21 +322,21 @@ const Withdraw = ({ variant = "page" }: DepositProps) => {
 
             <div className="bg-card rounded-lg flex-1 overflow-y-auto space-y-6 p-4">
                 {/* CWallet Banner */}
-                <button onClick={() => setCwalletOpen(true)} className="w-full flex items-center justify-between bg-secondary rounded-xl p-3 hover:bg-secondary/80 transition-colors">
+                {/* <button onClick={() => setCwalletOpen(true)} className="w-full flex items-center justify-between bg-secondary rounded-xl p-3 hover:bg-secondary/80 transition-colors">
                     <div className="flex items-center gap-2">
                         <Wallet className="w-5 h-5 text-primary" />
                         <span className="text-sm font-medium text-foreground">Cwallet</span>
                         <span className="text-sm text-muted-foreground">Connect Cwallet to earn bonus</span>
                     </div>
                     <ChevronRight className="w-5 h-5 text-muted-foreground" />
-                </button>
+                </button> */}
 
                 {depositTab === "crypto" ? (
                     <div className="space-y-6">
                         {/* or divider */}
+                        <div className='text-center'>Coming Soon</div>
+                        {/* <div> 
                         <div className="text-center text-xs text-muted-foreground">or</div>
-
-                        {/* Crypto chips */}
                         <div className="flex flex-wrap gap-2">
                             {cryptoCurrencies.slice(0, 7).map((crypto) => (
                                 <button key={crypto.id} onClick={() => setSelectedCrypto(crypto.id)} className={cn("flex items-center gap-2 px-3 py-2 rounded-full text-sm transition-colors border", selectedCrypto === crypto.id ? "bg-primary/20 border-primary text-foreground" : "bg-secondary border-transparent text-muted-foreground hover:bg-secondary/80")}>
@@ -349,14 +347,10 @@ const Withdraw = ({ variant = "page" }: DepositProps) => {
                                 More <ChevronDown className="w-3 h-3" />
                             </button>
                         </div>
-
-                        {/* Add currency link */}
                         <p className="text-sm">
                             Didn't see your currency?
                             <button onClick={() => setAddCurrencyOpen(true)} className="text-primary font-semibold ml-1 hover:underline">Add here</button>
                         </p>
-
-                        {/* Currency and Network */}
                         <div className={cn("grid gap-4", variant === "modal" ? "grid-cols-1" : "grid-cols-1 sm:grid-cols-2")}>
                             <div className="relative">
                                 <label className="text-sm text-muted-foreground mb-2 block">Withdraw Currency</label>
@@ -415,13 +409,9 @@ const Withdraw = ({ variant = "page" }: DepositProps) => {
                                 </select>
                             </div>
                         </div>
-
-                        {/* How to withdraw */}
                         <button onClick={() => setHowToOpen(true)} className="text-primary text-sm hover:underline">
                             📘 How to withdraw crypto?
                         </button>
-
-                        {/* Bonus Banner */}
                         <div className="flex items-center gap-3 bg-[hsl(var(--primary)/0.15)] rounded-xl p-3 border border-primary/20">
                             <Gift className="w-6 h-6 text-primary" />
                             <p className="text-sm">
@@ -429,8 +419,6 @@ const Withdraw = ({ variant = "page" }: DepositProps) => {
                                 <span className="text-primary font-semibold">0.0024691 ETH</span> deposit
                             </p>
                         </div>
-
-                        {/* Withdraw Address */}
                         <div>
                             <div className="flex items-start gap-4 flex-nowrap">
                                 <div className="w-28 h-28 bg-white rounded-lg shrink-0 flex items-center justify-center">
@@ -450,8 +438,6 @@ const Withdraw = ({ variant = "page" }: DepositProps) => {
                                 <Info className="w-4 h-4 mt-0.5 shrink-0 text-primary" />
                                 Send only ETH to this withdraw address. Transfers below 0.0002 ETH will not be credited.
                             </div>
-
-                            {/* CWallet Scan */}
                             <div className="mt-3 bg-primary/10 rounded-lg p-3 border border-primary/20">
                                 <p className="text-sm font-medium text-foreground">
                                     <span className="text-primary">Cwallet</span> Scan to Pay · Instant Credit · 0 fee
@@ -460,8 +446,6 @@ const Withdraw = ({ variant = "page" }: DepositProps) => {
                                     Tap Here → Auto Open Cwallet → Auto Fill address → Confirm → Instant credit
                                 </p>
                             </div>
-
-                            {/* Or Support Withdraw With */}
                             <div className="mt-4">
                                 <p className="text-center text-xs text-muted-foreground mb-3">Or Support Withdraw With</p>
                                 <div className="grid grid-cols-2 gap-3">
@@ -473,8 +457,6 @@ const Withdraw = ({ variant = "page" }: DepositProps) => {
                                     </button>
                                 </div>
                             </div>
-
-                            {/* Recent Deposits */}
                             <div className="mt-6">
                                 <div className="flex items-center justify-between mb-3">
                                     <h4 className="font-medium text-foreground">Recent Withdraws</h4>
@@ -487,9 +469,7 @@ const Withdraw = ({ variant = "page" }: DepositProps) => {
                                         <span className="text-muted-foreground">{new Date(tx.createdAt).toLocaleString()}</span>
                                         <span className={cn("flex items-center gap-1", statusColor[tx.status])}> ● {tx.status}</span>
                                     </div>
-                                    
                                     ))}
-
                                     {recentWithdraws.length === 0 && (
                                         <p className="text-center text-xs text-muted-foreground">
                                             No recent withdraws
@@ -499,6 +479,7 @@ const Withdraw = ({ variant = "page" }: DepositProps) => {
                                 <p className="text-center text-xs text-muted-foreground mt-3">Only showing recent 30 days</p>
                             </div>
                         </div>
+                        </div> */}
                     </div>
                 ) : (
                     /* ═══════════════ FIAT TAB ═══════════════ */

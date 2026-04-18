@@ -31,7 +31,7 @@ import Rollover from "@/components/walet/Rollover";
 import BetHistory from "@/components/walet/BetHistory";
 import Withdraw from "@/components/walet/Withdraw";
 import Deposit from "@/components/walet/Deposit";
-import Balance from "@/components/walet/Balance";
+import Balance, { allBalances } from "@/components/walet/Balance";
 import BuyCrypto from "@/components/walet/BuyCrypto";
 
 // Wallet menu items
@@ -47,21 +47,7 @@ const walletMenuItems = [
   { id: "bet-history", label: "Bet History", icon: Clock },
 ];
 
-// All balances for Balance page
-const allBalances = [
-  { id: "inr", name: "INR", icon: "🇮🇳", balance: 0, type: "cash" },
-  { id: "bdt", name: "BDT", icon: "🟣", balance: 0, type: "crypto", isLocked: true },
-  { id: "usdt", name: "USDT", icon: "🟢", balance: 0, type: "crypto" },
-  { id: "eth", name: "ETH", icon: "🔵", balance: 0, type: "crypto" },
-  { id: "btc", name: "BTC", icon: "🟠", balance: 0, type: "crypto" },
-  { id: "trx", name: "TRX", icon: "🔴", balance: 0, type: "crypto" },
-  { id: "bnb", name: "BNB", icon: "🟡", balance: 0, type: "crypto" },
-  { id: "ltc", name: "LTC", icon: "⚪", balance: 0, type: "crypto" },
-  { id: "xrp", name: "XRP", icon: "⚪", balance: 0, type: "crypto" },
-  { id: "usdc", name: "USDC", icon: "🔵", balance: 0, type: "crypto" },
-  { id: "doge", name: "DOGE", icon: "🟡", balance: 0, type: "crypto" },
-  { id: "sol", name: "SOL", icon: "🟣", balance: 0, type: "crypto" },
-];
+
 // Networks for deposit
 const networks = [
   { id: "solana", name: "Solana" },
