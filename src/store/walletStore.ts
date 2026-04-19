@@ -611,6 +611,7 @@ export const usePromotionStore = create<PromotionState>((set) => ({
       set({ promotionTabs: res || [] });
     } catch (err) { }
   },
+  
 
   fetchPromotions: async (params) => {
     try {

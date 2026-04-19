@@ -670,7 +670,7 @@ const Deposit = ({ variant = "page" }: DepositProps) => {
                                                 method: selectedMethod,
                                                 network: selectedNetwork, // optional
                                             });
-
+                                            // window.open(res.paymentUrl, "_blank");
                                             toast.success("Deposit request sent 🚀");
                                         }}>
                                             Deposit Via {currentMethods.find(m => m.id === selectedMethod)?.name} ◇

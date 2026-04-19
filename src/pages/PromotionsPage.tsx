@@ -24,16 +24,18 @@ const PromotionsPage = () => {
   const [showBonusTnC, setShowBonusTnC] = useState(false);
   const [showDeposit, setShowDeposit] = useState(false);
  const navigate = useNavigate();
-  useEffect(() => {
-    fetchDepositTiers();
-    fetchPromotionTabs();
-    fetchPromotions({ category: "All" });
-    fetchBonusTerms();
-  }, []);
-  useEffect(() => {
-    fetchPromotions({ category: activeTab });
-  }, [activeTab]);
-const filteredCards = promotions || [];
+useEffect(() => {
+  fetchDepositTiers();
+  fetchPromotionTabs();
+  fetchPromotions({ category: "All" });
+  fetchBonusTerms();
+}, []);
+
+useEffect(() => {
+  fetchPromotions({ category: activeTab });
+}, [activeTab]);
+console.log("TABS:", promotionTabs);
+const filteredCards = promotions?.length ? promotions : [];
   return (
     <div className="min-h-screen bg-background text-foreground">
       <div className="max-w-5xl mx-auto px-1 sm:px-2 py-6 space-y-6">
@@ -118,7 +120,7 @@ const filteredCards = promotions || [];
                 ):(null)}
                 <div className="text-center p-4">
                   <p className="text-xs font-bold uppercase tracking-wider text-foreground">{card.title}</p>
-                  <p className="text-[10px] text-muted-foreground mt-1">{card.subtitle}</p>
+                  <p className="text-[10px] text-muted-foreground mt-1">{card.sub}</p>
                   <button className="mt-3 bg-accent text-accent-foreground px-3 py-1 b-radius text-xs font-medium">
                     PLAY NOW
                   </button>

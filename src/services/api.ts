@@ -121,7 +121,7 @@ export const requestDeposit = (data: {
   method: string;
   network?: string;
 }) => {
-  return fetchWithAuth("/api/deposit/request", {
+  return fetchWithAuth("/api/wallet/deposit/request", {
     method: "POST",
     body: JSON.stringify(data),
   });
@@ -133,7 +133,7 @@ export const requestWithdraw = (data: {
   method: string;
   account: string;
 }) => {
-  return fetchWithAuth("/api/withdraw/request", {
+  return fetchWithAuth("/api/wallet/withdraw/request", {
     method: "POST",
     body: JSON.stringify(data),
   });

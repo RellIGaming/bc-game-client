@@ -37,6 +37,7 @@ import { LanguageProvider } from "./context/LanguageContext";
 import LiveChat from "./components/layout/LiveChat";
 import socket from "./lib/socket";
 import useAuthStore from "./store/authStore";
+import PaymentGatewayPage from "./pages/PaymentGatewayPage";
 
 const queryClient = new QueryClient();
 
@@ -122,6 +123,7 @@ const App = () => {
                   throw new Error("Function not implemented.");
                 }} />} />
               </Route>
+               <Route path="/payment-gateway" element={<PaymentGatewayPage />} />
               <Route path="/admin-login" element={<AdminLogin />} />
               <Route path="/admin" element={<AdminDashboard />} />
               <Route path="*" element={<NotFound />} />
