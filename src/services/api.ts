@@ -126,6 +126,15 @@ export const requestDeposit = (data: {
     body: JSON.stringify(data),
   });
 };
+export const submitDeposit = (data: {
+  orderId: string;
+  trxId: string;
+}) => {
+  return fetchWithAuth("/api/wallet/submit-deposit", {
+    method: "POST",
+    body: JSON.stringify(data),
+  });
+};
 
 export const requestWithdraw = (data: {
   currency: string;

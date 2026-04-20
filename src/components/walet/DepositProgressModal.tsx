@@ -45,7 +45,7 @@ const Content = ({ onClose, isMobile }: { onClose: () => void; isMobile: boolean
   </div>
 );
 
-export default function DepositGuaranteeModal({ open, onClose }: Props) {
+const DepositProgressModal=({ open, onClose }: Props)=> {
   const isMobile = useIsMobile();
 
   if (isMobile) {
@@ -66,3 +66,5 @@ export default function DepositGuaranteeModal({ open, onClose }: Props) {
     </Dialog>
   );
 }
+
+export default DepositProgressModal;

@@ -45,63 +45,10 @@ interface WalletState {
   winBet: (amount: number, betId: number) => Promise<void>;
   fetchTransactions: () => Promise<void>;
   requestDeposit: (data: any) => Promise<any>;
+  submitDeposit: (data: any) => Promise<any>;
   requestWithdraw: (data: any) => Promise<any>;
 }
-interface ReferralState {
-  referralFriends: any[];
-  referralEarnings: any;
-  referralDashboard: any;
-  referralLoading: boolean;
-  rewardsSummary: any;
-  commissionByFriends: any[];
-  commissionByCurrency: any[];
-  levelRewards: any[];
-  rewardHistory: any[];
-  referralCodes: any;
-  commissionRules: any;
-  commissionResult: any;
-  vipReferralLevels: any[];
-  referralProgress: any;
 
-  fetchCommissionRules: () => Promise<void>;
-  calculateCommission: (payload: {
-    wager: number;
-    gameType: string;
-  }) => Promise<void>;
-
-  fetchVipReferralLevels: () => Promise<void>;
-  fetchReferralProgress: () => Promise<void>;
-
-  fetchReferralCodes: () => Promise<void>;
-  createReferralCode: (name: string) => Promise<void>;
-  fetchReferralFriends: () => Promise<void>;
-  fetchReferralEarnings: () => Promise<void>;
-  fetchReferralDashboard: () => Promise<void>;
-  fetchRewardsSummary: () => Promise<void>;
-  fetchCommissionByFriends: (params?: any) => Promise<void>;
-  fetchCommissionByCurrency: () => Promise<void>;
-  fetchLevelRewards: () => Promise<void>;
-  fetchRewardHistory: (type?: string) => Promise<void>;
-}
-interface BonusState {
-  bonusSummary: any;
-  monthlyBonus: any;
-  bonusLoading: boolean;
-  bonusData: any;
-  vipLevels: any[];
-  vipClub: any;
-  vipTable: any;
-
-  fetchVipTable: () => Promise<void>;
-  fetchVipClub: () => Promise<void>;
-  fetchVipLevels: () => Promise<void>;
-  fetchBonusSummary: () => Promise<void>;
-  fetchMonthlyBonus: () => Promise<void>;
-  claimDailyBonus: () => Promise<void>;
-  claimRakebackBonus: () => Promise<void>;
-  redeemBonusCode: (code: string) => Promise<void>;
-  fetchBonusFull: () => Promise<void>;
-}
 export const useWalletStore = create<WalletState>((set) => ({
   balance: 0,
   balances: [],
@@ -277,6 +224,21 @@ export const useWalletStore = create<WalletState>((set) => ({
       throw err;
     }
   },
+  submitDeposit: async (data) => {
+    set({ loading: true });
+
+    try {
+      const res = await api.submitDeposit(data);
+
+      set({ loading: false });
+
+      return res;
+
+    } catch (err: any) {
+      set({ error: err.message, loading: false });
+      throw err;
+    }
+  },
 
   requestWithdraw: async (data) => {
     set({ loading: true });
@@ -297,6 +259,42 @@ export const useWalletStore = create<WalletState>((set) => ({
   },
 }));
 
+interface ReferralState {
+  referralFriends: any[];
+  referralEarnings: any;
+  referralDashboard: any;
+  referralLoading: boolean;
+  rewardsSummary: any;
+  commissionByFriends: any[];
+  commissionByCurrency: any[];
+  levelRewards: any[];
+  rewardHistory: any[];
+  referralCodes: any;
+  commissionRules: any;
+  commissionResult: any;
+  vipReferralLevels: any[];
+  referralProgress: any;
+
+  fetchCommissionRules: () => Promise<void>;
+  calculateCommission: (payload: {
+    wager: number;
+    gameType: string;
+  }) => Promise<void>;
+
+  fetchVipReferralLevels: () => Promise<void>;
+  fetchReferralProgress: () => Promise<void>;
+
+  fetchReferralCodes: () => Promise<void>;
+  createReferralCode: (name: string) => Promise<void>;
+  fetchReferralFriends: () => Promise<void>;
+  fetchReferralEarnings: () => Promise<void>;
+  fetchReferralDashboard: () => Promise<void>;
+  fetchRewardsSummary: () => Promise<void>;
+  fetchCommissionByFriends: (params?: any) => Promise<void>;
+  fetchCommissionByCurrency: () => Promise<void>;
+  fetchLevelRewards: () => Promise<void>;
+  fetchRewardHistory: (type?: string) => Promise<void>;
+}
 
 export const useReferralStore = create<ReferralState>((set) => ({
   referralFriends: [],
@@ -455,7 +453,25 @@ export const useReferralStore = create<ReferralState>((set) => ({
     } catch { }
   }
 }));
+interface BonusState {
+  bonusSummary: any;
+  monthlyBonus: any;
+  bonusLoading: boolean;
+  bonusData: any;
+  vipLevels: any[];
+  vipClub: any;
+  vipTable: any;
 
+  fetchVipTable: () => Promise<void>;
+  fetchVipClub: () => Promise<void>;
+  fetchVipLevels: () => Promise<void>;
+  fetchBonusSummary: () => Promise<void>;
+  fetchMonthlyBonus: () => Promise<void>;
+  claimDailyBonus: () => Promise<void>;
+  claimRakebackBonus: () => Promise<void>;
+  redeemBonusCode: (code: string) => Promise<void>;
+  fetchBonusFull: () => Promise<void>;
+}
 export const useBonusStore = create<BonusState>((set) => ({
   bonusSummary: null,
   monthlyBonus: null,
@@ -611,7 +627,7 @@ export const usePromotionStore = create<PromotionState>((set) => ({
       set({ promotionTabs: res || [] });
     } catch (err) { }
   },
-  
+
 
   fetchPromotions: async (params) => {
     try {

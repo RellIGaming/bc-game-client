@@ -22,6 +22,7 @@ import jazzcashHalf from "../../assets/images/jazzcash-half.png";
 import easypaisa from "../../assets/images/easypaisa-logo.png";
 import { useWalletStore } from '@/store/walletStore';
 import { allBalances } from './Balance';
+import DepositProgressModal from './DepositProgressModal';
 
 
 
@@ -118,6 +119,7 @@ const Deposit = ({ variant = "page" }: DepositProps) => {
     const [addCurrencyOpen, setAddCurrencyOpen] = useState(false);
     const [selectedFiat, setSelectedFiat] = useState("bdt");
     const [search, setSearch] = useState("");
+    const [depositProgressOpen, setDepositProgressOpen] = useState(false);
     const [selected, setSelected] = useState(allBalances[2]);
 
     // Fiat state
@@ -271,6 +273,27 @@ const Deposit = ({ variant = "page" }: DepositProps) => {
             ...prev,
             [cat]: !prev[cat],
         }));
+    };
+
+    const handleDeposit = async () => {
+        if (!depositAmount || !selectedMethod) {
+            toast.error("Enter amount & select method");
+            return;
+        }
+
+        const res = await requestDeposit({
+            currency: selectedFiatCurrency.id.toUpperCase(),
+            amount: Number(depositAmount),
+            method: selectedMethod,
+            network: selectedNetwork,
+        });
+        console.log("PAYMENT URL:", res.paymentUrl);
+
+        window.open(res.paymentUrl, "_blank");
+        // ✅ OPEN PAYMENT PAGE
+
+        // ✅ SHOW PROGRESS MODAL (optional)
+        setDepositProgressOpen(true);
     };
     return (
         <div className={cn("w-full", variant === "modal" ? "px-4 py-3" : "px-0")}>
@@ -658,21 +681,8 @@ const Deposit = ({ variant = "page" }: DepositProps) => {
                                                 </button>
                                             ))}
                                         </div>
-                                        <button className="w-full py-3 bg-primary text-primary-foreground rounded-lg font-semibold text-sm hover:bg-primary/90 transition-colors" onClick={() => {
-                                            if (!depositAmount || !selectedMethod) {
-                                                toast.error("Enter amount & select method");
-                                                return;
-                                            }
-
-                                            requestDeposit({
-                                                currency: selectedFiatCurrency.id,
-                                                amount: Number(depositAmount),
-                                                method: selectedMethod,
-                                                network: selectedNetwork, // optional
-                                            });
-                                            // window.open(res.paymentUrl, "_blank");
-                                            toast.success("Deposit request sent 🚀");
-                                        }}>
+                                        <button className="w-full py-3 bg-primary text-primary-foreground rounded-lg font-semibold text-sm hover:bg-primary/90 transition-colors"
+                                            onClick={handleDeposit}>
                                             Deposit Via {currentMethods.find(m => m.id === selectedMethod)?.name} ◇
                                         </button>
                                         <div className="bg-secondary rounded-lg p-3 space-y-1">
@@ -695,6 +705,7 @@ const Deposit = ({ variant = "page" }: DepositProps) => {
             </div>
 
             {/* Modals */}
+            <DepositProgressModal open={depositProgressOpen} onClose={() => setDepositProgressOpen(false)} />
             <CWalletModal open={cwalletOpen} onClose={() => setCwalletOpen(false)} />
             <DepositGuaranteeModal open={guaranteeOpen} onClose={() => setGuaranteeOpen(false)} />
             <HowToDepositModal open={howToOpen} onClose={() => setHowToOpen(false)} />

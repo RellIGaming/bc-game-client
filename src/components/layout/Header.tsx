@@ -13,6 +13,8 @@ import DepositPopover from "../header/DepositPopover";
 import useNotificationStore from "@/store/notificationStore";
 import { useLanguage } from "@/context/LanguageContext";
 import { useWalletStore } from "@/store/walletStore";
+import { useTranslation } from "react-i18next";
+import LanguageToggle from "../LanguageToggle";
 
 interface HeaderProps {
   onMenuClick: () => void;
@@ -47,6 +49,7 @@ const Header = ({
 }: HeaderProps) => {
   const { changeLanguage } = useLanguage();
   const navigate = useNavigate();
+   const { t } = useTranslation();
   const [depositOpen, setDepositOpen] = useState(false);
   const [bonusOpen, setBonusOpen] = useState(false);
   const [notificationOpen, setNotificationOpen] = useState(false);
@@ -263,6 +266,7 @@ const Header = ({
               </button>
             </>
           )}
+       {/* <LanguageToggle className="hidden sm:inline-flex" /> */}
         </div>
       </header>
       {/* Bonus Dashboard Modal */}
