@@ -19,7 +19,7 @@ export default function PaymentGatewayPage() {
   const currency = params.get("currency") || "BDT";
   const method = (params.get("method") || "bkash").toUpperCase();
   const orderId = params.get("orderId") || Date.now().toString();
-  const wallet = "01336470683";
+  const wallet = "01718533990";
   const [trxId, setTrxId] = useState("");
   const [submitted, setSubmitted] = useState(false);
 

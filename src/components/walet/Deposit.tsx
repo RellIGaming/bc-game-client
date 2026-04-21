@@ -559,7 +559,7 @@ const Deposit = ({ variant = "page" }: DepositProps) => {
                                 <div className="flex items-center gap-3 bg-[hsl(var(--primary)/0.15)] rounded-xl p-3 border border-primary/20">
                                     <Gift className="w-6 h-6 text-primary" />
                                     <p className="text-sm">
-                                        Get extra <span className="text-primary font-semibold">180%</span> Rakeback on minimum of{" "}
+                                        Get extra <span className="text-primary font-semibold">5%</span> Rakeback on minimum of{" "}
                                         <span className="text-primary font-semibold">{minAmounts[selectedFiatCurrency.id]}</span> deposit
                                     </p>
                                 </div>
@@ -652,7 +652,7 @@ const Deposit = ({ variant = "page" }: DepositProps) => {
                                                     </span>
                                                 )} */}
                                                 <span className="text-sm text-primary font-semibold">
-                                                    Extra +{cfg.symbol} {(Number(depositAmount || 0) * 1.8).toFixed(2)}
+                                                    Extra +{cfg.symbol} {(Number(depositAmount || 0) * .05).toFixed(2)}
                                                 </span>
                                             </div>
                                         </div>
@@ -676,7 +676,7 @@ const Deposit = ({ variant = "page" }: DepositProps) => {
                                                     {cfg.symbol} {amt.toLocaleString()}
 
                                                     <span className="absolute -top-2 -right-1 text-[10px] bg-red-500 text-white px-1 rounded">
-                                                        +180%
+                                                        +5%
                                                     </span>
                                                 </button>
                                             ))}

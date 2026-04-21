@@ -564,13 +564,13 @@ const Withdraw = ({ variant = "page" }: DepositProps) => {
                         ) : (
                             <>
                                 {/* Rakeback Banner */}
-                                <div className="flex items-center gap-3 bg-[hsl(var(--primary)/0.15)] rounded-xl p-3 border border-primary/20">
+                                {/* <div className="flex items-center gap-3 bg-[hsl(var(--primary)/0.15)] rounded-xl p-3 border border-primary/20">
                                     <Gift className="w-6 h-6 text-primary" />
                                     <p className="text-sm">
                                         Get extra <span className="text-primary font-semibold">180%</span> Rakeback on minimum of{" "}
                                         <span className="text-primary font-semibold">{minAmounts[selectedFiatCurrency.id]}</span> deposit
                                     </p>
-                                </div>
+                                </div> */}
                                 {/* <div className="flex items-center gap-3 bg-[hsl(var(--primary)/0.15)] rounded-xl p-3 border border-primary/20">
                                     <Gift className="w-6 h-6 text-primary" />
                                     <p className="text-sm">
@@ -769,7 +769,7 @@ const Withdraw = ({ variant = "page" }: DepositProps) => {
                                                 }
                                             }}
                                         >
-                                            Withdraw Via {currentMethods.find(m => m.id === selectedMethod)?.name} ◇
+                                            Withdraw Submit ◇
                                         </button>
                                         <div className="bg-secondary rounded-lg p-3 space-y-1">
                                             <p className="text-xs text-muted-foreground">ⓘ 1. Your transfer amount has to MATCH the submission amount.</p>
