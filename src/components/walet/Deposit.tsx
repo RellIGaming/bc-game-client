@@ -247,22 +247,22 @@ const Deposit = ({ variant = "page" }: DepositProps) => {
         <button
             onClick={() => setSelectedMethod(method.id)}
             className={cn(
-                "w-[180px] flex flex-col items-center justify-center gap-2 rounded-xl bg-layer4_alt p-4 border transition hover:opacity-90",
+                "w-full sm:max-w-[170px] flex flex-col items-center justify-center gap-2 rounded-xl p-3 sm:p-4 border border-gray-500 transition hover:opacity-90",
                 selectedMethod === method.id
                     ? "border-primary bg-primary/10"
-                    : "border-transparent"
+                    : " bg-layer4_alt"
             )}
         >
             {/* Icon */}
-            <div className='flex flex-col items-center  gap-3'>
+            <div className='flex flex-col items-center gap-2 sm:gap-3'>
                 <img
                     src={method.icon}
                     alt={method.name}
-                    className="h-10 w-auto object-contain"
+                    className="h-8 sm:h-10 w-auto object-contain"
                 />
 
                 {/* Text */}
-                <p className="text-sm font-medium text-center">
+                <p className="text-xs sm:text-sm font-medium text-center">
                     {method.name}
                 </p>
             </div>
@@ -607,8 +607,8 @@ const Deposit = ({ variant = "page" }: DepositProps) => {
                                                             selectedFiat === "inr"
                                                                 ? "flex flex-col gap-3"
                                                                 : selectedFiat === "bdt" || selectedFiat === "pkr"
-                                                                    ? "grid grid-cols-4 gap-3"
-                                                                    : "grid grid-cols-4 gap-3"
+                                                                    ? "grid grid-cols-4 gap-2"
+                                                                    : "grid grid-cols-4 gap-2"
                                                         }
                                                     >
                                                         {methods.map((method) => {

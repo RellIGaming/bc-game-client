@@ -135,6 +135,18 @@ export const submitDeposit = (data: {
     body: JSON.stringify(data),
   });
 };
+export const sendWithdrawOtp = () => {
+  return fetchWithAuth("/api/withdraw/send-otp", {
+    method: "POST",
+  });
+};
+
+export const verifyWithdrawOtp = (otp: string) => {
+  return fetchWithAuth("/api/withdraw/verify-otp", {
+    method: "POST",
+    body: JSON.stringify({ otp }),
+  });
+};
 
 export const requestWithdraw = (data: {
   currency: string;

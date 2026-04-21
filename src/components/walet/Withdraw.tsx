@@ -3,6 +3,11 @@ import {
     Copy, AlertTriangle, Info, Gift, ChevronDown, ChevronRight, Wallet, Search, CreditCard, ArrowDownToLine,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { X, ArrowLeft, Mail } from "lucide-react";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Sheet, SheetContent } from "@/components/ui/sheet";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { Button } from "@/components/ui/button";
 import clsx from "clsx";
 import { toast } from 'sonner';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -20,7 +25,7 @@ import nayapay from "../../assets/images/nayapay-logo.png";
 import jazzcash from "../../assets/images/jazzcash-logo.png";
 import jazzcashHalf from "../../assets/images/jazzcash-half.png";
 import easypaisa from "../../assets/images/easypaisa-logo.png";
-import {useWalletStore} from '@/store/walletStore';
+import { useWalletStore } from '@/store/walletStore';
 
 // Crypto currencies
 const cryptoCurrencies = [
@@ -103,10 +108,11 @@ type DepositProps = { variant?: "page" | "modal" | "drawer" };
 
 const Withdraw = ({ variant = "page" }: DepositProps) => {
     const navigate = useNavigate();
-    const { requestWithdraw, wallets, transactions, fetchTransactions } = useWalletStore();
+    const { requestWithdraw, wallets, transactions, fetchTransactions, otpVerified } = useWalletStore();
     const { section } = useParams();
     const [depositTab, setDepositTab] = useState<"fiat" | "crypto">("fiat");
     const [open, setOpen] = useState(false);
+    const [verified, setVerified] = useState(false);
     const [selectedCrypto, setSelectedCrypto] = useState("eth");
     const [selectedNetwork, setSelectedNetwork] = useState("ethereum");
     const [cwalletOpen, setCwalletOpen] = useState(false);
@@ -117,6 +123,9 @@ const Withdraw = ({ variant = "page" }: DepositProps) => {
     const [search, setSearch] = useState("");
     const [selectedWallet, setSelectedWallet] = useState<any>(null);
     const [account, setAccount] = useState("");
+    const [otpVerifyOpen, setOtpVerifyOpen] = useState(false);
+    const [otpCode, setOtpCode] = useState("");
+    const [name, setName] = useState("");
     // Fiat state
     const [fiatCurrencyOpen, setFiatCurrencyOpen] = useState(false);
     const [selectedFiatCurrency, setSelectedFiatCurrency] = useState(fiatCurrencies[0]);
@@ -183,18 +192,18 @@ const Withdraw = ({ variant = "page" }: DepositProps) => {
         usd: "$0",
     };
     const statusColor = {
-    COMPLETED: "text-green-500",
-    PENDING: "text-yellow-500",
-    FAILED: "text-red-500",
-};
+        COMPLETED: "text-green-500",
+        PENDING: "text-yellow-500",
+        FAILED: "text-red-500",
+    };
     const InrMethodCard = ({ method }) => (
         <button
             onClick={() => setSelectedMethod(method.id)}
             className={cn(
-                "relative flex items-center justify-between w-full px-4 py-3 mb-4 rounded-lg border transition",
+                "w-full sm:w-[180px] flex flex-col items-center justify-center gap-2 rounded-xl p-3 sm:p-4 border border-gray-500 transition hover:opacity-90",
                 selectedMethod === method.id
                     ? "border-primary bg-primary/10"
-                    : "border-border bg-secondary hover:bg-secondary/80"
+                    : " bg-layer4_alt"
             )}
         >
             {/* badge */}
@@ -219,10 +228,10 @@ const Withdraw = ({ variant = "page" }: DepositProps) => {
         <button
             onClick={() => setSelectedMethod(method.id)}
             className={cn(
-                "relative w-[180px] flex flex-col items-center gap-2 rounded-lg bg-layer4_alt p-3 border transition hover:opacity-90",
+                "w-full sm:w-[180px] flex flex-col items-center justify-center gap-2 rounded-xl p-3 sm:p-4 border border-gray-500 transition hover:opacity-90",
                 selectedMethod === method.id
-                    ? "border-primary"
-                    : "border-transparent"
+                    ? "border-primary bg-primary/10"
+                    : " bg-layer4_alt"
             )}
         >
 
@@ -266,22 +275,22 @@ const Withdraw = ({ variant = "page" }: DepositProps) => {
         <button
             onClick={() => setSelectedMethod(method.id)}
             className={cn(
-                "w-[180px] flex flex-col items-center justify-center gap-2 rounded-xl bg-layer4_alt p-4 border transition hover:opacity-90",
+                "w-full sm:w-[180px] flex flex-col items-center justify-center gap-2 rounded-xl p-3 sm:p-4 border border-gray-500 transition hover:opacity-90",
                 selectedMethod === method.id
                     ? "border-primary bg-primary/10"
-                    : "border-transparent"
+                    : " bg-layer4_alt"
             )}
         >
             {/* Icon */}
-            <div className='flex flex-col items-center  gap-3'>
+            <div className='flex flex-col items-center gap-2 sm:gap-3'>
                 <img
                     src={method.icon}
                     alt={method.name}
-                    className="h-10 w-auto object-contain"
+                    className="h-8 sm:h-10 w-auto object-contain"
                 />
 
                 {/* Text */}
-                <p className="text-sm font-medium text-center">
+                <p className="text-xs sm:text-sm font-medium text-center">
                     {method.name}
                 </p>
             </div>
@@ -628,14 +637,24 @@ const Withdraw = ({ variant = "page" }: DepositProps) => {
                                         );
                                     })}
                                 </div>
-
+                                <div>
+                                    <label className="text-sm text-muted-foreground mb-2 block">
+                                        Account Holder Name
+                                    </label>
+                                    <input
+                                        placeholder="Full Name"
+                                        value={name}
+                                        onChange={(e) => setName(e.target.value)}
+                                        className="w-full px-4 py-3 bg-secondary rounded-lg text-foreground outline-none"
+                                    />
+                                </div>
                                 {/* Withdraw Amount */}
                                 <div>
                                     <label className="text-sm text-muted-foreground mb-2 block">
                                         Withdraw Address
                                     </label>
                                     <input
-                                        placeholder="Enter wallet / UPI / account"
+                                        placeholder="Enter wallet "
                                         value={account}
                                         onChange={(e) => setAccount(e.target.value)}
                                         className="w-full px-4 py-3 bg-secondary rounded-lg text-foreground outline-none"
@@ -656,14 +675,12 @@ const Withdraw = ({ variant = "page" }: DepositProps) => {
                                                     placeholder="150"
                                                     className="flex-1 px-4 py-3 bg-secondary rounded-lg text-foreground outline-none"
                                                 />
-                                                {/* {withdrawAmount && (
+                                                {withdrawAmount && (
                                                     <span className="text-sm text-primary font-semibold whitespace-nowrap">
-                                                        Extra +{selectedFiatCurrency.name} {(parseFloat(withdrawAmount || "0") * 1.8).toFixed(2)}
+                                                        Min:{selectedFiatCurrency.name} {(parseFloat(withdrawAmount || "0") * .25).toFixed(2)}
                                                     </span>
-                                                )} */}
-                                                <span className="text-sm text-primary font-semibold">
-                                                    Extra +{cfg.symbol} {(Number(withdrawAmount || 0) * 1.8).toFixed(2)}
-                                                </span>
+                                                )}
+
                                             </div>
                                         </div>
                                         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
@@ -677,7 +694,7 @@ const Withdraw = ({ variant = "page" }: DepositProps) => {
                                                     <span className="absolute -top-2 -right-1 text-[10px] bg-red-500 text-white px-1 rounded">+180%</span>
                                                 </button>
                                             ))} */}
-                                            {cfg.quick.map((amt: any) => (
+                                            {/* {cfg.quick.map((amt: any) => (
                                                 <button
                                                     key={amt}
                                                     onClick={() => setWithdrawAmount(String(amt))}
@@ -687,15 +704,44 @@ const Withdraw = ({ variant = "page" }: DepositProps) => {
 
                                                     <span className="absolute -top-2 -right-1 text-[10px] bg-red-500 text-white px-1 rounded">
                                                         +180%
-                                                    </span>
+                                                    </span> 
                                                 </button>
-                                            ))}
+                                            ))} */}
+                                        </div>
+                                        <div>
+                                            {withdrawAmount && (
+                                                <span className="text-sm text-primary font-semibold whitespace-nowrap">
+                                                    Available:{selectedFiatCurrency.name} {(parseFloat(withdrawAmount || "0") - .25).toFixed(2)}
+                                                </span>
+                                            )}
                                         </div>
                                         <button
-                                            className="w-full py-3 bg-primary text-primary-foreground rounded-lg font-semibold text-sm hover:bg-primary/90"
+                                            onClick={() => setOtpVerifyOpen(true)}
+                                            className={cn(
+                                                "w-full py-2 rounded-lg text-sm font-semibold transition",
+                                                otpVerified
+                                                    ? "bg-green-500/20 text-green-400"
+                                                    : "bg-yellow-500/20 text-yellow-400 hover:bg-yellow-500/30"
+                                            )}
+                                        >
+                                            {otpVerified ? "✅ Email Verified" : "Verify Email for Withdraw"}
+                                        </button>
+                                        <button
+                                            disabled={!otpVerified}
+                                            // className="w-full py-3 bg-primary text-primary-foreground 
+                                            // rounded-lg font-semibold text-sm hover:bg-primary/90"
+                                            className={cn(
+                                                "w-full py-3 rounded-lg font-semibold text-sm transition",
+                                                otpVerified
+                                                    ? "bg-primary text-primary-foreground hover:bg-primary/90"
+                                                    : "bg-gray-500 cursor-not-allowed text-white"
+                                            )}
                                             onClick={async () => {
                                                 console.log({ withdrawAmount, selectedMethod, account });
-
+                                                if (!otpVerified) {
+                                                    toast.error("Please verify OTP first");
+                                                    return;
+                                                }
                                                 if (!withdrawAmount || !selectedMethod || !account) {
                                                     toast.error("Fill all fields");
                                                     return;
@@ -711,7 +757,8 @@ const Withdraw = ({ variant = "page" }: DepositProps) => {
                                                         currency: selectedWallet?.name || "BDT",
                                                         amount: Number(withdrawAmount),
                                                         method: selectedMethod,
-                                                        account: account, // ✅ REQUIRED
+                                                        account: account,
+                                                        otp: otpCode
                                                     });
                                                     console.log("SELECTED:", selectedWallet);
                                                     console.log("REAL WALLET:", realWallet);
@@ -742,8 +789,12 @@ const Withdraw = ({ variant = "page" }: DepositProps) => {
                     </div>
                 )}
             </div>
+            {
 
+
+            }
             {/* Modals */}
+            <WithdrawOtpVerifyModal open={otpVerifyOpen} onClose={() => setOtpVerifyOpen(false)} onVerified={(otp) => setOtpCode(otp)} />
             <CWalletModal open={cwalletOpen} onClose={() => setCwalletOpen(false)} />
             <DepositGuaranteeModal open={guaranteeOpen} onClose={() => setGuaranteeOpen(false)} />
             <HowToDepositModal open={howToOpen} onClose={() => setHowToOpen(false)} />
@@ -753,3 +804,120 @@ const Withdraw = ({ variant = "page" }: DepositProps) => {
 };
 
 export default Withdraw;
+
+interface OtpVerifyModalProps {
+    open: boolean;
+    onClose: () => void;
+    onVerified: (otp: string) => void;
+}
+
+export const WithdrawOtpVerifyModal = ({ open, onClose, onVerified }: OtpVerifyModalProps) => {
+    const isMobile = useIsMobile();
+    const [code, setCode] = useState("");
+    const [sent, setSent] = useState(false);
+    const { sendWithdrawOtp, verifyWithdrawOtp } = useWalletStore();
+
+    const handleSendCode = async () => {
+        try {
+            await sendWithdrawOtp();
+            setSent(true);
+            toast.success("OTP sent to your email");
+        } catch (err: any) {
+            toast.error(err.message || "Failed to send OTP");
+        }
+    };
+
+    const handleVerify = async () => {
+        if (code.length !== 6) {
+            toast.error("Enter valid 6 digit OTP");
+            return;
+        }
+
+        try {
+            await verifyWithdrawOtp(code);
+            onVerified(code);
+            toast.success("Email verified ✅");
+            onClose();
+        } catch (err: any) {
+            toast.error(err.message || "Invalid OTP");
+        }
+    };
+    const content = (
+        <div className="flex flex-col items-center p-6 space-y-6">
+            {/* Header */}
+            <div className="flex items-center justify-between w-full">
+                {isMobile ? (
+                    <button onClick={onClose} className="p-1">
+                        <ArrowLeft className="w-5 h-5 text-muted-foreground" />
+                    </button>
+                ) : <div />}
+                <h3 className="font-semibold text-foreground">Email Verification</h3>
+                {/* {!isMobile && (
+          <button onClick={onClose} className="p-1 rounded-full hover:bg-secondary">
+            <X className="w-5 h-5 text-muted-foreground" /> 
+          </button>
+        )} */}
+            </div>
+
+            {/* Icon */}
+            <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center">
+                <Mail className="w-10 h-10 text-primary" />
+            </div>
+
+            {!sent ? (
+                <>
+                    <p className="text-sm text-muted-foreground text-center">
+                        We'll send a verification code to your registered email address to create your Cwallet account.
+                    </p>
+                    <Button
+                        onClick={handleSendCode}
+                        className="w-full h-12 bg-primary text-primary-foreground hover:bg-primary/90 font-semibold"
+                    >
+                        Send Verification Code
+                    </Button>
+                </>
+            ) : (
+                <>
+                    <p className="text-sm text-muted-foreground text-center">
+                        Enter the 6-digit code sent to your email
+                    </p>
+                    <input
+                        type="text"
+                        maxLength={6}
+                        value={code}
+                        onChange={(e) => setCode(e.target.value.replace(/\D/g, ""))}
+                        placeholder="000000"
+                        className="w-full text-center text-2xl tracking-[0.5em] py-3 bg-secondary rounded-lg border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                    />
+                    <Button
+                        onClick={handleVerify}
+                        className="w-full h-12 bg-primary text-primary-foreground hover:bg-primary/90 font-semibold"
+                    >
+                        Verify Otp for Withdraw
+                    </Button>
+                    <button onClick={handleSendCode} className="text-sm text-primary hover:underline">
+                        Resend Code
+                    </button>
+                </>
+            )}
+        </div>
+    );
+
+    if (isMobile) {
+        return (
+            <Sheet open={open} onOpenChange={onClose}>
+                <SheetContent side="right" className="w-full sm:max-w-md p-0">
+                    {content}
+                </SheetContent>
+            </Sheet>
+        );
+    }
+
+    return (
+        <Dialog open={open} onOpenChange={onClose}>
+            <DialogContent className="max-w-[400px] p-0 gap-0">
+                {content}
+            </DialogContent>
+        </Dialog>
+    );
+};

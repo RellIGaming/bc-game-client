@@ -28,6 +28,12 @@ interface WalletState {
     balance: number;
   }[];
   interestHistory: any[];
+
+  otpVerified: boolean;
+  otpLoading: boolean;
+
+  sendWithdrawOtp: () => Promise<void>;
+  verifyWithdrawOtp: (otp: string) => Promise<void>;
   fetchInterestHistory: (filter: string) => Promise<void>;
   fetchVault: () => Promise<void>;
   vaultDeposit: (data: { currency: string; amount: number }) => Promise<void>;
@@ -59,7 +65,41 @@ export const useWalletStore = create<WalletState>((set) => ({
   swapRate: 0,
   vaults: [],
   interestHistory: [],
+  otpVerified: false,
+  otpLoading: false,
 
+sendWithdrawOtp: async () => {
+  set({ otpLoading: true });
+
+  try {
+    await api.sendWithdrawOtp();
+
+    set({ otpLoading: false });
+  } catch (err: any) {
+    set({ error: err.message, otpLoading: false });
+    throw err;
+  }
+},
+verifyWithdrawOtp: async (otp: string) => {
+  set({ otpLoading: true });
+
+  try {
+    await api.verifyWithdrawOtp(otp);
+
+    set({
+      otpVerified: true,
+      otpLoading: false
+    });
+
+  } catch (err: any) {
+    set({
+      otpVerified: false,
+      error: err.message,
+      otpLoading: false
+    });
+    throw err;
+  }
+},
   fetchInterestHistory: async (filter: string) => {
     try {
       set({ loading: true });
@@ -240,23 +280,31 @@ export const useWalletStore = create<WalletState>((set) => ({
     }
   },
 
-  requestWithdraw: async (data) => {
-    set({ loading: true });
+requestWithdraw: async (data) => {
+  const { otpVerified } = useWalletStore.getState();
 
-    try {
-      const res = await api.requestWithdraw(data);
+  if (!otpVerified) {
+    throw new Error("Please verify OTP first");
+  }
 
-      // refresh balance after withdraw request
-      await useWalletStore.getState().fetchBalance();
+  set({ loading: true });
 
-      set({ loading: false });
-      return res;
+  try {
+    const res = await api.requestWithdraw(data);
 
-    } catch (err: any) {
-      set({ error: err.message, loading: false });
-      throw err;
-    }
-  },
+    // reset OTP after use
+    set({ otpVerified: false });
+
+    await useWalletStore.getState().fetchBalance();
+
+    set({ loading: false });
+    return res;
+
+  } catch (err: any) {
+    set({ error: err.message, loading: false });
+    throw err;
+  }
+},
 }));
 
 interface ReferralState {
