@@ -113,9 +113,10 @@ async function translateOne(text: string, target: Lang): Promise<string> {
   if (!trimmed) return text;
   if (trimmed.length > MAX_TRANSLATE_LEN) {
     // Too long for the free API — cache as identity so we don't keep retrying.
-    cache[`${target}::${trimmed}`] = trimmed;
+    // cache[`${target}::${trimmed}`] = trimmed;
     return text;
   }
+  
   try {
     const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(
       trimmed
@@ -186,7 +187,8 @@ function flushScheduled() {
   const attrs = Array.from(pendingAttrs);
   pendingNodes.clear();
   pendingAttrs.clear();
-
+  
+console.log("🧩 Translating nodes:", nodes.length, "attrs:", attrs.length);
   if (nodes.length) {
     const originals = nodes.map((n) => n.nodeValue || "");
     translateBatch(originals, lang).then((translated) => {
@@ -236,6 +238,17 @@ function queueRoot(root: Node) {
     targets.forEach((t) => pendingAttrs.add(t));
   }
   if (pendingNodes.size || pendingAttrs.size) schedule();
+}
+
+/**
+ * Public: force a full re-scan of the document. Useful on route changes
+ * and as a periodic safety net so Radix portals (Dialog/Sheet/Popover/etc.)
+ * mounted outside the React tree always get translated.
+ */
+export function rescanForTranslation() {
+  if (currentLang === "en") return;
+  queueRoot(document.body);
+  console.log("🔁 RESCAN:", window.location.pathname);
 }
 
 function restoreEnglish() {
@@ -326,11 +339,31 @@ function stopObserver() {
   observer = null;
 }
 
+let safetyRescanTimer: number | null = null;
+
+function startSafetyRescan() {
+  if (safetyRescanTimer !== null) return;
+  // Every 2.5s, re-scan the body. Cheap because nodes already translated
+  // are skipped by the TreeWalker filter (translatedValueMap match).
+  safetyRescanTimer = window.setInterval(() => {
+    if (currentLang === "en") return;
+    queueRoot(document.body);
+  }, 2500);
+}
+
+function stopSafetyRescan() {
+  if (safetyRescanTimer !== null) {
+    clearInterval(safetyRescanTimer);
+    safetyRescanTimer = null;
+  }
+}
+
 export function setAutoTranslateLanguage(lang: Lang) {
   if (lang === currentLang) return;
   currentLang = lang;
   if (lang === "en") {
     stopObserver();
+    stopSafetyRescan();
     restoreEnglish();
     document.documentElement.setAttribute("lang", "en");
   } else {
@@ -338,6 +371,7 @@ export function setAutoTranslateLanguage(lang: Lang) {
     loadCache();
     queueRoot(document.body);
     startObserver();
+    startSafetyRescan();
   }
 }
 
@@ -347,4 +381,5 @@ export function initAutoTranslate(initialLang: Lang) {
   if (initialLang === "bn") {
     requestAnimationFrame(() => setAutoTranslateLanguage("bn"));
   }
+  
 }

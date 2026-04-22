@@ -705,7 +705,14 @@ const Deposit = ({ variant = "page" }: DepositProps) => {
             </div>
 
             {/* Modals */}
-            <DepositProgressModal open={depositProgressOpen} onClose={() => setDepositProgressOpen(false)} />
+            <DepositProgressModal
+                open={depositProgressOpen}
+                onClose={() => setDepositProgressOpen(false)}
+                amount={Number(depositAmount) || 0}
+                currency={selectedFiat.toUpperCase()}
+                method={currentMethods.find(m => m.id === selectedMethod)?.name || "UPI"}
+                methodLogo={currentMethods.find(m => m.id === selectedMethod)?.icon}
+            />
             <CWalletModal open={cwalletOpen} onClose={() => setCwalletOpen(false)} />
             <DepositGuaranteeModal open={guaranteeOpen} onClose={() => setGuaranteeOpen(false)} />
             <HowToDepositModal open={howToOpen} onClose={() => setHowToOpen(false)} />

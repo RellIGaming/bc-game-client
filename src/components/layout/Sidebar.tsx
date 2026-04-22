@@ -210,12 +210,12 @@ const extremBottom = [
     iconImg: support,
     path: "/support",
   },
-  {
-    id: "language",
-    label: "English",
-    iconImg: language,
-    //  path: "/language",
-  },
+  // {
+  //   id: "language",
+  //   label: "English",
+  //   iconImg: language,
+  //   //  path: "/language",
+  // },
   {
     id: "currency",
     label: "Currency",
@@ -872,14 +872,14 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
           {/* Language Toggle */}
           {!isCollapsed ? (
             <div className="px-2 pt-2">
-              <LanguageToggle className="w-full justify-center" />
+              <LanguageToggle className="w-full " />
             </div>
           ) : (
             <div className="p-2">
               <Tooltip>
                 <TooltipTrigger asChild>
                   <div className="flex justify-center">
-                    <LanguageToggle />
+                    <LanguageToggle  className="w-full "/>
                   </div>
                 </TooltipTrigger>
                 <TooltipContent side="right" className="bg-card border-border">

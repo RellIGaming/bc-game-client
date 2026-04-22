@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate, useLocation } from "react-router-dom";
+import { rescanForTranslation } from "@/i18n/autoTranslate";
 
 import Header from "@/components/layout/Header";
 import Sidebar from "@/components/layout/Sidebar";
@@ -18,7 +19,20 @@ interface AppLayoutProps {
 
 const AppLayout = ({ isLoggedIn, setIsLoggedIn }: AppLayoutProps) => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [isDark, setIsDark] = useState(true);
+
+  // Re-scan DOM on every route change so newly-mounted pages get translated.
+  useEffect(() => {
+    // Allow the new route's components to render first.
+    const t1 = window.setTimeout(() => rescanForTranslation(), 100);
+    const t2 = window.setTimeout(() => rescanForTranslation(), 600);
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+    };
+  }, [location.pathname]);
+
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [chatOpen, setChatOpen] = useState(false);

@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils";
 import { setAutoTranslateLanguage } from "@/i18n/autoTranslate";
+import language from "../assets/images/language-icon.png";
 
 interface LanguageToggleProps {
   className?: string;
@@ -20,7 +21,7 @@ const LanguageToggle = ({ className, variant = "dark" }: LanguageToggleProps) =>
   };
 
   const baseBtn =
-    "px-2 py-0.5 text-xs font-semibold rounded transition-colors";
+    "px-2 py-1 text-xs font-semibold rounded transition-colors";
   const activeCls =
     variant === "light"
       ? "bg-white text-emerald-700"
@@ -33,11 +34,12 @@ const LanguageToggle = ({ className, variant = "dark" }: LanguageToggleProps) =>
   return (
     <div
       className={cn(
-        "inline-flex items-center gap-1 rounded-md p-0.5",
+        "inline-flex items-center gap-2 rounded-md py-1 px-2 w-full",
         variant === "light" ? "bg-white/10" : "bg-secondary",
         className
       )}
     >
+       <img src={language} alt="icon" className="ml-1 mr-1"/>
       <button
         onClick={() => setLang("en")}
         className={cn(baseBtn, current === "en" ? activeCls : inactiveCls)}
@@ -50,7 +52,7 @@ const LanguageToggle = ({ className, variant = "dark" }: LanguageToggleProps) =>
         className={cn(baseBtn, current === "bn" ? activeCls : inactiveCls)}
         aria-pressed={current === "bn"}
       >
-        বাং
+        বাংলা
       </button>
     </div>
   );
