@@ -87,7 +87,7 @@ const EditProfileModal = ({
     bg-gradient-to-br from-yellow-400 to-orange-500`}
                 >{user?.profileImage ? (
                     <img
-                        src={`https://bc-game-server.onrender.com${user.profileImage}`}
+                        src={`http://localhost:5000${user.profileImage}`}
                         alt="Profile"
                         className="w-20 h-20 rounded-full object-cover"
                     />

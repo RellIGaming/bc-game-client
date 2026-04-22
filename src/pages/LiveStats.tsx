@@ -84,6 +84,42 @@ const LiveStats = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <Header
+        onMenuClick={toggleSidebar}
+        onSearchClick={() => setShowSearchModal(true)}
+        isSidebarCollapsed={isSidebarCollapsed}
+        onToggleCollapse={toggleSidebar}
+        isLoggedIn={isLoggedIn}
+        onSignInClick={() => {}}
+        onSignUpClick={() => {}}
+        onLogout={() => {}}
+        isDark={isDark}
+        onThemeToggle={() => setIsDark(!isDark)}
+        onLanguageClick={() => setShowLanguageModal(true)}
+         onCurrencyClick={() => setCurrencyOpen(true)}
+         onChatClick={() => setChatOpen(!chatOpen)}
+      />
+
+      <Sidebar
+        isOpen={isSidebarOpen}
+        isCollapsed={isSidebarCollapsed}
+        onClose={() => setIsSidebarOpen(false)}
+        isDark={isDark}
+        onThemeToggle={() => setIsDark(!isDark)}
+        onLanguageClick={() => setShowLanguageModal(true)}
+         onCurrencyClick={() => setCurrencyOpen(true)}
+       onChatClick={() => setChatOpen(chatOpen)}
+      />
+
+      <main
+        className={`pt-14 pb-16 lg:pb-0 transition-all duration-300 ${
+          isSidebarOpen && !isSidebarCollapsed
+            ? "lg:ml-60"
+            : isSidebarCollapsed
+            ? "lg:ml-[70px]"
+            : "lg:ml-0"
+        }`}
+      >
         <div className="p-4 lg:p-6 space-y-6">
           {/* Token Header Card */}
           <div className="bg-card border border-border rounded-xl p-4 lg:p-6">
@@ -391,6 +427,8 @@ const LiveStats = () => {
             </TabsContent>
           </Tabs>
         </div>
+      </main>
+
       <MobileNav 
         onMenuClick={handleMobileSidebarOpen} 
         onSearchClick={() => setShowSearchModal(true)}

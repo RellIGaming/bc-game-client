@@ -16,6 +16,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import LanguageToggle from "@/components/LanguageToggle";
 import mobileSc from "../../assets/images/i-3.png";
 import logo from "../../assets/images/logo.png";
 import casino from "../../assets/images/casino-green-icon.png";
@@ -76,8 +77,6 @@ import design from "../../assets/images/desihn-icon.png";
 import faq from "../../assets/images/faq.png";
 import ceo from "../../assets/images/ceo-inbox.png";
 import helpC from "../../assets/images/help-center-icon.png";
-import { useTranslation } from "react-i18next";
-import LanguageToggle from "../LanguageToggle";
 
 
 
@@ -209,22 +208,20 @@ const extremBottom = [
     id: "live",
     label: "24/7 Live Support ",
     iconImg: support,
-    // onClick:onChatClick,
-    path: "/live-chat",
+    path: "/support",
   },
-  
+  {
+    id: "language",
+    label: "English",
+    iconImg: language,
+    //  path: "/language",
+  },
   {
     id: "currency",
     label: "Currency",
     iconImg: currency,
     // path: "/currency",
   },
-  // {
-  //   id: "language",
-  //   label: "English / বাংলা",
-  //   iconImg: language,
-  //   //  path: "/language",
-  // },
 
 
 ]
@@ -277,7 +274,6 @@ const mobileExtraMenu = [
 
 
 const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLanguageClick, onChatClick, onCurrencyClick }: SidebarProps) => {
-  const { t } = useTranslation();
   const [expandedItems, setExpandedItems] = useState<string[]>([]);
   const navigate = useNavigate();
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
@@ -411,10 +407,6 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
   };
 
   const openParentRoute = (item: any) => {
-    if (item.id === "live") {
-    onChatClick(); 
-    return;
-  }
     if (item.id === "casino") navigate("/casino");
     else if (item.id === "sports") navigate("/sports");
     else if (item.id === "sponsorships") navigate("/sponsorships");
@@ -549,7 +541,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                         </button>
                       </TooltipTrigger>
                       <TooltipContent side="right">
-                      {t(item.label)}
+                        {item.label}
                       </TooltipContent>
                     </Tooltip>
 
@@ -571,7 +563,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                               </button>
                             </TooltipTrigger>
                             <TooltipContent side="right">
-                              {t(sub.label)}
+                              {sub.label}
                             </TooltipContent>
                           </Tooltip>
                         ))}
@@ -591,7 +583,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                         alt={item.label}
                         className="w-5 h-5 object-contain"
                       />
-                      <span className="text-sm font-medium">{t(item.label)}</span>
+                      <span className="text-sm font-medium">{item.label}</span>
 
                       {item.hasSubmenu && (
                         <button
@@ -629,7 +621,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                                 alt={sub.label}
                                 className="w-5 h-5 object-contain"
                               />
-                              <span className="text-xs font-medium">{t(sub.label)}</span>
+                              <span className="text-xs font-medium">{sub.label}</span>
                             </button>
                           ))}
                         </motion.div>
@@ -660,7 +652,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                       </button>
                     </TooltipTrigger>
                     <TooltipContent side="right" className="bg-card border-border">
-                      {t(item.label)}
+                      {item.label}
                     </TooltipContent>
                   </Tooltip>
                 ) : (
@@ -678,7 +670,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                       className="w-5 h-5 object-contain"
                     />
                     <span className="flex-1 text-sm text-sidebar-foreground font-medium text-left">
-                     {t(item.label)}
+                      {item.label}
                     </span>
                   </button>
                 )
@@ -705,7 +697,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                       </button>
                     </TooltipTrigger>
                     <TooltipContent side="right" className="bg-card border-border">
-                     {t(item.label)}
+                      {item.label}
                     </TooltipContent>
                   </Tooltip>
                 ) : (
@@ -723,7 +715,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                       className="w-5 h-5 object-contain"
                     />
                     <span className="flex-1 text-sm text-sidebar-foreground font-medium text-left">
-                    {t(item.label)}
+                      {item.label}
                     </span>
                     {/* {item.external && (
                       <ExternalLink className="w-4 h-4 text-muted-foreground" />
@@ -765,7 +757,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                         </button>
                       </TooltipTrigger>
                       <TooltipContent side="right">
-                      {t(item.label)}
+                        {item.label}
                       </TooltipContent>
                     </Tooltip>
 
@@ -786,7 +778,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                               </button>
                             </TooltipTrigger>
                             <TooltipContent side="right">
-                              {t(sub.label)}
+                              {sub.label}
                             </TooltipContent>
                           </Tooltip>
                         ))}
@@ -807,7 +799,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                         alt={item.label}
                         className="w-5 h-5 object-contain"
                       />
-                      <span className="text-sm font-medium">{t(item.label)}</span>
+                      <span className="text-sm font-medium">{item.label}</span>
 
                       {item.hasSubmenu && (
                         <button
@@ -844,7 +836,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                               <img
                                 src={sub.iconImg}
                                 alt={sub.label} className="w-5 h-5" />
-                              <span className="text-xs font-medium">{t(sub.label)}</span>
+                              <span className="text-xs font-medium">{sub.label}</span>
                             </button>
                           ))}
                         </motion.div>
@@ -875,8 +867,27 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                 )}
               </div>
             ))}
- <LanguageToggle className="hidden sm:inline-flex" />
+
           </div>
+          {/* Language Toggle */}
+          {!isCollapsed ? (
+            <div className="px-2 pt-2">
+              <LanguageToggle className="w-full justify-center" />
+            </div>
+          ) : (
+            <div className="p-2">
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <div className="flex justify-center">
+                    <LanguageToggle />
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent side="right" className="bg-card border-border">
+                  Language
+                </TooltipContent>
+              </Tooltip>
+            </div>
+          )}
           {/* Theme Toggle */}
           {!isCollapsed ? (
             <div className="p-2">

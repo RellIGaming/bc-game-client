@@ -1,8 +1,8 @@
-import { Copy, Users, DollarSign, Gift, Facebook, Twitter, MessageCircle, Linkedin, Instagram, Send } from "lucide-react";
+import { Copy, Users, DollarSign, Gift } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
-
+const socialIcons = ["🔵", "✖️", "📱", "💬", "💚", "🔴", "📸", "🟢", "💼", "📞"];
 
 const faqs = [
   "How does the referral system work?",
@@ -14,187 +14,119 @@ const faqs = [
   "Can I see the data of my referral?",
   "Can I send tip or reward to my referrals?",
 ];
-import { useEffect, useState } from "react";
+
+import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { ChevronRight } from "lucide-react";
-import { useReferralStore } from "@/store/walletStore";
-import useAuthStore from "@/store/authStore";
 
-export default function ReferralDashboard() {
-
-  const {
-    referralDashboard,
-    referralFriends,
-    referralEarnings,
-    referralLoading,
-    fetchReferralDashboard,
-    fetchReferralFriends,
-    fetchReferralEarnings
-  } = useReferralStore();
-
-  const { user } = useAuthStore();
-  const [activeTab, setActiveTab] = useState("Dashboard");
+export default function ReferralDashboard({ referralDashboard, referralEarnings }: { referralDashboard: any; referralEarnings: any }) {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+
   const handleCopy = (text: string) => {
     navigator.clipboard.writeText(text);
     toast.success("Copied to clipboard!");
   };
-  console.log("dashboard:", referralDashboard);
-  useEffect(() => {
-    fetchReferralDashboard();
-    fetchReferralFriends();
-    fetchReferralEarnings();
-  }, []);
-  const referralLink =
-    referralDashboard?.referralLink ||
-    (user?.referral_code
-      ? `https://bc-game-client.onrender.com/i-${user.referral_code}`
-      : "");
-  const socialIcons = [
-    {
-      icon: Facebook,
-      url: `https://www.facebook.com/sharer/sharer.php?u=${referralLink}`,
-    },
-    {
-      icon: Twitter,
-      url: `https://twitter.com/intent/tweet?url=${referralLink}`,
-    },
-    {
-      icon: MessageCircle,
-      url: `https://wa.me/?text=${referralLink}`,
-    },
-    {
-      icon: Linkedin,
-      url: `https://www.linkedin.com/sharing/share-offsite/?url=${referralLink}`,
-    },
-    {
-      icon: Instagram,
-      url: `https://instagram.com`, // no direct share API
-    },
-    {
-      icon: Send,
-      url: `https://t.me/share/url?url=${referralLink}`,
-    },
-  ];
+
   return (
     <div className="space-y-6">
       {/* Invite Section */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-        <div className="lg:col-span-2 bg-card rounded-lg p-6 space-y-4">
+        <div className="lg:col-span-2 bg-card rounded-xl p-6 space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="font-bold">Invite a Friend to Get</h3>
-            <button className="text-primary text-xs">Referral Terms & Conditions</button>
+            <h3 className="font-bold text-lg">Invite a Friend to Get</h3>
+            <button className="text-primary text-xs hover:underline">Referral Terms & Conditions</button>
           </div>
-          <div className="flex gap-6 text-sm">
+          <div className="flex flex-wrap gap-4 sm:gap-6 text-sm">
             <span><span className="text-primary font-bold">₹90,524.48</span> Referral Rewards</span>
             <span><span className="text-primary font-bold">25%</span> Commission Rewards</span>
           </div>
-          <p className="text-xs text-muted-foreground">
+          <p className="text-xs text-muted-foreground leading-relaxed">
             Get ₹90,524.48 for each friend you invite, plus up to 25% commission on their wagers. Enjoy consistent commission, whether they win or lose, in our Casino and Sportsbook. Start earning now!
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="text-xs text-muted-foreground">Referral Link</label>
-              <div className="flex items-center gap-2 mt-1">
-                <input readOnly value={referralDashboard?.referralLink || ""} className="flex-1 bg-secondary rounded-lg px-3 py-2 text-xs border border-border" />
-                <Button size="sm" variant="outline" onClick={() => handleCopy(referralDashboard?.referralLink)}>Copy</Button>
+              <label className="text-xs text-muted-foreground mb-1 block">Referral Link</label>
+              <div className="flex items-center gap-2">
+                <input readOnly value={referralDashboard?.referralLink || "https://relbet.game/i-abc123"} className="flex-1 bg-secondary rounded-lg px-3 py-2 text-xs border border-border min-w-0" />
+                <Button size="sm" variant="outline" onClick={() => handleCopy(referralDashboard?.referralLink || "")}>
+                  <Copy className="w-3.5 h-3.5" />
+                </Button>
               </div>
             </div>
             <div>
-              <label className="text-xs text-muted-foreground">Referral Code</label>
-              <div className="flex items-center gap-2 mt-1">
-                <input readOnly value={referralDashboard?.referralCode || ""} className="flex-1 bg-secondary rounded-lg px-3 py-2 text-xs border border-border" />
-                <Button size="sm" variant="outline" onClick={() => handleCopy(referralDashboard?.referralCode)}>Copy</Button>
+              <label className="text-xs text-muted-foreground mb-1 block">Referral Code</label>
+              <div className="flex items-center gap-2">
+                <input readOnly value={referralDashboard?.referralCode || "abc123"} className="flex-1 bg-secondary rounded-lg px-3 py-2 text-xs border border-border min-w-0" />
+                <Button size="sm" variant="outline" onClick={() => handleCopy(referralDashboard?.referralCode || "")}>
+                  <Copy className="w-3.5 h-3.5" />
+                </Button>
               </div>
             </div>
           </div>
           <div className="flex flex-col sm:flex-row sm:items-center gap-2">
-            <span className="text-xs text-muted-foreground">
-              Share via socials
-            </span>
-
+            <span className="text-xs text-muted-foreground">Share via socials</span>
             <div className="flex gap-2 flex-wrap">
-              {socialIcons.map(({ icon: Icon, url }, i) => (
-                <button
-                  key={i}
-                  onClick={() => {
-                    if (!referralLink) {
-                      toast.error("Referral link not ready");
-                      return;
-                    }
-                    window.open(url, "_blank");
-                  }}
-                  className="w-8 h-8 rounded-full bg-secondary 
-               flex items-center justify-center text-sm
-               hover:bg-primary/20 transition-colors"
-                >
-                  <Icon className="w-4 h-4" />
+              {socialIcons.map((icon, i) => (
+                <button key={i} className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center text-sm hover:bg-primary/20 transition-colors">
+                  {icon}
                 </button>
               ))}
             </div>
           </div>
-
         </div>
-        <div className="bg-card rounded-lg p-6 space-y-4">
+
+        <div className="bg-card rounded-xl p-6 space-y-4">
           <div className="grid grid-cols-2 gap-4 text-center">
             <div>
               <Users className="w-8 h-8 mx-auto text-muted-foreground mb-1" />
               <p className="text-xs text-muted-foreground">Total Reward</p>
-              <p className="font-bold">₹{referralDashboard?.stats?.totalReward || 0}</p>
+              <p className="font-bold text-lg">₹{referralDashboard?.totalReward || "0.00"}</p>
             </div>
             <div>
               <Users className="w-8 h-8 mx-auto text-muted-foreground mb-1" />
               <p className="text-xs text-muted-foreground">Total Friends</p>
-              <p className="font-bold">{referralDashboard?.stats?.totalFriends || 0}</p>
+              <p className="font-bold text-lg">{referralDashboard?.totalFriends || 0}</p>
             </div>
           </div>
           <div className="border-t border-border pt-4 grid grid-cols-2 gap-4 text-center">
             <div>
               <DollarSign className="w-5 h-5 mx-auto text-primary mb-1" />
               <p className="text-xs text-muted-foreground">Referral Rewards</p>
-              <p className="font-bold">₹{referralDashboard?.stats?.referralReward || 0}</p>
+              <p className="font-bold">₹{referralDashboard?.referralReward || "0.00"}</p>
             </div>
             <div>
               <Gift className="w-5 h-5 mx-auto text-muted-foreground mb-1" />
               <p className="text-xs text-muted-foreground">Commission Rewards</p>
-              <p className="font-bold">₹{referralDashboard?.stats?.commissionReward || 0}</p>
+              <p className="font-bold">₹{referralDashboard?.commissionReward || "0.00"}</p>
             </div>
           </div>
         </div>
       </div>
+
       {/* Rewards Activities */}
-      <div className="bg-card rounded-lg p-8 text-center">
+      <div className="bg-card rounded-xl p-8 text-center">
         <h3 className="font-bold text-lg mb-6">Rewards Activities</h3>
         <div className="text-5xl mb-3">👻</div>
-        {referralFriends?.length === 0 ? (
-          <>
-            <p className="text-muted-foreground text-sm">No info yet</p>
-            <p className="text-muted-foreground text-sm">Invite friends to join you now!</p>
-          </>
-        ) : (
-          <div className="space-y-2 text-left">
-            {referralFriends.map((f: any) => (
-              <div key={f.id} className="flex justify-between text-sm">
-                <span>{f.username}</span>
-                <span className="text-primary">₹{f.balance}</span>
-                <span className="text-primary">Joined</span>
-              </div>
-            ))}
-          </div>
-        )}
+        <p className="text-muted-foreground text-sm">No info yet</p>
         <p className="text-muted-foreground text-sm">Invite friends to join you now!</p>
       </div>
+
       {/* Live Rewards */}
-      <div className="bg-card rounded-lg p-4">
-        <div className="flex items-center gap-3 mb-3">
+      <div className="bg-card rounded-xl p-4">
+        <div className="flex items-center gap-3 mb-3 flex-wrap">
           <span className="flex items-center gap-1 text-sm font-semibold">
             <span className="w-2 h-2 rounded-full bg-primary animate-pulse" /> Live Rewards
           </span>
           <span className="text-xs text-muted-foreground ml-auto">Total Rewards Sent To-Date</span>
-          <span className="text-primary font-bold text-sm">₹{referralDashboard?.stats?.totalReward || 0}</span>
+          <span className="text-primary font-bold text-sm">₹{referralEarnings?.totalRewards || "0.00"}</span>
         </div>
-        <div className="flex gap-4 overflow-x-auto">
-          {referralDashboard?.liveRewards?.map((r: any, i: number) => (
+        <div className="flex gap-4 overflow-x-auto pb-1">
+          {(referralEarnings?.liveRewards || [
+            { username: "Rikkkk", amount: "+0.5", icon: "🟡" },
+            { username: "Ayyshorty", amount: "+130", icon: "🟠" },
+            { username: "Tipatopa", amount: "+0.43", icon: "🔵" },
+            { username: "Weudolul", amount: "+12.47", icon: "🟢" },
+          ]).map((r: any, i: number) => (
             <div key={i} className="flex items-center gap-2 text-xs whitespace-nowrap">
               <span className="font-medium">{r.username}</span>
               <span className="text-primary">{r.amount}</span>
@@ -203,14 +135,14 @@ export default function ReferralDashboard() {
           ))}
         </div>
       </div>
+
       {/* Affiliate Program */}
-      <div className="bg-card rounded-lg p-6 flex flex-col md:flex-row items-center gap-6">
+      <div className="bg-card rounded-xl p-6 flex flex-col md:flex-row items-center gap-6">
         <div className="text-6xl">🎰🎲🎯</div>
         <div className="flex-1">
           <h3 className="text-xl font-bold mb-2">Learn more about our <span className="text-primary">Affiliate program</span></h3>
           <p className="text-sm text-muted-foreground mb-4">
             If you have a large audience and followers. We have special conditions for you to customize your referral program.
-            If you can invite players and their wager amount reaches a billion dollars and above, you will get your own customized casino!
           </p>
           <div className="flex items-center gap-2">
             <input readOnly value="business@relbet.game" className="flex-1 bg-secondary rounded-lg px-3 py-2 text-sm border border-border" />
@@ -218,10 +150,11 @@ export default function ReferralDashboard() {
           </div>
         </div>
       </div>
+
       {/* FAQ */}
       <div>
         <h2 className="text-xl font-bold mb-4">Frequently Asked Questions</h2>
-        <div className="bg-card rounded-lg divide-y divide-border">
+        <div className="bg-card rounded-xl divide-y divide-border">
           {faqs.map((faq, i) => (
             <button
               key={i}

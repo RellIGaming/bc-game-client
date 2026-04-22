@@ -1,8 +1,5 @@
-import { ChevronRight, Gift } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useNavigate } from "react-router-dom";
-import { useBonusStore } from "@/store/walletStore";
-import { useEffect } from "react";
 
 interface BonusDropdownProps {
   isOpen: boolean;
@@ -11,23 +8,6 @@ interface BonusDropdownProps {
 }
 
 const BonusDropdown = ({ isOpen, onClose, onBonusDashboard }: BonusDropdownProps) => {
-  const navigate=useNavigate()
-   const {
-      bonusData,
-      fetchBonusFull,
-      bonusSummary,
-      monthlyBonus,
-      fetchBonusSummary,
-      fetchMonthlyBonus,
-      claimDailyBonus,
-      claimRakebackBonus,
-      redeemBonusCode
-    } = useBonusStore();
-    useEffect(() => {
-      fetchBonusFull();
-      fetchBonusSummary();
-      fetchMonthlyBonus();
-    }, []);
   return (
     <AnimatePresence>
       {isOpen && (
@@ -53,18 +33,18 @@ const BonusDropdown = ({ isOpen, onClose, onBonusDashboard }: BonusDropdownProps
             <div className="p-4 border-b border-border">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center">
-                    <span className="text-2xl"><Gift/></span>
+                  <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center">
+                    <span className="text-2xl">📧</span>
                   </div>
                   <div>
-                    <h4 className="text-foreground font-semibold">Total Bonus Claim</h4>
+                    <h4 className="text-foreground font-semibold">Email Verification</h4>
                     <div className="flex items-center gap-1">
                       <span className="text-orange-500">🟠</span>
-                      <span className="text-muted-foreground text-sm">₹{bonusData?.summary?.totalBonus || 0}</span>
+                      <span className="text-muted-foreground text-sm">₹90.67</span>
                     </div>
                   </div>
                 </div>
-                <button onClick={() => navigate("wallet/deposit")} className="px-4 py-2 bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition-colors">
+                <button className="px-4 py-2 bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition-colors">
                   Claim
                 </button>
               </div>
@@ -72,8 +52,7 @@ const BonusDropdown = ({ isOpen, onClose, onBonusDashboard }: BonusDropdownProps
 
             {/* Bonus Dashboard */}
             <button
-              // onClick={onBonusDashboard}
-              onClick={()=> navigate("/bonus")}
+              onClick={onBonusDashboard}
               className="w-full p-4 flex items-center justify-between hover:bg-secondary/50 transition-colors"
             >
               <span className="text-foreground font-medium">Bonus Dashboard</span>

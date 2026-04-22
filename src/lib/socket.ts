@@ -1,20 +1,10 @@
-import { io } from "socket.io-client";
-
-const socket = io("https://bc-game-server.onrender.com", {
-  transports: ["websocket", "polling"],
-  autoConnect: true,
-});
-
-socket.on("connect", () => {
-  console.log("✅ Socket connected:", socket.id);
-});
-
-socket.on("connect_error", (err) => {
-  console.error("❌ Socket error:", err.message);
-});
-
-socket.on("disconnect", () => {
-  console.log("⚠️ Socket disconnected");
-});
+const socket = {
+  on: (_event: string, _callback: (...args: any[]) => void) => {},
+  off: (_event: string, _callback?: (...args: any[]) => void) => {},
+  emit: (_event: string, ..._args: any[]) => {},
+  connect: () => {},
+  disconnect: () => {},
+  connected: false,
+};
 
 export default socket;

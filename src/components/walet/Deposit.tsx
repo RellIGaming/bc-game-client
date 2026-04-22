@@ -20,9 +20,9 @@ import nayapay from "../../assets/images/nayapay-logo.png";
 import jazzcash from "../../assets/images/jazzcash-logo.png";
 import jazzcashHalf from "../../assets/images/jazzcash-half.png";
 import easypaisa from "../../assets/images/easypaisa-logo.png";
-import { useWalletStore } from '@/store/walletStore';
-import { allBalances } from './Balance';
 import DepositProgressModal from './DepositProgressModal';
+import { allBalances } from './new';
+import { useWalletStore } from '@/store/walletStore';
 
 
 

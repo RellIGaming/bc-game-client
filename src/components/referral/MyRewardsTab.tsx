@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Info, Search, X, ChevronDown, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -8,27 +8,10 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { format } from "date-fns";
-import { useReferralStore } from "@/store/walletStore";
-import { useNavigate } from "react-router-dom";
 
 const subTabs = ["Commission by Friends", "Commission by Currency", "Level Up Rewards"];
 
 export default function MyRewardsTab() {
-  const {
-    rewardsSummary,
-    commissionByFriends,
-    commissionByCurrency,
-    levelRewards,
-    rewardHistory,
-
-    fetchRewardsSummary,
-    fetchCommissionByFriends,
-    fetchCommissionByCurrency,
-    fetchLevelRewards,
-    fetchRewardHistory
-  } = useReferralStore();
-const navigate = useNavigate();
-  console.log(rewardsSummary,"rewardsSummary" )
   const [subTab, setSubTab] = useState("Commission by Friends");
   const [allCodesOpen, setAllCodesOpen] = useState(false);
   const [searchUser, setSearchUser] = useState("");
@@ -37,15 +20,7 @@ const navigate = useNavigate();
   const [historyType, setHistoryType] = useState("Commission Rewards");
   const [historyDropdown, setHistoryDropdown] = useState(false);
   const isMobile = useIsMobile();
-  useEffect(() => {
-    fetchRewardsSummary();
-    fetchCommissionByFriends();
-  }, []);
-  useEffect(() => {
-    if (historyOpen) {
-      fetchRewardHistory(historyType === "Commission Rewards" ? "COMMISSION" : "REFERRAL");
-    }
-  }, [historyOpen, historyType]);
+
   const [selectedRegDate, setSelectedRegDate] = useState<Date | undefined>(undefined);
   const [selectedWagerStart, setSelectedWagerStart] = useState<Date | undefined>(new Date(2026, 0, 11));
   const [selectedWagerEnd, setSelectedWagerEnd] = useState<Date | undefined>(new Date(2026, 3, 11));
@@ -208,20 +183,8 @@ const navigate = useNavigate();
                   <span className="text-right">Total Commission</span>
                 </div>
                 <div className="text-center py-16">
-                  {commissionByFriends.length === 0 ? (
-                    <p>empty</p>
-                  ) : (
-                    commissionByFriends.map((f) => (
-                      <div key={f.userId} className="grid grid-cols-6 px-4 py-2">
-                        <span>{f.username}</span>
-                        <span>{f.userId}</span>
-                        <span>{f.commissionRate}</span>
-                        <span>₹{f.totalDeposit7d}</span>
-                        <span>{new Date(f.registrationDate).toLocaleDateString()}</span>
-                        <span className="text-right">₹{f.totalCommission}</span>
-                      </div>
-                    ))
-                  )}
+                  <div className="text-6xl mb-4">🦖</div>
+                  <p className="text-muted-foreground text-sm font-medium">No rewards yet invite friends to join you now!</p>
                 </div>
               </div>
             </div>
@@ -231,11 +194,8 @@ const navigate = useNavigate();
       case "Commission by Currency":
         return (
           <div className="bg-card rounded-xl text-center py-16">
-            {commissionByCurrency.map((c) => (
-              <div key={c.currency}>
-                {c.currency} - ₹{c.totalCommission}
-              </div>
-            ))}
+            <div className="text-6xl mb-4">🦖</div>
+            <p className="text-muted-foreground text-sm font-medium">No rewards yet invite friends to join you now!</p>
           </div>
         );
 
@@ -277,11 +237,8 @@ const navigate = useNavigate();
                   <span className="text-right">Earned</span>
                 </div>
                 <div className="text-center py-16">
-                  {levelRewards.map((l, i) => (
-                    <div key={i}>
-                      {l.username} - VIP {l.vipLevel} - ₹{l.earned}
-                    </div>
-                  ))}
+                  <div className="text-6xl mb-4">🦖</div>
+                  <p className="text-muted-foreground text-sm font-medium">No rewards yet invite friends to join you now!</p>
                 </div>
               </div>
             </div>
@@ -303,14 +260,14 @@ const navigate = useNavigate();
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 Available Commission Rewards <Info className="w-3.5 h-3.5" />
               </div>
-              <p className="text-2xl font-bold text-primary">₹{rewardsSummary?.availableCommission || 0}</p>
+              <p className="text-2xl font-bold text-primary">$0.00</p>
               <p className="text-xs text-muted-foreground">Total Received <span className="text-foreground font-medium">$0.00</span></p>
             </div>
             <div>
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 Available Referral Rewards <Info className="w-3.5 h-3.5" />
               </div>
-              <p className="text-2xl font-bold text-primary">₹{rewardsSummary?.availableReferral || 0}</p>
+              <p className="text-2xl font-bold text-primary">$0.00</p>
               <p className="text-xs text-muted-foreground">
                 Total Received <span className="text-foreground font-medium">$0.00</span>
                 {" "}Locked Rewards <span className="text-foreground font-medium">$0.00</span>
@@ -318,8 +275,8 @@ const navigate = useNavigate();
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <Button  onClick={() => navigate("/wallet/swap")} variant="ghost" className="text-muted-foreground">Swap</Button>
-            <Button onClick={() => navigate("/wallet/withdraw")} className="bg-primary text-primary-foreground px-6">Withdraw to Wallet</Button>
+            <Button variant="ghost" className="text-muted-foreground">Swap</Button>
+            <Button className="bg-primary text-primary-foreground px-6">Withdraw to Wallet</Button>
           </div>
         </div>
       </div>

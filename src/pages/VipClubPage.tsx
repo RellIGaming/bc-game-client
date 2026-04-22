@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ChevronRight, Star, Trophy, Shield, Gift, Crown, Users, Gem } from "lucide-react";
 import { cn } from "@/lib/utils";
 import coin1 from "../assets/images/coin1.png";
@@ -12,7 +12,6 @@ import bonusBadge from "../assets/images/badge-bonus.png";
 import bonusAngel from "../assets/images/angle-bonus.png";
 import { VipModal } from "./BonusPage";
 import VipBonusTable from "@/components/vip/VipBonusTable";
-import { useBonusStore } from "@/store/walletStore";
 
 
 
@@ -40,18 +39,13 @@ const VipClubPage = ({ isLoggedIn }) => {
   const [faqCategory, setFaqCategory] = useState("General");
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [open, setOpen] = useState(false);
-  const { vipClub, fetchVipClub } = useBonusStore();
-
-  useEffect(() => {
-    fetchVipClub();
-  }, []);
   return (
     <div className="min-h-screen bg-background text-foreground">
       <div className="max-w-5xl mx-auto px-1  space-y-2">
         {/* Hero Banner */}
-
-        <div className="hidden sm:block relative mb-4">
-
+        
+       <div className="hidden sm:block relative mb-4">
+       
           <div className="relative w-full h-[320px] overflow-hidden rounded-lg">
             <img
               src={bigBanner}
@@ -90,9 +84,9 @@ const VipClubPage = ({ isLoggedIn }) => {
               </p>
             </div>
           </div>
-          {!isLoggedIn && (
-            <button
-              className="
+          {!isLoggedIn && ( 
+          <button
+            className="
       absolute -bottom-6 left-1/2 -translate-x-1/2
       px-10 py-3 rounded-lg
       bg-gradient-to-b from-[#f5d89b] to-[#d6b26a]
@@ -100,12 +94,12 @@ const VipClubPage = ({ isLoggedIn }) => {
       shadow-lg
       hover:opacity-90 transition
     "
-            >
-              Join Now
-            </button>
+          >
+            Join Now
+          </button>
           )}
-        </div>
-
+        </div> 
+        
 
         {open && <VipModal onClose={() => setOpen(false)} />}
 
@@ -119,12 +113,15 @@ const VipClubPage = ({ isLoggedIn }) => {
           </h2>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {vipClub?.perks?.map((perk: any, i: number) => (
-            <div key={i} className="bg-card rounded-lg p-6 text-center">
-              <img src={`/icons/${perk.icon}.png`} className="w-24 h-24 mx-auto" />
+          {vipPerks.slice(0, 6).map((perk, i) => (
+            <div key={i} className="bg-card rounded-lg p-6 text-center hover:bg-card-hover transition-colors">
+              <div className=" mb-3 ">
+                <img src={perk.icon} alt="logo" className="w-24 h-24 mx-auto" />
+              </div>
               <h3 className="font-semibold mb-2">{perk.title}</h3>
               <p className="text-sm text-muted-foreground">{perk.desc}</p>
             </div>
+
           ))}
         </div>
         <div className="flex flex-col sm:flex-row gap-4 items-center justify-center">
@@ -147,11 +144,13 @@ const VipClubPage = ({ isLoggedIn }) => {
           </h2>
         </div>
         <div className="space-y-3">
-          {vipClub?.access?.map((item: any, i: number) => (
-            <div key={i} className="bg-card rounded-lg p-5 flex gap-4">
-              <img src={`/icons/${item.icon}.png`} className="w-12 h-12" />
+          {accessItems.map((item, i) => (
+            <div key={i} className="bg-card rounded-lg p-5 flex items-start gap-4">
+              <div className="text-3xl">
+                <img src={item.icon} alt="logo" className="w-12 h-12 mx-auto" />
+              </div>
               <div>
-                <h3 className="font-bold">{item.title}</h3>
+                <h3 className="font-bold text-lg">{item.title}</h3>
                 <p className="text-sm text-muted-foreground">{item.desc}</p>
               </div>
             </div>
@@ -174,13 +173,13 @@ const VipClubPage = ({ isLoggedIn }) => {
         </div>
         <div className="bg-card rounded-lg overflow-hidden">
           <div className="flex border-b border-border">
-            {vipClub?.faqCategories?.map((cat: string) => (
+            {faqCategories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setFaqCategory(cat)}
                 className={cn(
-                  "px-6 py-3 text-sm",
-                  faqCategory === cat ? "bg-primary" : ""
+                  "px-6 py-3 text-sm font-medium transition-colors",
+                  faqCategory === cat ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"
                 )}
               >
                 {cat}
@@ -188,18 +187,16 @@ const VipClubPage = ({ isLoggedIn }) => {
             ))}
           </div>
           <div className="divide-y divide-border">
-            {vipClub?.faqs
-              ?.filter((f: any) => f.category === faqCategory)
-              .map((faq: any, i: number) => (
-                <button
-                  key={i}
-                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                  className="w-full flex justify-between p-4"
-                >
-                  <span>{faq.q}</span>
-                  <ChevronRight className={cn(openFaq === i && "rotate-90")} />
-                </button>
-              ))}
+            {faqs.map((faq, i) => (
+              <button
+                key={i}
+                onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                className="w-full flex items-center justify-between p-4 text-left hover:bg-secondary/50 transition-colors"
+              >
+                <span className="text-sm font-medium">{faq.q}</span>
+                <ChevronRight className={cn("w-5 h-5 text-muted-foreground transition-transform", openFaq === i && "rotate-90")} />
+              </button>
+            ))}
           </div>
         </div>
       </div>

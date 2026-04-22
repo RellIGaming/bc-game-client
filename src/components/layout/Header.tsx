@@ -2,8 +2,9 @@ import { Search, Globe, MessageSquare, ChevronLeft, ChevronRight, ChevronDown, G
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import logo from "../../assets/images/logo.png";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import BonusDropdown from "@/components/header/BonusDropdown";
 import NotificationDropdown from "@/components/header/NotificationDropdown";
 import ProfileDropdown from "@/components/header/ProfileDropdown";
@@ -11,10 +12,6 @@ import BonusDashboardModal from "@/components/header/BonusDashboardModal";
 import DepositDropdown from "../header/DepositDropdown";
 import DepositPopover from "../header/DepositPopover";
 import useNotificationStore from "@/store/notificationStore";
-import { useLanguage } from "@/context/LanguageContext";
-import { useWalletStore } from "@/store/walletStore";
-import { useTranslation } from "react-i18next";
-import LanguageToggle from "../LanguageToggle";
 
 interface HeaderProps {
   onMenuClick: () => void;
@@ -47,21 +44,15 @@ const Header = ({
   isLoggedIn = false,
   onLogout,
 }: HeaderProps) => {
-  const { changeLanguage } = useLanguage();
   const navigate = useNavigate();
-   const { t } = useTranslation();
+  const { t } = useTranslation();
   const [depositOpen, setDepositOpen] = useState(false);
   const [bonusOpen, setBonusOpen] = useState(false);
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const [bonusDashboardOpen, setBonusDashboardOpen] = useState(false);
   const [openDepositPopover, setOpenDepositPopover] = useState(false);
-  const { notifications } = useNotificationStore();
-  const { balance, fetchBalance } = useWalletStore();
-
-  useEffect(() => {
-    fetchBalance();
-  }, []);
+   const { notifications } = useNotificationStore();
   const handleBonusDashboard = () => {
     setBonusOpen(false);
     setBonusDashboardOpen(true);
@@ -71,7 +62,7 @@ const Header = ({
     navigate("/");
     // window.location.reload();
   };
-  const unreadCount = notifications.filter(n => !n.read).length;
+const unreadCount = notifications.filter(n => !n.read).length;
   return (
     <>
       <header
@@ -111,6 +102,7 @@ const Header = ({
           {isLoggedIn ? (
             <>
               <div className="relative flex items-center bg-secondary b-radius">
+
                 {/* LEFT → Dropdown */}
                 <button
                   onClick={() => {
@@ -121,7 +113,7 @@ const Header = ({
                 >
                   <span className="text-primary text-sm lg:text-lg mr-1">₿</span>
                   <span className="text-foreground text-xs lg:text-sm font-medium mr-2">
-                    {balance?.toFixed(2) || "0.00"}
+                    ₹0.003
                   </span>
                   <ChevronDown className="w-5 h-5 lg:w-4 lg:h-4 text-muted-foreground ml-auto" />
                 </button>
@@ -142,7 +134,7 @@ const Header = ({
         py-0 lg:py-1
         mr-1 rounded-lg">
                       <Plus className="w-4 h-4 lg:hidden m-1" />
-                      <span className="hidden lg:inline text-sm font-medium">Deposit</span>
+                      <span className="hidden lg:inline text-sm font-medium">{t("common.deposit")}</span>
                     </button>
                   }
                 />
@@ -203,11 +195,11 @@ const Header = ({
                   className="flex py-2 px-2 lg:px-2 lg:py-2 b-radius bg-secondary transition-all hvr-btn btn-press relative"
                 >
                   <Bell className="w-5 h-5 text-muted-foreground" />
-                  {unreadCount > 0 && (
-                    <span className="absolute -top-1 -right-1 w-4 h-4 bg-primary text-primary-foreground text-xs rounded-full flex items-center justify-center">
-                      {unreadCount}
-                    </span>
-                  )}
+                   {unreadCount > 0 && (
+                  <span className="absolute -top-1 -right-1 w-4 h-4 bg-primary text-primary-foreground text-xs rounded-full flex items-center justify-center">
+                 {unreadCount}
+                  </span>
+                   )}
                 </button>
                 <NotificationDropdown
                   isOpen={notificationOpen}
@@ -238,7 +230,7 @@ const Header = ({
                 onClick={onSignInClick}
                 className="hvr-btn text-foreground bg-secondary transition-colors hover:bg-secondary btn-press text-xs lg:text-sm px-4 lg:px-4"
               >
-                Login
+                {t("common.login")}
               </Button>
 
               {/* Sign Up - Always visible */}
@@ -246,16 +238,8 @@ const Header = ({
                 onClick={onSignUpClick}
                 className="hvr-btn text-primary-foreground hover:bg-primary/90 font-semibold px-3 lg:px-6 btn-press text-xs lg:text-sm"
               >
-                Registration
+                {t("common.register")}
               </Button>
-
-              {/* Chat - desktop only */}
-              {/* <button
-              onClick={onChatClick}
-              className="hidden lg:flex p-2 b-radius bg-secondary transition-all hvr-btn btn-press"
-            >
-              <MessageSquare className="w-5 h-5 text-muted-foreground" />
-            </button> */}
 
               {/* Globe - desktop only */}
               <button
@@ -266,7 +250,7 @@ const Header = ({
               </button>
             </>
           )}
-       {/* <LanguageToggle className="hidden sm:inline-flex" /> */}
+
         </div>
       </header>
       {/* Bonus Dashboard Modal */}

@@ -1,22 +1,16 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Copy, ChevronRight, X, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { toast } from "sonner";
-import { useReferralStore } from "@/store/walletStore";
 
 const sampleCodes = [
   { name: "--", code: "47fsv73u0", link: "https://relbet.game/i-47fsv73u0-n/", rate: "25%", date: "2025-12-12 19:19:26", referrals: 0 },
 ];
 
 export default function ReferralCodesTab({ referralDashboard }: { referralDashboard: any }) {
-  const { referralCodes, fetchReferralCodes, createReferralCode } = useReferralStore();
-
-  useEffect(() => {
-    fetchReferralCodes();
-  }, []);
   const [createOpen, setCreateOpen] = useState(false);
   const [campaignName, setCampaignName] = useState("");
   const isMobile = useIsMobile();
@@ -25,7 +19,7 @@ export default function ReferralCodesTab({ referralDashboard }: { referralDashbo
     navigator.clipboard.writeText(text);
     toast.success("Copied to clipboard!");
   };
-  const codes = referralCodes?.codes || [];
+
   const CreateCodeContent = ({ onClose }: { onClose: () => void }) => (
     <div className="flex flex-col">
       {isMobile ? (
@@ -49,13 +43,7 @@ export default function ReferralCodesTab({ referralDashboard }: { referralDashbo
             className="w-full bg-secondary border border-border rounded-lg px-4 py-3 text-sm outline-none focus:border-primary transition-colors"
           />
         </div>
-        <Button className="w-full bg-primary text-primary-foreground py-6 text-base font-semibold" onClick={async () => {
-          await createReferralCode(campaignName);
-          toast.success("Campaign created!");
-          onClose();
-          setCampaignName("");
-          fetchReferralCodes();
-        }}>
+        <Button className="w-full bg-primary text-primary-foreground py-6 text-base font-semibold" onClick={() => { toast.success("Campaign created!"); onClose(); }}>
           Create campaign
         </Button>
       </div>
@@ -69,16 +57,11 @@ export default function ReferralCodesTab({ referralDashboard }: { referralDashbo
         <div className="flex gap-12">
           <div>
             <p className="text-xs text-muted-foreground mb-1">Referral Code Created</p>
-            <p className="text-3xl font-bold">
-              {referralCodes?.total || 0}
-              <span className="text-muted-foreground text-lg">
-                /{referralCodes?.max || 20}
-              </span>
-            </p>
+            <p className="text-3xl font-bold">1<span className="text-muted-foreground text-lg">/20</span></p>
           </div>
           <div>
             <p className="text-xs text-muted-foreground mb-1">Friends</p>
-            <p className="text-3xl font-bold"> {codes.reduce((sum:any, c:any) => sum + c.referrals, 0)}</p>
+            <p className="text-3xl font-bold">0</p>
           </div>
         </div>
         <Button className="bg-primary text-primary-foreground px-8 py-5 text-base font-semibold" onClick={() => setCreateOpen(true)}>
@@ -97,12 +80,8 @@ export default function ReferralCodesTab({ referralDashboard }: { referralDashbo
             <span>Date Created</span>
             <span className="text-right">Referrals</span>
           </div>
-          {codes.length === 0 && (
-            <div className="p-4 text-center text-muted-foreground text-sm">
-              No referral codes yet
-            </div>
-          )}
-          {codes.map((c: any, i: number) => (
+
+          {sampleCodes.map((c, i) => (
             <div key={i} className="grid grid-cols-6 px-4 py-3.5 border-b border-border text-sm items-center">
               <span className="text-muted-foreground">{c.name}</span>
               <span className="flex items-center gap-1.5">
@@ -118,7 +97,7 @@ export default function ReferralCodesTab({ referralDashboard }: { referralDashbo
                 </button>
               </span>
               <span>{c.rate}</span>
-              <span className="text-muted-foreground text-xs">{new Date(c.date).toLocaleString()}</span>
+              <span className="text-muted-foreground text-xs">{c.date}</span>
               <span className="text-right flex items-center justify-end gap-1">
                 {c.referrals} <ChevronRight className="w-4 h-4 text-muted-foreground" />
               </span>

@@ -10,7 +10,6 @@ import ResetPasswordModal from "@/components/auth/ResetPasswordModal";
 import UserProfilePanel from "@/components/auth/UserProfilePanel";
 import SignUpModal from "@/components/auth/SignUpModal";
 import SignInModal from "@/components/auth/SignInModal";
-import LiveChat from "./LiveChat";
 
 interface AppLayoutProps {
   isLoggedIn: boolean;
@@ -133,7 +132,7 @@ const AppLayout = ({ isLoggedIn, setIsLoggedIn }: AppLayoutProps) => {
         >
           <Outlet /> {/* 👈 THIS IS THE MAGIC */}
         </main>
-         <LiveChat isOpen={chatOpen} onClose={() => setChatOpen(false)} />
+         {/* <LiveChat isOpen={chatOpen} onClose={() => setChatOpen(false)} /> */}
       </div>
 
       {/* ✅ FOOTER & MOBILE NAV (only once) */}
@@ -153,12 +152,12 @@ const AppLayout = ({ isLoggedIn, setIsLoggedIn }: AppLayoutProps) => {
       <ResetPasswordModal isOpen={resetPasswordOpen} onClose={() => setResetPasswordOpen(false)} onBackToLogin={handleBackToLogin} />
       <UserProfilePanel isOpen={profileOpen} onClose={() => setProfileOpen(false)} />
 
-        <button
+        {/* <button
         onClick={() => setChatOpen(true)}
         className="fixed bottom-20 right-4 w-12 h-12 rounded-full bg-primary text-primary-foreground shadow-lg gaming-glow lg:hidden flex items-center justify-center z-30"
       >
         <span className="text-xl">💬</span>
-      </button>
+      </button> */}
     </div>
   );
 };
