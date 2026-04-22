@@ -125,7 +125,7 @@ const Withdraw = ({ variant = "page" }: DepositProps) => {
     const [account, setAccount] = useState("");
     const [otpVerifyOpen, setOtpVerifyOpen] = useState(false);
     const [otpCode, setOtpCode] = useState("");
-    const [name, setName] = useState("");
+    const [accountHolderName, setAccountHolderName] = useState("");
     // Fiat state
     const [fiatCurrencyOpen, setFiatCurrencyOpen] = useState(false);
     const [selectedFiatCurrency, setSelectedFiatCurrency] = useState(fiatCurrencies[0]);
@@ -643,8 +643,8 @@ const Withdraw = ({ variant = "page" }: DepositProps) => {
                                     </label>
                                     <input
                                         placeholder="Full Name"
-                                        value={name}
-                                        onChange={(e) => setName(e.target.value)}
+                                        value={accountHolderName}
+                                        onChange={(e) => setAccountHolderName(e.target.value)}
                                         className="w-full px-4 py-3 bg-secondary rounded-lg text-foreground outline-none"
                                     />
                                 </div>
@@ -737,12 +737,12 @@ const Withdraw = ({ variant = "page" }: DepositProps) => {
                                                     : "bg-gray-500 cursor-not-allowed text-white"
                                             )}
                                             onClick={async () => {
-                                                console.log({ withdrawAmount, selectedMethod, account });
-                                                if (!otpVerified) {
-                                                    toast.error("Please verify OTP first");
-                                                    return;
-                                                }
-                                                if (!withdrawAmount || !selectedMethod || !account) {
+                                                console.log({ withdrawAmount, selectedMethod, account ,accountHolderName});
+                                                // if (!otpVerified) {
+                                                //     toast.error("Please verify OTP first");
+                                                //     return;
+                                                // }
+                                                if (!withdrawAmount || !selectedMethod || !account || !accountHolderName) {
                                                     toast.error("Fill all fields");
                                                     return;
                                                 }
@@ -758,7 +758,7 @@ const Withdraw = ({ variant = "page" }: DepositProps) => {
                                                         amount: Number(withdrawAmount),
                                                         method: selectedMethod,
                                                         account: account,
-                                                        otp: otpCode
+                                                         accountHolderName 
                                                     });
                                                     console.log("SELECTED:", selectedWallet);
                                                     console.log("REAL WALLET:", realWallet);

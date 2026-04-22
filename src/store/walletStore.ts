@@ -51,7 +51,10 @@ interface WalletState {
   winBet: (amount: number, betId: number) => Promise<void>;
   fetchTransactions: () => Promise<void>;
   requestDeposit: (data: any) => Promise<any>;
-  submitDeposit: (data: any) => Promise<any>;
+  submitDeposit: (data: {
+    orderId: string;
+    trxId: string;
+  }) => Promise<any>;
   requestWithdraw: (data: any) => Promise<any>;
 }
 
@@ -68,38 +71,49 @@ export const useWalletStore = create<WalletState>((set) => ({
   otpVerified: false,
   otpLoading: false,
 
-sendWithdrawOtp: async () => {
-  set({ otpLoading: true });
+  sendWithdrawOtp: async () => {
+    set({ otpLoading: true });
 
-  try {
-    await api.sendWithdrawOtp();
+    try {
+      await api.sendWithdrawOtp();
 
-    set({ otpLoading: false });
-  } catch (err: any) {
-    set({ error: err.message, otpLoading: false });
-    throw err;
-  }
-},
-verifyWithdrawOtp: async (otp: string) => {
-  set({ otpLoading: true });
+      set({ otpLoading: false });
+    } catch (err: any) {
+      set({ error: err.message, otpLoading: false });
+      throw err;
+    }
+  },
+  verifyWithdrawOtp: async (otp: string) => {
+    set({ otpLoading: true });
 
-  try {
-    await api.verifyWithdrawOtp(otp);
+    try {
+      await api.verifyWithdrawOtp(otp);
 
-    set({
-      otpVerified: true,
-      otpLoading: false
-    });
+      set({
+        otpVerified: true,
+        otpLoading: false
+      });
 
-  } catch (err: any) {
-    set({
-      otpVerified: false,
-      error: err.message,
-      otpLoading: false
-    });
-    throw err;
-  }
-},
+    } catch (err: any) {
+      set({
+        otpVerified: false,
+        error: err.message,
+        otpLoading: false
+      });
+      throw err;
+    }
+  },
+  fetchUserStatus: async () => {
+    try {
+      const res = await api.getProfile();
+
+      set({
+        otpVerified: res.isEmailVerified
+      });
+    } catch (err: any) {
+      set({ error: err.message });
+    }
+  },
   fetchInterestHistory: async (filter: string) => {
     try {
       set({ loading: true });
@@ -280,31 +294,22 @@ verifyWithdrawOtp: async (otp: string) => {
     }
   },
 
-requestWithdraw: async (data) => {
-  const { otpVerified } = useWalletStore.getState();
+  requestWithdraw: async (data) => {
+    set({ loading: true });
 
-  if (!otpVerified) {
-    throw new Error("Please verify OTP first");
-  }
+    try {
+      const res = await api.requestWithdraw(data);
 
-  set({ loading: true });
+      await useWalletStore.getState().fetchBalance();
 
-  try {
-    const res = await api.requestWithdraw(data);
+      set({ loading: false });
+      return res;
 
-    // reset OTP after use
-    set({ otpVerified: false });
-
-    await useWalletStore.getState().fetchBalance();
-
-    set({ loading: false });
-    return res;
-
-  } catch (err: any) {
-    set({ error: err.message, loading: false });
-    throw err;
-  }
-},
+    } catch (err: any) {
+      set({ error: err.message, loading: false });
+      throw err;
+    }
+  },
 }));
 
 interface ReferralState {

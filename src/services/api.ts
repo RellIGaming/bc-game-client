@@ -153,6 +153,7 @@ export const requestWithdraw = (data: {
   amount: number;
   method: string;
   account: string;
+  accountHolderName:string;
 }) => {
   return fetchWithAuth("/api/wallet/withdraw/request", {
     method: "POST",

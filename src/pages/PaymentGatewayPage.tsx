@@ -39,7 +39,8 @@ const handleSubmit = async () => {
 
   try {
     await submitDeposit({
-     orderId, amount, currency, method, trxId
+     orderId,
+  trxId
     });
 
     toast.success("Deposit submitted successfully");
