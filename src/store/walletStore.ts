@@ -207,29 +207,32 @@ export const useWalletStore = create<WalletState>((set) => ({
       set({ error: err.message, loading: false });
     }
   },
-  fetchBalance: async () => {
-    set({ loading: true });
+fetchBalance: async () => {
+  set({ loading: true });
 
-    try {
-      const res = await api.getBalance();
+  try {
+    const res = await api.getBalance();
 
-      const wallets = res.data || [];
+    console.log("API RESPONSE:", res);   // 👈 ADD THIS
+    console.log("API DATA:", res.data);  // 👈 ADD THIS
 
-      const total = wallets.reduce(
-        (sum: number, w: any) => sum + Number(w.balance || 0),
-        0
-      );
+    const wallets = res.data || [];
 
-      set({
-        wallets,
-        balance: total,
-        loading: false
-      });
+    const total = wallets.reduce(
+      (sum: number, w: any) => sum + Number(w.balance || 0),
+      0
+    );
 
-    } catch (err: any) {
-      set({ error: err.message, loading: false });
-    }
-  },
+    set({
+      wallets,
+      balance: total,
+      loading: false
+    });
+
+  } catch (err: any) {
+    set({ error: err.message, loading: false });
+  }
+},
 
   placeBet: async (amount, betId) => {
     set({ loading: true });

@@ -75,10 +75,10 @@ const UserProfilePanel = ({ isOpen, onClose }: UserProfilePanelProps) => {
               <p className="text-sm text-muted-foreground mb-1">Total Balance</p>
               <p className="text-2xl font-bold text-foreground">$0.00</p>
               <div className="flex items-center gap-2 mt-3">
-                <button className="flex-1 py-2 rounded-lg bg-primary text-primary-foreground font-medium text-sm">
+                <button onClick={() => navigate("/wallet/deposit")} className="flex-1 py-2 rounded-lg bg-primary text-primary-foreground font-medium text-sm">
                   Deposit
                 </button>
-                <button className="flex-1 py-2 rounded-lg bg-secondary text-foreground font-medium text-sm">
+                <button onClick={() => navigate("/wallet/withdraw")} className="flex-1 py-2 rounded-lg bg-secondary text-foreground font-medium text-sm">
                   Withdraw
                 </button>
               </div>

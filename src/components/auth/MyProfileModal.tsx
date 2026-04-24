@@ -295,10 +295,10 @@ const MyProfileModal = ({ open, onClose }: MyProfileModalProps) => {
     return (
         <Dialog open={open} onOpenChange={(v) => !v && onClose()}>
             <DialogContent className="bg-card border-border max-w-sm p-0 overflow-hidden">
-                <div className="flex items-center justify-between p-4 border-b border-border">
+                <div className="flex items-center justify-center p-4 border-b border-border">
                     <span />
                     <h3 className="font-semibold text-foreground">My Profile</h3>
-                    <button onClick={onClose}><X className="w-5 h-5 text-muted-foreground" /></button>
+                    {/* <button onClick={onClose}><X className="w-5 h-5 text-muted-foreground" /></button> */}
                 </div>
                 <div className="p-4">{content}</div>
             </DialogContent>

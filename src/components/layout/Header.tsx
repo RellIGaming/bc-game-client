@@ -109,7 +109,7 @@ const unreadCount = notifications.filter(n => !n.read).length;
                     setOpenDepositPopover(false);
                     setDepositOpen(true);
                   }}
-                  className="flex items-center pl-2 pr-2 py-2 lg:py-1  hover:bg-secondary/80 w-[152px]"
+                  className="flex items-center pl-2 pr-2 py-2 lg:py-1  hover:bg-secondary/80 max-w-[152px]"
                 >
                   <span className="text-primary text-sm lg:text-lg mr-1">₿</span>
                   <span className="text-foreground text-xs lg:text-sm font-medium mr-2">

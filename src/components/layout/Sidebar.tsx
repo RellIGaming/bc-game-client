@@ -444,7 +444,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
           "fixed top-14 left-0 h-[calc(100vh-3.5rem)] bg-sidebar z-40 overflow-hidden",
           "flex-shrink-0"
         )}
-        style={{ boxShadow: "4px 0 20px rgba(0, 0, 0, 0.3)", paddingLeft: "8px" }}
+        style={{ boxShadow: "4px 0 20px rgba(0, 0, 0, 0.3)", paddingLeft: isMobile ? "0px" : "8px", }}
       >
         <div className={cn("h-full flex flex-col overflow-y-auto scrollbar-hide ", isCollapsed ? "w-14" : "w-58")}>
 
