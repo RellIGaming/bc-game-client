@@ -15,9 +15,7 @@ interface HighlightsTabProps {
 
 export function HighlightsTab({ onAddBet, selectedBets }: HighlightsTabProps) {
   const [selectedCategory, setSelectedCategory] = useState<SportCategory>('cricket');
- const [isLoggedIn, setIsLoggedIn] = useState(
-    !!localStorage.getItem("token")
-  );
+ 
   return (
     <div className="space-y-8">
         <LiveMatchBanner />

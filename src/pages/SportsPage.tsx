@@ -13,10 +13,9 @@ import SportCategoryPage from "@/components/sports/SportCategoryPage";
 
 interface SportsPageProps {
   isLoggedIn: boolean;
-  setIsLoggedIn: (value: boolean) => void;
 }
 
-const SportsPage = ({ isLoggedIn, setIsLoggedIn }: SportsPageProps) => {
+const SportsPage = ({ isLoggedIn}: SportsPageProps) => {
   const navigate = useNavigate();
   const { category } = useParams<{ category?: string }>();
   const [showSearch, setShowSearch] = useState(false);

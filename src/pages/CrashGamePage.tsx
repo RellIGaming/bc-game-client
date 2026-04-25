@@ -88,10 +88,9 @@ const latestBetData = [
 
 interface CrashGamePageProps {
   isLoggedIn: boolean;
-  setIsLoggedIn: (value: boolean) => void;
 }
 
-const CrashGamePage = ({ isLoggedIn, setIsLoggedIn }: CrashGamePageProps) => {
+const CrashGamePage = ({ isLoggedIn }: CrashGamePageProps) => {
   const [currentMultiplier, setCurrentMultiplier] = useState(1.02);
   const [gameStatus, setGameStatus] = useState<"running" | "crashed" | "waiting">("running");
   const [betMode, setBetMode] = useState<"manual" | "auto">("manual");

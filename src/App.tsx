@@ -30,23 +30,26 @@ import QuestHubPage from "./pages/QuestHubPage";
 import ChallengePage from "./pages/ChallengePage";
 import GlobalSettingsPage from "./pages/GlobalSettingsPage";
 import CrashGamePage from "./pages/CrashGamePage";
-import {useWalletStore} from "./store/walletStore";
+import { useWalletStore } from "./store/walletStore";
 import useNotificationStore from "./store/notificationStore";
 import socket from "./lib/socket";
 import ReferralRedirect from "./pages/ReferralRedirect";
 import PaymentGatewayPage from "./pages/PaymentGatewayPage";
 import { rescanForTranslation } from "./i18n/autoTranslate";
+import useAuthStore from "./store/authStore";
+import ResetPasswordPage from "./components/auth/ResetPasswordPage";
 
 const queryClient = new QueryClient();
 
 const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(
-    !!localStorage.getItem("token")
-  );
-const userId = localStorage.getItem("userId");
-
+  const { user, token, fetchProfile } = useAuthStore();
   const { fetchBalance } = useWalletStore();
   const { fetchNotifications } = useNotificationStore();
+  const userId = user?.id;
+  const isLoggedIn = !!token;
+
+
+
 
   useEffect(() => {
     if (!userId) return;
@@ -71,7 +74,11 @@ const userId = localStorage.getItem("userId");
       socket.disconnect();
     };
   }, [userId]);
-
+  useEffect(() => {
+    if (token && !user) {
+      fetchProfile(); // ✅ restore user after refresh
+    }
+  }, [token, user]);
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
@@ -79,19 +86,20 @@ const userId = localStorage.getItem("userId");
         <Sonner />
         <BrowserRouter>
           <Routes>
-            <Route element={<AppLayout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />}>
+            <Route element={<AppLayout isLoggedIn={isLoggedIn} />}>
               <Route path="/" element={<Home isLoggedIn={isLoggedIn} />} />
               <Route path="/i-:code" element={<ReferralRedirect />} />
-              {/* <Route path="/" element={<Index isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} /> */}
-              <Route path="/casino" element={<CasinoPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
-              <Route path="/sports" element={<SportsPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
-              <Route path="/sports/:category" element={<SportsPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
-              <Route path="/search" element={<SearchPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
-              <Route path="/wallet" element={<WalletPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
-              <Route path="/game/:gameId" element={<GameDetailPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
-              <Route path="/wallet/:section" element={<WalletPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
+              {/* <Route path="/" element={<Index isLoggedIn={isLoggedIn}  />} /> */}
+              <Route path="/casino" element={<CasinoPage isLoggedIn={isLoggedIn}  />} />
+              <Route path="/sports" element={<SportsPage isLoggedIn={isLoggedIn} />} />
+              <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
+              <Route path="/sports/:category" element={<SportsPage isLoggedIn={isLoggedIn}  />} />
+              <Route path="/search" element={<SearchPage isLoggedIn={isLoggedIn} />} />
+              <Route path="/wallet" element={<WalletPage isLoggedIn={isLoggedIn}  />} />
+              <Route path="/game/:gameId" element={<GameDetailPage isLoggedIn={isLoggedIn}  />} />
+              <Route path="/wallet/:section" element={<WalletPage isLoggedIn={isLoggedIn}  />} />
               <Route path="/casino/:category" element={<CategoryPage />} />
-              <Route path="/game/crash" element={<CrashGamePage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
+              <Route path="/game/crash" element={<CrashGamePage isLoggedIn={isLoggedIn} />} />
               <Route path="/live-stats" element={<LiveStats />} />
               <Route path="/vip-club" element={<VipClubPage isLoggedIn={isLoggedIn} />} />
               <Route path="/bonus" element={<BonusPage />} />
@@ -107,7 +115,7 @@ const userId = localStorage.getItem("userId");
               <Route path="/challenge" element={<ChallengePage />} />
               <Route path="/globalSettings" element={<GlobalSettingsPage username={""} selectedFrame={0} setUsername={function (value: SetStateAction<string>): void {
                 throw new Error("Function not implemented.");
-              } }  />} />
+              }} />} />
             </Route>
             <Route path="/payment-gateway" element={<PaymentGatewayPage />} />
             <Route path="/admin-login" element={<AdminLogin />} />

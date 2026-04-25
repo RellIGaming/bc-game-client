@@ -5,43 +5,39 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { signin } from "@/services/api";
 import { toast } from "sonner";
+import useAuthStore from "@/store/authStore";
 
 interface SignInModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSwitchToSignUp: () => void;
   onForgotPassword: () => void;
-  setIsLoggedIn: (value: boolean) => void;
+  onResetPassword: () => void;
 }
 
-const SignInModal = ({ isOpen, onClose, onSwitchToSignUp, onForgotPassword,setIsLoggedIn }: SignInModalProps) => {
+const SignInModal = ({ isOpen, onClose, onSwitchToSignUp, onForgotPassword,onResetPassword }: SignInModalProps) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [emailOrPhone, setEmailOrPhone] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loginMethod, setLoginMethod] = useState<"password" | "otp">("password");
+  const { signin } = useAuthStore();
 
- const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
 
-  try {
-    if (loginMethod === "password") {
-      const res = await signin({
-        identifier: emailOrPhone || username, // ✅ KEY FIX
+    try {
+      await signin({
+        identifier: emailOrPhone || username,
         password,
       });
 
-      localStorage.setItem("token", res.token);
-       setIsLoggedIn(true);
-       toast.success("Login successful! 🎉");
+      toast.success("Login successful! 🎉");
       onClose();
-    } else {
-      alert("OTP login not implemented yet");
+    } catch (err: any) {
+      alert(err.message || "❌ Login failed");
     }
-  } catch (err: any) {
-    alert(err.message || "❌ Login failed");
-  }
-};
+  };
 
   return (
     <AnimatePresence>
@@ -75,22 +71,20 @@ const SignInModal = ({ isOpen, onClose, onSwitchToSignUp, onForgotPassword,setIs
               <div className="flex b-radius bg-secondary p-1 mb-4">
                 <button
                   onClick={() => setLoginMethod("password")}
-                  className={`flex-1 flex items-center justify-center gap-2 py-2.5 b-radius text-sm font-medium transition-colors ${
-                    loginMethod === "password"
-                      ? "bg-card text-foreground"
-                      : "text-muted-foreground hover:text-foreground"
-                  }`}
+                  className={`flex-1 flex items-center justify-center gap-2 py-2.5 b-radius text-sm font-medium transition-colors ${loginMethod === "password"
+                    ? "bg-card text-foreground"
+                    : "text-muted-foreground hover:text-foreground"
+                    }`}
                 >
                   <Key className="w-4 h-4" />
                   Password
                 </button>
                 <button
                   onClick={() => setLoginMethod("otp")}
-                  className={`flex-1 flex items-center justify-center gap-2 py-2.5 b-radius text-sm font-medium transition-colors ${
-                    loginMethod === "otp"
-                      ? "bg-card text-foreground"
-                      : "text-muted-foreground hover:text-foreground"
-                  }`}
+                  className={`flex-1 flex items-center justify-center gap-2 py-2.5 b-radius text-sm font-medium transition-colors ${loginMethod === "otp"
+                    ? "bg-card text-foreground"
+                    : "text-muted-foreground hover:text-foreground"
+                    }`}
                 >
                   <Smartphone className="w-4 h-4" />
                   One-time Code
@@ -126,14 +120,22 @@ const SignInModal = ({ isOpen, onClose, onSwitchToSignUp, onForgotPassword,setIs
                         {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                       </button>
                     </div>
-
-                    <button
-                      type="button"
-                      onClick={onForgotPassword}
-                      className="text-sm text-muted-foreground hover:text-foreground block ml-auto"
-                    >
-                      Forgot your password?
-                    </button>
+                    <div className="flex justify-between">
+                      <button
+                        type="button"
+                        onClick={onResetPassword}
+                        className="text-sm text-muted-foreground hover:text-foreground block "
+                      >
+                        Reset password
+                      </button>
+                      <button
+                        type="button"
+                        onClick={onForgotPassword}
+                        className="text-sm text-muted-foreground hover:text-foreground block"
+                      >
+                        Forgot your password?
+                      </button>
+                    </div>
                   </>
                 ) : (
                   <>

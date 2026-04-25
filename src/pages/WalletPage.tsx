@@ -73,10 +73,9 @@ const networks = [
 
 interface WalletPageProps {
   isLoggedIn: boolean;
-  setIsLoggedIn: (value: boolean) => void;
 }
 
-const WalletPage = ({ isLoggedIn, setIsLoggedIn }: WalletPageProps) => {
+const WalletPage = ({ isLoggedIn}: WalletPageProps) => {
  
   const { section } = useParams();
   const navigate = useNavigate();

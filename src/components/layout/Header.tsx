@@ -12,6 +12,7 @@ import BonusDashboardModal from "@/components/header/BonusDashboardModal";
 import DepositDropdown from "../header/DepositDropdown";
 import DepositPopover from "../header/DepositPopover";
 import useNotificationStore from "@/store/notificationStore";
+import { useWalletStore } from "@/store/walletStore";
 
 interface HeaderProps {
   onMenuClick: () => void;
@@ -46,13 +47,18 @@ const Header = ({
 }: HeaderProps) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const { wallets } = useWalletStore();
   const [depositOpen, setDepositOpen] = useState(false);
   const [bonusOpen, setBonusOpen] = useState(false);
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const [bonusDashboardOpen, setBonusDashboardOpen] = useState(false);
   const [openDepositPopover, setOpenDepositPopover] = useState(false);
-   const { notifications } = useNotificationStore();
+  const { notifications } = useNotificationStore();
+
+  const bdtWallet = wallets.find((w: any) => w.name === "BDT");
+
+  const depositBalance = Number(bdtWallet?.balance || 0);
   const handleBonusDashboard = () => {
     setBonusOpen(false);
     setBonusDashboardOpen(true);
@@ -62,7 +68,7 @@ const Header = ({
     navigate("/");
     // window.location.reload();
   };
-const unreadCount = notifications.filter(n => !n.read).length;
+  const unreadCount = notifications.filter(n => !n.read).length;
   return (
     <>
       <header
@@ -111,9 +117,9 @@ const unreadCount = notifications.filter(n => !n.read).length;
                   }}
                   className="flex items-center pl-2 pr-2 py-2 lg:py-1  hover:bg-secondary/80 max-w-[152px]"
                 >
-                  <span className="text-primary text-sm lg:text-lg mr-1">₿</span>
+                  <span className="text-primary text-sm lg:text-lg mr-1">৳</span>
                   <span className="text-foreground text-xs lg:text-sm font-medium mr-2">
-                    ₹0.003
+                    {depositBalance.toFixed(2)}
                   </span>
                   <ChevronDown className="w-5 h-5 lg:w-4 lg:h-4 text-muted-foreground ml-auto" />
                 </button>
@@ -195,11 +201,11 @@ const unreadCount = notifications.filter(n => !n.read).length;
                   className="flex py-2 px-2 lg:px-2 lg:py-2 b-radius bg-secondary transition-all hvr-btn btn-press relative"
                 >
                   <Bell className="w-5 h-5 text-muted-foreground" />
-                   {unreadCount > 0 && (
-                  <span className="absolute -top-1 -right-1 w-4 h-4 bg-primary text-primary-foreground text-xs rounded-full flex items-center justify-center">
-                 {unreadCount}
-                  </span>
-                   )}
+                  {unreadCount > 0 && (
+                    <span className="absolute -top-1 -right-1 w-4 h-4 bg-primary text-primary-foreground text-xs rounded-full flex items-center justify-center">
+                      {unreadCount}
+                    </span>
+                  )}
                 </button>
                 <NotificationDropdown
                   isOpen={notificationOpen}

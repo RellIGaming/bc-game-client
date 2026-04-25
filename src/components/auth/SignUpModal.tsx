@@ -7,19 +7,20 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
 import { signup } from "@/services/api";
 import { toast } from "sonner";
+import useAuthStore from "@/store/authStore";
 
 interface SignUpModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSwitchToSignIn: () => void;
-  setIsLoggedIn: (value: boolean) => void;
 }
 
-const SignUpModal = ({ isOpen, onClose, onSwitchToSignIn,setIsLoggedIn }: SignUpModalProps) => {
+const SignUpModal = ({ isOpen, onClose, onSwitchToSignIn }: SignUpModalProps) => {
   const [email, setEmail] = useState("");
+  const { logout,signup } = useAuthStore();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [promocode, setPromocode] = useState("");
+  const [promoCode, setPromoCode] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showPromoCode, setShowPromoCode] = useState(false);
   const [agreeTerms, setAgreeTerms] = useState(false);
@@ -40,32 +41,29 @@ const SignUpModal = ({ isOpen, onClose, onSwitchToSignIn,setIsLoggedIn }: SignUp
     return { level: 4, text: "Strong", color: "bg-primary" };
   }, [password]);
 
-const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
 
-  if (!agreeTerms) {
-    toast.error("Please accept terms & conditions");
-    return;
-  }
+    if (!agreeTerms) {
+      toast.error("Please accept terms & conditions");
+      return;
+    }
 
-  try {
-    const res = await signup({
-      username,
-      email,
-      password,
-      promocode,
-    });
-
-    localStorage.setItem("token", res.token);
-    setIsLoggedIn(true);
-    toast.success("Registration successful 🎉");
-    onClose();
-  } catch (err: any) {
-    toast.error(
-      err?.response?.data?.message || "❌ Signup failed"
-    );
-  }
-};
+    try {
+      const res = await signup({
+        username,
+        email,
+        password,
+        promoCode,
+      });
+      toast.success("Registration successful 🎉");
+      onClose();
+    } catch (err: any) {
+      toast.error(
+        err?.response?.data?.message || "❌ Signup failed"
+      );
+    }
+  };
 
 
   const generateUsername = () => {
@@ -167,11 +165,11 @@ const handleSubmit = async (e: React.FormEvent) => {
                           />
                         ))}
                       </div>
-                      <span className={cn("text-xs font-medium", 
+                      <span className={cn("text-xs font-medium",
                         passwordStrength.level <= 1 ? "text-red-500" :
-                        passwordStrength.level === 2 ? "text-yellow-500" :
-                        passwordStrength.level === 3 ? "text-blue-500" :
-                        "text-primary"
+                          passwordStrength.level === 2 ? "text-yellow-500" :
+                            passwordStrength.level === 3 ? "text-blue-500" :
+                              "text-primary"
                       )}>
                         {passwordStrength.text}
                       </span>
@@ -205,8 +203,8 @@ const handleSubmit = async (e: React.FormEvent) => {
                       <Input
                         type="text"
                         placeholder="Enter referral or promo code"
-                        value={promocode}
-                        onChange={(e) => setPromocode(e.target.value)}
+                        value={promoCode}
+                        onChange={(e) => setPromoCode(e.target.value)}
                         className="bg-secondary border-border h-12"
                       />
                     </motion.div>

@@ -4,6 +4,7 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { X, Edit2, ArrowLeft, ChevronRight, Heart, Lock } from "lucide-react";
 import useAuthStore from "@/store/authStore";
+import { toast } from "sonner";
 
 interface MyProfileModalProps {
     open: boolean;
@@ -24,8 +25,8 @@ const EditProfileModal = ({
 }) => {
     const isMobile = useIsMobile();
     const { user, fetchProfile, updateProfile } = useAuthStore();
-    const [username, setUsername] = useState(user?.username || "");
-    const [localUsername, setLocalUsername] = useState(username);
+    // const [username, setUsername] = useState(user?.username || "");
+    const [localUsername, setLocalUsername] = useState(user?.username || "");
     const [localFrame, setLocalFrame] = useState(selectedFrame);
     const [loading, setLoading] = useState(false);
     const [file, setFile] = useState<File | null>(null);
@@ -47,8 +48,7 @@ const EditProfileModal = ({
     // Sync local state when user changes
     useEffect(() => {
         if (user) {
-            setUsername(user.username);
-            // optionally, you can store avatar frame in user object
+            setLocalUsername(user.username);
         }
     }, [user]);
 
@@ -60,11 +60,18 @@ const EditProfileModal = ({
                 file: file || undefined,
             });
 
-            await fetchProfile(); // ✅ ADD THIS
+            await fetchProfile();
+
+            // ✅ UPDATE FRAME IN PARENT
+            onSave(localUsername, localFrame);
+
+            // ✅ SUCCESS MESSAGE
+           toast.success("Profile updated successfully ✅");
 
             onClose();
         } catch (err) {
             console.error(err);
+            alert("Update failed ❌");
         } finally {
             setLoading(false);
         }
@@ -87,7 +94,7 @@ const EditProfileModal = ({
     bg-gradient-to-br from-yellow-400 to-orange-500`}
                 >{user?.profileImage ? (
                     <img
-                        src={`http://localhost:5000${user.profileImage}`}
+                        src={`https://bc-game-server.onrender.com${user.profileImage}?t=${Date.now()}`}
                         alt="Profile"
                         className="w-20 h-20 rounded-full object-cover"
                     />
@@ -132,7 +139,7 @@ const EditProfileModal = ({
                             key={i}
                             onClick={() => setLocalFrame(i)}
                             className={`w-12 h-12 rounded-full border-2 flex items-center justify-center cursor-pointer transition
-              ${localFrame === 1
+              ${localFrame === i
                                     ? "border-accent scale-110"
                                     : "border-border"
                                 }`}
@@ -199,6 +206,17 @@ const MyProfileModal = ({ open, onClose }: MyProfileModalProps) => {
     const [editOpen, setEditOpen] = useState(false);
     const { user } = useAuthStore();
     const [selectedFrame, setSelectedFrame] = useState<number>(0);
+
+
+    useEffect(() => {
+        const savedFrame = localStorage.getItem("frame");
+        if (savedFrame) setSelectedFrame(Number(savedFrame));
+    }, []);
+
+    const handleFrameSave = (frame: number) => {
+        setSelectedFrame(frame);
+        localStorage.setItem("frame", frame.toString());
+    };
     const content = (
         <div className="space-y-4">
             {/* Header */}
@@ -209,7 +227,7 @@ const MyProfileModal = ({ open, onClose }: MyProfileModalProps) => {
                 </div>
                 <div
                     className={`w-20 h-20 mx-auto rounded-full flex items-center justify-center text-4xl relative
-    ${selectedFrame === 1
+  ${selectedFrame === 1
                             ? "ring-4 ring-yellow-400"
                             : selectedFrame === 2
                                 ? "ring-4 ring-blue-500"
@@ -217,9 +235,16 @@ const MyProfileModal = ({ open, onClose }: MyProfileModalProps) => {
                                     ? "ring-4 ring-pink-500"
                                     : ""
                         }
-    bg-gradient-to-br from-yellow-400 to-orange-500`}
+  bg-gradient-to-br from-yellow-400 to-orange-500`}
                 >
-                    🦖
+                    {user?.profileImage ? (
+                        <img
+                            src={`https://bc-game-server.onrender.com${user.profileImage}?t=${Date.now()}`}
+                            className="w-20 h-20 rounded-full object-cover"
+                        />
+                    ) : (
+                        "🦖"
+                    )}
                 </div>
                 <h3 className="font-bold text-foreground mt-3">{user?.username}</h3>
                 <p className="text-xs text-muted-foreground">User ID: {user?.id || "N/A"}</p>
@@ -272,7 +297,7 @@ const MyProfileModal = ({ open, onClose }: MyProfileModalProps) => {
                 username={user?.username}
                 selectedFrame={selectedFrame}
                 onSave={(_, newFrame) => {
-                    setSelectedFrame(newFrame);
+                    handleFrameSave(newFrame);
                 }}
             />
         </div>

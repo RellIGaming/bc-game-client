@@ -47,10 +47,9 @@ const latestBets = [
 
 interface GameDetailPageProps {
   isLoggedIn: boolean;
-  setIsLoggedIn: (value: boolean) => void;
 }
 
-const GameDetailPage = ({ isLoggedIn, setIsLoggedIn }: GameDetailPageProps) => {
+const GameDetailPage = ({ isLoggedIn }: GameDetailPageProps) => {
   const { gameId } = useParams();
   const navigate = useNavigate();
   const [playMode, setPlayMode] = useState<"free" | "real">("real");

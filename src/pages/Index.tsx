@@ -26,12 +26,14 @@ import Footer from "@/components/home/Footer";
 import HelpUs from "@/components/home/HelpUs";
 import Providers from "@/components/home/Providers";
 import { useNavigate } from "react-router-dom";
+import useAuthStore from "@/store/authStore";
 
 interface IndexProps {
   isLoggedIn: boolean;
-  setIsLoggedIn: (value: boolean) => void;
 }
-const Index = ({ isLoggedIn, setIsLoggedIn }: IndexProps) => {
+const Index = ({ isLoggedIn }: IndexProps) => {
+  const { token, logout } = useAuthStore();
+ 
    const navigate = useNavigate();
   const [isDark, setIsDark] = useState(true);
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -75,8 +77,7 @@ const Index = ({ isLoggedIn, setIsLoggedIn }: IndexProps) => {
   const handleSwitchToSignUp = () => { setSignInOpen(false); setSignUpOpen(true); };
   const handleForgotPassword = () => { setSignInOpen(false); setResetPasswordOpen(true); };
   const handleBackToLogin = () => { setResetPasswordOpen(false); setSignInOpen(true); };
-  const handleLogin = () => { setSignInOpen(false); setIsLoggedIn(true); };
-  const handleLogout = () => { setIsLoggedIn(false); };
+  const handleResetPassword = () => { setSignInOpen(false); setResetPasswordOpen(true); };
 
   // Calculate margin based on sidebar state - no margin on mobile since sidebar is overlay
   const getMainMargin = () => {
@@ -108,10 +109,7 @@ const Index = ({ isLoggedIn, setIsLoggedIn }: IndexProps) => {
         isSidebarCollapsed={sidebarCollapsed}
         onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
         isLoggedIn={isLoggedIn}
-        onLogout={() => {
-          localStorage.removeItem("token");
-          setIsLoggedIn(false);
-        }}
+       onLogout={logout}
       />
 
       <div className="flex flex-1 pt-14 overflow-hidden">
@@ -161,8 +159,8 @@ const Index = ({ isLoggedIn, setIsLoggedIn }: IndexProps) => {
 
       <SearchModal isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
       <LanguageCurrencyModal isOpen={languageOpen} onClose={() => setLanguageOpen(false)} />
-      <SignUpModal isOpen={signUpOpen} onClose={() => setSignUpOpen(false)} onSwitchToSignIn={handleSwitchToSignIn} setIsLoggedIn={setIsLoggedIn}/>
-      <SignInModal isOpen={signInOpen} onClose={() => setSignInOpen(false)} onSwitchToSignUp={handleSwitchToSignUp} onForgotPassword={handleForgotPassword} setIsLoggedIn={setIsLoggedIn} />
+      <SignUpModal isOpen={signUpOpen} onClose={() => setSignUpOpen(false)} onSwitchToSignIn={handleSwitchToSignIn} />
+      <SignInModal isOpen={signInOpen} onClose={() => setSignInOpen(false)} onSwitchToSignUp={handleSwitchToSignUp} onForgotPassword={handleForgotPassword} onResetPassword={handleResetPassword} />
       <ResetPasswordModal isOpen={resetPasswordOpen} onClose={() => setResetPasswordOpen(false)} onBackToLogin={handleBackToLogin} />
       <UserProfilePanel isOpen={profileOpen} onClose={() => setProfileOpen(false)} />
 

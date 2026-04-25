@@ -15,10 +15,9 @@ import ResetPasswordModal from "@/components/auth/ResetPasswordModal";
 
 interface searchPageProps {
   isLoggedIn: boolean;
-  setIsLoggedIn: (value: boolean) => void;
 }
 
-const SearchPage = ({ isLoggedIn, setIsLoggedIn }: searchPageProps) => {
+const SearchPage = ({ isLoggedIn }: searchPageProps) => {
   const navigate = useNavigate();
   const [isDark, setIsDark] = useState(true);
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -80,7 +79,6 @@ const SearchPage = ({ isLoggedIn, setIsLoggedIn }: searchPageProps) => {
 
   // Handle login success - navigate to pending game
   const handleLoginSuccess = (value: boolean) => {
-    setIsLoggedIn(value);
     setSignInOpen(false);
     if (pendingGameId && value) {
       navigate(`/game/${pendingGameId}`);

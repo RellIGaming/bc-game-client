@@ -70,10 +70,9 @@ const allGames = [
 
 interface CasinoPageProps {
   isLoggedIn: boolean;
-  setIsLoggedIn: (value: boolean) => void;
 }
 
-const CasinoPage = ({ isLoggedIn, setIsLoggedIn }: CasinoPageProps) => {
+const CasinoPage = ({ isLoggedIn}: CasinoPageProps) => {
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -106,7 +105,6 @@ const CasinoPage = ({ isLoggedIn, setIsLoggedIn }: CasinoPageProps) => {
 
   // Handle login success - navigate to pending game
   const handleLoginSuccess = (value: boolean) => {
-    setIsLoggedIn(value);
     setSignInOpen(false);
     if (pendingGameId && value) {
       navigate(`/game/${pendingGameId}`);
