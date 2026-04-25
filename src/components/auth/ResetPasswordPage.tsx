@@ -19,8 +19,9 @@ const ResetPasswordPage = () => {
   };
 
   return (
-    <div className="w-full max-w-md bg-card rounded-2xl overflow-hidden">
-      <h2 className="text-xl font-bold text-foreground mb-6">Reset Password</h2>
+    <div className="w-full max-w-md bg-card rounded-2xl overflow-hidden m-auto">
+    <div className="flex justify-center mt-8">
+      <h2 className="text-xl font-bold text-foreground mb-6 flex justify-center">Reset Password</h2>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <Input
@@ -37,6 +38,7 @@ const ResetPasswordPage = () => {
       </form>
 
     </div>
+     </div>
   );
 };
 
