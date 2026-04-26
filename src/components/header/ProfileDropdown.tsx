@@ -50,6 +50,8 @@ import instagram from "../../assets/images/instagram-icon.png"
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import MyProfileModal from '../auth/MyProfileModal';
+import useAuthStore from '@/store/authStore';
+import { useWalletStore } from '@/store/walletStore';
 
 interface MobileProfileProps {
   isOpen: boolean;
@@ -87,14 +89,14 @@ const menuItems: MenuItem[] = [
   { icon: <Settings className="w-5 h-5" />, label: "Global Settings", path: "/globalSettings" },
 ];
 const actions = [
-  { icon: buyIcon, label: "Buy", row: 1 },
-  { icon: swapIcon, label: "Swap", row: 1 },
-  { icon: buyIcon, label: "Vault Pro", row: 1 },
-  { icon: staticIcon, label: "Statistics", row: 1 },
+  { icon: buyIcon, label: "Buy", row: 1, path: "/wallet/buy-crypto" },
+  { icon: swapIcon, label: "Swap", row: 1, path: "/wallet/swap" },
+  { icon: buyIcon, label: "Vault Pro", row: 1, path: "/wallet/vault-pro" },
+  { icon: staticIcon, label: "Statistics", row: 1, path: "/wallet/buy-crypto" },
 
-  { icon: transaction, label: "Transaction", row: 2 },
-  { icon: rolover, label: "Rollover", row: 2 },
-  { icon: betIcon, label: "Bet History", row: 2 },
+  { icon: transaction, label: "Transaction", row: 2, path: "/wallet/transaction" },
+  { icon: rolover, label: "Rollover", row: 2, path: "/wallet/rollover" },
+  { icon: betIcon, label: "Bet History", row: 2, path: "/wallet/bet-history" },
 ];
 
 
@@ -174,7 +176,8 @@ export const MobileProfile = ({
 
   const navigate = useNavigate();
   const [showBalance, setShowBalance] = useState(true);
-
+  const { user } = useAuthStore();
+  const { balance } = useWalletStore();
 
   const topMenuItems = [
     {
@@ -212,7 +215,7 @@ export const MobileProfile = ({
     {
       label: "Currency",
       icon: currency,
-      right: <span className="text-white/50 text-sm">USD</span>,
+      right: <span className="text-white/50 text-sm">BDT</span>,
     },
     {
       label: "Theme",
@@ -286,11 +289,11 @@ export const MobileProfile = ({
 
           <div>
             <div className="font-semibold flex items-center gap-1 text-[22px]">
-              Prince Wahid
+              {user?.username || "User"}
               <span className="text-green-400 text-xs">●</span>
             </div>
             <div className="text-xs text-white/70 flex items-center gap-1">
-              ID: 1215411
+              ID: {user?.id}
               <Copy className="w-3 h-3 cursor-pointer hover:text-white" />
             </div>
           </div>
@@ -322,7 +325,7 @@ export const MobileProfile = ({
             <Eye className="w-7 h-6 text-white cursor-pointer" onClick={() => setShowBalance((prev) => !prev)} />
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-2xl font-semibold">{showBalance ? "₹ 00.00" : "******"}</span>
+            <span className="text-2xl font-semibold">৳ {showBalance ? `₹ ${balance ?? 0}` : "******"}</span>
 
           </div>
           <div className="flex gap-3 mt-4">
@@ -350,7 +353,13 @@ export const MobileProfile = ({
                   index < 4 ? "basis-1/4" : "basis-1/4" // keep same width
                 )}
               >
-                <button className="flex flex-col items-center">
+                <button onClick={(e) => {
+                  e.stopPropagation();
+                  if (item.path) {
+                    navigate(item.path);
+                    onClose(); // optional: close the panel after click
+                  }
+                }} className="flex flex-col items-center">
                   {/* Icon box */}
                   <div className="w-12 h-12 bg-[#122634] rounded-lg flex items-center justify-center hover:bg-[#1c3648] transition-colors">
                     <img src={item.icon} alt={item.label} className="w-6 h-6" />
