@@ -38,6 +38,8 @@ import PaymentGatewayPage from "./pages/PaymentGatewayPage";
 import { rescanForTranslation } from "./i18n/autoTranslate";
 import useAuthStore from "./store/authStore";
 import ResetPasswordPage from "./components/auth/ResetPasswordPage";
+import Deposit from "./components/walet/Deposit";
+import Withdraw from "./components/walet/Withdraw";
 
 const queryClient = new QueryClient();
 
@@ -90,14 +92,14 @@ const App = () => {
               <Route path="/" element={<Home isLoggedIn={isLoggedIn} />} />
               <Route path="/i-:code" element={<ReferralRedirect />} />
               {/* <Route path="/" element={<Index isLoggedIn={isLoggedIn}  />} /> */}
-              <Route path="/casino" element={<CasinoPage isLoggedIn={isLoggedIn}  />} />
+              <Route path="/casino" element={<CasinoPage isLoggedIn={isLoggedIn} />} />
               <Route path="/sports" element={<SportsPage isLoggedIn={isLoggedIn} />} />
               <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
-              <Route path="/sports/:category" element={<SportsPage isLoggedIn={isLoggedIn}  />} />
+              <Route path="/sports/:category" element={<SportsPage isLoggedIn={isLoggedIn} />} />
               <Route path="/search" element={<SearchPage isLoggedIn={isLoggedIn} />} />
-              <Route path="/wallet" element={<WalletPage isLoggedIn={isLoggedIn}  />} />
-              <Route path="/game/:gameId" element={<GameDetailPage isLoggedIn={isLoggedIn}  />} />
-              <Route path="/wallet/:section" element={<WalletPage isLoggedIn={isLoggedIn}  />} />
+              <Route path="/wallet" element={<WalletPage isLoggedIn={isLoggedIn} />} />
+              <Route path="/game/:gameId" element={<GameDetailPage isLoggedIn={isLoggedIn} />} />
+              <Route path="/wallet/:section" element={<WalletPage isLoggedIn={isLoggedIn} />} />
               <Route path="/casino/:category" element={<CategoryPage />} />
               <Route path="/game/crash" element={<CrashGamePage isLoggedIn={isLoggedIn} />} />
               <Route path="/live-stats" element={<LiveStats />} />
@@ -113,6 +115,8 @@ const App = () => {
               <Route path="/lucky" element={<WeeklyRafflePage />} />
               <Route path="/quest-hub" element={<QuestHubPage />} />
               <Route path="/challenge" element={<ChallengePage />} />
+              <Route path="/wallet/deposit" element={<Deposit />} />
+              <Route path="/wallet/withdraw" element={<Withdraw />} />
               <Route path="/globalSettings" element={<GlobalSettingsPage username={""} selectedFrame={0} setUsername={function (value: SetStateAction<string>): void {
                 throw new Error("Function not implemented.");
               }} />} />

@@ -107,6 +107,7 @@ const ProfileDropdown = ({ isOpen, onClose, onLogout }: ProfileDropdownProps) =>
   const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
   const toggleTheme = () => setIsDark(!isDark);
   const navigate = useNavigate();
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -177,7 +178,11 @@ export const MobileProfile = ({
   const navigate = useNavigate();
   const [showBalance, setShowBalance] = useState(true);
   const { user } = useAuthStore();
-  const { balance } = useWalletStore();
+  const { wallets } = useWalletStore();
+  const [activeAction, setActiveAction] = useState<string | null>(null);
+
+  const bdtWallet = wallets.find((w: any) => w.name === "BDT");
+  const depositBalance = Number(bdtWallet?.balance || 0);
 
   const topMenuItems = [
     {
@@ -267,7 +272,7 @@ export const MobileProfile = ({
         />
 
         {/* Dark overlay for readability */}
-        <div className="absolute inset-0 bg-black/30" />
+        <div className="absolute inset-0 bg-black/30 pointer-events-none" />
 
         {/* Header on banner */}
         <div className="absolute top-0 left-0 right-0 flex items-center gap-3 p-4 z-10">
@@ -325,20 +330,34 @@ export const MobileProfile = ({
             <Eye className="w-7 h-6 text-white cursor-pointer" onClick={() => setShowBalance((prev) => !prev)} />
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-2xl font-semibold">৳ {showBalance ? `₹ ${balance ?? 0}` : "******"}</span>
+            <span className="text-2xl font-semibold">৳ {showBalance ? ` ${depositBalance ?? 0}` : "******"}</span>
 
           </div>
           <div className="flex gap-3 mt-4">
             <button onClick={(e) => {
               e.stopPropagation();
-              navigate("/wallet/deposit");
-            }} className="flex-1 bg-[#1A2C38] hover:bg-primary py-2.5 rounded-lg font-semibold transition-colors">
+              try {
+                console.log("Deposit clicked");
+                navigate("/wallet/deposit");
+                onClose();
+              } catch (err) {
+                console.error(err);
+              }
+            }}
+              className="flex-1 bg-[#1A2C38] hover:bg-primary py-2.5 rounded-lg font-semibold transition-colors">
               Deposit
             </button>
             <button onClick={(e) => {
               e.stopPropagation();
-              navigate("/wallet/withdraw");
-            }} className="flex-1 bg-[#1A2C38] hover:bg-primary py-2.5 rounded-lg transition-colors">
+              try {
+                console.log("withdraw clicked");
+                navigate("/wallet/withdraw");
+                onClose();
+              } catch (err) {
+                console.error(err);
+              }
+            }}
+              className="flex-1 bg-[#1A2C38] hover:bg-primary py-2.5 rounded-lg transition-colors">
               Withdraw
             </button>
           </div>
@@ -347,7 +366,7 @@ export const MobileProfile = ({
           <div className="flex flex-wrap gap-y-4">
             {actions.map((item, index) => (
               <div
-                key={item.label}
+                key={`${item.label}-${index}`}
                 className={cn(
                   "flex justify-center",
                   index < 4 ? "basis-1/4" : "basis-1/4" // keep same width
@@ -355,18 +374,29 @@ export const MobileProfile = ({
               >
                 <button onClick={(e) => {
                   e.stopPropagation();
+                  setActiveAction(item.label);
                   if (item.path) {
                     navigate(item.path);
                     onClose(); // optional: close the panel after click
                   }
                 }} className="flex flex-col items-center">
                   {/* Icon box */}
-                  <div className="w-12 h-12 bg-[#122634] rounded-lg flex items-center justify-center hover:bg-[#1c3648] transition-colors">
+                  <div className={cn(
+                    "w-12 h-12 rounded-lg flex items-center justify-center transition-colors",
+                    activeAction === item.label
+                      ? "bg-blue-500"
+                      : "bg-[#122634] hover:bg-[#1c3648]"
+                  )}>
                     <img src={item.icon} alt={item.label} className="w-6 h-6" />
                   </div>
 
                   {/* Label */}
-                  <span className="mt-1 text-xs text-white/70">
+                  <span className={cn(
+                    "mt-1 text-xs",
+                    activeAction === item.label
+                      ? "text-blue-400"
+                      : "text-white/70"
+                  )}>
                     {item.label}
                   </span>
                 </button>
