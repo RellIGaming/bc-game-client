@@ -225,6 +225,8 @@ const Header = ({
                   isOpen={profileOpen}
                   onClose={() => setProfileOpen(false)}
                   onLogout={onLogout || (() => { })}
+                  isDark={isDark}
+                  onThemeToggle={onThemeToggle}
                 />
               </div>
             </>

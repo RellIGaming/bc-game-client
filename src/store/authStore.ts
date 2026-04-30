@@ -106,7 +106,7 @@ const useAuthStore = create<AuthState>((set, get) => ({
       const res = await api.getProfile();
 
       set({
-        user: res, // ✅ backend already returns correct shape
+        user: res.user || res,
         loading: false,
       });
     } catch (err: any) {
@@ -124,9 +124,12 @@ const useAuthStore = create<AuthState>((set, get) => ({
       const res = await api.updateProfile(data);
 
       set({
-        user: res, // ✅ FIX (not res.user)
-        loading: false,
-      });
+      user: {
+        ...get().user,
+        ...res,
+      },
+      loading: false,
+    });
     } catch (err: any) {
       set({ error: err.message, loading: false });
     }

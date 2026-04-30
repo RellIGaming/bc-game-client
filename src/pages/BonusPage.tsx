@@ -114,7 +114,7 @@ const BonusPage = () => {
   const [redeemCode, setRedeemCode] = useState("");
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
- 
+  const [mobileTab, setMobileTab] = useState<"general" | "vip" | "special">("general");
   return (
     <div className="min-h-screen bg-background text-foreground">
       <div className="max-w-5xl mx-auto px-1 py-8 space-y-8 sm:px-2">
@@ -232,9 +232,29 @@ const BonusPage = () => {
             <p className="text-xs text-muted-foreground text-center mt-2">💎 Deposit bonus will be added to your 🪙 Rakeback</p>
           </div>
         </div>
-
+{/* Mobile bonus tabs */}
+        <div className="sm:hidden flex gap-2 border-b border-border overflow-x-auto scrollbar-hide">
+          {[
+            { id: "general", label: "General Bonus" },
+            { id: "vip", label: "VIP Bonus" },
+            { id: "special", label: "Special Bonus" },
+          ].map((t) => (
+            <button
+              key={t.id}
+              onClick={() => setMobileTab(t.id as any)}
+              className={cn(
+                "pb-2 px-3 text-sm font-medium border-b-2 transition-colors whitespace-nowrap",
+                mobileTab === t.id
+                  ? "border-primary text-foreground"
+                  : "border-transparent text-muted-foreground"
+              )}
+            >
+              {t.label}
+            </button>
+          ))}
+        </div>
         {/* General Bonus */}
-        <div>
+        <div className={cn(mobileTab !== "general" && "hidden sm:block")}>
           <h2 className="text-xl font-bold mb-4">General Bonus</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {generalBonuses.map((bonus, i) => (
@@ -322,7 +342,7 @@ const BonusPage = () => {
             ))}
           </div>
         </div>
-        <div>
+         <div className={cn(mobileTab !== "vip" && "hidden sm:block")}>
           <h2 className="text-xl font-bold mb-4">VIP Bonus</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {generalBonuses.map((bonus, i) => (
@@ -412,7 +432,7 @@ const BonusPage = () => {
         </div>
 
         {/* Special Bonus */}
-        <div>
+        <div className={cn(mobileTab !== "special" && "hidden sm:block")}>
           <h2 className="text-xl font-bold mb-4">Special Bonus</h2>
           <div className="bg-card rounded-lg p-12 text-center">
             <div className="text-5xl mb-4">🎁</div>

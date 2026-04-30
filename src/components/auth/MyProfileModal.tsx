@@ -66,7 +66,7 @@ const EditProfileModal = ({
             onSave(localUsername, localFrame);
 
             // ✅ SUCCESS MESSAGE
-           toast.success("Profile updated successfully ✅");
+            toast.success("Profile updated successfully ✅");
 
             onClose();
         } catch (err) {

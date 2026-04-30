@@ -7,19 +7,11 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { useRaffleStore } from "@/store/walletStore";
 
 const myTicketsTabs = ["Active", "Past", "My Winnings"];
 
-const winnerListData = Array.from({ length: 20 }, (_, i) => ({
-  no: i + 1,
-  name: i < 5
-    ? ["TBH738", "Uuywhfctcez", "—щ|з~_ÏÇ—щ|з—", "Coffee_lima", "LaToiteliste"][i]
-    : `Player${i + 1}`,
-  ticketNumber: Math.floor(Math.random() * 80000000 + 10000000).toString(),
-  prize: i < 5
-    ? [`₹451,622.40`, `₹316,027.86`, `₹181,043.96`, `₹136,738.72`, `₹95,524.48`][i]
-    : `₹8,052.44`,
-}));
+
 
 const raffleRules = [
   { q: "How to Enter", a: "Log in and wager the required daily amount to earn a ticket. Each qualifying wager earns you one ticket automatically." },
@@ -37,26 +29,83 @@ const faqItems = [
 ];
 
 const WeeklyRafflePage = () => {
+  const {
+    currentRound,
+    prizePool,
+    totalTickets,
+    timeLeft,
+    stats,
+    winners,
+    totalPages,
+    fetchCurrentRaffle,
+    fetchMyTickets,
+    fetchWinners,
+  } = useRaffleStore();
   const [mainTab, setMainTab] = useState<"My Tickets" | "Results">("My Tickets");
   const [activeSubTab, setActiveSubTab] = useState("Active");
-  const [timeLeft, setTimeLeft] = useState({ days: 1, hours: 21, minutes: 0, seconds: 33 });
-  const [currentRound, setCurrentRound] = useState("2026020220000");
+  const [liveTime, setLiveTime] = useState(timeLeft);
   const [currentPage, setCurrentPage] = useState(1);
+  const formatTime = (ms: any) => {
+    if (!ms) return { days: 0, hours: 0, minutes: 0, seconds: 0 };
+
+    const totalSeconds = Math.floor(ms / 1000);
+
+    return {
+      days: Math.floor(totalSeconds / (3600 * 24)),
+      hours: Math.floor((totalSeconds % (3600 * 24)) / 3600),
+      minutes: Math.floor((totalSeconds % 3600) / 60),
+      seconds: totalSeconds % 60,
+    };
+  };
+
+  const t = formatTime(timeLeft);
 
   useEffect(() => {
+    fetchCurrentRaffle();
+  }, []);
+
+  useEffect(() => {
+    if (currentRound) {
+      fetchWinners(currentRound, currentPage);
+    }
+  }, [currentRound, currentPage]);
+
+  useEffect(() => {
+    if (!timeLeft) return;
+
+    setLiveTime(timeLeft);
+
     const timer = setInterval(() => {
-      setTimeLeft((prev) => {
+      setLiveTime(prev => {
+        if (!prev) return prev;
+
         let { days, hours, minutes, seconds } = prev;
+
         seconds--;
-        if (seconds < 0) { seconds = 59; minutes--; }
-        if (minutes < 0) { minutes = 59; hours--; }
-        if (hours < 0) { hours = 23; days--; }
-        if (days < 0) { days = 6; hours = 23; minutes = 59; seconds = 59; }
+
+        if (seconds < 0) {
+          seconds = 59;
+          minutes--;
+        }
+        if (minutes < 0) {
+          minutes = 59;
+          hours--;
+        }
+        if (hours < 0) {
+          hours = 23;
+          days--;
+        }
+
+        if (days < 0) {
+          return { days: 0, hours: 0, minutes: 0, seconds: 0 };
+        }
+
         return { days, hours, minutes, seconds };
       });
     }, 1000);
+
     return () => clearInterval(timer);
-  }, []);
+  }, [timeLeft]);
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -73,16 +122,19 @@ const WeeklyRafflePage = () => {
         <div className="bg-gradient-to-r from-accent/20 to-accent/5 b-radius p-5 sm:p-8 text-center relative overflow-hidden">
           <div className="relative z-10">
             <p className="text-xs font-bold uppercase tracking-wider text-accent">⭐ SUPER LUCKY DRAW</p>
-            <p className="text-2xl sm:text-3xl font-bold text-accent mt-1">₹1,810,489.60</p>
+            <p className="text-2xl sm:text-3xl font-bold text-accent mt-1">₹{Number(prizePool).toLocaleString()}</p>
             <p className="text-xs text-muted-foreground mt-2">Next Draw Starts in</p>
             <p className="text-lg font-bold text-primary mt-1">
-              {timeLeft.days}d:{timeLeft.hours}h:{timeLeft.minutes}m:{timeLeft.seconds}s
+              {liveTime?.days ?? 0}d:
+              {liveTime?.hours ?? 0}h:
+              {liveTime?.minutes ?? 0}m:
+              {liveTime?.seconds ?? 0}s
             </p>
             <button className="mt-3 bg-accent text-accent-foreground px-6 py-2 b-radius font-medium text-sm">
               Earn ticket
             </button>
             <p className="text-xs text-muted-foreground mt-2">
-              <span className="text-primary font-bold">79633</span> tickets have been sent this round
+              <span className="text-primary font-bold">{totalTickets}</span> tickets have been sent this round
             </p>
           </div>
         </div>
@@ -136,17 +188,17 @@ const WeeklyRafflePage = () => {
               <div className="bg-card b-radius p-4">
                 <div className="flex items-center gap-2">
                   <Ticket className="w-4 h-4 text-accent" />
-                  <span className="text-xs text-muted-foreground">Total tickets: <span className="text-foreground font-bold">0</span></span>
+                  <span className="text-xs text-muted-foreground">Total tickets: <span className="text-foreground font-bold">{stats.total}</span></span>
                 </div>
                 <div className="flex items-center gap-2 mt-1">
                   <Ticket className="w-4 h-4 text-primary" />
-                  <span className="text-xs text-muted-foreground">Total winning tickets: <span className="text-foreground font-bold">0</span></span>
+                  <span className="text-xs text-muted-foreground">Total winning tickets: <span className="text-foreground font-bold">{stats.winnings}</span></span>
                 </div>
               </div>
               <div className="bg-card b-radius p-4 flex items-center gap-2">
                 <span className="text-xs text-destructive">🔴</span>
                 <span className="text-xs text-muted-foreground">Total Prize won:</span>
-                <span className="text-lg font-bold text-accent">₹0.00</span>
+                <span className="text-lg font-bold text-accent">₹{Number(stats.prize).toLocaleString()}</span>
               </div>
             </div>
 
@@ -155,7 +207,10 @@ const WeeklyRafflePage = () => {
               {myTicketsTabs.map((tab) => (
                 <button
                   key={tab}
-                  onClick={() => setActiveSubTab(tab)}
+                  onClick={() => {
+                    setActiveSubTab(tab);
+                    fetchMyTickets(tab);
+                  }}
                   className={cn(
                     "flex-1 py-2 text-sm font-medium b-radius transition-colors text-center",
                     activeSubTab === tab ? "bg-secondary text-foreground" : "text-muted-foreground"
@@ -187,7 +242,7 @@ const WeeklyRafflePage = () => {
               </div>
               <button className="p-1 hover:bg-secondary b-radius"><ChevronRight className="w-5 h-5" /></button>
               <div className="ml-auto text-xs text-muted-foreground hidden sm:block">
-                Draw time: 2/2/2026, 5:30:00 PM
+                Draw time: {new Date(timeLeft + Date.now()).toLocaleString()}
               </div>
               <div className="ml-auto sm:ml-2 text-xs text-muted-foreground flex items-center gap-1">
                 <Ticket className="w-3 h-3 text-accent" />
@@ -208,7 +263,7 @@ const WeeklyRafflePage = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {winnerListData.map((w, i) => (
+                  {winners.map((w, i) => (
                     <tr key={i} className={cn(
                       "border-b border-border/50",
                       i % 2 === 0 ? "bg-card" : "bg-secondary/20"
@@ -225,7 +280,7 @@ const WeeklyRafflePage = () => {
                           {w.ticketNumber}
                         </span>
                       </td>
-                      <td className="p-3 text-right text-accent font-medium">+ {w.prize}</td>
+                      <td className="p-3 text-right text-accent font-medium">+ {Number(w.prize).toLocaleString()}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -235,7 +290,7 @@ const WeeklyRafflePage = () => {
             {/* Pagination */}
             <div className="flex items-center justify-center gap-2 pt-2">
               <button className="p-1 hover:bg-secondary b-radius"><ChevronLeft className="w-4 h-4" /></button>
-              {[1, 2, 3].map((page) => (
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
                 <button
                   key={page}
                   onClick={() => setCurrentPage(page)}

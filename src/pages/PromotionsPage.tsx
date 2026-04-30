@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import DepositModal from "@/components/header/DepositModal";
+import { usePromotionStore } from "@/store/walletStore";
+import { useNavigate } from "react-router-dom";
 
 const depositTiers = [
   { pct: "180%", label: "1st Deposit", min: "₹150.00" },
@@ -27,13 +29,27 @@ const promotionCards = [
 ];
 
 const PromotionsPage = () => {
+  const {
+    depositTiers,
+    promotionTabs,
+    promotions,
+    fetchDepositTiers,
+    fetchPromotionTabs,
+    fetchPromotions
+  } = usePromotionStore();
+
+const navigate=useNavigate();
   const [activeTab, setActiveTab] = useState("All");
   const [promoTab, setPromoTab] = useState("Latest Promotion");
   const [showBonusTnC, setShowBonusTnC] = useState(false);
   const [showDeposit, setShowDeposit] = useState(false);
 
-  const filteredCards = promotionCards.filter((c) => c.category.includes(activeTab));
-
+ const filteredCards = promotions;
+  useEffect(() => {
+    fetchDepositTiers();
+    fetchPromotionTabs();
+    fetchPromotions();
+  }, []);
   return (
     <div className="min-h-screen bg-background text-foreground">
       <div className="max-w-5xl mx-auto px-1 sm:px-2 py-6 space-y-6">
@@ -45,7 +61,11 @@ const PromotionsPage = () => {
               <p className="text-muted-foreground text-sm">Great Deposit Bonus</p>
               <h1 className="text-2xl sm:text-3xl font-bold">Up TO 360% Bonus</h1>
               <div className="flex gap-2 mt-3">
-                <button onClick={() => setShowDeposit(true)} className="bg-primary text-primary-foreground px-4 py-2 b-radius text-sm font-medium">
+                <button 
+                // onClick={() => setShowDeposit(true)} 
+                onClick={() => navigate("/wallet/deposit")} 
+                
+                className="bg-primary text-primary-foreground px-4 py-2 b-radius text-sm font-medium">
                   Deposit Now
                 </button>
                 <button onClick={() => setShowBonusTnC(true)} className="bg-secondary text-foreground px-4 py-2 b-radius text-sm font-medium hover:bg-muted">
@@ -55,7 +75,7 @@ const PromotionsPage = () => {
             </div>
             {/* Deposit Tiers */}
             <div className="flex gap-3 sm:gap-4 overflow-x-auto scrollbar-hide">
-              {depositTiers.map((tier, i) => (
+            {depositTiers.map((tier, i) => (
                 <div key={i} className="flex flex-col items-center shrink-0">
                   <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gradient-to-br from-yellow-600 to-yellow-800 flex items-center justify-center">
                     <span className="text-lg sm:text-xl font-bold text-yellow-200">🏆</span>
@@ -86,7 +106,7 @@ const PromotionsPage = () => {
 
         {/* Category Filter */}
         <div className="flex gap-2 overflow-x-auto scrollbar-hide">
-          {promotionTabs.map((tab) => (
+        {promotionTabs.map(tab => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
@@ -104,8 +124,8 @@ const PromotionsPage = () => {
 
         {/* Cards Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {filteredCards.map((card, i) => (
-            <div key={i} className="bg-card b-radius overflow-hidden group cursor-pointer hover:ring-1 hover:ring-primary/30 transition-all">
+      {filteredCards.map((card) => (
+            <div key={card.id} className="bg-card b-radius overflow-hidden group cursor-pointer hover:ring-1 hover:ring-primary/30 transition-all">
               {/* Card Image Placeholder */}
               <div className="relative h-36 sm:h-40 bg-gradient-to-br from-secondary to-card flex items-center justify-center">
                 {card.badge && (
@@ -137,7 +157,7 @@ const PromotionsPage = () => {
       </div>
 
       {/* Deposit Modal */}
-      <DepositModal open={showDeposit} onClose={() => setShowDeposit(false)} />
+      {/* <DepositModal open={showDeposit} onClose={() => setShowDeposit(false)} /> */}
 
       {/* Bonus T&C Modal */}
       <Dialog open={showBonusTnC} onOpenChange={setShowBonusTnC}>

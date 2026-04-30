@@ -49,6 +49,8 @@ import instagram from "../../assets/images/instagram-icon.png"
 
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { setAutoTranslateLanguage } from '@/i18n/autoTranslate';
 import MyProfileModal from '../auth/MyProfileModal';
 import useAuthStore from '@/store/authStore';
 import { useWalletStore } from '@/store/walletStore';
@@ -73,6 +75,8 @@ interface ProfileDropdownProps {
   isOpen: boolean;
   onClose: () => void;
   onLogout: () => void;
+  isDark?: boolean;
+  onThemeToggle?: () => void;
 }
 
 const menuItems: MenuItem[] = [
@@ -85,7 +89,7 @@ const menuItems: MenuItem[] = [
   { icon: <Crown className="w-5 h-5" />, label: "VIP Club", path: "/" },
   { icon: <Lock className="w-5 h-5" />, label: "Vault Pro", path: "/wallet/vault-pro" },
   { icon: <Users className="w-5 h-5" />, label: "Referral", path: "/referal" },
-  { icon: <User className="w-5 h-5" />, label: "My Profile", path: "my-profile" },
+  { icon: <User className="w-5 h-5" />, label: "My Profile", path: "/my-profile" },
   { icon: <Settings className="w-5 h-5" />, label: "Global Settings", path: "/globalSettings" },
 ];
 const actions = [
@@ -101,11 +105,12 @@ const actions = [
 
 
 
-const ProfileDropdown = ({ isOpen, onClose, onLogout }: ProfileDropdownProps) => {
-  const [isDark, setIsDark] = useState(true);
+const ProfileDropdown = ({ isOpen, onClose, onLogout, isDark: isDarkProp, onThemeToggle: onThemeToggleProp }: ProfileDropdownProps) => {
+  const [localDark, setLocalDark] = useState(true);
+  const isDark = isDarkProp ?? localDark;
+  const toggleTheme = onThemeToggleProp ?? (() => setLocalDark(!localDark));
   const [profileOpen, setProfileOpen] = useState(false);
   const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
-  const toggleTheme = () => setIsDark(!isDark);
   const navigate = useNavigate();
 
   return (
@@ -180,6 +185,13 @@ export const MobileProfile = ({
   const { user } = useAuthStore();
   const { wallets } = useWalletStore();
   const [activeAction, setActiveAction] = useState<string | null>(null);
+  const { i18n } = useTranslation();
+  const currentLang = i18n.language?.startsWith("bn") ? "bn" : "en";
+  const changeLang = (lng: "en" | "bn") => {
+    i18n.changeLanguage(lng);
+    try { localStorage.setItem("app_lang", lng); } catch {}
+    setAutoTranslateLanguage(lng);
+  };
 
   const bdtWallet = wallets.find((w: any) => w.name === "BDT");
   const depositBalance = Number(bdtWallet?.balance || 0);
@@ -215,12 +227,36 @@ export const MobileProfile = ({
     {
       label: "Language",
       icon: referIcon,
-      right: <span className="text-white/50 text-sm">English</span>,
+      right: (
+        <div
+          onClick={(e) => e.stopPropagation()}
+          className="flex items-center gap-1 bg-secondary rounded-lg p-1"
+        >
+          <button
+            onClick={() => changeLang("en")}
+            className={cn(
+              "px-2 py-0.5 text-xs font-semibold rounded-md transition-colors",
+              currentLang === "en" ? "bg-primary text-primary-foreground" : "text-muted-foreground"
+            )}
+          >
+            EN
+          </button>
+          <button
+            onClick={() => changeLang("bn")}
+            className={cn(
+              "px-2 py-0.5 text-xs font-semibold rounded-md transition-colors",
+              currentLang === "bn" ? "bg-primary text-primary-foreground" : "text-muted-foreground"
+            )}
+          >
+            বাং
+          </button>
+        </div>
+      ),
     },
     {
       label: "Currency",
       icon: currency,
-      right: <span className="text-white/50 text-sm">BDT</span>,
+      right: <span className="text-muted-foreground text-sm">BDT</span>,
     },
     {
       label: "Theme",
@@ -228,12 +264,12 @@ export const MobileProfile = ({
       right: (
         <div
           onClick={(e) => e.stopPropagation()}
-          className="flex w-20 h-8 bg-[#122634] rounded-lg p-1"
+          className="flex w-20 h-8 bg-secondary rounded-lg p-1"
         >
           <button
             onClick={() => isDark && onThemeToggle()}
             className={`flex-1 flex items-center justify-center rounded-md transition-colors
-          ${isDark ? "bg-[#1c3648]" : ""}
+          ${isDark ? "bg-accent" : ""}
         `}
           >
             <img src={moonIcon} alt="Dark" className="w-4 h-4" />
@@ -242,7 +278,7 @@ export const MobileProfile = ({
           <button
             onClick={() => !isDark && onThemeToggle()}
             className={`flex-1 flex items-center justify-center rounded-md transition-colors
-          ${!isDark ? "bg-[#1c3648]" : ""}
+          ${!isDark ? "bg-accent" : ""}
         `}
           >
             <img src={sunIcon} alt="Light" className="w-4 h-4" />
@@ -260,7 +296,7 @@ export const MobileProfile = ({
       animate={{ x: 0 }}
       exit={{ x: "100%" }}
       transition={{ duration: 0.3 }}
-      className="fixed inset-0 z-50 bg-[#1A2C38] text-white overflow-y-auto"
+      className="fixed inset-0 z-50 bg-background text-foreground overflow-y-auto"
     >
       {/* Banner + Header */}
       <div className="relative">
@@ -280,7 +316,7 @@ export const MobileProfile = ({
             onClick={onClose}
             className="w-8 h-8 rounded-lg bg-secondary flex items-center justify-center"
           >
-            <ChevronLeft className="w-5 h-5 text-white" />
+            <ChevronLeft className="w-5 h-5 text-foreground" />
           </button>
           {/* <span className="text-lg font-semibold text-white">Profile</span> */}
         </div>
@@ -297,25 +333,25 @@ export const MobileProfile = ({
               {user?.username || "User"}
               <span className="text-green-400 text-xs">●</span>
             </div>
-            <div className="text-xs text-white/70 flex items-center gap-1">
+            <div className="text-xs text-muted-foreground flex items-center gap-1">
               ID: {user?.id}
               <Copy className="w-3 h-3 cursor-pointer hover:text-white" />
             </div>
           </div>
-          <ChevronRight className="w-6 h-6 ml-auto text-white/70" />
+          <ChevronRight className="w-6 h-6 ml-auto text-muted-foreground" />
         </div>
 
       </div>
 
       <div className='px-2'>
         {/* VIP Section */}
-        <div className="px-4 py-3 bg-[#213744]">
+        <div className="px-4 py-3 bg-card">
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-2">
-              <span className="text-lg text-white">VIP 0</span>
+              <span className="text-lg text-foreground">VIP 0</span>
               <span className="px-2 py-0.5 hvr-btn text-sm rounded text-white/80">Bronze</span>
             </div>
-            <div className="flex items-center gap-1 text-lg text-white bg-[#1A2C38] p-1">
+            <div className="flex items-center gap-1 text-lg text-white bg-background p-1">
               VIP Club
               <ChevronRight className="w-6 h-6" />
             </div>
@@ -324,9 +360,9 @@ export const MobileProfile = ({
         </div>
 
         {/* Balance */}
-        <div className="px-4 py-3 bg-[#213744] mt-2">
+        <div className="px-4 py-3 bg-card mt-2">
           <div className='flex flex-row justify-between'>
-            <div className="text-lg text-white mb-1">Blance</div>
+            <div className="text-lg text-foreground mb-1">Blance</div>
             <Eye className="w-7 h-6 text-white cursor-pointer" onClick={() => setShowBalance((prev) => !prev)} />
           </div>
           <div className="flex items-center gap-2">
@@ -344,7 +380,7 @@ export const MobileProfile = ({
                 console.error(err);
               }
             }}
-              className="flex-1 bg-[#1A2C38] hover:bg-primary py-2.5 rounded-lg font-semibold transition-colors">
+              className="flex-1 bg-background hover:bg-primary py-2.5 rounded-lg font-semibold transition-colors">
               Deposit
             </button>
             <button onClick={(e) => {
@@ -357,12 +393,12 @@ export const MobileProfile = ({
                 console.error(err);
               }
             }}
-              className="flex-1 bg-[#1A2C38] hover:bg-primary py-2.5 rounded-lg transition-colors">
+              className="flex-1 bg-background hover:bg-primary py-2.5 rounded-lg transition-colors">
               Withdraw
             </button>
           </div>
         </div>
-        <div className=" py-3 bg-[#213744] mt-2">
+        <div className=" py-3 bg-card mt-2">
           <div className="flex flex-wrap gap-y-4">
             {actions.map((item, index) => (
               <div
@@ -385,7 +421,7 @@ export const MobileProfile = ({
                     "w-12 h-12 rounded-lg flex items-center justify-center transition-colors",
                     activeAction === item.label
                       ? "bg-blue-500"
-                      : "bg-[#122634] hover:bg-[#1c3648]"
+                      : "bg-secondary hover:bg-accent"
                   )}>
                     <img src={item.icon} alt={item.label} className="w-6 h-6" />
                   </div>
@@ -395,7 +431,7 @@ export const MobileProfile = ({
                     "mt-1 text-xs",
                     activeAction === item.label
                       ? "text-blue-400"
-                      : "text-white/70"
+                      : "text-muted-foreground"
                   )}>
                     {item.label}
                   </span>
@@ -409,11 +445,11 @@ export const MobileProfile = ({
         </div>
 
         {/* Menu Items */}
-        <div className="mt-2 bg-[#213744]">
+        <div className="mt-2 bg-card">
           {topMenuItems.map((item, index) => (
             <button
               key={item.label}
-              className="w-full flex justify-between items-center px-4 py-2 hover:bg-white/5 transition-colors"
+              className="w-full flex justify-between items-center px-4 py-2 hover:bg-accent/40 transition-colors"
             >
               {/* Left */}
               <div className="flex items-center gap-3">
@@ -428,12 +464,12 @@ export const MobileProfile = ({
               {/* Right */}
               <div className="flex items-center gap-2">
                 {item.right}
-                <ChevronRight className="w-6 h-6 bg-[#1A2C38]" />
+                <ChevronRight className="w-6 h-6 bg-background" />
               </div>
             </button>
           ))}
         </div>
-        <div className="mt-2 bg-[#213744]">
+        <div className="mt-2 bg-card">
           {moileMenuItems.map((item, index) => (
             <button
               key={item.label}
@@ -443,7 +479,7 @@ export const MobileProfile = ({
                   onClose();
                 }
               }}
-              className="w-full flex justify-between items-center px-4 py-2 hover:bg-white/5 transition-colors"
+              className="w-full flex justify-between items-center px-4 py-2 hover:bg-accent/40 transition-colors"
             >
               {/* Left */}
               <div className="flex items-center gap-3">
@@ -453,7 +489,7 @@ export const MobileProfile = ({
               {/* Right */}
               <div className="flex items-center gap-2">
                 {item.right}
-                <ChevronRight className="w-6 h-6 bg-[#1A2C38]" />
+                <ChevronRight className="w-6 h-6 bg-background" />
               </div>
             </button>
           ))}
@@ -461,13 +497,13 @@ export const MobileProfile = ({
 
 
         {/* Premium Support */}
-        <div className="bg-[#213744] p-4 flex items-center gap-3 mt-2">
+        <div className="bg-card p-4 flex items-center gap-3 mt-2">
           <div>
             <img src={support} alt="" className="w-8 h-8 text-[#3b82f6]" />
           </div>
           <div className="flex-1">
             <div className="font-medium">24/7 Premium Support</div>
-            <div className="text-xs text-white/50">Contact us if you have still question</div>
+            <div className="text-xs text-muted-foreground">Contact us if you have still question</div>
           </div>
           <button className="bg-[#3b82f6] hover:bg-[#2563eb] px-4 py-1.5 rounded-lg text-sm font-medium transition-colors">
             GO
@@ -475,28 +511,28 @@ export const MobileProfile = ({
         </div>
 
         {/* Leave Feedback */}
-        <button className="w-full flex justify-between items-center px-4 py-4 bg-[#213744] mt-2 hover:bg-white/5 transition-colors">
+        <button className="w-full flex justify-between items-center px-4 py-4 bg-card mt-2 hover:bg-accent/40 transition-colors">
           <div className="flex items-center gap-3">
-            <img src={themeIcon} alt="logo" className="w-5 h-5 text-white/60" />
+            <img src={themeIcon} alt="logo" className="w-5 h-5 text-muted-foreground" />
             <span>Leave Feedback</span>
           </div>
-          <ChevronRight className="w-6 h-6 bg-[#222627]" />
+          <ChevronRight className="w-6 h-6 bg-secondary" />
         </button>
 
         {/* Join Community */}
-        <div className="p-4 text-center bg-[#213744] mt-2">
-          <div className="text-sm text-white/60 mb-3">Join Our community</div>
+        <div className="p-4 text-center bg-card mt-2">
+          <div className="text-sm text-muted-foreground mb-3">Join Our community</div>
           <div className="flex justify-center gap-4">
-            <button className="w-10 h-10 bg-[#222627] rounded-lg flex items-center justify-center hover:bg-[#1c3648] transition-colors">
+            <button className="w-10 h-10 bg-secondary rounded-lg flex items-center justify-center hover:bg-accent transition-colors">
               <img src={tweeter} alt="" className="w-5 h-5" />
             </button>
-            <button className="w-10 h-10 bg-[#222627] rounded-lg flex items-center justify-center hover:bg-[#1c3648] transition-colors">
+            <button className="w-10 h-10 bg-secondary rounded-lg flex items-center justify-center hover:bg-accent transition-colors">
               <img src={facebook} alt="" className="w-5 h-5" />
             </button>
-            <button className="w-10 h-10 bg-[#222627] rounded-lg flex items-center justify-center hover:bg-[#1c3648] transition-colors">
+            <button className="w-10 h-10 bg-secondary rounded-lg flex items-center justify-center hover:bg-accent transition-colors">
               <img src={whatsapp} alt="" className="w-5 h-5" />
             </button>
-            <button className="w-10 h-10 bg-[#222627] rounded-lg flex items-center justify-center hover:bg-[#1c3648] transition-colors">
+            <button className="w-10 h-10 bg-secondary rounded-lg flex items-center justify-center hover:bg-accent transition-colors">
               <img src={instagram} alt="" className="w-5 h-5" />
             </button>
           </div>
@@ -506,7 +542,7 @@ export const MobileProfile = ({
         <div className="p-4 pb-4 ">
           <button
             onClick={onLogout}
-            className="mx-auto w-1/2 flex items-center justify-center gap-2 py-3 bg-[#213744] rounded-lg hover:bg-white/5 transition-colors"
+            className="mx-auto w-1/2 flex items-center justify-center gap-2 py-3 bg-card rounded-lg hover:bg-accent/40 transition-colors"
           >
             <LogOut className="w-4 h-4" />
             <span>Sign Out</span>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 import {
@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { Switch } from "@/components/ui/switch";
+import useAuthStore from "@/store/authStore";
 
 const tabs = [
     { id: "account", label: "Account Info", icon: User, badge: false },
@@ -57,10 +58,12 @@ const AccountInfoTab = ({
     selectedFrame: number;
     setUsername: React.Dispatch<React.SetStateAction<string>>;
 }) => {
+    const { user, updateProfile, loading } = useAuthStore();
     const [editModal, setEditModal] = useState(false);
     const [emailModal, setEmailModal] = useState(false);
     const [phoneModal, setPhoneModal] = useState(false);
-    const [editUsername, setEditUsername] = useState("jkhatun258");
+    const [editUsername, setEditUsername] = useState(user?.username || "");
+
 
     const connections = [
         { name: "Cwallet", icon: "🔗", connected: false },
@@ -70,7 +73,15 @@ const AccountInfoTab = ({
         { name: "Twitter", icon: "𝕏", connected: false },
         { name: "Steam", icon: "🎮", connected: false },
     ];
-
+    const handleSave = async () => {
+        await updateProfile({ username: editUsername });
+        setEditModal(false);
+    };
+    useEffect(() => {
+        if (user) {
+            setEditUsername(user.username)
+        }
+    }, [user])
     return (
         <div className="space-y-4">
             {/* Profile Info */}
@@ -93,8 +104,8 @@ const AccountInfoTab = ({
                     >
                         🦖
                     </div>          <div>
-                        <p className="font-semibold text-foreground">{username}</p>
-                        <p className="text-sm text-muted-foreground">User ID: 101018386</p>
+                        <p className="font-semibold text-foreground">{user?.username}</p>
+                        <p className="text-sm text-muted-foreground">User ID: {user?.id}</p>
                     </div>
                     <button onClick={() => { setEditUsername(username); setEditModal(true); }} className="ml-auto p-2 hover:bg-secondary rounded-lg">
                         <Edit2 className="w-4 h-4 text-muted-foreground" />
@@ -109,13 +120,13 @@ const AccountInfoTab = ({
                     <div>
                         <p className="text-sm text-muted-foreground mb-1">E-mail Verification</p>
                         <div className="flex items-center justify-between">
-                            <p className="text-foreground">jkhatun258@gmail.com</p>
+                            <p className="text-foreground">{user?.email || "Not verified"}</p>
                             <button onClick={() => setEmailModal(true)} className="text-accent text-sm hover:underline">Verify</button>
                         </div>
                     </div>
                     <div>
                         <p className="text-sm text-muted-foreground mb-1">Phone Number</p>
-                        <p className="text-sm text-muted-foreground">Verify your phone number and you can use the phone as your second login method.</p>
+                        <p className="text-sm text-muted-foreground">Verify your phone number and you can use the phone as your second login method.{user?.phone || "Not added"}</p>
                         <button onClick={() => setPhoneModal(true)} className="mt-2 text-accent text-sm hover:underline">Add Phone</button>
                     </div>
                 </div>
@@ -165,10 +176,7 @@ const AccountInfoTab = ({
                         </div>
                     </div>
                     <button
-                        onClick={() => {
-                            setUsername(editUsername);
-                            setEditModal(false);
-                        }}
+                        onClick={handleSave}
                         className="w-full bg-accent hover:bg-accent/80 text-accent-foreground py-3 rounded-lg font-semibold"
                     >
                         Save
@@ -339,7 +347,7 @@ const PreferencesTab = () => {
             <div className="bg-secondary/50 rounded-lg p-4">
                 <h3 className="font-semibold text-foreground mb-3 border-l-2 border-accent pl-2">Account Preferences</h3>
                 <div className="space-y-4">
-                    <div className="flex items-center justify-between"><span className="text-sm text-foreground">View in currency</span><span className="flex items-center gap-1 text-sm text-muted-foreground">🇮🇳 INR <Edit2 className="w-3 h-3" /></span></div>
+                    <div className="flex items-center justify-between"><span className="text-sm text-foreground">View in currency</span><span className="flex items-center gap-1 text-sm text-muted-foreground">৳ BDT <Edit2 className="w-3 h-3" /></span></div>
                     <div className="flex items-center justify-between"><span className="text-sm text-foreground">Change Language</span><span className="flex items-center gap-1 text-sm text-muted-foreground">English <Edit2 className="w-3 h-3" /></span></div>
                     <div className="flex items-center justify-between"><span className="text-sm text-foreground">Show full name of currency in Crypto list</span><Switch checked={prefs.showFullName} onCheckedChange={() => toggle("showFullName")} /></div>
                     <div className="flex items-center justify-between"><span className="text-sm text-foreground">Display mode</span><div className="flex gap-1 bg-background rounded-lg p-1"><button className="p-1.5 rounded bg-secondary"><Moon className="w-4 h-4" /></button><button className="p-1.5 rounded"><Sun className="w-4 h-4 text-muted-foreground" /></button></div></div>

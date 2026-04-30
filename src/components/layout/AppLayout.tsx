@@ -13,6 +13,7 @@ import SignUpModal from "@/components/auth/SignUpModal";
 import SignInModal from "@/components/auth/SignInModal";
 import useAuthStore from "@/store/authStore";
 import ForgotPassword from "../auth/ForgotPassword";
+import LiveChat from "./LiveChat";
 
 interface AppLayoutProps {
   isLoggedIn: boolean;
@@ -151,7 +152,7 @@ const AppLayout = ({ isLoggedIn }: AppLayoutProps) => {
         >
           <Outlet /> {/* 👈 THIS IS THE MAGIC */}
         </main>
-        {/* <LiveChat isOpen={chatOpen} onClose={() => setChatOpen(false)} /> */}
+        <LiveChat isOpen={chatOpen} onClose={() => setChatOpen(false)} />
       </div>
 
       {/* ✅ FOOTER & MOBILE NAV (only once) */}

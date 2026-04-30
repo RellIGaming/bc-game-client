@@ -407,6 +407,11 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
   };
 
   const openParentRoute = (item: any) => {
+     if (item.id === "live" || item.id === "live-mobile") {
+      onChatClick();
+      if (window.innerWidth < 1024) onClose();
+      return;
+    }
     if (item.id === "casino") navigate("/casino");
     else if (item.id === "sports") navigate("/sports");
     else if (item.id === "sponsorships") navigate("/sponsorships");

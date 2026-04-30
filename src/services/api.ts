@@ -394,29 +394,32 @@ export const getDailyContest = async () => {
   return res.json();
 };
 
-//  raffle round (public)
+// raffle round (protected - because userStats exists)
 export const getCurrentRaffle = async () => {
-  const res = await fetch("/api/raffle/current");
-  return res.json();
+  return fetchWithAuth("/api/raffle/raffle-data");
 };
 
-// GET winners (public)
+// GET winners
 export const getWinners = async (roundId: string, page = 1) => {
   const res = await fetch(
-    `/api/raffle/winners?roundId=${roundId}&page=${page}`
+    `/api/raffle/winners?roundId=${roundId}&page=${page}&limit=10`
   );
   return res.json();
 };
 
-// GET my tickets (protected)
-export const getMyTickets = async (tab: string) => {
-  return fetchWithAuth(`/api/raffle/my-tickets?tab=${tab}`);
+// GET my tickets
+export const getMyTickets = async (type: string) => {
+  return fetchWithAuth(`/api/raffle/my-tickets?type=${type}`);
 };
 
-// GET rules (public)
+// GET rules (optional static)
 export const getRaffleRules = async () => {
-  const res = await fetch("/api/raffle/rules");
-  return res.json();
+  return [
+    {
+      q: "How to Enter",
+      a: "Log in and wager to earn tickets",
+    },
+  ];
 };
 /* =========================
    CHAT API

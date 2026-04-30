@@ -207,32 +207,32 @@ export const useWalletStore = create<WalletState>((set) => ({
       set({ error: err.message, loading: false });
     }
   },
-fetchBalance: async () => {
-  set({ loading: true });
+  fetchBalance: async () => {
+    set({ loading: true });
 
-  try {
-    const res = await api.getBalance();
+    try {
+      const res = await api.getBalance();
 
-    console.log("API RESPONSE:", res);   // 👈 ADD THIS
-    console.log("API DATA:", res.data);  // 👈 ADD THIS
+      console.log("API RESPONSE:", res);   // 👈 ADD THIS
+      console.log("API DATA:", res.data);  // 👈 ADD THIS
 
-    const wallets = res.data || [];
+      const wallets = res.data || [];
 
-    const total = wallets.reduce(
-      (sum: number, w: any) => sum + Number(w.balance || 0),
-      0
-    );
+      const total = wallets.reduce(
+        (sum: number, w: any) => sum + Number(w.balance || 0),
+        0
+      );
 
-    set({
-      wallets,
-      balance: total,
-      loading: false
-    });
+      set({
+        wallets,
+        balance: total,
+        loading: false
+      });
 
-  } catch (err: any) {
-    set({ error: err.message, loading: false });
-  }
-},
+    } catch (err: any) {
+      set({ error: err.message, loading: false });
+    }
+  },
 
   placeBet: async (amount, betId) => {
     set({ loading: true });
@@ -712,8 +712,8 @@ interface ContestState {
   myPosition: any;
   loading: boolean;
   prizePool: 0,
-  startDate: "",
-  endDate: "",
+  startDate: string | null,
+  endDate: string | null,
   userStats: {
     rank: "50+",
     wager: 0,
@@ -815,15 +815,24 @@ export const useContestStore = create<ContestState>((set) => ({
     }
   },
   fetchDailyContest: async () => {
-    const res = await api.getDailyContest();
+    try {
+      set({ loading: true });
 
-    set({
-      prizePool: res.prizePool,
-      leaderboard: res.leaderboard,
-      startDate: res.startDate,
-      endDate: res.endDate,
-      userStats: res.userStats
-    });
+      const res = await api.getDailyContest();
+
+      set({
+        prizePool: res.prizePool,
+        leaderboard: res.leaderboard || [],
+        startDate: res.startDate,
+        endDate: res.endDate,
+        userStats: res.userStats,
+        loading: false
+      });
+
+    } catch (err) {
+      console.error("Daily Contest Error:", err);
+      set({ loading: false });
+    }
   }
 }));
 
@@ -874,57 +883,76 @@ export const useRaffleStore = create<RaffleState>((set) => ({
   loading: false,
 
   // ✅ FETCH CURRENT ROUND
-  fetchCurrentRaffle: async () => {
-    set({ loading: true });
-    try {
-      const res = await api.getCurrentRaffle();
+fetchCurrentRaffle: async () => {
+  set({ loading: true });
+  try {
+    const res = await api.getCurrentRaffle();
 
-      set({
-        currentRound: res.roundId,
-        prizePool: res.prizePool,
-        totalTickets: res.totalTickets,
-        timeLeft: res.timeLeft,
-      });
-    } catch (err) {
-      console.error("raffle error:", err);
-    } finally {
-      set({ loading: false });
-    }
-  },
+    // calculate countdown
+    const now = new Date().getTime();
+    const drawTime = new Date(res.drawTime).getTime();
+    const diff = drawTime - now;
+
+    set({
+      currentRound: res.roundId,
+      prizePool: Number(res.prizePool),
+      totalTickets: res.totalTickets,
+
+      timeLeft: diff,
+
+      stats: {
+        total: res.userStats.totalTickets,
+        winnings: res.userStats.winningTickets,
+        prize: res.userStats.totalPrize,
+      },
+    });
+  } catch (err) {
+    console.error("raffle error:", err);
+  } finally {
+    set({ loading: false });
+  }
+},
 
   // ✅ MY TICKETS
-  fetchMyTickets: async (tab) => {
-    set({ loading: true });
-    try {
-      const res = await api.getMyTickets(tab);
+fetchMyTickets: async (tab) => {
+  set({ loading: true });
 
-      set({
-        myTickets: res.tickets,
-        stats: res.stats,
-      });
-    } catch (err) {
-      console.error(err);
-    } finally {
-      set({ loading: false });
-    }
-  },
+  const tabMap = {
+    Active: "active",
+    Past: "past",
+    "My Winnings": "winnings",
+  };
+
+  try {
+    const res = await api.getMyTickets(tabMap[tab]);
+
+    set({
+      myTickets: res.tickets,
+      stats: res.stats,
+    });
+  } catch (err) {
+    console.error(err);
+  } finally {
+    set({ loading: false });
+  }
+},
 
   // ✅ WINNERS
-  fetchWinners: async (roundId, page = 1) => {
-    set({ loading: true });
-    try {
-      const res = await api.getWinners(roundId, page);
+fetchWinners: async (roundId, page = 1) => {
+  set({ loading: true });
+  try {
+    const res = await api.getWinners(roundId, page);
 
-      set({
-        winners: res.data,
-        totalPages: res.totalPages,
-      });
-    } catch (err) {
-      console.error(err);
-    } finally {
-      set({ loading: false });
-    }
-  },
+    set({
+      winners: res.winners,
+      totalPages: res.totalPages,
+    });
+  } catch (err) {
+    console.error(err);
+  } finally {
+    set({ loading: false });
+  }
+},
 
   // ✅ RULES
   fetchRules: async () => {

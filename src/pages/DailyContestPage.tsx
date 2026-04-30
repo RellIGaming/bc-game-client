@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { X, HelpCircle, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { useContestStore } from "@/store/walletStore";
+import useAuthStore from "@/store/authStore";
 
 const leaderboardData = [
   { rank: 1, player: "Highlanderrr", wager: "₹393,085.88K", prize: "₹221,448.21 (50%)", medal: "🥇" },
@@ -46,24 +48,55 @@ const rulesCurrencies = [
 ];
 
 const DailyContestPage = () => {
+  const { user } = useAuthStore();
+  const {
+    fetchDailyContest,
+    fetchHistory,
+    fetchRules,
+    prizePool,
+    leaderboard,
+    history,
+    rules,
+    currencies,
+    userStats,
+    startDate,
+    endDate
+  } = useContestStore();
   const [showHistory, setShowHistory] = useState(false);
   const [showRules, setShowRules] = useState(false);
-  const [timeLeft, setTimeLeft] = useState({ hours: 23, minutes: 5, seconds: 2 });
+  const [timeLeft, setTimeLeft] = useState({ hours: 0, minutes: 0, seconds: 0 });
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeLeft((prev) => {
-        let { hours, minutes, seconds } = prev;
-        seconds--;
-        if (seconds < 0) { seconds = 59; minutes--; }
-        if (minutes < 0) { minutes = 59; hours--; }
-        if (hours < 0) { hours = 23; minutes = 59; seconds = 59; }
-        return { hours, minutes, seconds };
-      });
-    }, 1000);
-    return () => clearInterval(timer);
+    fetchDailyContest();
+    fetchHistory();
+    fetchRules();
   }, []);
+useEffect(() => {
+  if (!endDate) return;
 
+  const update = () => {
+    const now = new Date().getTime();
+    const end = new Date(endDate).getTime();
+    const diff = end - now;
+
+    if (diff <= 0) {
+      setTimeLeft({ hours: 0, minutes: 0, seconds: 0 });
+      return;
+    }
+
+    setTimeLeft({
+      hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
+      minutes: Math.floor((diff / (1000 * 60)) % 60),
+      seconds: Math.floor((diff / 1000) % 60),
+    });
+  };
+
+  update(); // ✅ instant render (important)
+
+  const timer = setInterval(update, 1000);
+
+  return () => clearInterval(timer);
+}, [endDate]);
   const pad = (n: number) => n.toString().padStart(2, "0");
 
   return (
@@ -80,7 +113,7 @@ const DailyContestPage = () => {
                   <span className="text-yellow-400">🎉</span> Daily Contest <span className="text-yellow-400">🎉</span>
                 </p>
                 <p className="text-xs text-muted-foreground">Contest prize pool</p>
-                <p className="text-xl sm:text-2xl font-bold text-accent">4,938.73 USD</p>
+                <p className="text-xl sm:text-2xl font-bold text-accent">৳ {prizePool?.toLocaleString()}</p>
               </div>
             </div>
             {/* Timer */}
@@ -116,9 +149,9 @@ const DailyContestPage = () => {
               <div className="flex items-center justify-center sm:justify-end gap-2 mt-1">
                 <div className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center text-lg">👤</div>
                 <div className="text-left">
-                  <p className="text-sm font-medium">Hidden</p>
+                  <p className="text-sm font-medium">{history?.[0]?.playerName || "—"}</p>
                   <p className="text-xs text-muted-foreground">Profit (50%)</p>
-                  <p className="text-xs text-accent">₹3,132,168.05</p>
+                  <p className="text-xs text-accent">৳ {Number(history?.[0]?.prize || 0).toLocaleString()}</p>
                 </div>
               </div>
             </div>
@@ -129,20 +162,20 @@ const DailyContestPage = () => {
         <div className="bg-card b-radius p-4 flex flex-col sm:flex-row items-center gap-4">
           <div className="flex items-center gap-3 flex-1">
             <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center">👤</div>
-            <span className="text-sm font-medium">jkhatun258</span>
+            <span className="text-sm font-medium">{user?.username || "Guest"}</span>
           </div>
           <div className="flex gap-8 text-center">
             <div>
               <p className="text-xs text-muted-foreground">My Position</p>
-              <p className="text-lg font-bold">50th+</p>
+              <p className="text-lg font-bold">{userStats.rank}</p>
             </div>
             <div>
               <p className="text-xs text-muted-foreground">Wager</p>
-              <p className="text-lg font-bold text-accent">₹0.00</p>
+              <p className="text-lg font-bold text-accent">৳ {userStats.wager.toLocaleString()}</p>
             </div>
           </div>
           <p className="text-xs text-muted-foreground">
-            Wager <span className="text-foreground">₹12,424,242.13</span> To reach{" "}
+            Wager <span className="text-foreground">৳ {userStats.wagerToTop10.toLocaleString()} To reach{" "}</span> To reach{" "}
             <span className="bg-secondary px-2 py-0.5 b-radius text-xs font-medium">Top 10</span>
           </p>
         </div>
@@ -152,7 +185,9 @@ const DailyContestPage = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <span className="text-xs font-medium text-accent bg-accent/10 px-3 py-1 b-radius">⚙️ Active</span>
-              <span className="text-sm font-medium">2/7/2026 – 2/8/2026</span>
+              <span className="text-sm font-medium">{startDate && endDate
+                ? `${new Date(startDate).toLocaleDateString()} – ${new Date(endDate).toLocaleDateString()}`
+                : "Loading..."}</span>
             </div>
             <button
               onClick={() => setShowHistory(true)}
@@ -174,7 +209,7 @@ const DailyContestPage = () => {
                 </tr>
               </thead>
               <tbody>
-                {leaderboardData.map((row, i) => (
+                {leaderboard.map((row, i) => (
                   <tr
                     key={i}
                     className={cn(
@@ -183,11 +218,11 @@ const DailyContestPage = () => {
                     )}
                   >
                     <td className="p-3">
-                      {row.medal ? <span className="text-lg">{row.medal}</span> : <span className="text-muted-foreground">{row.rank}th</span>}
+                      {row.medal ? <span className="text-lg">{row.medal}</span> : <span className="text-muted-foreground"> {i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : `${row.rank}th`}</span>}
                     </td>
-                    <td className="p-3 font-medium">{row.player}</td>
-                    <td className="p-3 text-accent">{row.wager}</td>
-                    <td className="p-3 text-right text-accent">{row.prize}</td>
+                    <td className="p-3 font-medium">{row.playerName}</td>
+                    <td className="p-3 text-accent">৳{Number(row.wager).toLocaleString()}</td>
+                    <td className="p-3 text-right text-accent">৳{Number(row.prize).toLocaleString()}</td>
                   </tr>
                 ))}
               </tbody>
@@ -200,7 +235,9 @@ const DailyContestPage = () => {
       <Dialog open={showHistory} onOpenChange={setShowHistory}>
         <DialogContent className="p-0 max-w-lg max-h-[85vh] flex flex-col">
           <div className="sticky top-0 z-10 flex items-center justify-between px-4 py-3 border-b bg-background">
-            <h3 className="font-bold">2/6/2026 – 2/7/2026</h3>
+            <h3 className="font-bold">{startDate && endDate
+              ? `${new Date(startDate).toLocaleDateString()} – ${new Date(endDate).toLocaleDateString()}`
+              : "Loading..."}</h3>
             <button onClick={() => setShowHistory(false)}>
               <X className="w-5 h-5 text-muted-foreground" />
             </button>
@@ -216,7 +253,7 @@ const DailyContestPage = () => {
                 </tr>
               </thead>
               <tbody>
-                {historyData.map((row, i) => (
+                {history.map((row, i) => (
                   <tr
                     key={i}
                     className={cn(
@@ -227,9 +264,9 @@ const DailyContestPage = () => {
                     <td className="p-3">
                       {row.medal ? <span className="text-lg">{row.medal}</span> : <span className="text-muted-foreground">{row.rank}th</span>}
                     </td>
-                    <td className="p-3 font-medium">{row.player}</td>
-                    <td className="p-3 text-accent">{row.wager}</td>
-                    <td className="p-3 text-right text-accent">{row.prize}</td>
+                    <td className="p-3 font-medium">{row.playerName}</td>
+                    <td className="p-3 text-accent">৳{Number(row.wager).toLocaleString()}</td>
+                    <td className="p-3 text-right text-accent">৳{Number(row.prize).toLocaleString()}</td>
                   </tr>
                 ))}
               </tbody>
@@ -250,17 +287,19 @@ const DailyContestPage = () => {
           <div className="flex-1 overflow-y-auto p-4 space-y-4">
             <div>
               <h4 className="font-bold text-sm italic">Rules-Daily Wagering Contest</h4>
-              <p className="text-xs text-muted-foreground">2/7/2026 – 2/8/2026</p>
+              <p className="text-xs text-muted-foreground">{startDate && endDate
+                ? `${new Date(startDate).toLocaleDateString()} – ${new Date(endDate).toLocaleDateString()}`
+                : "Loading..."}</p>
             </div>
             <ol className="space-y-3 text-sm text-muted-foreground list-decimal pl-4">
-              {rulesContent.map((rule, i) => (
-                <li key={i}>{rule}</li>
+              {rules.map((rule, i) => (
+                <li key={i}>{rule.content}</li>
               ))}
             </ol>
             <div className="space-y-2 pl-6">
-              {rulesCurrencies.map((group, i) => (
+              {currencies.map((group, i) => (
                 <p key={i} className="text-xs text-muted-foreground">
-                  <span className="font-medium text-foreground">{String.fromCharCode(97 + i)}.</span> {group}
+                  <span className="font-medium text-foreground">{String.fromCharCode(97 + i)}.</span> {group.groupText}
                 </p>
               ))}
             </div>
