@@ -35,11 +35,8 @@ import useNotificationStore from "./store/notificationStore";
 import socket from "./lib/socket";
 import ReferralRedirect from "./pages/ReferralRedirect";
 import PaymentGatewayPage from "./pages/PaymentGatewayPage";
-import { rescanForTranslation } from "./i18n/autoTranslate";
 import useAuthStore from "./store/authStore";
 import ResetPasswordPage from "./components/auth/ResetPasswordPage";
-import Deposit from "./components/walet/Deposit";
-import Withdraw from "./components/walet/Withdraw";
 
 const queryClient = new QueryClient();
 
@@ -115,8 +112,6 @@ const App = () => {
               <Route path="/lucky" element={<WeeklyRafflePage />} />
               <Route path="/quest-hub" element={<QuestHubPage />} />
               <Route path="/challenge" element={<ChallengePage />} />
-              <Route path="/wallet/deposit" element={<Deposit />} />
-              <Route path="/wallet/withdraw" element={<Withdraw />} />
               <Route path="/globalSettings" element={<GlobalSettingsPage username={""} selectedFrame={0} setUsername={function (value: SetStateAction<string>): void {
                 throw new Error("Function not implemented.");
               }} />} />

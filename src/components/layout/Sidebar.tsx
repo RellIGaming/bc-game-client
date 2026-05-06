@@ -358,23 +358,25 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
     ? [...mobileExtraMenu, ...extremBottom]
     : extremBottom;
 
+    // when scroll in mobile view then side bar close for this useeffect
+  // useEffect(() => {
+  //   if (!isMobile || !isOpen) return;
+
+  //   const handleScroll = () => {
+  //     onClose();
+  //   };
+
+  //   window.addEventListener("scroll", handleScroll, { passive: true });
+
+  //   return () => {
+  //     window.removeEventListener("scroll", handleScroll);
+  //   };
+  // }, [isMobile, isOpen]);
+
   useEffect(() => {
     if (!isMobile || !isOpen) return;
 
-    const handleScroll = () => {
-      onClose();
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [isMobile, isOpen]);
-  useEffect(() => {
-    if (!isMobile || !isOpen) return;
-
-    const handleClickOutside = (event) => {
+    const handleClickOutside = (event:any) => {
       if (
         sidebarRef.current &&
         !sidebarRef.current.contains(event.target)
@@ -591,7 +593,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                       <span className="text-sm font-medium">{item.label}</span>
 
                       {item.hasSubmenu && (
-                        <button
+                         <div 
                           onClick={(e) => {
                             e.stopPropagation();
                             toggleExpand(item.id);
@@ -603,7 +605,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                           )}
                         >
                           <ChevronDown className="w-5 h-5" />
-                        </button>
+                        </div>
                       )}
                     </button>
 
@@ -807,7 +809,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                       <span className="text-sm font-medium">{item.label}</span>
 
                       {item.hasSubmenu && (
-                        <button
+                        <div
                           onClick={(e) => {
                             e.stopPropagation();
                             toggleExpand(item.id);
@@ -819,7 +821,7 @@ const Sidebar = ({ isOpen, isCollapsed, onClose, isDark, onThemeToggle, onLangua
                           )}
                         >
                           <ChevronDown className="w-5 h-5" />
-                        </button>
+                        </div>
 
                       )}
                     </button>

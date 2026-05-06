@@ -80,8 +80,8 @@ interface ProfileDropdownProps {
 }
 
 const menuItems: MenuItem[] = [
-  { icon: <Wallet className="w-5 h-5" />, label: "Wallet", path: "/wallet/deposit" },
-  { icon: <ArrowDownToLine className="w-5 h-5" />, label: "Withdraw", path: "/wallet/withdraw" },
+  { icon: <Wallet className="w-5 h-5" />, label: "Wallet", path: "/wallet" },
+  { icon: <ArrowDownToLine className="w-5 h-5" />, label: "Withdraw", path: "/wallet" },
   { icon: <Coins className="w-5 h-5" />, label: "Buy Crypto", path: "/wallet/buy-crypto" },
   { icon: <RotateCcw className="w-5 h-5" />, label: "Transactions", path: "/wallet/transaction" },
   { icon: <History className="w-5 h-5" />, label: "Bet History", path: "/wallet/bet-history" },
@@ -141,7 +141,7 @@ const ProfileDropdown = ({ isOpen, onClose, onLogout, isDark: isDarkProp, onThem
                         onClose?.();
                       }
                     }}
-                    className="w-full flex items-center gap-3 px-4 py-3 text-muted-foreground hover:text-foreground hover:bg-secondary/50 transition-colors"
+                    className="w-full flex items-center gap-3 px-4 py-2 text-muted-foreground hover:text-foreground hover:bg-secondary/50 transition-colors"
                   >
                     {item.icon}
                     <span className="text-sm">{item.label}</span>

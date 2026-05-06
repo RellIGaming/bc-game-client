@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ChevronRight, Info, Lock, Gift, Clock, X, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -20,6 +20,7 @@ import { LuckySpinGameModal } from "@/components/bonus/LuckySpinGameModal";
 import { VaultTransferModal } from "@/components/bonus/VaultTransferModal";
 import { useNavigate } from "react-router-dom";
 import { BcdRakebackModal } from "@/components/bonus/BcdRakebackModal";
+import { useBonusStore } from "@/store/walletStore";
 
 const monthlyTiers = [
   { pct: "180%", active: true },
@@ -110,11 +111,25 @@ type ModalType =
   | null;
 
 const BonusPage = () => {
+  const {
+    bonusSummary,
+    monthlyBonus,
+    bonusLoading,
+    fetchBonusSummary,
+    fetchMonthlyBonus,
+    claimDailyBonus,
+    claimRakebackBonus,
+    redeemBonusCode,
+  } = useBonusStore();
   const [activeModal, setActiveModal] = useState<ModalType>(null);
-  const [redeemCode, setRedeemCode] = useState("");
+    const [redeemCode, setRedeemCode] = useState("");
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const [mobileTab, setMobileTab] = useState<"general" | "vip" | "special">("general");
+  useEffect(() => {
+  fetchBonusSummary();
+  fetchMonthlyBonus();
+}, []);
   return (
     <div className="min-h-screen bg-background text-foreground">
       <div className="max-w-5xl mx-auto px-1 py-8 space-y-8 sm:px-2">
@@ -128,7 +143,7 @@ const BonusPage = () => {
               placeholder="Redeem your bonus here."
               className="flex-1 sm:w-64 bg-secondary rounded-lg px-4 py-2 text-sm border border-border focus:outline-none focus:ring-1 focus:ring-primary"
             />
-            <Button className="bg-card hover:bg-card-hover text-foreground text-sm px-4">Redeem Code</Button>
+            <Button onClick={() => redeemBonusCode(redeemCode)} className="bg-card hover:bg-card-hover text-foreground text-sm px-4">Redeem Code</Button>
           </div>
         </div>
         <div
@@ -203,13 +218,13 @@ const BonusPage = () => {
         {/* Total Bonus & Monthly Deposit */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <div className="bg-gradient-to-br from-secondary to-card rounded-lg p-6">
-            <p className="text-sm text-muted-foreground mb-1">Total Bonus Claimed (INR)</p>
-            <p className="text-3xl font-bold mb-3">₹0.00</p>
+            <p className="text-sm text-muted-foreground mb-1">Total Bonus Claimed (BDT)</p>
+            <p className="text-3xl font-bold mb-3">৳ ₹{bonusSummary?.totalClaimed ?? 0}</p>
             <div className="grid grid-cols-2 gap-2 text-xs text-muted-foreground">
-              <div>Total VIP Bonus: <span className="text-foreground">₹0.00</span></div>
-              <div>Total Special Bonus: <span className="text-foreground">₹0.00</span></div>
-              <div>Total General Bonus: <span className="text-foreground">₹0.00</span></div>
-              <div>Total Locked Bonus: <span className="text-foreground">₹90.52</span></div>
+              <div>Total VIP Bonus: <span className="text-foreground">৳ {bonusSummary?.vipBonus ?? 0}</span></div>
+              <div>Total Special Bonus: <span className="text-foreground">৳ {bonusSummary?.specialBonus ?? 0}</span></div>
+              <div>Total General Bonus: <span className="text-foreground">৳ {bonusSummary?.generalBonus ?? 0}</span></div>
+              <div>Total Locked Bonus: <span className="text-foreground">৳ {bonusSummary?.lockedBonus ?? 0}</span></div>
             </div>
             <button className="text-primary text-xs mt-3 flex items-center gap-1">Details <ChevronRight className="w-3 h-3" /></button>
           </div>
@@ -218,12 +233,12 @@ const BonusPage = () => {
               <p className="font-semibold text-sm">Monthly Deposit Bonus <span className="text-xs text-muted-foreground">Get up to: ₹9,052,448.03</span></p>
             </div>
             <div className="flex gap-3 mb-4">
-              {monthlyTiers.map((tier, i) => (
+            {monthlyBonus?.tiers?.map((tier:any, i:any) => (
                 <div key={i} className={cn(
                   "flex-1 text-center py-2 rounded-lg text-sm font-bold",
                   tier.active ? "bg-primary/20 text-primary border border-primary" : "bg-secondary text-muted-foreground"
                 )}>
-                  {tier.pct}
+                  {tier.percentage ?? 0}%
                 </div>
               ))}
             </div>
