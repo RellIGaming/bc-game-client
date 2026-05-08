@@ -10,7 +10,7 @@ const ReferralRedirect = () => {
       localStorage.setItem("promoCode", code);
     }
 
-    navigate("/signup");
+   navigate("/?modal=signup");
   }, [code, navigate]);
     return (
         <div>

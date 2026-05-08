@@ -35,6 +35,7 @@ const AppLayout = ({ isLoggedIn }: AppLayoutProps) => {
     };
   }, [location.pathname]);
 
+
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [chatOpen, setChatOpen] = useState(false);
@@ -71,7 +72,11 @@ const AppLayout = ({ isLoggedIn }: AppLayoutProps) => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-
+useEffect(() => {
+  if (location.pathname === "/signup") {
+    setSignUpOpen(true);
+  }
+}, [location.pathname]);
   const toggleTheme = () => setIsDark(!isDark);
   const handleSwitchToSignIn = () => { setSignUpOpen(false); setSignInOpen(true); };
   const handleSwitchToSignUp = () => { setSignInOpen(false); setSignUpOpen(true); };
