@@ -115,21 +115,36 @@ const BonusPage = () => {
     bonusSummary,
     monthlyBonus,
     bonusLoading,
+    bonusData,
+    vipLevels,
+    vipClub,
+    vipTable,
+
     fetchBonusSummary,
     fetchMonthlyBonus,
+    fetchBonusFull,
+    fetchVipLevels,
+    fetchVipTable,
+    fetchVipClub,
+
     claimDailyBonus,
     claimRakebackBonus,
     redeemBonusCode,
   } = useBonusStore();
   const [activeModal, setActiveModal] = useState<ModalType>(null);
-    const [redeemCode, setRedeemCode] = useState("");
+  const [redeemCode, setRedeemCode] = useState("");
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const [mobileTab, setMobileTab] = useState<"general" | "vip" | "special">("general");
   useEffect(() => {
-  fetchBonusSummary();
-  fetchMonthlyBonus();
-}, []);
+    fetchBonusSummary();
+    fetchMonthlyBonus();
+
+    fetchBonusFull();
+    fetchVipLevels();
+    fetchVipTable();
+    fetchVipClub();
+  }, []);
   return (
     <div className="min-h-screen bg-background text-foreground">
       <div className="max-w-5xl mx-auto px-1 py-8 space-y-8 sm:px-2">
@@ -178,17 +193,24 @@ const BonusPage = () => {
           {/* CENTER CONTENT */}
           <div className="flex-1 w-full">
             <h2 className="text-xl sm:text-3xl font-extrabold text-primary">
-              VIP 0
+              VIP {bonusData?.vip?.level ?? 0}
             </h2>
 
             {/* PROGRESS BAR */}
             <div className="mt-3 sm:mt-4 bg-black/30 rounded-full h-2 sm:h-3 overflow-hidden">
-              <div className="h-full w-[5%] bg-primary" />
+              <div
+                className="h-full bg-primary transition-all"
+                style={{
+                  width: `${bonusData?.vip?.progress ?? 0}%`
+                }}
+              />
             </div>
 
             <div className="flex justify-between text-[10px] sm:text-xs text-muted-foreground mt-2">
-              <span>0 XP</span>
-              <span>1 XP</span>
+              <span>{bonusData?.vip?.xp ?? 0} XP</span>
+              <span>
+                {bonusData?.vip?.nextXp ?? 100} XP
+              </span>
             </div>
 
             <p className="text-[10px] sm:text-xs text-muted-foreground mt-1">
@@ -233,7 +255,7 @@ const BonusPage = () => {
               <p className="font-semibold text-sm">Monthly Deposit Bonus <span className="text-xs text-muted-foreground">Get up to: ₹9,052,448.03</span></p>
             </div>
             <div className="flex gap-3 mb-4">
-            {monthlyBonus?.tiers?.map((tier:any, i:any) => (
+              {monthlyBonus?.tiers?.map((tier: any, i: any) => (
                 <div key={i} className={cn(
                   "flex-1 text-center py-2 rounded-lg text-sm font-bold",
                   tier.active ? "bg-primary/20 text-primary border border-primary" : "bg-secondary text-muted-foreground"
@@ -247,7 +269,7 @@ const BonusPage = () => {
             <p className="text-xs text-muted-foreground text-center mt-2">💎 Deposit bonus will be added to your 🪙 Rakeback</p>
           </div>
         </div>
-{/* Mobile bonus tabs */}
+        {/* Mobile bonus tabs */}
         <div className="sm:hidden flex gap-2 border-b border-border overflow-x-auto scrollbar-hide">
           {[
             { id: "general", label: "General Bonus" },
@@ -272,7 +294,8 @@ const BonusPage = () => {
         <div className={cn(mobileTab !== "general" && "hidden sm:block")}>
           <h2 className="text-xl font-bold mb-4">General Bonus</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {generalBonuses.map((bonus, i) => (
+            {/* {generalBonuses.map((bonus, i) => ( */}
+             {bonusData?.bonuses?.map((bonus:any, i:number) => (
               <div key={i} className="bg-card rounded-lg p-2 flex flex-col h-full">
                 {bonus.title !== "Telegram Subscription" &&
                   bonus.title !== "Quests" &&
@@ -357,7 +380,7 @@ const BonusPage = () => {
             ))}
           </div>
         </div>
-         <div className={cn(mobileTab !== "vip" && "hidden sm:block")}>
+        <div className={cn(mobileTab !== "vip" && "hidden sm:block")}>
           <h2 className="text-xl font-bold mb-4">VIP Bonus</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {generalBonuses.map((bonus, i) => (
@@ -500,7 +523,7 @@ export default BonusPage;
 
 export const VipModal = ({ onClose }: { onClose: () => void }) => {
   const [openTier, setOpenTier] = useState<string | null>("Bronze");
-
+const { vipLevels } = useBonusStore();
   const toggleTier = (tier: string) => {
     setOpenTier((prev) => (prev === tier ? null : tier));
   };
@@ -560,7 +583,8 @@ export const VipModal = ({ onClose }: { onClose: () => void }) => {
 
         {/* ACCORDION */}
         <div className="space-y-3">
-          {tiers.map((tier) => {
+          {/* {tiers.map((tier) => { */}
+            {vipLevels.map((tier) => {
             const isOpen = openTier === tier.key;
 
             return (

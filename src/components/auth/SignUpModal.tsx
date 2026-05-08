@@ -17,7 +17,7 @@ interface SignUpModalProps {
 
 const SignUpModal = ({ isOpen, onClose, onSwitchToSignIn }: SignUpModalProps) => {
   const [email, setEmail] = useState("");
-  const { logout,signup } = useAuthStore();
+  const { signup } = useAuthStore();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [promoCode, setPromoCode] = useState("");
@@ -54,10 +54,11 @@ const SignUpModal = ({ isOpen, onClose, onSwitchToSignIn }: SignUpModalProps) =>
         username,
         email,
         password,
-        promoCode,
+       promoCode: promoCode || localStorage.getItem("promoCode") || ""
       });
       toast.success("Registration successful 🎉");
       onClose();
+      localStorage.removeItem("promoCode");
     } catch (err: any) {
       toast.error(
         err?.response?.data?.message || "❌ Signup failed"

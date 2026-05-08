@@ -54,8 +54,10 @@ const useAuthStore = create<AuthState>((set, get) => ({
       const res = await api.signin(data);
       set({ user: res.user, token: res.token, loading: false });
       localStorage.setItem("token", res.token);
+       return res;
     } catch (err: any) {
       set({ error: err.message, loading: false });
+       throw err;
     }
   },
 

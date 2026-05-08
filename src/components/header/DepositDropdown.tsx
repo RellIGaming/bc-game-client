@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ChevronDown, Search, ArrowDownUp, Info, Plus } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { useWalletStore } from "@/store/walletStore";
 
 interface Currency {
   symbol: string;
@@ -11,7 +12,25 @@ interface Currency {
   subBalance?: string;
   category: "cash" | "crypto";
 }
+const currencyIcons: Record<string, string> = {
+  INR: "🟠",
+  BDT: "🟢",
+  USD: "💵",
+  PKR: "🟢",
+  BTC: "🟠",
+  ETH: "🔵",
+  USDT: "🟢",
+  TRX: "🔴",
+  BC: "🟢",
+};
 
+const cryptoCurrenciesList = [
+  "BTC",
+  "ETH",
+  "USDT",
+  "TRX",
+  "BC",
+];
 const currencies: Currency[] = [
   { symbol: "₹", name: "INR", icon: "🟠", balance: "₹0.00", category: "cash" },
   { symbol: "BC", name: "BC", icon: "🟢", balance: "₹0.00", subBalance: "0", category: "crypto" },
@@ -28,17 +47,51 @@ interface DepositDropdownProps {
 }
 
 const DepositDropdown = ({ isOpen, onClose, onDeposit }: DepositDropdownProps) => {
+  const {
+    wallets,
+    fetchBalance
+  } = useWalletStore();
+
   const [search, setSearch] = useState("");
   const [viewInCurrency, setViewInCurrency] = useState(false);
   const [hideSmall, setHideSmall] = useState(false);
   const [expanded, setExpanded] = useState(false);
-  const filteredCurrencies = currencies.filter(c =>
-    c.name.toLowerCase().includes(search.toLowerCase())
+  const formattedCurrencies = (wallets || []).map((wallet: any) => ({
+    symbol: wallet.currency || "",
+    name: wallet.currency || "",
+    icon: currencyIcons[wallet.currency] || "💰",
+
+    depositBalance: Number(wallet.balance || 0),
+    bonusBalance: Number(wallet.bonus || 0),
+
+    balance: `₹${Number(wallet.balance || 0).toFixed(2)}`,
+    bonus: `₹${Number(wallet.bonus || 0).toFixed(2)}`,
+
+    category: cryptoCurrenciesList.includes(wallet.currency)
+      ? "crypto"
+      : "cash",
+  }));
+
+  const filteredCurrencies = formattedCurrencies.filter((c: any) =>
+    (c.name || "").toLowerCase().includes(search.toLowerCase())
   );
   const [depositTab, setDepositTab] = useState<"deposit" | "bonus">("deposit");
-  const cashCurrencies = filteredCurrencies.filter(c => c.category === "cash");
-  const cryptoCurrencies = filteredCurrencies.filter(c => c.category === "crypto");
+  const activeCurrencies =
+    depositTab === "deposit"
+      ? filteredCurrencies.filter((c: any) => c.depositBalance > 0)
+      : filteredCurrencies.filter((c: any) => c.bonusBalance > 0);
 
+  const cashCurrencies = activeCurrencies.filter(
+    (c: any) => c.category === "cash"
+  );
+
+  const cryptoCurrencies = activeCurrencies.filter(
+    (c: any) => c.category === "crypto"
+  );
+
+  useEffect(() => {
+    fetchBalance();
+  }, [fetchBalance]);
   return (
     <AnimatePresence>
       {isOpen && (
@@ -111,7 +164,10 @@ const DepositDropdown = ({ isOpen, onClose, onDeposit }: DepositDropdownProps) =
               <div className="max-h-80 overflow-y-auto scrollbar-hide">
                 {cashCurrencies.length > 0 && (
                   <div className="px-3 py-2">
-                    <span className="text-xs text-muted-foreground font-medium">Cash</span>
+                    <span className="text-xs text-muted-foreground font-medium">
+                      Cash
+                    </span>
+
                     {cashCurrencies.map((currency) => (
                       <div
                         key={currency.name}
@@ -119,16 +175,26 @@ const DepositDropdown = ({ isOpen, onClose, onDeposit }: DepositDropdownProps) =
                       >
                         <div className="flex items-center gap-3">
                           <span className="text-lg">{currency.icon}</span>
-                          <span className="text-foreground font-medium">{currency.name}</span>
+
+                          <span className="text-foreground font-medium">
+                            {currency.name}
+                          </span>
                         </div>
-                        <span className="text-foreground">{currency.balance}</span>
+
+                        <span className="text-foreground">
+                          {currency.balance}
+                        </span>
                       </div>
                     ))}
                   </div>
                 )}
+
                 {cryptoCurrencies.length > 0 && (
                   <div className="px-3 py-2">
-                    <span className="text-xs text-muted-foreground font-medium">Cryptocurrency</span>
+                    <span className="text-xs text-muted-foreground font-medium">
+                      Cryptocurrency
+                    </span>
+
                     {cryptoCurrencies.map((currency) => (
                       <div
                         key={currency.name}
@@ -137,70 +203,149 @@ const DepositDropdown = ({ isOpen, onClose, onDeposit }: DepositDropdownProps) =
                       >
                         <div className="flex items-center gap-3">
                           <span className="text-lg">{currency.icon}</span>
-                          <span className="text-foreground font-medium">{currency.name}</span>
+
+                          <span className="text-foreground font-medium">
+                            {currency.name}
+                          </span>
+
                           {currency.name === "BC" && (
                             <Info className="w-4 h-4 text-primary" />
                           )}
                         </div>
+
                         <div className="text-right">
-                          <div className="text-foreground">{currency.balance}</div>
-                          {currency.subBalance && (
-                            <div className="text-xs text-muted-foreground">{currency.subBalance}</div>
-                          )}
+                          <div className="text-foreground">
+                            ₹{Number(currency.bonusBalance || 0).toFixed(2)}
+                          </div>
+
+                          <div className="text-xs text-primary">
+                            Bonus Available
+                          </div>
                         </div>
                       </div>
                     ))}
                   </div>
                 )}
+
+                {cashCurrencies.length === 0 &&
+                  cryptoCurrencies.length === 0 && (
+                    <div className="flex flex-col items-center justify-center py-10 text-center">
+                      <div className="text-4xl mb-2">💰</div>
+
+                      <p className="text-sm font-medium text-foreground">
+                        No Deposit Balance
+                      </p>
+
+                      <p className="text-xs text-muted-foreground mt-1">
+                        Your wallets are empty.
+                      </p>
+                    </div>
+                  )}
               </div>
             ) : (
               <div className="max-h-80 overflow-y-auto scrollbar-hide">
-                {cashCurrencies.length > 0 && (
-                  <div className="px-3 py-2">
-                    <span className="text-xs text-muted-foreground font-medium">Cash</span>
-                    {cashCurrencies.map((currency) => (
-                      <div
-                        key={currency.name}
-                        className="flex items-center justify-between py-3 hover:bg-secondary/50 rounded-lg px-2 cursor-pointer transition-colors"
-                      >
-                        <div className="flex items-center gap-3">
-                          <span className="text-lg">{currency.icon}</span>
-                          <span className="text-foreground font-medium">{currency.name}</span>
-                        </div>
-                        <span className="text-foreground">{currency.balance}</span>
-                      </div>
-                    ))}
-                  </div>
-                )}
-                {cryptoCurrencies.length > 0 && (
-                  <div className="px-3 py-2">
-                    <span className="text-xs text-muted-foreground font-medium">Cryptocurrency</span>
-                    {cryptoCurrencies.map((currency) => (
-                      <div
-                        key={currency.name}
-                        className={`flex items-center justify-between py-3 hover:bg-secondary/50 rounded-lg px-2 cursor-pointer transition-colors ${currency.name === "BC" ? "bg-secondary/80" : ""
-                          }`}
-                      >
-                        <div className="flex items-center gap-3">
-                          <span className="text-lg">{currency.icon}</span>
-                          <span className="text-foreground font-medium">{currency.name}</span>
-                          {currency.name === "BC" && (
-                            <Info className="w-4 h-4 text-primary" />
-                          )}
-                        </div>
-                        <div className="text-right">
-                          <div className="text-foreground">{currency.balance}</div>
-                          {currency.subBalance && (
-                            <div className="text-xs text-muted-foreground">{currency.subBalance}</div>
-                          )}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
+                {/* CASH BONUS */}
+                {cashCurrencies.some(
+                  (c) => Number(c.bonusBalance || 0) > 0
+                ) && (
+                    <div className="px-3 py-2">
+                      <span className="text-xs text-muted-foreground font-medium">
+                        Cash
+                      </span>
+
+                      {cashCurrencies
+                        .filter((c) => Number(c.bonusBalance || 0) > 0)
+                        .map((currency) => (
+                          <div
+                            key={currency.name}
+                            className="flex items-center justify-between py-3 hover:bg-secondary/50 rounded-lg px-2 cursor-pointer transition-colors"
+                          >
+                            <div className="flex items-center gap-3">
+                              <span className="text-lg">{currency.icon}</span>
+
+                              <span className="text-foreground font-medium">
+                                {currency.name}
+                              </span>
+                            </div>
+
+                            <div className="text-right">
+                              <div className="text-foreground">
+                                ₹{Number(currency.bonusBalance).toFixed(2)}
+                              </div>
+
+                              <div className="text-xs text-primary">
+                                Bonus Available
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                    </div>
+                  )}
+
+                {/* CRYPTO BONUS */}
+                {cryptoCurrencies.some(
+                  (c) => Number(c.bonusBalance || 0) > 0
+                ) && (
+                    <div className="px-3 py-2">
+                      <span className="text-xs text-muted-foreground font-medium">
+                        Cryptocurrency
+                      </span>
+
+                      {cryptoCurrencies
+                        .filter((c) => Number(c.bonusBalance || 0) > 0)
+                        .map((currency) => (
+                          <div
+                            key={currency.name}
+                            className={`flex items-center justify-between py-3 hover:bg-secondary/50 rounded-lg px-2 cursor-pointer transition-colors ${currency.name === "BC" ? "bg-secondary/80" : ""
+                              }`}
+                          >
+                            <div className="flex items-center gap-3">
+                              <span className="text-lg">{currency.icon}</span>
+
+                              <span className="text-foreground font-medium">
+                                {currency.name}
+                              </span>
+
+                              {currency.name === "BC" && (
+                                <Info className="w-4 h-4 text-primary" />
+                              )}
+                            </div>
+
+                            <div className="text-right">
+                              <div className="text-foreground">
+                                ₹{Number(currency.bonusBalance).toFixed(2)}
+                              </div>
+
+                              <div className="text-xs text-primary">
+                                Bonus Available
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                    </div>
+                  )}
+
+                {/* EMPTY BONUS */}
+                {!cashCurrencies.some(
+                  (c) => Number(c.bonusBalance || 0) > 0
+                ) &&
+                  !cryptoCurrencies.some(
+                    (c) => Number(c.bonusBalance || 0) > 0
+                  ) && (
+                    <div className="flex flex-col items-center justify-center py-10 text-center">
+                      <div className="text-4xl mb-2">🎁</div>
+
+                      <p className="text-sm font-medium text-foreground">
+                        No Bonus Balance
+                      </p>
+
+                      <p className="text-xs text-muted-foreground mt-1">
+                        You don't have any active bonus yet.
+                      </p>
+                    </div>
+                  )}
               </div>
             )}
-
             {/* Footer Options */}
             <div className="p-3 border-t border-border flex items-center justify-between">
               <label className="flex items-center gap-2 cursor-pointer">

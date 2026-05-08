@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { X, ChevronDown, Trash2, ChevronLeft } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import useNotificationStore from "@/store/notificationStore";
@@ -17,30 +17,84 @@ interface NotificationDropdownProps {
 const NotificationDropdown = ({ isOpen, onClose }: NotificationDropdownProps) => {
   const [activeTab, setActiveTab] = useState<TabType>("promotions");
   const [showUnread, setShowUnread] = useState(false);
-  const { notifications } = useNotificationStore();
+  const {
+  notifications,
+  fetchNotifications
+} = useNotificationStore();
   const mapType = (type: string) => {
     if (type.includes("deposit") || type.includes("withdraw")) return "transactions";
     return "system";
   };
-  const filteredNotifications = notifications.filter((n) => {
-    const matchesTab =
-      activeTab === "transactions"
-        ? n.type.includes("deposit") || n.type.includes("withdraw")
-        : activeTab === "system"
-          ? true
-          : false;
+const getNotificationCategory = (type: string): TabType => {
+  const t = type.toLowerCase();
 
-    const matchesUnread = showUnread ? !n.read : true;
+  // TRANSACTIONS
+  if (
+    t.includes("deposit") ||
+    t.includes("withdraw") ||
+    t.includes("swap") ||
+    t.includes("bet") ||
+    t.includes("cashback")
+  ) {
+    return "transactions";
+  }
 
-    return matchesTab && matchesUnread;
-  });
-  const unreadCount = notifications.filter(n => n.type === activeTab && !n.read).length;
+  // PROMOTIONS
+  if (
+    t.includes("promo") ||
+    t.includes("bonus") ||
+    t.includes("vip") ||
+    t.includes("reward") ||
+    t.includes("offer")
+  ) {
+    return "promotions";
+  }
 
-  const tabs: { id: TabType; label: string; count?: number }[] = [
-    { id: "promotions", label: "Promotions", count: 11 },
-    { id: "transactions", label: "Transactions" },
-    { id: "system", label: "System" },
-  ];
+  // SYSTEM
+  return "system";
+};
+
+const filteredNotifications = notifications.filter((n) => {
+  const category = getNotificationCategory(n.type);
+
+  const matchesTab = category === activeTab;
+
+  const matchesUnread = showUnread ? !n.read : true;
+
+  return matchesTab && matchesUnread;
+});
+
+const unreadCount = (tab: TabType) =>
+  notifications.filter(
+    (n) =>
+      getNotificationCategory(n.type) === tab &&
+      !n.read
+  ).length;
+
+const tabs: { id: TabType; label: string; count?: number }[] = [
+  {
+    id: "promotions",
+    label: "Promotions",
+    count: unreadCount("promotions"),
+  },
+  {
+    id: "transactions",
+    label: "Transactions",
+    count: unreadCount("transactions"),
+  },
+  {
+    id: "system",
+    label: "System",
+    count: unreadCount("system"),
+  },
+];
+
+
+useEffect(() => {
+  if (isOpen) {
+    fetchNotifications();
+  }
+}, [isOpen]);
 
   return (
     <AnimatePresence>

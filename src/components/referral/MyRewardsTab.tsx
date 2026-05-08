@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Info, Search, X, ChevronDown, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -8,10 +8,24 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { format } from "date-fns";
+import { useReferralStore } from "@/store/walletStore";
 
 const subTabs = ["Commission by Friends", "Commission by Currency", "Level Up Rewards"];
 
 export default function MyRewardsTab() {
+  const {
+    rewardsSummary,
+    commissionByFriends,
+    commissionByCurrency,
+    levelRewards,
+    rewardHistory,
+
+    fetchRewardsSummary,
+    fetchCommissionByFriends,
+    fetchCommissionByCurrency,
+    fetchLevelRewards,
+    fetchRewardHistory,
+  } = useReferralStore();
   const [subTab, setSubTab] = useState("Commission by Friends");
   const [allCodesOpen, setAllCodesOpen] = useState(false);
   const [searchUser, setSearchUser] = useState("");
@@ -24,8 +38,33 @@ export default function MyRewardsTab() {
   const [selectedRegDate, setSelectedRegDate] = useState<Date | undefined>(undefined);
   const [selectedWagerStart, setSelectedWagerStart] = useState<Date | undefined>(new Date(2026, 0, 11));
   const [selectedWagerEnd, setSelectedWagerEnd] = useState<Date | undefined>(new Date(2026, 3, 11));
+  useEffect(() => {
+    fetchRewardsSummary();
+  }, []);
+
+  useEffect(() => {
+    if (subTab === "Commission by Friends") {
+      fetchCommissionByFriends();
+    }
+
+    if (subTab === "Commission by Currency") {
+      fetchCommissionByCurrency();
+    }
+
+    if (subTab === "Level Up Rewards") {
+      fetchLevelRewards();
+    }
+  }, [subTab]);
+  useEffect(() => {
+    fetchRewardHistory(
+      historyType === "Commission Rewards"
+        ? "COMMISSION"
+        : "REFERRAL"
+    );
+  }, [historyType]);
 
   const HistoryContent = ({ onClose }: { onClose: () => void }) => (
+
     <div className="flex flex-col h-full">
       {isMobile ? (
         <div className="flex items-center gap-3 p-4 border-b border-border">
@@ -65,8 +104,20 @@ export default function MyRewardsTab() {
           <span>Amount</span><span>Time</span><span>Status</span>
         </div>
         <div className="text-center py-12">
-          <div className="text-6xl mb-4">🦖</div>
-          <p className="text-muted-foreground text-sm font-medium">Stay tuned—something's coming!</p>
+          {rewardHistory.map((item: any, i: number) => (
+            <div
+              key={i}
+              className="grid grid-cols-3 text-sm py-3 border-b border-border"
+            >
+              <span>₹{item.amount}</span>
+
+              <span>
+                {new Date(item.time).toLocaleDateString()}
+              </span>
+
+              <span>{item.status}</span>
+            </div>
+          ))}
         </div>
       </div>
     </div>
@@ -156,7 +207,7 @@ export default function MyRewardsTab() {
                 <PopoverTrigger asChild>
                   <button className="flex items-center gap-2 border border-border bg-secondary rounded-lg px-4 py-2.5 text-sm">
                     Wager Date: {selectedWagerStart && selectedWagerEnd
-                      ? `${format(selectedWagerStart, "yyyy/MM/dd")}-${format(selectedWagerEnd, "yyyy/MM/dd")}`
+                      ? `৳{format(selectedWagerStart, "yyyy/MM/dd")}-৳{format(selectedWagerEnd, "yyyy/MM/dd")}`
                       : "All Range"}
                   </button>
                 </PopoverTrigger>
@@ -183,8 +234,34 @@ export default function MyRewardsTab() {
                   <span className="text-right">Total Commission</span>
                 </div>
                 <div className="text-center py-16">
-                  <div className="text-6xl mb-4">🦖</div>
-                  <p className="text-muted-foreground text-sm font-medium">No rewards yet invite friends to join you now!</p>
+                  {commissionByFriends.length > 0 ? (
+                    commissionByFriends.map((friend: any) => (
+                      <div
+                        key={friend.userId}
+                        className="grid grid-cols-6 px-4 py-3 border-b border-border text-sm"
+                      >
+                        <span>{friend.username}</span>
+
+                        <span>{friend.userId}</span>
+
+                        <span>{friend.commissionRate}</span>
+
+                        <span>₹{friend.totalDeposit7d}</span>
+
+                        <span>
+                          {new Date(friend.registrationDate).toLocaleDateString()}
+                        </span>
+
+                        <span className="text-right">
+                          ₹{friend.totalCommission}
+                        </span>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="text-center py-16">
+                      No rewards yet
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -194,8 +271,18 @@ export default function MyRewardsTab() {
       case "Commission by Currency":
         return (
           <div className="bg-card rounded-xl text-center py-16">
-            <div className="text-6xl mb-4">🦖</div>
-            <p className="text-muted-foreground text-sm font-medium">No rewards yet invite friends to join you now!</p>
+            {commissionByCurrency.map((c: any, i: number) => (
+              <div
+                key={i}
+                className="flex items-center justify-between p-4 border-b border-border"
+              >
+                <span>{c.currency}</span>
+
+                <span className="font-semibold">
+                  ₹{c.totalCommission}
+                </span>
+              </div>
+            ))}
           </div>
         );
 
@@ -237,8 +324,26 @@ export default function MyRewardsTab() {
                   <span className="text-right">Earned</span>
                 </div>
                 <div className="text-center py-16">
-                  <div className="text-6xl mb-4">🦖</div>
-                  <p className="text-muted-foreground text-sm font-medium">No rewards yet invite friends to join you now!</p>
+                  {levelRewards.map((r: any, i: number) => (
+                    <div
+                      key={i}
+                      className="grid grid-cols-5 px-4 py-3 border-b border-border text-sm"
+                    >
+                      <span>{r.username}</span>
+
+                      <span>
+                        {new Date(r.registrationDate).toLocaleDateString()}
+                      </span>
+
+                      <span>{r.vipLevel}</span>
+
+                      <span>{r.code}</span>
+
+                      <span className="text-right">
+                        ₹{r.earned}
+                      </span>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
@@ -260,17 +365,17 @@ export default function MyRewardsTab() {
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 Available Commission Rewards <Info className="w-3.5 h-3.5" />
               </div>
-              <p className="text-2xl font-bold text-primary">$0.00</p>
-              <p className="text-xs text-muted-foreground">Total Received <span className="text-foreground font-medium">$0.00</span></p>
+              <p className="text-2xl font-bold text-primary">৳ {rewardsSummary?.availableCommission || 0}</p>
+              <p className="text-xs text-muted-foreground">Total Received <span className="text-foreground font-medium">৳0.00</span></p>
             </div>
             <div>
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 Available Referral Rewards <Info className="w-3.5 h-3.5" />
               </div>
-              <p className="text-2xl font-bold text-primary">$0.00</p>
+              <p className="text-2xl font-bold text-primary">৳ {rewardsSummary?.availableReferral || 0}</p>
               <p className="text-xs text-muted-foreground">
-                Total Received <span className="text-foreground font-medium">$0.00</span>
-                {" "}Locked Rewards <span className="text-foreground font-medium">$0.00</span>
+                Total Received <span className="text-foreground font-medium">৳ {rewardsSummary?.totalCommission || 0}</span>
+                {" "}Locked Rewards <span className="text-foreground font-medium">৳0.00</span>
               </p>
             </div>
           </div>

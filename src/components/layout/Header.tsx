@@ -13,6 +13,7 @@ import DepositDropdown from "../header/DepositDropdown";
 import DepositPopover from "../header/DepositPopover";
 import useNotificationStore from "@/store/notificationStore";
 import { useWalletStore } from "@/store/walletStore";
+import useAuthStore from "@/store/authStore";
 
 interface HeaderProps {
   onMenuClick: () => void;
@@ -42,7 +43,7 @@ const Header = ({
   onThemeToggle,
   isSidebarCollapsed,
   onToggleCollapse,
-  isLoggedIn = false,
+ isLoggedIn = false,
   onLogout,
 }: HeaderProps) => {
   const navigate = useNavigate();
@@ -55,7 +56,8 @@ const Header = ({
   const [bonusDashboardOpen, setBonusDashboardOpen] = useState(false);
   const [openDepositPopover, setOpenDepositPopover] = useState(false);
   const { notifications } = useNotificationStore();
-
+// const { user } = useAuthStore();
+// const isLoggedIn = !!user;
   const bdtWallet = wallets.find((w: any) => w.name === "BDT");
 
   const depositBalance = Number(bdtWallet?.balance || 0);

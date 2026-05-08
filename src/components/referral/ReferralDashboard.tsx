@@ -47,7 +47,7 @@ export default function ReferralDashboard({ referralDashboard, referralEarnings 
             <div>
               <label className="text-xs text-muted-foreground mb-1 block">Referral Link</label>
               <div className="flex items-center gap-2">
-                <input readOnly value={referralDashboard?.referralLink || "https://relbet.game/i-abc123"} className="flex-1 bg-secondary rounded-lg px-3 py-2 text-xs border border-border min-w-0" />
+                <input readOnly value={referralDashboard?.referralLink || "https://relbet.game/i/abc123"} className="flex-1 bg-secondary rounded-lg px-3 py-2 text-xs border border-border min-w-0" />
                 <Button size="sm" variant="outline" onClick={() => handleCopy(referralDashboard?.referralLink || "")}>
                   <Copy className="w-3.5 h-3.5" />
                 </Button>
@@ -80,19 +80,19 @@ export default function ReferralDashboard({ referralDashboard, referralEarnings 
             <div>
               <Users className="w-8 h-8 mx-auto text-muted-foreground mb-1" />
               <p className="text-xs text-muted-foreground">Total Reward</p>
-              <p className="font-bold text-lg">₹{referralDashboard?.totalReward || "0.00"}</p>
+              <p className="font-bold text-lg">₹{referralDashboard?.stats?.bonusBalance || "0.00"}</p>
             </div>
             <div>
               <Users className="w-8 h-8 mx-auto text-muted-foreground mb-1" />
               <p className="text-xs text-muted-foreground">Total Friends</p>
-              <p className="font-bold text-lg">{referralDashboard?.totalFriends || 0}</p>
+              <p className="font-bold text-lg">{referralDashboard?.stats?.totalFriends || 0}</p>
             </div>
           </div>
           <div className="border-t border-border pt-4 grid grid-cols-2 gap-4 text-center">
             <div>
               <DollarSign className="w-5 h-5 mx-auto text-primary mb-1" />
               <p className="text-xs text-muted-foreground">Referral Rewards</p>
-              <p className="font-bold">₹{referralDashboard?.referralReward || "0.00"}</p>
+              <p className="font-bold">₹{referralDashboard?.stats?.referralReward || "0.00"}</p>
             </div>
             <div>
               <Gift className="w-5 h-5 mx-auto text-muted-foreground mb-1" />
@@ -121,7 +121,7 @@ export default function ReferralDashboard({ referralDashboard, referralEarnings 
           <span className="text-primary font-bold text-sm">₹{referralEarnings?.totalRewards || "0.00"}</span>
         </div>
         <div className="flex gap-4 overflow-x-auto pb-1">
-          {(referralEarnings?.liveRewards || [
+          {(referralDashboard?.liveRewards  || [
             { username: "Rikkkk", amount: "+0.5", icon: "🟡" },
             { username: "Ayyshorty", amount: "+130", icon: "🟠" },
             { username: "Tipatopa", amount: "+0.43", icon: "🔵" },

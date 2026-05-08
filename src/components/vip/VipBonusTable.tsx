@@ -1,3 +1,4 @@
+import { useBonusStore } from "@/store/walletStore";
 import {
   Star,
   Gift,
@@ -7,6 +8,7 @@ import {
   Flame,
   Crown,
 } from "lucide-react";
+import { useEffect } from "react";
 
 interface Props {
   isLoggedIn?: boolean;
@@ -22,24 +24,29 @@ const tierColors: Record<string, string> = {
 
 export default function VipBonusTable({ isLoggedIn }: Props) {
   if (!isLoggedIn) return null;
+  const { vipTable, fetchVipTable } = useBonusStore();
+  const tiers = vipTable?.tiers || [];
+  // const tiers = ["Bronze", "Silver", "Gold", "Platinum I", "Diamond II"];
+  const bonusRows = vipTable?.rows || [];
 
-  const tiers = ["Bronze", "Silver", "Gold", "Platinum I", "Diamond II"];
-
-  const bonusRows = [
-    { label: "Raining", icon: <Flame size={20} /> },
-    { label: "Daily Bonus", icon: <Gift size={20} /> },
-    { label: "Coin Drops", icon: <Coins size={20} /> },
-    { label: "Tips", icon: <DollarSign size={20} /> },
-    { label: "VIP Spin", icon: <Trophy size={20} /> },
-    { label: "Level-up Bonus", icon: <Star size={20} /> },
-    { label: "Recharge", icon: <DollarSign size={20} /> },
-    { label: "Weekly Cashback", icon: <Coins size={20} /> },
-    { label: "Monthly Cashback", icon: <Coins size={20} /> },
-    { label: "Sports Weekly Cashback", icon: <Trophy size={20} /> },
-    { label: "No-fee Withdrawal", icon: <DollarSign size={20} /> },
-    { label: "Exclusive VIP Perks", icon: <Crown size={20} /> },
-    { label: "Luxury Giveaway", icon: <Gift size={20} /> },
-  ];
+  useEffect(() => {
+    fetchVipTable();
+  }, []);
+  // const bonusRows = [
+  //   { label: "Raining", icon: <Flame size={20} /> },
+  //   { label: "Daily Bonus", icon: <Gift size={20} /> },
+  //   { label: "Coin Drops", icon: <Coins size={20} /> },
+  //   { label: "Tips", icon: <DollarSign size={20} /> },
+  //   { label: "VIP Spin", icon: <Trophy size={20} /> },
+  //   { label: "Level-up Bonus", icon: <Star size={20} /> },
+  //   { label: "Recharge", icon: <DollarSign size={20} /> },
+  //   { label: "Weekly Cashback", icon: <Coins size={20} /> },
+  //   { label: "Monthly Cashback", icon: <Coins size={20} /> },
+  //   { label: "Sports Weekly Cashback", icon: <Trophy size={20} /> },
+  //   { label: "No-fee Withdrawal", icon: <DollarSign size={20} /> },
+  //   { label: "Exclusive VIP Perks", icon: <Crown size={20} /> },
+  //   { label: "Luxury Giveaway", icon: <Gift size={20} /> },
+  // ];
 
   return (
     <div className="mt-6">
@@ -57,9 +64,18 @@ export default function VipBonusTable({ isLoggedIn }: Props) {
             {/* Header */}
             <div className="grid grid-cols-6 bg-[#2a2f30] text-white/80 text-sm font-semibold rounded-t-lg">
               <div className="p-3">Bonus Type</div>
-              {tiers.map((tier) => (
-                <div key={tier} className="p-3 text-center">
-                  {tier}
+              {tiers.map((tier: any) => (
+                <div
+                  key={tier.name}
+                  className="p-3 flex items-center justify-center gap-2"
+                >
+                  <Star
+                    size={16}
+                    style={{ color: tier.color }}
+                    fill={tier.color}
+                  />
+
+                  <span>{tier.name}</span>
                 </div>
               ))}
             </div>
@@ -76,14 +92,14 @@ export default function VipBonusTable({ isLoggedIn }: Props) {
               >
                 {/* Bonus Type Column */}
                 <div className="flex items-center gap-2 p-3 text-white">
-                  <span className="text-primary">{row.icon}</span>
+                  {/* <span className="text-primary">{row.icon}</span> */}
                   {row.label}
                 </div>
 
                 {/* Tier Columns */}
-                {tiers.map((tier, i) => (
+                {tiers.map((tier: any, i: number) => (
                   <div
-                    key={i}
+                    key={tier.name}
                     className="flex justify-center p-3 text-white"
                   >
                     {i >= 0 && i <= 4 ? (

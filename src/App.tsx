@@ -87,7 +87,7 @@ const App = () => {
           <Routes>
             <Route element={<AppLayout isLoggedIn={isLoggedIn} />}>
               <Route path="/" element={<Home isLoggedIn={isLoggedIn} />} />
-              <Route path="/i-:code" element={<ReferralRedirect />} />
+             <Route path="/i/:code" element={<ReferralRedirect />} />
               {/* <Route path="/" element={<Index isLoggedIn={isLoggedIn}  />} /> */}
               <Route path="/casino" element={<CasinoPage isLoggedIn={isLoggedIn} />} />
               <Route path="/sports" element={<SportsPage isLoggedIn={isLoggedIn} />} />

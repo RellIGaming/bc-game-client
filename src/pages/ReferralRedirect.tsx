@@ -7,10 +7,11 @@ const ReferralRedirect = () => {
 
   useEffect(() => {
     if (code) {
-      localStorage.setItem("referralCode", code);
+      localStorage.setItem("promoCode", code);
     }
-    navigate("/signup"); // redirect to signup
-  }, [code]);
+
+    navigate("/signup");
+  }, [code, navigate]);
     return (
         <div>
             <p>Redirecting...</p>
