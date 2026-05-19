@@ -281,18 +281,37 @@ const Deposit = ({ variant = "page" }: DepositProps) => {
             return;
         }
 
-        const res = await requestDeposit({
-            currency: selectedFiatCurrency.id.toUpperCase(),
-            amount: Number(depositAmount),
-            method: selectedMethod,
-            network: selectedNetwork,
-        });
-        console.log("PAYMENT URL:", res.paymentUrl);
+        const currency = selectedFiatCurrency.id.toUpperCase();
+        const methodObj = currentMethods.find((m) => m.id === selectedMethod);
+        const methodName = methodObj?.name || selectedMethod;
 
-        window.open(res.paymentUrl, "_blank");
-        // ✅ OPEN PAYMENT PAGE
+        let orderId = Date.now().toString();
+        let paymentUrl = "";
 
-        // ✅ SHOW PROGRESS MODAL (optional)
+        try {
+            const res = await requestDeposit({
+                currency,
+                amount: Number(depositAmount),
+                method: selectedMethod,
+                network: selectedNetwork,
+            });
+            paymentUrl = res?.paymentUrl || "";
+            orderId = res?.orderId || orderId;
+        } catch (e) {
+            // backend unavailable — fall through to local payment-gateway route
+        }
+
+        if (!paymentUrl) {
+            const qs = new URLSearchParams({
+                amount: String(depositAmount),
+                currency,
+                method: methodName,
+                orderId,
+            }).toString();
+            paymentUrl = `${window.location.origin}/payment-gateway?${qs}`;
+        }
+
+        window.open(paymentUrl, "_blank");
         setDepositProgressOpen(true);
     };
     return (

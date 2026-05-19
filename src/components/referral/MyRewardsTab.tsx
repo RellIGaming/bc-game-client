@@ -9,8 +9,9 @@ import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { format } from "date-fns";
 import { useReferralStore } from "@/store/walletStore";
+import { useNavigate } from "react-router-dom";
 
-const subTabs = ["Commission by Friends", "Commission by Currency", "Level Up Rewards"];
+const subTabs = ["Commission by Friends", "by Currency", "Rewards"];
 
 export default function MyRewardsTab() {
   const {
@@ -34,7 +35,7 @@ export default function MyRewardsTab() {
   const [historyType, setHistoryType] = useState("Commission Rewards");
   const [historyDropdown, setHistoryDropdown] = useState(false);
   const isMobile = useIsMobile();
-
+  const navigate = useNavigate()
   const [selectedRegDate, setSelectedRegDate] = useState<Date | undefined>(undefined);
   const [selectedWagerStart, setSelectedWagerStart] = useState<Date | undefined>(new Date(2026, 0, 11));
   const [selectedWagerEnd, setSelectedWagerEnd] = useState<Date | undefined>(new Date(2026, 3, 11));
@@ -67,14 +68,14 @@ export default function MyRewardsTab() {
 
     <div className="flex flex-col h-full">
       {isMobile ? (
-        <div className="flex items-center gap-3 p-4 border-b border-border">
+        <div className="flex items-center gap-3 p-2 border-b border-border">
           <button onClick={onClose}><ArrowLeft className="w-5 h-5" /></button>
           <h3 className="font-semibold text-primary">Reward History</h3>
         </div>
       ) : (
         <div className="flex items-center justify-between p-4 border-b border-border">
           <h3 className="font-semibold text-primary">Reward History</h3>
-          <button onClick={onClose}><X className="w-5 h-5 text-muted-foreground" /></button>
+          {/* <button onClick={onClose}><X className="w-5 h-5 text-muted-foreground" /></button> */}
         </div>
       )}
       <div className="p-4 space-y-4">
@@ -133,7 +134,7 @@ export default function MyRewardsTab() {
       ) : (
         <div className="flex items-center justify-between p-4 border-b border-border">
           <h3 className="font-semibold">Referral Rules</h3>
-          <button onClick={onClose}><X className="w-5 h-5 text-muted-foreground" /></button>
+          {/* <button onClick={onClose}><X className="w-5 h-5 text-muted-foreground" /></button> */}
         </div>
       )}
       <div className="p-4 space-y-3 text-sm text-muted-foreground overflow-y-auto">
@@ -206,9 +207,7 @@ export default function MyRewardsTab() {
               <Popover>
                 <PopoverTrigger asChild>
                   <button className="flex items-center gap-2 border border-border bg-secondary rounded-lg px-4 py-2.5 text-sm">
-                    Wager Date: {selectedWagerStart && selectedWagerEnd
-                      ? `৳{format(selectedWagerStart, "yyyy/MM/dd")}-৳{format(selectedWagerEnd, "yyyy/MM/dd")}`
-                      : "All Range"}
+                    Wager Date: {format(selectedWagerStart, "yyyy/MM/dd")} - {format(selectedWagerEnd, "yyyy/MM/dd")}
                   </button>
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0" align="end">
@@ -223,7 +222,8 @@ export default function MyRewardsTab() {
             </div>
 
             {/* Table */}
-            <div className="bg-card rounded-xl overflow-x-auto">
+            <div className="bg-card rounded-xl ">
+              <div className="overflow-x-auto md:overflow-visible">
               <div className="min-w-[700px]">
                 <div className="grid grid-cols-6 text-xs text-muted-foreground px-4 py-3 border-b border-border">
                   <span>Username</span>
@@ -233,7 +233,7 @@ export default function MyRewardsTab() {
                   <span>Registration Date</span>
                   <span className="text-right">Total Commission</span>
                 </div>
-                <div className="text-center py-16">
+                <div className="text-left py-8">
                   {commissionByFriends.length > 0 ? (
                     commissionByFriends.map((friend: any) => (
                       <div
@@ -263,6 +263,7 @@ export default function MyRewardsTab() {
                     </div>
                   )}
                 </div>
+              </div>
               </div>
             </div>
           </>
@@ -323,7 +324,7 @@ export default function MyRewardsTab() {
                   <span>Code</span>
                   <span className="text-right">Earned</span>
                 </div>
-                <div className="text-center py-16">
+                <div className="text-left py-16">
                   {levelRewards.map((r: any, i: number) => (
                     <div
                       key={i}
@@ -358,7 +359,7 @@ export default function MyRewardsTab() {
   return (
     <div className="space-y-4">
       {/* Rewards Summary */}
-      <div className="bg-card rounded-xl p-5">
+      <div className="bg-card rounded-xl p-1 md:p-4">
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
           <div className="flex-1 flex flex-col sm:flex-row gap-6 w-full">
             <div>
@@ -380,14 +381,14 @@ export default function MyRewardsTab() {
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <Button variant="ghost" className="text-muted-foreground">Swap</Button>
-            <Button className="bg-primary text-primary-foreground px-6">Withdraw to Wallet</Button>
+            <Button variant="ghost" className="text-muted-foreground" onClick={() => navigate("/wallet")}>Swap</Button>
+            <Button className="bg-primary text-primary-foreground px-6" onClick={() => navigate("/wallet")}>Withdraw to Wallet</Button>
           </div>
         </div>
       </div>
 
       {/* Sub Tabs + Actions */}
-      <div className="bg-card rounded-xl p-4">
+      <div className="bg-card rounded-lg p-2 md:p-4">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
           <div className="flex gap-1 overflow-x-auto">
             {subTabs.map((t) => (
