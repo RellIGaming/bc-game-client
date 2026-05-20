@@ -86,15 +86,15 @@ const depositMethodsByFiat: Record<string, { id: string; name: string; range: st
 const currencyConfig = {
     bdt: {
         symbol: "BDT",
-        min: 150,
+        min: 100,
         range: "100 - 50,000",
-        quick: [150, 500, 5000, 50000],
+        quick: [100, 500, 5000, 50000],
     },
     inr: {
         symbol: "₹",
-        min: 150,
+        min: 100,
         range: "100 - 50,000",
-        quick: [150, 500, 5000, 50000],
+        quick: [100, 500, 5000, 50000],
     },
     pkr: {
         symbol: "PKR",

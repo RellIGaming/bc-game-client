@@ -58,13 +58,13 @@ const StepHeader = ({
       )}
       <h3 className="font-bold text-base truncate">{title}</h3>
     </div>
-    <button
+    {/* <button
       onClick={onClose}
       className="p-1 rounded hover:bg-secondary transition-colors"
       aria-label="Close"
     >
       <X className="w-5 h-5 text-muted-foreground" />
-    </button>
+    </button> */}
   </div>
 );
 
